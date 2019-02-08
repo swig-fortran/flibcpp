@@ -10,7 +10,7 @@ module fortran_comparators
   implicit none
   public
 contains
-function compare_less(left, right) bind(C) &
+function compare_ge(left, right) bind(C) &
     result(fresult)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT), intent(in), value :: left
@@ -23,17 +23,21 @@ end module
 
 program main
   implicit none
-  call test_compare()
+  call test_sort_compare()
 contains
 
 !-----------------------------------------------------------------------------!
-subroutine test_compare()
+subroutine test_sort_compare()
   use, intrinsic :: ISO_C_BINDING
   use fortran_comparators
-  use flc_algorithm, only : passthrough_comparator
+  use flc_algorithm, only : sort
   implicit none
+  integer(C_INT), dimension(:), allocatable :: arr
 
-  write(*,*) "Result:", passthrough_comparator(123, 100, c_funloc(compare_less))
+  allocate(arr(5), source=[ 2, 3, 4, 4, 9])
+
+  call sort(arr, c_funloc(compare_ge))
+  write(*,*) "Result:", arr
 end subroutine
 !-----------------------------------------------------------------------------!
 

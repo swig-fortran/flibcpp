@@ -29,4 +29,4 @@ static void shuffle(T *DATA, size_t SIZE) {
 
 %}
 
-%flc_template_numeric(shuffle)
+%flc_template_numeric(shuffle, shuffle)

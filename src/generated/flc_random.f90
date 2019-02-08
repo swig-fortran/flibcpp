@@ -33,18 +33,18 @@ use, intrinsic :: ISO_C_BINDING
 integer(C_INT), intent(in) :: farg1
 end subroutine
 
-subroutine swigc_shuffle__SWIG_1(farg1, farg2) &
+subroutine swigc_shuffle__SWIG_1(farg1) &
 bind(C, name="_wrap_shuffle__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
-type(C_PTR), value :: farg1
-integer(C_SIZE_T), intent(in) :: farg2
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
 end subroutine
 
-subroutine swigc_shuffle__SWIG_2(farg1, farg2) &
+subroutine swigc_shuffle__SWIG_2(farg1) &
 bind(C, name="_wrap_shuffle__SWIG_2")
 use, intrinsic :: ISO_C_BINDING
-type(C_PTR), value :: farg1
-integer(C_SIZE_T), intent(in) :: farg2
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
 end subroutine
 
 subroutine swigc_shuffle__SWIG_3(farg1) &
@@ -69,30 +69,40 @@ farg1 = seed
 call swigc_init_rng(farg1)
 end subroutine
 
-subroutine shuffle__SWIG_1(data, size)
+subroutine shuffle__SWIG_1(data)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT), target, intent(inout) :: data
-integer(C_SIZE_T), intent(in) :: size
+integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), pointer :: farg1_view
 
-type(C_PTR) :: farg1 
-integer(C_SIZE_T) :: farg2 
+type(SwigArrayWrapper) :: farg1 
 
-farg1 = c_loc(data)
-farg2 = size
-call swigc_shuffle__SWIG_1(farg1, farg2)
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+call swigc_shuffle__SWIG_1(farg1)
 end subroutine
 
-subroutine shuffle__SWIG_2(data, size)
+subroutine shuffle__SWIG_2(data)
 use, intrinsic :: ISO_C_BINDING
-integer(C_LONG_LONG), target, intent(inout) :: data
-integer(C_SIZE_T), intent(in) :: size
+integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), pointer :: farg1_view
 
-type(C_PTR) :: farg1 
-integer(C_SIZE_T) :: farg2 
+type(SwigArrayWrapper) :: farg1 
 
-farg1 = c_loc(data)
-farg2 = size
-call swigc_shuffle__SWIG_2(farg1, farg2)
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+call swigc_shuffle__SWIG_2(farg1)
 end subroutine
 
 subroutine shuffle__SWIG_3(data)

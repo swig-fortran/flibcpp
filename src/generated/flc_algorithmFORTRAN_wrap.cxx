@@ -220,6 +220,10 @@ template<class T>
 static void sort(T *DATA, size_t SIZE) {
   std::sort(DATA, DATA + SIZE);
 }
+template<class T>
+static void sort_cmp(T *DATA, size_t SIZE, bool (*cmp)(T, T)) {
+  std::sort(DATA, DATA + SIZE, cmp);
+}
 
 
 #include <stdlib.h>
@@ -246,32 +250,26 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
   return result;
 }
 
-
-template<class T, class Op>
-static bool passthrough_comparator(T lhs, T rhs, Op cmp) {
-  return cmp(lhs, rhs);
-}
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGEXPORT void _wrap_sort__SWIG_1(int *farg1, size_t const *farg2) {
-  int *arg1 = (int *) 0 ;
+SWIGEXPORT void _wrap_sort__SWIG_1(SwigArrayWrapper *farg1) {
+  int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
   
-  arg1 = reinterpret_cast< int * >(farg1);
-  arg2 = static_cast< size_t >(*farg2);
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
   sort< int32_t >(arg1,arg2);
   
 }
 
 
-SWIGEXPORT void _wrap_sort__SWIG_2(long long *farg1, size_t const *farg2) {
-  long long *arg1 = (long long *) 0 ;
+SWIGEXPORT void _wrap_sort__SWIG_2(SwigArrayWrapper *farg1) {
+  int64_t *arg1 = (int64_t *) 0 ;
   size_t arg2 ;
   
-  arg1 = reinterpret_cast< long long * >(farg1);
-  arg2 = static_cast< size_t >(*farg2);
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
   sort< int64_t >(arg1,arg2);
   
 }
@@ -288,51 +286,42 @@ SWIGEXPORT void _wrap_sort__SWIG_3(SwigArrayWrapper *farg1) {
 }
 
 
-SWIGEXPORT int _wrap_passthrough_comparator__SWIG_1(int const *farg1, int const *farg2, bool (*farg3)(int32_t,int32_t)) {
-  int fresult ;
-  int arg1 ;
-  int arg2 ;
+SWIGEXPORT void _wrap_sort__SWIG_4(SwigArrayWrapper *farg1, bool (*farg3)(int32_t,int32_t)) {
+  int32_t *arg1 = (int32_t *) 0 ;
+  size_t arg2 ;
   bool (*arg3)(int32_t,int32_t) = (bool (*)(int32_t,int32_t)) 0 ;
-  bool result;
   
-  arg1 = static_cast< int >(*farg1);
-  arg2 = static_cast< int >(*farg2);
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(int32_t,int32_t) >(farg3);
-  result = (bool)passthrough_comparator< int32_t,bool (*)(int32_t,int32_t) >(arg1,arg2,arg3);
-  fresult = (result ? 1 : 0);
-  return fresult;
+  sort_cmp< int32_t >(arg1,arg2,arg3);
+  
 }
 
 
-SWIGEXPORT int _wrap_passthrough_comparator__SWIG_2(long long const *farg1, long long const *farg2, bool (*farg3)(int64_t,int64_t)) {
-  int fresult ;
-  long long arg1 ;
-  long long arg2 ;
+SWIGEXPORT void _wrap_sort__SWIG_5(SwigArrayWrapper *farg1, bool (*farg3)(int64_t,int64_t)) {
+  int64_t *arg1 = (int64_t *) 0 ;
+  size_t arg2 ;
   bool (*arg3)(int64_t,int64_t) = (bool (*)(int64_t,int64_t)) 0 ;
-  bool result;
   
-  arg1 = static_cast< long long >(*farg1);
-  arg2 = static_cast< long long >(*farg2);
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(int64_t,int64_t) >(farg3);
-  result = (bool)passthrough_comparator< int64_t,bool (*)(int64_t,int64_t) >(arg1,arg2,arg3);
-  fresult = (result ? 1 : 0);
-  return fresult;
+  sort_cmp< int64_t >(arg1,arg2,arg3);
+  
 }
 
 
-SWIGEXPORT int _wrap_passthrough_comparator__SWIG_3(double const *farg1, double const *farg2, bool (*farg3)(double,double)) {
-  int fresult ;
-  double arg1 ;
-  double arg2 ;
+SWIGEXPORT void _wrap_sort__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(double,double)) {
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
   bool (*arg3)(double,double) = (bool (*)(double,double)) 0 ;
-  bool result;
   
-  arg1 = static_cast< double >(*farg1);
-  arg2 = static_cast< double >(*farg2);
+  arg1 = static_cast< double * >(farg1->data);
+  arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(double,double) >(farg3);
-  result = (bool)passthrough_comparator< double,bool (*)(double,double) >(arg1,arg2,arg3);
-  fresult = (result ? 1 : 0);
-  return fresult;
+  sort_cmp< double >(arg1,arg2,arg3);
+  
 }
 
 

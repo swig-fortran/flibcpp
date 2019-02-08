@@ -266,23 +266,23 @@ SWIGEXPORT void _wrap_init_rng(int const *farg1) {
 }
 
 
-SWIGEXPORT void _wrap_shuffle__SWIG_1(int *farg1, size_t const *farg2) {
-  int *arg1 = (int *) 0 ;
+SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigArrayWrapper *farg1) {
+  int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
   
-  arg1 = reinterpret_cast< int * >(farg1);
-  arg2 = static_cast< size_t >(*farg2);
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
   shuffle< int32_t >(arg1,arg2);
   
 }
 
 
-SWIGEXPORT void _wrap_shuffle__SWIG_2(long long *farg1, size_t const *farg2) {
-  long long *arg1 = (long long *) 0 ;
+SWIGEXPORT void _wrap_shuffle__SWIG_2(SwigArrayWrapper *farg1) {
+  int64_t *arg1 = (int64_t *) 0 ;
   size_t arg2 ;
   
-  arg1 = reinterpret_cast< long long * >(farg1);
-  arg2 = static_cast< size_t >(*farg2);
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
   shuffle< int64_t >(arg1,arg2);
   
 }

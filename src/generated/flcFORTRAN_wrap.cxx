@@ -216,9 +216,7 @@ template <typename T> T SwigValueInit() {
 #include <cstdint>
 using std::int32_t;
 using std::int64_t;
-
-
-#include <stdint.h>		// Use the C99 official header
+using std::size_t;
 
 #ifdef __cplusplus
 extern "C" {

@@ -31,13 +31,14 @@
 #include <cstdint>
 using std::int32_t;
 using std::int64_t;
+using std::size_t;
 %}
 %include <stdint.i>
 
-%define %flc_template_numeric(NAME)
-%template(NAME) NAME<int32_t>;
-%template(NAME) NAME<int64_t>;
-%template(NAME) NAME<double>;
+%define %flc_template_numeric(SRC, DST)
+%template(DST) SRC<int32_t>;
+%template(DST) SRC<int64_t>;
+%template(DST) SRC<double>;
 %enddef
 
 /************************
