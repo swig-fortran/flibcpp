@@ -7,6 +7,16 @@ which wrap the C++ library.
 
 Currently it's designed around the C++11 standard library, and it instantiates
 32- and 64-bit integers as well as double-precision floats.
+All operations directly manipulate arrays of Fortran-owned data to minimize
+overhead.
+
+## Capabilities
+
+Functionality includes:
+
+- Sorting, both canonical and with custom comparison function
+- Binary search for indices in a sorted array
+- Pseudo-random number generation, including a Gaussian/normal distribution
 
 ## Getting started
 
@@ -14,7 +24,7 @@ TODO
 
 ## Documentation
 
-TODO (to be published on github pages)
+See the [latest documentation](https://flibcpp.readthedocs.io/en/latest).
 
 ## Contribute
 
