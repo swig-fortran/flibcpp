@@ -68,9 +68,6 @@ function(swig_fortran_add_module name)
 
   # Use correct include directories for C++
   target_include_directories(${name}
-      PUBLIC
-          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-          $<INSTALL_INTERFACE:include>
       PRIVATE
           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
   )

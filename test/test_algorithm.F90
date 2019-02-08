@@ -21,10 +21,32 @@ function compare_ge(left, right) bind(C) &
 end function
 end module
 
-program main
+program test_algorithm
   implicit none
+  call test_sort()
   call test_sort_compare()
+  call test_shuffle()
 contains
+
+!-----------------------------------------------------------------------------!
+subroutine test_sort()
+  use, intrinsic :: ISO_C_BINDING
+  use fortran_comparators
+  use flc_algorithm, only : sort
+  implicit none
+  integer(4), dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
+  integer(C_INT64_T), dimension(5) :: larr = [ 2_C_INT64_T, 5_C_INT64_T, &
+      -2_C_INT64_T, -10000_C_INT64_T, 10000000000_C_INT64_T]
+  real(c_double), dimension(4) :: darr = [ 2.1d0, 5.9d0, 0.d0, -1.25d0 ]
+
+  call sort(iarr)
+  write(*,*) "Result:", iarr
+  call sort(larr)
+  write(*,*) "Result:", larr
+  call sort(darr)
+  write(*,*) "Result:", darr
+
+end subroutine
 
 !-----------------------------------------------------------------------------!
 subroutine test_sort_compare()
@@ -39,6 +61,25 @@ subroutine test_sort_compare()
   call sort(arr, c_funloc(compare_ge))
   write(*,*) "Result:", arr
 end subroutine
+
+!-----------------------------------------------------------------------------!
+subroutine test_shuffle()
+  use, intrinsic :: ISO_C_BINDING
+  use fortran_comparators
+  use flc_algorithm, only : shuffle
+  use flc_random, only : Engine
+  implicit none
+  integer :: i
+  integer(C_INT), dimension(8) :: iarr = (/ ((i), i = -4, 3) /)
+  type(Engine) :: rng
+  rng = Engine()
+
+  do i = 1,3
+      call shuffle(rng, iarr)
+      write(*,*) "Shuffled:", iarr
+  end do
+end subroutine
+
 !-----------------------------------------------------------------------------!
 
 end program

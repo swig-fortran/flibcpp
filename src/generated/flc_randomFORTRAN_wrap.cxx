@@ -193,6 +193,47 @@ template <typename T> T SwigValueInit() {
  { throw std::logic_error("In " DECL ": " MSG); }
 
 
+#define SWIG_check_mutable(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+    if ((SWIG_CLASS_WRAPPER).mem == SWIG_CREF) { \
+        SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
+            "Cannot pass const " TYPENAME " (class " FNAME ") " \
+            "as a mutable reference", \
+            RETURNNULL); \
+    }
+
+
+#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if ((SWIG_CLASS_WRAPPER).mem == SWIG_NULL) { \
+    SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
+                        "Cannot pass null " TYPENAME " (class " FNAME ") " \
+                        "as a reference", RETURNNULL); \
+  }
+
+
+#define SWIG_check_mutable_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+    SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL); \
+    SWIG_check_mutable(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL);
+
+
+namespace swig {
+
+enum AssignmentFlags {
+  IS_DESTR       = 0x01,
+  IS_COPY_CONSTR = 0x02,
+  IS_COPY_ASSIGN = 0x04,
+  IS_MOVE_CONSTR = 0x08,
+  IS_MOVE_ASSIGN = 0x10
+};
+
+template<class T, int Flags>
+struct assignment_flags;
+}
+
+
+#define SWIG_assign(LEFTTYPE, LEFT, RIGHTTYPE, RIGHT, FLAGS) \
+    SWIG_assign_impl<LEFTTYPE , RIGHTTYPE, swig::assignment_flags<LEFTTYPE, FLAGS >::value >(LEFT, RIGHT);
+
+
 #include <stdexcept>
 
 
@@ -214,20 +255,273 @@ template <typename T> T SwigValueInit() {
 
 
 #include <random>
-#include <algorithm>
-static std::mt19937* g_generator = nullptr;
 
 
-static void init_rng(int seed) {
-    delete g_generator;
-    g_generator = new std::mt19937(seed);
+enum SwigMemState {
+    SWIG_NULL,
+    SWIG_OWN,
+    SWIG_MOVE,
+    SWIG_REF,
+    SWIG_CREF
+};
+
+
+struct SwigClassWrapper {
+    void* cptr;
+    SwigMemState mem;
+};
+
+
+SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
+    SwigClassWrapper result;
+    result.cptr = NULL;
+    result.mem = SWIG_NULL;
+    return result;
 }
 
+
+#include <utility>
+
+
+namespace swig {
+
+// Define our own switching struct to support pre-c++11 builds
+template<bool Val>
+struct bool_constant {};
+typedef bool_constant<true>  true_type;
+typedef bool_constant<false> false_type;
+
+// Deletion
 template<class T>
-static void shuffle(T *DATA, size_t SIZE) {
-    std::shuffle(DATA, DATA + SIZE, *g_generator);
+SWIGINTERN void destruct_impl(T* self, true_type) {
+  delete self;
+}
+template<class T>
+SWIGINTERN T* destruct_impl(T* , false_type) {
+  SWIG_exception_impl("assignment", SWIG_TypeError,
+                      "Invalid assignment: class type has no destructor",
+                      return NULL);
 }
 
+// Copy construction and assignment
+template<class T, class U>
+SWIGINTERN T* copy_construct_impl(const U* other, true_type) {
+  return new T(*other);
+}
+template<class T, class U>
+SWIGINTERN void copy_assign_impl(T* self, const U* other, true_type) {
+  *self = *other;
+}
+
+// Disabled construction and assignment
+template<class T, class U>
+SWIGINTERN T* copy_construct_impl(const U* , false_type) {
+  SWIG_exception_impl("assignment", SWIG_TypeError,
+                      "Invalid assignment: class type has no copy constructor",
+                      return NULL);
+}
+template<class T, class U>
+SWIGINTERN void copy_assign_impl(T* , const U* , false_type) {
+  SWIG_exception_impl("assignment", SWIG_TypeError,
+                      "Invalid assignment: class type has no copy assignment",
+                      return);
+}
+
+#if __cplusplus >= 201103L
+#include <utility>
+#include <type_traits>
+
+// Move construction and assignment
+template<class T, class U>
+SWIGINTERN T* move_construct_impl(U* other, true_type) {
+  return new T(std::move(*other));
+}
+template<class T, class U>
+SWIGINTERN void move_assign_impl(T* self, U* other, true_type) {
+  *self = std::move(*other);
+}
+
+// Disabled move construction and assignment
+template<class T, class U>
+SWIGINTERN T* move_construct_impl(U*, false_type) {
+  SWIG_exception_impl("assignment", SWIG_TypeError,
+                      "Invalid assignment: class type has no move constructor",
+                      return NULL);
+}
+template<class T, class U>
+SWIGINTERN void move_assign_impl(T*, U*, false_type) {
+  SWIG_exception_impl("assignment", SWIG_TypeError,
+                      "Invalid assignment: class type has no move assignment",
+                      return);
+}
+
+template<class T, int Flags>
+struct assignment_flags {
+  constexpr static int value =
+             (std::is_destructible<T>::value       ? IS_DESTR       : 0)
+           | (std::is_copy_constructible<T>::value ? IS_COPY_CONSTR : 0)
+           | (std::is_copy_assignable<T>::value    ? IS_COPY_ASSIGN : 0)
+           | (std::is_move_constructible<T>::value ? IS_MOVE_CONSTR : 0)
+           | (std::is_move_assignable<T>::value    ? IS_MOVE_ASSIGN : 0);
+};
+
+#else
+
+template<class T, int Flags>
+struct assignment_flags {
+  enum { value = Flags };
+};
+
+#endif
+
+template<class T, int Flags>
+struct AssignmentTraits {
+  static void destruct(T* self) {
+    destruct_impl<T>(self, bool_constant<Flags & IS_DESTR>());
+  }
+
+  template<class U>
+  static T* copy_construct(const U* other) {
+    return copy_construct_impl<T,U>(other, bool_constant<bool(Flags & IS_COPY_CONSTR)>());
+  }
+
+  template<class U>
+  static void copy_assign(T* self, const U* other) {
+    copy_assign_impl<T,U>(self, other, bool_constant<bool(Flags & IS_COPY_ASSIGN)>());
+  }
+
+#if __cplusplus >= 201103L
+  template<class U>
+  static T* move_construct(U* other) {
+    return move_construct_impl<T,U>(other, bool_constant<bool(Flags & IS_MOVE_CONSTR)>());
+  }
+  template<class U>
+  static void move_assign(T* self, U* other) {
+    move_assign_impl<T,U>(self, other, bool_constant<bool(Flags & IS_MOVE_ASSIGN)>());
+  }
+#else
+  template<class U>
+  static T* move_construct(U* other) {
+    return copy_construct_impl<T,U>(other, bool_constant<bool(Flags & IS_COPY_CONSTR)>());
+  }
+  template<class U>
+  static void move_assign(T* self, U* other) {
+    copy_assign_impl<T,U>(self, other, bool_constant<bool(Flags & IS_COPY_ASSIGN)>());
+  }
+#endif
+};
+
+} // end namespace swig
+
+
+template<class T1, class T2, int AFlags>
+SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, SwigClassWrapper* other) {
+  typedef swig::AssignmentTraits<T1, AFlags> Traits_t;
+  T1* pself  = static_cast<T1*>(self->cptr);
+  T2* pother = static_cast<T2*>(other->cptr);
+
+  switch (self->mem) {
+    case SWIG_NULL:
+      /* LHS is unassigned */
+      switch (other->mem) {
+        case SWIG_NULL: /* null op */
+          break;
+        case SWIG_MOVE: /* capture pointer from RHS */
+          self->cptr = other->cptr;
+          other->cptr = NULL;
+          self->mem = SWIG_OWN;
+          other->mem = SWIG_NULL;
+          break;
+        case SWIG_OWN: /* copy from RHS */
+          self->cptr = Traits_t::copy_construct(pother);
+          self->mem = SWIG_OWN;
+          break;
+        case SWIG_REF: /* pointer to RHS */
+        case SWIG_CREF:
+          self->cptr = other->cptr;
+          self->mem = other->mem;
+          break;
+      }
+      break;
+    case SWIG_OWN:
+      /* LHS owns memory */
+      switch (other->mem) {
+        case SWIG_NULL:
+          /* Delete LHS */
+          Traits_t::destruct(pself);
+          self->cptr = NULL;
+          self->mem = SWIG_NULL;
+          break;
+        case SWIG_MOVE:
+          /* Move RHS into LHS; delete RHS */
+          Traits_t::move_assign(pself, pother);
+          Traits_t::destruct(pother);
+          other->cptr = NULL;
+          other->mem = SWIG_NULL;
+          break;
+        case SWIG_OWN:
+        case SWIG_REF:
+        case SWIG_CREF:
+          /* Copy RHS to LHS */
+          Traits_t::copy_assign(pself, pother);
+          break;
+      }
+      break;
+    case SWIG_MOVE:
+      SWIG_exception_impl("assignment", SWIG_RuntimeError,
+        "Left-hand side of assignment should never be in a 'MOVE' state",
+        return);
+      break;
+    case SWIG_REF:
+      /* LHS is a reference */
+      switch (other->mem) {
+        case SWIG_NULL:
+          /* Remove LHS reference */
+          self->cptr = NULL;
+          self->mem = SWIG_NULL;
+          break;
+        case SWIG_MOVE:
+          /* Move RHS into LHS; delete RHS. The original ownership stays the
+           * same. */
+          Traits_t::move_assign(pself, pother);
+          Traits_t::destruct(pother);
+          other->cptr = NULL;
+          other->mem = SWIG_NULL;
+          break;
+        case SWIG_OWN:
+        case SWIG_REF:
+        case SWIG_CREF:
+          /* Copy RHS to LHS */
+          Traits_t::copy_assign(pself, pother);
+          break;
+      }
+      break;
+    case SWIG_CREF:
+      switch (other->mem) {
+        case SWIG_NULL:
+          /* Remove LHS reference */
+          self->cptr = NULL;
+          self->mem = SWIG_NULL;
+          break;
+        default:
+          SWIG_exception_impl("assignment", SWIG_RuntimeError,
+              "Cannot assign to a const reference", return);
+          break;
+      }
+      break;
+  }
+}
+
+
+static void uniform_int_distribution(int32_t left, int32_t right,
+                     std::mt19937_64& g,
+                     int32_t *DATA, size_t SIZE) {
+    std::uniform_int_distribution<int32_t> dist(left, right);
+    int32_t *end = DATA + SIZE;
+    while (DATA != end) {
+        *DATA++ = dist(g);
+    }
+}
 
 
 #include <stdlib.h>
@@ -254,47 +548,203 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
   return result;
 }
 
+
+static void uniform_int_distribution(int64_t left, int64_t right,
+                     std::mt19937_64& g,
+                     int64_t *DATA, size_t SIZE) {
+    std::uniform_int_distribution<int64_t> dist(left, right);
+    int64_t *end = DATA + SIZE;
+    while (DATA != end) {
+        *DATA++ = dist(g);
+    }
+}
+
+
+static void uniform_real_distribution(double left, double right,
+                     std::mt19937_64& g,
+                     double *DATA, size_t SIZE) {
+    std::uniform_real_distribution<double> dist(left, right);
+    double *end = DATA + SIZE;
+    while (DATA != end) {
+        *DATA++ = dist(g);
+    }
+}
+
+
+static void normal_distribution(double mean,
+                     std::mt19937_64& g,
+                     double *DATA, size_t SIZE) {
+    std::normal_distribution<double> dist(mean);
+    double *end = DATA + SIZE;
+    while (DATA != end) {
+        *DATA++ = dist(g);
+    }
+}
+
+
+static void normal_distribution(double mean, double stddev,
+                     std::mt19937_64& g,
+                     double *DATA, size_t SIZE) {
+    std::normal_distribution<double> dist(mean, stddev);
+    double *end = DATA + SIZE;
+    while (DATA != end) {
+        *DATA++ = dist(g);
+    }
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGEXPORT void _wrap_init_rng(int const *farg1) {
-  int arg1 ;
+SWIGEXPORT SwigClassWrapper _wrap_new_Engine__SWIG_0() {
+  SwigClassWrapper fresult ;
+  std::mt19937_64 *result = 0 ;
   
-  arg1 = static_cast< int >(*farg1);
-  init_rng(arg1);
+  result = (std::mt19937_64 *)new std::mt19937_64();
+  fresult.cptr = result;
+  fresult.mem = (1 ? SWIG_MOVE : SWIG_REF);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_new_Engine__SWIG_1(int64_t const *farg1) {
+  SwigClassWrapper fresult ;
+  std::mt19937_64::result_type arg1 ;
+  std::mt19937_64 *result = 0 ;
+  
+  arg1 = static_cast< std::mt19937_64::result_type >(*farg1);
+  result = (std::mt19937_64 *)new std::mt19937_64(arg1);
+  fresult.cptr = result;
+  fresult.mem = (1 ? SWIG_MOVE : SWIG_REF);
+  return fresult;
+}
+
+
+SWIGEXPORT void _wrap_Engine_seed(SwigClassWrapper const *farg1, int64_t const *farg2) {
+  std::mt19937_64 *arg1 = (std::mt19937_64 *) 0 ;
+  std::mt19937_64::result_type arg2 ;
+  
+  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 *", "Engine", "std::mt19937_64::seed(std::mt19937_64::result_type)", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  arg2 = static_cast< std::mt19937_64::result_type >(*farg2);
+  (arg1)->seed(arg2);
   
 }
 
 
-SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigArrayWrapper *farg1) {
-  int32_t *arg1 = (int32_t *) 0 ;
-  size_t arg2 ;
+SWIGEXPORT void _wrap_Engine_discard(SwigClassWrapper const *farg1, long long const *farg2) {
+  std::mt19937_64 *arg1 = (std::mt19937_64 *) 0 ;
+  unsigned long long arg2 ;
   
-  arg1 = static_cast< int32_t * >(farg1->data);
-  arg2 = farg1->size;
-  shuffle< int32_t >(arg1,arg2);
-  
-}
-
-
-SWIGEXPORT void _wrap_shuffle__SWIG_2(SwigArrayWrapper *farg1) {
-  int64_t *arg1 = (int64_t *) 0 ;
-  size_t arg2 ;
-  
-  arg1 = static_cast< int64_t * >(farg1->data);
-  arg2 = farg1->size;
-  shuffle< int64_t >(arg1,arg2);
+  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 *", "Engine", "std::mt19937_64::discard(unsigned long long)", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  arg2 = static_cast< unsigned long long >(*farg2);
+  (arg1)->discard(arg2);
   
 }
 
 
-SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigArrayWrapper *farg1) {
-  double *arg1 = (double *) 0 ;
-  size_t arg2 ;
+SWIGEXPORT void _wrap_delete_Engine(SwigClassWrapper const *farg1) {
+  std::mt19937_64 *arg1 = (std::mt19937_64 *) 0 ;
   
-  arg1 = static_cast< double * >(farg1->data);
-  arg2 = farg1->size;
-  shuffle< double >(arg1,arg2);
+  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 *", "Engine", "std::mt19937_64::~mt19937_64()", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  delete arg1;
+  
+}
+
+
+SWIGEXPORT void _wrap_assign_Engine(SwigClassWrapper * self, SwigClassWrapper const * other) {
+  typedef std::mt19937_64 swig_lhs_classtype;
+  SWIG_assign(swig_lhs_classtype, self,
+    swig_lhs_classtype, const_cast<SwigClassWrapper*>(other),
+    0 | swig::IS_DESTR | swig::IS_COPY_CONSTR);
+}
+
+
+SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_0(int32_t const *farg1, int32_t const *farg2, SwigClassWrapper const *farg3, SwigArrayWrapper *farg4) {
+  int32_t arg1 ;
+  int32_t arg2 ;
+  std::mt19937_64 *arg3 = 0 ;
+  int32_t *arg4 = (int32_t *) 0 ;
+  size_t arg5 ;
+  
+  arg1 = static_cast< int32_t >(*farg1);
+  arg2 = static_cast< int32_t >(*farg2);
+  SWIG_check_mutable_nonnull(*farg3, "std::mt19937_64 &", "Engine", "uniform_int_distribution(int32_t,int32_t,std::mt19937_64 &,int32_t *,size_t)", return );
+  arg3 = static_cast< std::mt19937_64 * >(farg3->cptr);
+  arg4 = static_cast< int32_t * >(farg4->data);
+  arg5 = farg4->size;
+  uniform_int_distribution(arg1,arg2,*arg3,arg4,arg5);
+  
+}
+
+
+SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_1(int64_t const *farg1, int64_t const *farg2, SwigClassWrapper const *farg3, SwigArrayWrapper *farg4) {
+  int64_t arg1 ;
+  int64_t arg2 ;
+  std::mt19937_64 *arg3 = 0 ;
+  int64_t *arg4 = (int64_t *) 0 ;
+  size_t arg5 ;
+  
+  arg1 = static_cast< int64_t >(*farg1);
+  arg2 = static_cast< int64_t >(*farg2);
+  SWIG_check_mutable_nonnull(*farg3, "std::mt19937_64 &", "Engine", "uniform_int_distribution(int64_t,int64_t,std::mt19937_64 &,int64_t *,size_t)", return );
+  arg3 = static_cast< std::mt19937_64 * >(farg3->cptr);
+  arg4 = static_cast< int64_t * >(farg4->data);
+  arg5 = farg4->size;
+  uniform_int_distribution(arg1,arg2,*arg3,arg4,arg5);
+  
+}
+
+
+SWIGEXPORT void _wrap_uniform_real_distribution(double const *farg1, double const *farg2, SwigClassWrapper const *farg3, SwigArrayWrapper *farg4) {
+  double arg1 ;
+  double arg2 ;
+  std::mt19937_64 *arg3 = 0 ;
+  double *arg4 = (double *) 0 ;
+  size_t arg5 ;
+  
+  arg1 = static_cast< double >(*farg1);
+  arg2 = static_cast< double >(*farg2);
+  SWIG_check_mutable_nonnull(*farg3, "std::mt19937_64 &", "Engine", "uniform_real_distribution(double,double,std::mt19937_64 &,double *,size_t)", return );
+  arg3 = static_cast< std::mt19937_64 * >(farg3->cptr);
+  arg4 = static_cast< double * >(farg4->data);
+  arg5 = farg4->size;
+  uniform_real_distribution(arg1,arg2,*arg3,arg4,arg5);
+  
+}
+
+
+SWIGEXPORT void _wrap_normal_distribution__SWIG_0(double const *farg1, SwigClassWrapper const *farg2, SwigArrayWrapper *farg3) {
+  double arg1 ;
+  std::mt19937_64 *arg2 = 0 ;
+  double *arg3 = (double *) 0 ;
+  size_t arg4 ;
+  
+  arg1 = static_cast< double >(*farg1);
+  SWIG_check_mutable_nonnull(*farg2, "std::mt19937_64 &", "Engine", "normal_distribution(double,std::mt19937_64 &,double *,size_t)", return );
+  arg2 = static_cast< std::mt19937_64 * >(farg2->cptr);
+  arg3 = static_cast< double * >(farg3->data);
+  arg4 = farg3->size;
+  normal_distribution(arg1,*arg2,arg3,arg4);
+  
+}
+
+
+SWIGEXPORT void _wrap_normal_distribution__SWIG_1(double const *farg1, double const *farg2, SwigClassWrapper const *farg3, SwigArrayWrapper *farg4) {
+  double arg1 ;
+  double arg2 ;
+  std::mt19937_64 *arg3 = 0 ;
+  double *arg4 = (double *) 0 ;
+  size_t arg5 ;
+  
+  arg1 = static_cast< double >(*farg1);
+  arg2 = static_cast< double >(*farg2);
+  SWIG_check_mutable_nonnull(*farg3, "std::mt19937_64 &", "Engine", "normal_distribution(double,double,std::mt19937_64 &,double *,size_t)", return );
+  arg3 = static_cast< std::mt19937_64 * >(farg3->cptr);
+  arg4 = static_cast< double * >(farg4->data);
+  arg5 = farg4->size;
+  normal_distribution(arg1,arg2,*arg3,arg4,arg5);
   
 }
 

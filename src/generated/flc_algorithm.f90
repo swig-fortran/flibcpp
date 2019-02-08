@@ -11,6 +11,7 @@
 module flc_algorithm
  use, intrinsic :: ISO_C_BINDING
  use flc
+ use flc_random
  implicit none
  private
 
@@ -19,6 +20,22 @@ module flc_algorithm
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
  end type
+ enum, bind(c)
+  enumerator :: SWIG_NULL
+  enumerator :: SWIG_OWN
+  enumerator :: SWIG_MOVE
+  enumerator :: SWIG_REF
+  enumerator :: SWIG_CREF
+ end enum
+ integer, parameter :: SwigMemState = kind(SWIG_NULL)
+ type, bind(C) :: SwigClassWrapper
+  type(C_PTR), public :: cptr = C_NULL_PTR
+  integer(C_INT), public :: mem = SWIG_NULL
+ end type
+ interface shuffle
+  module procedure shuffle__SWIG_1, shuffle__SWIG_2, shuffle__SWIG_3
+ end interface
+ public :: shuffle
  interface sort
   module procedure sort__SWIG_1, sort__SWIG_2, sort__SWIG_3, sort__SWIG_4, sort__SWIG_5, sort__SWIG_6
  end interface
@@ -69,6 +86,33 @@ use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 type(SwigArrayWrapper) :: farg1
 type(C_FUNPTR), value :: farg3
+end subroutine
+
+subroutine swigc_shuffle__SWIG_1(farg1, farg2) &
+bind(C, name="_wrap_shuffle__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigClassWrapper) :: farg1
+type(SwigArrayWrapper) :: farg2
+end subroutine
+
+subroutine swigc_shuffle__SWIG_2(farg1, farg2) &
+bind(C, name="_wrap_shuffle__SWIG_2")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigClassWrapper) :: farg1
+type(SwigArrayWrapper) :: farg2
+end subroutine
+
+subroutine swigc_shuffle__SWIG_3(farg1, farg2) &
+bind(C, name="_wrap_shuffle__SWIG_3")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigClassWrapper) :: farg1
+type(SwigArrayWrapper) :: farg2
 end subroutine
 
 end interface
@@ -191,6 +235,72 @@ farg1%size = 0
 end if
 farg3 = cmp
 call swigc_sort__SWIG_6(farg1, farg3)
+end subroutine
+
+subroutine shuffle__SWIG_1(g, data)
+use, intrinsic :: ISO_C_BINDING
+class(Engine), intent(inout) :: g
+
+integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), pointer :: farg2_view
+
+type(SwigClassWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg2 
+
+farg1 = g%swigdata
+if (size(data) > 0) then
+farg2_view => data(1)
+farg2%data = c_loc(farg2_view)
+farg2%size = size(data)
+else
+farg2%data = c_null_ptr
+farg2%size = 0
+end if
+call swigc_shuffle__SWIG_1(farg1, farg2)
+end subroutine
+
+subroutine shuffle__SWIG_2(g, data)
+use, intrinsic :: ISO_C_BINDING
+class(Engine), intent(inout) :: g
+
+integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), pointer :: farg2_view
+
+type(SwigClassWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg2 
+
+farg1 = g%swigdata
+if (size(data) > 0) then
+farg2_view => data(1)
+farg2%data = c_loc(farg2_view)
+farg2%size = size(data)
+else
+farg2%data = c_null_ptr
+farg2%size = 0
+end if
+call swigc_shuffle__SWIG_2(farg1, farg2)
+end subroutine
+
+subroutine shuffle__SWIG_3(g, data)
+use, intrinsic :: ISO_C_BINDING
+class(Engine), intent(inout) :: g
+
+real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), pointer :: farg2_view
+
+type(SwigClassWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg2 
+
+farg1 = g%swigdata
+if (size(data) > 0) then
+farg2_view => data(1)
+farg2%data = c_loc(farg2_view)
+farg2%size = size(data)
+else
+farg2%data = c_null_ptr
+farg2%size = 0
+end if
+call swigc_shuffle__SWIG_3(farg1, farg2)
 end subroutine
 
 

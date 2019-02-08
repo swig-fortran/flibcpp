@@ -193,6 +193,28 @@ template <typename T> T SwigValueInit() {
  { throw std::logic_error("In " DECL ": " MSG); }
 
 
+#define SWIG_check_mutable(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+    if ((SWIG_CLASS_WRAPPER).mem == SWIG_CREF) { \
+        SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
+            "Cannot pass const " TYPENAME " (class " FNAME ") " \
+            "as a mutable reference", \
+            RETURNNULL); \
+    }
+
+
+#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if ((SWIG_CLASS_WRAPPER).mem == SWIG_NULL) { \
+    SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
+                        "Cannot pass null " TYPENAME " (class " FNAME ") " \
+                        "as a reference", RETURNNULL); \
+  }
+
+
+#define SWIG_check_mutable_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+    SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL); \
+    SWIG_check_mutable(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL);
+
+
 #include <stdexcept>
 
 
@@ -216,10 +238,12 @@ template <typename T> T SwigValueInit() {
 #include <algorithm>
 
 
+// Sort with "less than"
 template<class T>
 static void sort(T *DATA, size_t SIZE) {
   std::sort(DATA, DATA + SIZE);
 }
+// Sort given user-provided function pointer
 template<class T>
 static void sort_cmp(T *DATA, size_t SIZE, bool (*cmp)(T, T)) {
   std::sort(DATA, DATA + SIZE, cmp);
@@ -248,6 +272,38 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
   result.data = NULL;
   result.size = 0;
   return result;
+}
+
+
+#include <random>
+
+
+template<class T>
+static void shuffle(std::mt19937_64& g, T *DATA, size_t SIZE) {
+    std::shuffle(DATA, DATA + SIZE, g);
+}
+
+
+enum SwigMemState {
+    SWIG_NULL,
+    SWIG_OWN,
+    SWIG_MOVE,
+    SWIG_REF,
+    SWIG_CREF
+};
+
+
+struct SwigClassWrapper {
+    void* cptr;
+    SwigMemState mem;
+};
+
+
+SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
+    SwigClassWrapper result;
+    result.cptr = NULL;
+    result.mem = SWIG_NULL;
+    return result;
 }
 
 #ifdef __cplusplus
@@ -321,6 +377,48 @@ SWIGEXPORT void _wrap_sort__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(double
   arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(double,double) >(farg3);
   sort_cmp< double >(arg1,arg2,arg3);
+  
+}
+
+
+SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigClassWrapper const *farg1, SwigArrayWrapper *farg2) {
+  std::mt19937_64 *arg1 = 0 ;
+  int32_t *arg2 = (int32_t *) 0 ;
+  size_t arg3 ;
+  
+  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< int32_t >(std::mt19937_64 &,int32_t *,size_t)", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  arg2 = static_cast< int32_t * >(farg2->data);
+  arg3 = farg2->size;
+  shuffle< int32_t >(*arg1,arg2,arg3);
+  
+}
+
+
+SWIGEXPORT void _wrap_shuffle__SWIG_2(SwigClassWrapper const *farg1, SwigArrayWrapper *farg2) {
+  std::mt19937_64 *arg1 = 0 ;
+  int64_t *arg2 = (int64_t *) 0 ;
+  size_t arg3 ;
+  
+  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< int64_t >(std::mt19937_64 &,int64_t *,size_t)", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  arg2 = static_cast< int64_t * >(farg2->data);
+  arg3 = farg2->size;
+  shuffle< int64_t >(*arg1,arg2,arg3);
+  
+}
+
+
+SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigClassWrapper const *farg1, SwigArrayWrapper *farg2) {
+  std::mt19937_64 *arg1 = 0 ;
+  double *arg2 = (double *) 0 ;
+  size_t arg3 ;
+  
+  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< double >(std::mt19937_64 &,double *,size_t)", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  arg2 = static_cast< double * >(farg2->data);
+  arg3 = farg2->size;
+  shuffle< double >(*arg1,arg2,arg3);
   
 }
 
