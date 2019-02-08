@@ -9,7 +9,7 @@ Random
 ******
 
 Advanced random number generation. Primarily used for the
-modules_algorithm_shuffle_ subroutine.
+:ref:`modules_algorithm_shuffle` subroutine.
 
 
 .. ############################################################################

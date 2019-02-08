@@ -3,7 +3,6 @@
 .. ############################################################################
 
 .. highlight:: swig
-   :linenos:
 
 *********
 Interface
@@ -17,11 +16,13 @@ flc
 The primary file defines typemaps.
 
 .. literalinclude:: ../src/flc.i
+   :linenos:
 
 flc_algorithm
 =============
 
 .. literalinclude:: ../src/flc_algorithm.i
+   :linenos:
 
 .. ############################################################################
 .. end of doc/interface.rst

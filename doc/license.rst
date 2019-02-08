@@ -6,8 +6,7 @@
 License
 *******
 
-.. literalinclude:: ../LICENSE
-   :language: text
+.. include:: ../LICENSE
 
 .. ############################################################################
 .. end of doc/license.rst

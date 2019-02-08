@@ -1,5 +1,5 @@
 #---------------------------------------------------------------------------#
-# \file flibcpp/test/CMakeLists.txt
+# \file CMakeLists.txt
 #
 # Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
 # Distributed under an MIT open source license: see LICENSE for details.
@@ -140,4 +140,13 @@ add_subdirectory(test)
 #---------------------------------------------------------------------------#
 
 add_subdirectory(example)
+
+#---------------------------------------------------------------------------#
+# DOCUMENTATION
+#---------------------------------------------------------------------------#
+
+option(ENABLE_DOC "Build documentation" OFF)
+if (ENABLE_DOC)
+  add_subdirectory(doc)
+endif()
 

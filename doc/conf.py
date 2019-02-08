@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Flibcpp'
-copyright = '2019, Seth R Johnson'
+copyright = '2019, Oak Ridge National Laboratory, UT-Battelle, LLC'
 author = 'Seth R Johnson'
 
 # The short X.Y version
