@@ -32,6 +32,10 @@ module flc_algorithm
   type(C_PTR), public :: cptr = C_NULL_PTR
   integer(C_INT), public :: mem = SWIG_NULL
  end type
+ interface binary_search
+  module procedure binary_search__SWIG_1, binary_search__SWIG_2, binary_search__SWIG_3
+ end interface
+ public :: binary_search
  interface shuffle
   module procedure shuffle__SWIG_1, shuffle__SWIG_2, shuffle__SWIG_3
  end interface
@@ -87,6 +91,36 @@ import :: swigarraywrapper
 type(SwigArrayWrapper) :: farg1
 type(C_FUNPTR), value :: farg3
 end subroutine
+
+function swigc_binary_search__SWIG_1(farg1, farg3) &
+bind(C, name="_wrap_binary_search__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT32_T), intent(in) :: farg3
+integer(C_INT) :: fresult
+end function
+
+function swigc_binary_search__SWIG_2(farg1, farg3) &
+bind(C, name="_wrap_binary_search__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT64_T), intent(in) :: farg3
+integer(C_INT) :: fresult
+end function
+
+function swigc_binary_search__SWIG_3(farg1, farg3) &
+bind(C, name="_wrap_binary_search__SWIG_3") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+real(C_DOUBLE), intent(in) :: farg3
+integer(C_INT) :: fresult
+end function
 
 subroutine swigc_shuffle__SWIG_1(farg1, farg2) &
 bind(C, name="_wrap_shuffle__SWIG_1")
@@ -236,6 +270,81 @@ end if
 farg3 = cmp
 call swigc_sort__SWIG_6(farg1, farg3)
 end subroutine
+
+function binary_search__SWIG_1(data, value) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT) :: swig_result
+integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT32_T), intent(in) :: value
+
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT32_T) :: farg3 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+fresult = swigc_binary_search__SWIG_1(farg1, farg3)
+swig_result = fresult
+end function
+
+function binary_search__SWIG_2(data, value) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT) :: swig_result
+integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT64_T), intent(in) :: value
+
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT64_T) :: farg3 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+fresult = swigc_binary_search__SWIG_2(farg1, farg3)
+swig_result = fresult
+end function
+
+function binary_search__SWIG_3(data, value) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT) :: swig_result
+real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+real(C_DOUBLE), intent(in) :: value
+
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+real(C_DOUBLE) :: farg3 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+fresult = swigc_binary_search__SWIG_3(farg1, farg3)
+swig_result = fresult
+end function
 
 subroutine shuffle__SWIG_1(g, data)
 use, intrinsic :: ISO_C_BINDING

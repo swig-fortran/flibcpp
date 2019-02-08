@@ -34,6 +34,24 @@ static void sort_cmp(T *DATA, size_t SIZE, bool (*cmp)(T, T)) {
 %flc_template_numeric(sort_cmp, sort)
 
 /******************************
+ * Searching
+ ******************************/
+
+%inline {
+template<class T>
+int binary_search(T *DATA, size_t SIZE, T value) {
+    T *end = DATA + SIZE;
+    auto iter = std::lower_bound(DATA, end, value);
+    if (iter == end || *iter != value)
+        return 0;
+    // Index of the found item *IN FORTAN INDEXING
+    return (iter - DATA) + 1;
+}
+}
+
+%flc_template_numeric(binary_search, binary_search)
+
+/******************************
  * Reordering
  ******************************/
 

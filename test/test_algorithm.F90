@@ -1,9 +1,11 @@
 !-----------------------------------------------------------------------------!
-! \file   test/test_algorithm.f90
+! \file   test/test_algorithm.F90
 !
 ! Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
 ! Distributed under an MIT open source license: see LICENSE for details.
 !-----------------------------------------------------------------------------!
+
+#include "fassert.h"
 
 module fortran_comparators
   use, intrinsic :: ISO_C_BINDING
@@ -26,12 +28,12 @@ program test_algorithm
   call test_sort()
   call test_sort_compare()
   call test_shuffle()
+  call test_binary_search()
 contains
 
 !-----------------------------------------------------------------------------!
 subroutine test_sort()
   use, intrinsic :: ISO_C_BINDING
-  use fortran_comparators
   use flc_algorithm, only : sort
   implicit none
   integer(4), dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
@@ -51,7 +53,7 @@ end subroutine
 !-----------------------------------------------------------------------------!
 subroutine test_sort_compare()
   use, intrinsic :: ISO_C_BINDING
-  use fortran_comparators
+  use fortran_comparators, only : compare_ge
   use flc_algorithm, only : sort
   implicit none
   integer(C_INT), dimension(:), allocatable :: arr
@@ -65,7 +67,6 @@ end subroutine
 !-----------------------------------------------------------------------------!
 subroutine test_shuffle()
   use, intrinsic :: ISO_C_BINDING
-  use fortran_comparators
   use flc_algorithm, only : shuffle
   use flc_random, only : Engine
   implicit none
@@ -78,6 +79,22 @@ subroutine test_shuffle()
       call shuffle(rng, iarr)
       write(*,*) "Shuffled:", iarr
   end do
+end subroutine
+
+!-----------------------------------------------------------------------------!
+subroutine test_binary_search()
+  use, intrinsic :: ISO_C_BINDING
+  use flc_algorithm, only : binary_search
+  implicit none
+  integer, dimension(6) :: iarr = [ -5, 1, 1, 2, 4, 9]
+
+  ASSERT(binary_search(iarr, -100) == 0) ! not found
+  ASSERT(binary_search(iarr, 1) == 2)
+  ASSERT(binary_search(iarr, 2) == 4)
+  ASSERT(binary_search(iarr, 3) == 0) ! not found
+  ASSERT(binary_search(iarr, 9) == 6)
+  ASSERT(binary_search(iarr, 10) == 0)
+
 end subroutine
 
 !-----------------------------------------------------------------------------!

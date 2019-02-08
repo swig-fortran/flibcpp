@@ -8,7 +8,8 @@
 Random
 ******
 
-Advanced pseudo-random number generation from the `<random>`_ header. Currently
+The ``flc_random`` module contains advanced pseudo-random number generation
+from the `<random>`_ C++ header. Currently
 random number generation is hardwired to the ``std::mt19937_64`` 64-bit
 Mersenne Twister by Matsumoto and Nishimura.
 
@@ -31,6 +32,8 @@ standard deviation of 2 is done as such::
 
     rng = Engine()
     call normal_distribution(8.0d0, 2.0d0, rng, arr)
+
+.. _<random> : https://en.cppreference.com/w/cpp/numeric/random
 
 Engine
 ======
@@ -59,8 +62,6 @@ Uniform real distribution
 
 
 
-
-.. _<random> : https://en.cppreference.com/w/cpp/numeric/random
 
 .. ############################################################################
 .. end of doc/modules/random.rst

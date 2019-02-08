@@ -275,6 +275,17 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
 }
 
 
+template<class T>
+int binary_search(T *DATA, size_t SIZE, T value) {
+    T *end = DATA + SIZE;
+    auto iter = std::lower_bound(DATA, end, value);
+    if (iter == end || *iter != value)
+        return 0;
+    // Index of the found item *IN FORTAN INDEXING
+    return (iter - DATA) + 1;
+}
+
+
 #include <random>
 
 
@@ -378,6 +389,54 @@ SWIGEXPORT void _wrap_sort__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(double
   arg3 = reinterpret_cast< bool (*)(double,double) >(farg3);
   sort_cmp< double >(arg1,arg2,arg3);
   
+}
+
+
+SWIGEXPORT int _wrap_binary_search__SWIG_1(SwigArrayWrapper *farg1, int32_t const *farg3) {
+  int fresult ;
+  int32_t *arg1 = (int32_t *) 0 ;
+  size_t arg2 ;
+  int32_t arg3 ;
+  int result;
+  
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< int32_t >(*farg3);
+  result = (int)binary_search< int32_t >(arg1,arg2,arg3);
+  fresult = static_cast< int >(result);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_binary_search__SWIG_2(SwigArrayWrapper *farg1, int64_t const *farg3) {
+  int fresult ;
+  int64_t *arg1 = (int64_t *) 0 ;
+  size_t arg2 ;
+  int64_t arg3 ;
+  int result;
+  
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< int64_t >(*farg3);
+  result = (int)binary_search< int64_t >(arg1,arg2,arg3);
+  fresult = static_cast< int >(result);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_binary_search__SWIG_3(SwigArrayWrapper *farg1, double const *farg3) {
+  int fresult ;
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  double arg3 ;
+  int result;
+  
+  arg1 = static_cast< double * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< double >(*farg3);
+  result = (int)binary_search< double >(arg1,arg2,arg3);
+  fresult = static_cast< int >(result);
+  return fresult;
 }
 
 
