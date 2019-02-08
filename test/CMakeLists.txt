@@ -1,0 +1,17 @@
+#---------------------------------------------------------------------------##
+# \file flibcpp/test/CMakeLists.txt
+#
+# Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
+# Distributed under an MIT open source license: see LICENSE for details.
+#---------------------------------------------------------------------------##
+
+# Create test with dependencies
+macro(swig_fortran_add_test TESTNAME)
+  add_executable(${TESTNAME}.exe ${TESTNAME}.f90)
+  message("Linking ${TESTNAME} against ${ARGN}")
+  target_link_libraries(${TESTNAME}.exe ${ARGN})
+  add_test(NAME ${TESTNAME} COMMAND ${TESTNAME}.exe)
+endmacro()
+
+swig_fortran_add_test(test_algorithm
+  flc_algorithm)

@@ -1,0 +1,20 @@
+#!/bin/sh -ex
+BUILD=/rnsdhpc/code/build/flibcpp
+SOURCE=/rnsdhpc/code/src/flibcpp
+
+test -d "$BUILD" || mkdir "$BUILD"
+cd $BUILD
+
+cmake \
+  -G Ninja \
+  -D CMAKE_CXX_COMPILER="/opt/local/bin/g++" \
+  -D CMAKE_C_COMPILER="/opt/local/bin/gcc" \
+  -D CMAKE_Fortran_COMPILER="/opt/local/bin/gfortran" \
+  -D SWIG_EXECUTABLE="/rnsdhpc/code/build/swig-debug/swig"  \
+  -D SWIG_DIR="/rnsdhpc/code/src/swig/Lib" \
+  -D BUILD_SHARED_LIBS=ON \
+  -D CMAKE_BUILD_TYPE=Debug \
+  -D CMAKE_Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals -std=f2003" \
+  -D CMAKE_CXX_FLAGS="-Wall -Wextra" \
+  $SOURCE
+ninja

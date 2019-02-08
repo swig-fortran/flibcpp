@@ -1,0 +1,11 @@
+get_filename_component(Flibcpp_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH ${Flibcpp_CMAKE_DIR})
+
+if (NOT TARGET Flibcpp::Flibcpp)
+  include("${Flibcpp_CMAKE_DIR}/FlibcppTargets.cmake")
+endif()
+
+set(Flibcpp_LIBRARIES Flibcpp::Flibcpp)
+
