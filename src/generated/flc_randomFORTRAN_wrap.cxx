@@ -231,7 +231,7 @@ struct assignment_flags;
 
 
 #define SWIG_assign(LEFTTYPE, LEFT, RIGHTTYPE, RIGHT, FLAGS) \
-    SWIG_assign_impl<LEFTTYPE , RIGHTTYPE, swig::assignment_flags<LEFTTYPE, FLAGS >::value >(LEFT, RIGHT);
+    SWIG_assign_impl<LEFTTYPE, RIGHTTYPE, swig::assignment_flags<LEFTTYPE, FLAGS >::value >(LEFT, RIGHT);
 
 
 #include <stdexcept>
@@ -415,7 +415,7 @@ struct AssignmentTraits {
 
 
 template<class T1, class T2, int AFlags>
-SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, SwigClassWrapper* other) {
+SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, const SwigClassWrapper* other) {
   typedef swig::AssignmentTraits<T1, AFlags> Traits_t;
   T1* pself  = static_cast<T1*>(self->cptr);
   T2* pother = static_cast<T2*>(other->cptr);
@@ -428,9 +428,7 @@ SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, SwigClassWrapper* other
           break;
         case SWIG_MOVE: /* capture pointer from RHS */
           self->cptr = other->cptr;
-          other->cptr = NULL;
           self->mem = SWIG_OWN;
-          other->mem = SWIG_NULL;
           break;
         case SWIG_OWN: /* copy from RHS */
           self->cptr = Traits_t::copy_construct(pother);
@@ -456,8 +454,6 @@ SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, SwigClassWrapper* other
           /* Move RHS into LHS; delete RHS */
           Traits_t::move_assign(pself, pother);
           Traits_t::destruct(pother);
-          other->cptr = NULL;
-          other->mem = SWIG_NULL;
           break;
         case SWIG_OWN:
         case SWIG_REF:
@@ -485,8 +481,6 @@ SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, SwigClassWrapper* other
            * same. */
           Traits_t::move_assign(pself, pother);
           Traits_t::destruct(pother);
-          other->cptr = NULL;
-          other->mem = SWIG_NULL;
           break;
         case SWIG_OWN:
         case SWIG_REF:
@@ -627,7 +621,6 @@ SWIGEXPORT void _wrap_Engine_seed(SwigClassWrapper const *farg1, int64_t const *
   arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
   arg2 = static_cast< std::mt19937_64::result_type >(*farg2);
   (arg1)->seed(arg2);
-  
 }
 
 
@@ -639,25 +632,25 @@ SWIGEXPORT void _wrap_Engine_discard(SwigClassWrapper const *farg1, long long co
   arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
   arg2 = static_cast< unsigned long long >(*farg2);
   (arg1)->discard(arg2);
-  
 }
 
 
-SWIGEXPORT void _wrap_delete_Engine(SwigClassWrapper const *farg1) {
+SWIGEXPORT void _wrap_delete_Engine(SwigClassWrapper *farg1) {
   std::mt19937_64 *arg1 = (std::mt19937_64 *) 0 ;
   
-  SWIG_check_mutable_nonnull(*farg1, "std::mt19937_64 *", "Engine", "std::mt19937_64::~mt19937_64()", return );
-  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
+  (void)sizeof(farg1);
   delete arg1;
-  
 }
 
 
-SWIGEXPORT void _wrap_assign_Engine(SwigClassWrapper * self, SwigClassWrapper const * other) {
+SWIGEXPORT void _wrap_Engine_op_assign__(SwigClassWrapper *farg1, SwigClassWrapper const *farg2) {
+  std::mt19937_64 *arg1 = (std::mt19937_64 *) 0 ;
+  std::mt19937_64 *arg2 = 0 ;
+  
+  (void)sizeof(arg1);
+  (void)sizeof(arg2);
   typedef std::mt19937_64 swig_lhs_classtype;
-  SWIG_assign(swig_lhs_classtype, self,
-    swig_lhs_classtype, const_cast<SwigClassWrapper*>(other),
-    0 | swig::IS_DESTR | swig::IS_COPY_CONSTR);
+  SWIG_assign(swig_lhs_classtype, farg1, swig_lhs_classtype, farg2, 0 | swig::IS_DESTR | swig::IS_COPY_CONSTR);
 }
 
 
@@ -675,7 +668,6 @@ SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_0(int32_t const *farg1, int
   arg4 = static_cast< int32_t * >(farg4->data);
   arg5 = farg4->size;
   uniform_int_distribution(arg1,arg2,*arg3,arg4,arg5);
-  
 }
 
 
@@ -693,7 +685,6 @@ SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_1(int64_t const *farg1, int
   arg4 = static_cast< int64_t * >(farg4->data);
   arg5 = farg4->size;
   uniform_int_distribution(arg1,arg2,*arg3,arg4,arg5);
-  
 }
 
 
@@ -711,7 +702,6 @@ SWIGEXPORT void _wrap_uniform_real_distribution(double const *farg1, double cons
   arg4 = static_cast< double * >(farg4->data);
   arg5 = farg4->size;
   uniform_real_distribution(arg1,arg2,*arg3,arg4,arg5);
-  
 }
 
 
@@ -727,7 +717,6 @@ SWIGEXPORT void _wrap_normal_distribution__SWIG_0(double const *farg1, SwigClass
   arg3 = static_cast< double * >(farg3->data);
   arg4 = farg3->size;
   normal_distribution(arg1,*arg2,arg3,arg4);
-  
 }
 
 
@@ -745,7 +734,6 @@ SWIGEXPORT void _wrap_normal_distribution__SWIG_1(double const *farg1, double co
   arg4 = static_cast< double * >(farg4->data);
   arg5 = farg4->size;
   normal_distribution(arg1,arg2,*arg3,arg4,arg5);
-  
 }
 
 

@@ -327,7 +327,6 @@ SWIGEXPORT void _wrap_sort__SWIG_1(SwigArrayWrapper *farg1) {
   arg1 = static_cast< int32_t * >(farg1->data);
   arg2 = farg1->size;
   sort< int32_t >(arg1,arg2);
-  
 }
 
 
@@ -338,7 +337,6 @@ SWIGEXPORT void _wrap_sort__SWIG_2(SwigArrayWrapper *farg1) {
   arg1 = static_cast< int64_t * >(farg1->data);
   arg2 = farg1->size;
   sort< int64_t >(arg1,arg2);
-  
 }
 
 
@@ -349,7 +347,6 @@ SWIGEXPORT void _wrap_sort__SWIG_3(SwigArrayWrapper *farg1) {
   arg1 = static_cast< double * >(farg1->data);
   arg2 = farg1->size;
   sort< double >(arg1,arg2);
-  
 }
 
 
@@ -362,7 +359,6 @@ SWIGEXPORT void _wrap_sort__SWIG_4(SwigArrayWrapper *farg1, bool (*farg3)(int32_
   arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(int32_t,int32_t) >(farg3);
   sort_cmp< int32_t >(arg1,arg2,arg3);
-  
 }
 
 
@@ -375,7 +371,6 @@ SWIGEXPORT void _wrap_sort__SWIG_5(SwigArrayWrapper *farg1, bool (*farg3)(int64_
   arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(int64_t,int64_t) >(farg3);
   sort_cmp< int64_t >(arg1,arg2,arg3);
-  
 }
 
 
@@ -388,7 +383,6 @@ SWIGEXPORT void _wrap_sort__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(double
   arg2 = farg1->size;
   arg3 = reinterpret_cast< bool (*)(double,double) >(farg3);
   sort_cmp< double >(arg1,arg2,arg3);
-  
 }
 
 
@@ -450,7 +444,6 @@ SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigClassWrapper const *farg1, SwigArrayWr
   arg2 = static_cast< int32_t * >(farg2->data);
   arg3 = farg2->size;
   shuffle< int32_t >(*arg1,arg2,arg3);
-  
 }
 
 
@@ -464,7 +457,6 @@ SWIGEXPORT void _wrap_shuffle__SWIG_2(SwigClassWrapper const *farg1, SwigArrayWr
   arg2 = static_cast< int64_t * >(farg2->data);
   arg3 = farg2->size;
   shuffle< int64_t >(*arg1,arg2,arg3);
-  
 }
 
 
@@ -478,7 +470,6 @@ SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigClassWrapper const *farg1, SwigArrayWr
   arg2 = static_cast< double * >(farg2->data);
   arg3 = farg2->size;
   shuffle< double >(*arg1,arg2,arg3);
-  
 }
 
 
