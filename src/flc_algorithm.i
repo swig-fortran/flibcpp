@@ -85,23 +85,38 @@ static void argsort_cmp(const T *DATA, size_t DATASIZE,
 
 %flc_template_numeric(argsort, argsort)
 %flc_template_numeric(argsort_cmp, argsort)
+
 /******************************
  * Searching
  ******************************/
 
-%inline {
-template<class T>
-int binary_search(const T *DATA, size_t DATASIZE, T value) {
-    const T *end = DATA + DATASIZE;
-    auto iter = std::lower_bound(DATA, end, value);
-    if (iter == end || *iter != value)
-        return 0;
-    // Index of the found item *IN FORTAN INDEXING
-    return (iter - DATA) + 1;
+%{
+template<class T, class Compare>
+static int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
+  const T *end = data + size;
+  auto iter = std::lower_bound(data, end, value, cmp);
+  if (iter == end || cmp(*iter, value) || cmp(value, *iter))
+      return 0;
+  // Index of the found item *IN FORTAN INDEXING*
+  return (iter - data) + 1;
 }
+%}
+
+%inline %{
+template<class T>
+static int binary_search(const T *DATA, size_t DATASIZE, T value) {
+  return binary_search_impl(DATA, DATASIZE, value, std::less<T>());
 }
 
+template<class T>
+static int binary_search_cmp(const T *DATA, size_t DATASIZE, T value,
+                        bool (*cmp)(T, T)) {
+  return binary_search_impl(DATA, DATASIZE, value, cmp);
+}
+%}
+
 %flc_template_numeric(binary_search, binary_search)
+%flc_template_numeric(binary_search_cmp, binary_search)
 
 /******************************
  * Reordering
