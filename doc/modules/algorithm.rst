@@ -24,18 +24,23 @@ integers, with the value 0 indicating off-the-end (e.g. "not found").
 Sorting
 =======
 
+All sorting functions
+
+Sort
+----
+
 Sorting and checking order is a single simple subroutine call::
 
   use flc_algorithm, only : sort, is_sorted
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
-  logical :: result
+  logical :: sortitude
 
   call sort(iarr)
-  result = is_sorted(iarr)
+  sortitude = is_sorted(iarr)
 
 A routine that provides the indices that correspond to a sorted array, like
-Numpy's [argsort](https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.argsort.html),
+Numpy's argsort_ ,
 takes an array to analyze and an empty array of integers to fill::
 
   use flc_algorithm, only : argsort
@@ -45,7 +50,7 @@ takes an array to analyze and an empty array of integers to fill::
 
   call argsort(iarr, idx)
   ! This line prints a sorted array:
-  write(*,*), iarr(idx)
+  write(*,*) iarr(idx)
 
 Note that the index array is always a ``C_INT``. On some compilers and
 platforms, this may be the same as native Fortran integer, but it's not
@@ -55,6 +60,7 @@ The ``data`` and ``idx`` arguments to ``argsort`` *must* be the same size. If
 the index array is larger than the data, invalid entries will be filled with
 zero.
 
+.. _argsort: https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.argsort.html
 Searching
 =========
 
@@ -68,15 +74,15 @@ Example::
 
   use flc_algorithm, only : binary_search
   implicit none
-  integer :: index
+  integer :: idx
   integer, dimension(6) :: iarr = [ -5, 1, 1, 2, 4, 9]
 
-  index = binary_search(iarr, -100) ! returns 0
-  index = binary_search(iarr, 1)    ! returns 2
-  index = binary_search(iarr, 2)    ! returns 4
-  index = binary_search(iarr, 3)    ! returns 0
-  index = binary_search(iarr, 9)    ! returns 6
-  index = binary_search(iarr, 10)   ! returns 0
+  idx = binary_search(iarr, -100) ! returns 0
+  idx = binary_search(iarr, 1)    ! returns 2
+  idx = binary_search(iarr, 2)    ! returns 4
+  idx = binary_search(iarr, 3)    ! returns 0
+  idx = binary_search(iarr, 9)    ! returns 6
+  idx = binary_search(iarr, 10)   ! returns 0
 
 
 Set operations
