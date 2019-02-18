@@ -50,6 +50,11 @@ module flc_algorithm
     swigf_sort__SWIG_6
  end interface
  public :: sort
+ interface argsort
+  module procedure swigf_argsort__SWIG_1, swigf_argsort__SWIG_2, swigf_argsort__SWIG_3, swigf_argsort__SWIG_4, &
+    swigf_argsort__SWIG_5, swigf_argsort__SWIG_6
+ end interface
+ public :: argsort
 
 ! WRAPPER DECLARATIONS
 interface
@@ -154,6 +159,57 @@ type(SwigArrayWrapper) :: farg1
 type(C_FUNPTR), value :: farg3
 integer(C_INT) :: fresult
 end function
+
+subroutine swigc_argsort__SWIG_1(farg1, farg3) &
+bind(C, name="_wrap_argsort__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+end subroutine
+
+subroutine swigc_argsort__SWIG_2(farg1, farg3) &
+bind(C, name="_wrap_argsort__SWIG_2")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+end subroutine
+
+subroutine swigc_argsort__SWIG_3(farg1, farg3) &
+bind(C, name="_wrap_argsort__SWIG_3")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+end subroutine
+
+subroutine swigc_argsort__SWIG_4(farg1, farg3, farg5) &
+bind(C, name="_wrap_argsort__SWIG_4")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+end subroutine
+
+subroutine swigc_argsort__SWIG_5(farg1, farg3, farg5) &
+bind(C, name="_wrap_argsort__SWIG_5")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+end subroutine
+
+subroutine swigc_argsort__SWIG_6(farg1, farg3, farg5) &
+bind(C, name="_wrap_argsort__SWIG_6")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+end subroutine
 
 function swigc_binary_search__SWIG_1(farg1, farg3) &
 bind(C, name="_wrap_binary_search__SWIG_1") &
@@ -475,6 +531,183 @@ farg3 = cmp
 fresult = swigc_is_sorted__SWIG_6(farg1, farg3)
 swig_result = SWIG_int_to_logical(fresult)
 end function
+
+subroutine swigf_argsort__SWIG_1(data, idx)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT), dimension(:), target :: idx
+integer(C_INT), pointer :: farg3_view
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(idx) > 0) then
+farg3_view => idx(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(idx)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+call swigc_argsort__SWIG_1(farg1, farg3)
+end subroutine
+
+subroutine swigf_argsort__SWIG_2(data, idx)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT), dimension(:), target :: idx
+integer(C_INT), pointer :: farg3_view
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(idx) > 0) then
+farg3_view => idx(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(idx)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+call swigc_argsort__SWIG_2(farg1, farg3)
+end subroutine
+
+subroutine swigf_argsort__SWIG_3(data, idx)
+use, intrinsic :: ISO_C_BINDING
+real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+integer(C_INT), dimension(:), target :: idx
+integer(C_INT), pointer :: farg3_view
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(idx) > 0) then
+farg3_view => idx(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(idx)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+call swigc_argsort__SWIG_3(farg1, farg3)
+end subroutine
+
+subroutine swigf_argsort__SWIG_4(data, idx, cmp)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT), dimension(:), target :: idx
+integer(C_INT), pointer :: farg3_view
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(idx) > 0) then
+farg3_view => idx(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(idx)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+farg5 = cmp
+call swigc_argsort__SWIG_4(farg1, farg3, farg5)
+end subroutine
+
+subroutine swigf_argsort__SWIG_5(data, idx, cmp)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT), dimension(:), target :: idx
+integer(C_INT), pointer :: farg3_view
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(idx) > 0) then
+farg3_view => idx(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(idx)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+farg5 = cmp
+call swigc_argsort__SWIG_5(farg1, farg3, farg5)
+end subroutine
+
+subroutine swigf_argsort__SWIG_6(data, idx, cmp)
+use, intrinsic :: ISO_C_BINDING
+real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+integer(C_INT), dimension(:), target :: idx
+integer(C_INT), pointer :: farg3_view
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(idx) > 0) then
+farg3_view => idx(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(idx)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+farg5 = cmp
+call swigc_argsort__SWIG_6(farg1, farg3, farg5)
+end subroutine
 
 function swigf_binary_search__SWIG_1(data, value) &
 result(swig_result)

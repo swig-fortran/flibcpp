@@ -34,6 +34,27 @@ Sorting and checking order is a single simple subroutine call::
   call sort(iarr)
   result = is_sorted(iarr)
 
+A routine that provides the indices that correspond to a sorted array, like
+Numpy's [argsort](https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.argsort.html),
+takes an array to analyze and an empty array of integers to fill::
+
+  use flc_algorithm, only : argsort
+  implicit none
+  integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
+  integer(C_INT), dimension(5) :: idx
+
+  call argsort(iarr, idx)
+  ! This line prints a sorted array:
+  write(*,*), iarr(idx)
+
+Note that the index array is always a ``C_INT``. On some compilers and
+platforms, this may be the same as native Fortran integer, but it's not
+guaranteed.
+
+The ``data`` and ``idx`` arguments to ``argsort`` *must* be the same size. If
+the index array is larger than the data, invalid entries will be filled with
+zero.
+
 Searching
 =========
 

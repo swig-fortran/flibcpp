@@ -41,6 +41,51 @@ static RETURN_TYPE FUNCNAME ## _cmp(CONST T *DATA, size_t DATASIZE, bool (*cmp)(
 %flc_cmp_algorithm(bool, const, is_sorted)
 
 /******************************
+ * Finding sorted indices
+ ******************************/
+
+%apply (SWIGTYPE *DATA, size_t SIZE) { (int *idx, size_t idx_size) };
+
+%{
+#include <numeric>
+#include <functional>
+
+template<class T, class Compare>
+static void argsort_impl(const T *data, size_t size,
+                         int *index, size_t index_size,
+                         Compare cmp) {
+  // Fill invalid indices with zero
+  if (size < index_size) {
+    std::fill(index + size, index + index_size, 0);
+  }
+  size = std::min(size, index_size);
+  // Fill the indices with 1 through size
+  std::iota(index, index + size, 1);
+  // Define a comparator that accesses the original data
+  auto int_sort_cmp = [cmp, data](int left, int right)
+  { return cmp(data[left - 1], data[right - 1]); };
+  // Let the standard library do all the hard work!
+  std::sort(index, index + size, int_sort_cmp);
+}
+%}
+
+%inline %{
+template<class T>
+static void argsort(const T *DATA, size_t DATASIZE, int *idx, size_t idx_size) {
+  return argsort_impl(DATA, DATASIZE, idx, idx_size, std::less<T>());
+}
+
+template<class T>
+static void argsort_cmp(const T *DATA, size_t DATASIZE,
+                        int *idx, size_t idx_size,
+                        bool (*cmp)(T, T)) {
+  return argsort_impl(DATA, DATASIZE, idx, idx_size, cmp);
+}
+%}
+
+%flc_template_numeric(argsort, argsort)
+%flc_template_numeric(argsort_cmp, argsort)
+/******************************
  * Searching
  ******************************/
 
