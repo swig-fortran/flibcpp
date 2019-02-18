@@ -91,8 +91,8 @@ static void argsort_cmp(const T *DATA, size_t DATASIZE,
 
 %inline {
 template<class T>
-int binary_search(T *DATA, size_t DATASIZE, T value) {
-    T *end = DATA + DATASIZE;
+int binary_search(const T *DATA, size_t DATASIZE, T value) {
+    const T *end = DATA + DATASIZE;
     auto iter = std::lower_bound(DATA, end, value);
     if (iter == end || *iter != value)
         return 0;

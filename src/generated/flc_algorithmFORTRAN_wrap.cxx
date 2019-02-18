@@ -323,8 +323,8 @@ static void argsort_cmp(const T *DATA, size_t DATASIZE,
 
 
 template<class T>
-int binary_search(T *DATA, size_t DATASIZE, T value) {
-    T *end = DATA + DATASIZE;
+int binary_search(const T *DATA, size_t DATASIZE, T value) {
+    const T *end = DATA + DATASIZE;
     auto iter = std::lower_bound(DATA, end, value);
     if (iter == end || *iter != value)
         return 0;
@@ -623,7 +623,7 @@ SWIGEXPORT int _wrap_binary_search__SWIG_1(SwigArrayWrapper *farg1, int32_t cons
   arg1 = static_cast< int32_t * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< int32_t >(*farg3);
-  result = (int)binary_search< int32_t >(arg1,arg2,arg3);
+  result = (int)binary_search< int32_t >((int32_t const *)arg1,arg2,arg3);
   fresult = static_cast< int >(result);
   return fresult;
 }
@@ -639,7 +639,7 @@ SWIGEXPORT int _wrap_binary_search__SWIG_2(SwigArrayWrapper *farg1, int64_t cons
   arg1 = static_cast< int64_t * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< int64_t >(*farg3);
-  result = (int)binary_search< int64_t >(arg1,arg2,arg3);
+  result = (int)binary_search< int64_t >((int64_t const *)arg1,arg2,arg3);
   fresult = static_cast< int >(result);
   return fresult;
 }
@@ -655,7 +655,7 @@ SWIGEXPORT int _wrap_binary_search__SWIG_3(SwigArrayWrapper *farg1, double const
   arg1 = static_cast< double * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< double >(*farg3);
-  result = (int)binary_search< double >(arg1,arg2,arg3);
+  result = (int)binary_search< double >((double const *)arg1,arg2,arg3);
   fresult = static_cast< int >(result);
   return fresult;
 }

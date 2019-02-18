@@ -401,7 +401,7 @@ function swigf_is_sorted__SWIG_1(data) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
@@ -422,7 +422,7 @@ function swigf_is_sorted__SWIG_2(data) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
@@ -443,7 +443,7 @@ function swigf_is_sorted__SWIG_3(data) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
@@ -464,7 +464,7 @@ function swigf_is_sorted__SWIG_4(data, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 type(C_FUNPTR), intent(in), value :: cmp
 integer(C_INT) :: fresult 
@@ -488,7 +488,7 @@ function swigf_is_sorted__SWIG_5(data, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 type(C_FUNPTR), intent(in), value :: cmp
 integer(C_INT) :: fresult 
@@ -512,7 +512,7 @@ function swigf_is_sorted__SWIG_6(data, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 type(C_FUNPTR), intent(in), value :: cmp
 integer(C_INT) :: fresult 
@@ -534,7 +534,7 @@ end function
 
 subroutine swigf_argsort__SWIG_1(data, idx)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
@@ -562,7 +562,7 @@ end subroutine
 
 subroutine swigf_argsort__SWIG_2(data, idx)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
@@ -590,7 +590,7 @@ end subroutine
 
 subroutine swigf_argsort__SWIG_3(data, idx)
 use, intrinsic :: ISO_C_BINDING
-real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
@@ -618,7 +618,7 @@ end subroutine
 
 subroutine swigf_argsort__SWIG_4(data, idx, cmp)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
@@ -649,7 +649,7 @@ end subroutine
 
 subroutine swigf_argsort__SWIG_5(data, idx, cmp)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
@@ -680,7 +680,7 @@ end subroutine
 
 subroutine swigf_argsort__SWIG_6(data, idx, cmp)
 use, intrinsic :: ISO_C_BINDING
-real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
@@ -713,7 +713,7 @@ function swigf_binary_search__SWIG_1(data, value) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
-integer(C_INT32_T), dimension(:), target :: data
+integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT32_T), intent(in) :: value
 integer(C_INT) :: fresult 
@@ -737,7 +737,7 @@ function swigf_binary_search__SWIG_2(data, value) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
-integer(C_INT64_T), dimension(:), target :: data
+integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT64_T), intent(in) :: value
 integer(C_INT) :: fresult 
@@ -761,7 +761,7 @@ function swigf_binary_search__SWIG_3(data, value) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
-real(C_DOUBLE), dimension(:), target :: data
+real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 real(C_DOUBLE), intent(in) :: value
 integer(C_INT) :: fresult 
