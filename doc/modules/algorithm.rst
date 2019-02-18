@@ -12,9 +12,9 @@ The ``flc_algorithm`` module wraps C++ standard `<algorithm>`_ routines.
 Instead of taking pairs of iterators, the Flibcpp algorithm subroutines accept
 target-qualified 1-D arrays.
 
-Algorithms that take comparators (e.g. sort) will be instantiated with function
-pointers that allow user functions to add arbitrary ordering by defining
-``bind(C)`` functions and calling with ``c_funloc(my_comparator)``.
+Algorithms that take comparators (e.g. sorting and searching) are instantiated
+with function pointers that allow user functions to add arbitrary ordering by
+defining ``bind(C)`` functions and calling with ``c_funloc(my_comparator)``.
 
 Wherever possible, array indices are returned as Fortran 1-offset native
 integers, with the value 0 indicating off-the-end (e.g. "not found").
@@ -24,20 +24,30 @@ integers, with the value 0 indicating off-the-end (e.g. "not found").
 Sorting
 =======
 
-All sorting functions
-
-Sort
+sort
 ----
 
 Sorting and checking order is a single simple subroutine call::
 
-  use flc_algorithm, only : sort, is_sorted
+  use flc_algorithm, only : sort
   implicit none
+  integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
+
+  call sort(iarr)
+
+is_sorted
+---------
+
+Checking the ordering of array is just as simple::
+
+  use flc_algorithm, only : is_sorted
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
   logical :: sortitude
 
-  call sort(iarr)
   sortitude = is_sorted(iarr)
+
+argsort
+-------
 
 A routine that provides the indices that correspond to a sorted array, like
 Numpy's argsort_ ,
@@ -61,8 +71,12 @@ the index array is larger than the data, invalid entries will be filled with
 zero.
 
 .. _argsort: https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.argsort.html
+
 Searching
 =========
+
+binary_search
+-------------
 
 A binary search can be performed on sorted data to efficiently find an element
 in a range. If the element is not found, the function returns zero; otherwise,
@@ -84,6 +98,10 @@ Example::
   idx = binary_search(iarr, 9)    ! returns 6
   idx = binary_search(iarr, 10)   ! returns 0
 
+minmax_element
+--------------
+
+TODO
 
 Set operations
 ==============
@@ -91,18 +109,43 @@ Set operations
 Sorted arrays can be manipulated as "sets," supporting unions, intersections,
 and differences. TODO.
 
+includes
+--------
+
+TODO
+
+set_difference
+--------------
+
+TODO
+
+set_intersection
+----------------
+
+TODO
+
+set_symmetric_difference
+------------------------
+
+TODO
+
+set_union
+---------
+
+TODO
+
 Modifying
 =========
 
 .. _modules_algorithm_shuffle:
 
-Shuffle
+shuffle
 -------
 
-The ``algorithm`` module depends on the ``random`` module so that it can use
-the supported random number generator to randomly reorder an array.
+The "shuffle" subroutine depends on the :ref:`modules_random` module so that it
+can use the supported random number generator to randomly reorder an array.
 
-Unique
+unique
 ------
 
 TODO

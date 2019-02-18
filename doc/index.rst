@@ -31,7 +31,7 @@ which wrap the C++ library.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
    introduction.rst
    modules.rst

@@ -51,16 +51,30 @@ Its interface is::
      module procedure new_Engine
     end interface
 
-Normal distribution
-===================
+Distributions
+=============
 
-Uniform integer distribution
-============================
+Distributions produce numerical values from the random bitstream provided by
+the Engine.
 
-Uniform real distribution
-=========================
+normal_distribution
+-------------------
 
+Fill the given array with Gaussian-distributed numbers generated using the
+given random number engine about the given mean value with the given standard
+deviation, which defaults to 1.
 
+uniform_int_distribution
+------------------------
+
+Fill the given array with uniformly distributed integers generated using the
+given random number engine, between the two bounds (inclusive on both sides).
+
+uniform_real_distribution
+-------------------------
+
+Fill the given array with uniformly distributed real numbers generated using the
+given random number engine, between the two bounds (inclusive on left side only).
 
 
 .. ############################################################################
