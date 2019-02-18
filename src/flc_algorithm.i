@@ -9,17 +9,17 @@
 %import "flc.i"
 %flc_add_header
 
-%define %flc_cmp_algorithm(RETURN_TYPE, FUNCNAME)
+%define %flc_cmp_algorithm(RETURN_TYPE, CONST, FUNCNAME)
 
 %inline {
 // Operate using default "less than"
 template<class T>
-static RETURN_TYPE FUNCNAME(T *DATA, size_t DATASIZE) {
+static RETURN_TYPE FUNCNAME(CONST T *DATA, size_t DATASIZE) {
   return std::FUNCNAME(DATA, DATA + DATASIZE);
 }
 // Operate using user-provided function pointer
 template<class T>
-static RETURN_TYPE FUNCNAME ## _cmp(T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
+static RETURN_TYPE FUNCNAME ## _cmp(CONST T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
   return std::FUNCNAME(DATA, DATA + DATASIZE, cmp);
 }
 }
@@ -37,7 +37,8 @@ static RETURN_TYPE FUNCNAME ## _cmp(T *DATA, size_t DATASIZE, bool (*cmp)(T, T))
 #include <algorithm>
 %}
 
-%flc_cmp_algorithm(void, sort)
+%flc_cmp_algorithm(void, , sort)
+%flc_cmp_algorithm(bool, const, is_sorted)
 
 /******************************
  * Searching

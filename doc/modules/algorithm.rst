@@ -24,15 +24,15 @@ integers, with the value 0 indicating off-the-end (e.g. "not found").
 Sorting
 =======
 
-Sorting is a single simple subroutine call::
+Sorting and checking order is a single simple subroutine call::
 
-  use flc_algorithm, only : sort
+  use flc_algorithm, only : sort, is_sorted
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
+  logical :: result
 
   call sort(iarr)
-
-TODO: ``is_sorted``
+  result = is_sorted(iarr)
 
 Searching
 =========

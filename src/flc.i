@@ -47,6 +47,9 @@ using std::size_t;
 
 %include <typemaps.i>
 %apply (SWIGTYPE *DATA, size_t SIZE) {
+       (const int32_t  *DATA, size_t DATASIZE),
+       (const int64_t  *DATA, size_t DATASIZE),
+       (const double   *DATA, size_t DATASIZE),
        (int32_t  *DATA, size_t DATASIZE),
        (int64_t  *DATA, size_t DATASIZE),
        (double   *DATA, size_t DATASIZE) };
