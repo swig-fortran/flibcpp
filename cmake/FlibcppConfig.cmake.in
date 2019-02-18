@@ -3,9 +3,9 @@ include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${Flibcpp_CMAKE_DIR})
 
-if (NOT TARGET Flibcpp::Flibcpp)
+if (NOT TARGET @FLIBCPP_NAMESPACE@flc)
   include("${Flibcpp_CMAKE_DIR}/FlibcppTargets.cmake")
 endif()
 
-set(Flibcpp_LIBRARIES Flibcpp::Flibcpp)
+set(Flibcpp_LIBRARIES @FLIBCPP_LIBRARIES@)
 

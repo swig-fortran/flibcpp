@@ -6,7 +6,7 @@
 #---------------------------------------------------------------------------#
 
 cmake_minimum_required(VERSION 3.8)
-project(flibcpp VERSION 0.1.0 LANGUAGES CXX Fortran)
+project(Flibcpp VERSION 0.1.0 LANGUAGES CXX Fortran)
 
 #---------------------------------------------------------------------------#
 # SWIG setup
@@ -40,8 +40,11 @@ include(GNUInstallDirs)
 
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/module)
 set(FLIBCPP_GENERATE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/generated)
-set(FLIBCPP_INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/flibcpp)
+set(FLIBCPP_INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/Flibcpp)
 set(FLIBCPP_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR})
+set(FLIBCPP_NAMESPACE Flibcpp::)
+
+set(FLIBCPP_LIBRARIES)
 
 function(swig_fortran_add_module name)
   # We're using C++
@@ -85,10 +88,13 @@ function(swig_fortran_add_module name)
 
   # Set up installation
   install(TARGETS ${name}
-      EXPORT flibcpp-targets
+      EXPORT Flibcpp-targets
       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
+  # Add to list of targets to export
+  set(FLIBCPP_LIBRARIES ${FLIBCPP_LIBRARIES} ${FLIBCPP_NAMESPACE}${name}
+      PARENT_SCOPE)
 endfunction()
 
 # Four SWIG libraries
@@ -106,15 +112,16 @@ target_link_libraries(flc_algorithm flc_random flc)
 install(DIRECTORY "${CMAKE_Fortran_MODULE_DIRECTORY}/"
   DESTINATION "${FLIBCPP_INSTALL_MODULEDIR}")
 
-install(EXPORT flibcpp-targets
+install(EXPORT Flibcpp-targets
   FILE FlibcppTargets.cmake
-  NAMESPACE Flibcpp::
+  NAMESPACE ${FLIBCPP_NAMESPACE}
   DESTINATION ${FLIBCPP_INSTALL_CONFIGDIR}
 )
 
 # Create a ConfigVersion.cmake file
 include(CMakePackageConfigHelpers)
 
+message(STATUS "Libraries: ${FLIBCPP_LIBRARIES}")
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/FlibcppConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/FlibcppConfig.cmake

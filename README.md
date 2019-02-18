@@ -1,9 +1,9 @@
-# flibcpp
+# Flibcpp
 
 This project uses SWIG-Fortran to expose useful functionality from the C++
 standard library to Fortran 2003 application developers. It generates
 self-contained Fortran modules with native proxy classes and functions
-which wrap the C++ library.
+which wrap the C++ standard library.
 
 Currently it's designed around the C++11 standard library, and it instantiates
 32- and 64-bit integers as well as double-precision floats.
@@ -20,7 +20,18 @@ Functionality includes:
 
 ## Getting started
 
-TODO
+Installation of Flibcpp is trivial, as it requires no external dependencies
+other than existing and compatible C++ and Fortran compilers, and a relatively
+recent version of CMake:
+
+1. Clone the repository; `git clone https://github.com/swig-fortran/flibcpp`
+2. Create a build directory and execute `cmake $PATH_TO_SOURCE` (requires CMake
+   3.8 or higher)
+3. Install using `make install`
+
+More detailed installation instructions will be {are?} available in the
+documentation.  An example Fortran application that depends only on Flibcpp is
+available [on Github](https://github.com/swig-fortran/flibcpp-example-app).
 
 ## Documentation
 

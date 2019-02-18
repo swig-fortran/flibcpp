@@ -8,7 +8,7 @@
 Interface
 *********
 
-These are the SWIG interface files used to generate the flibcpp modules.
+These are the SWIG interface files used to generate the Flibcpp modules.
 
 flc
 ===
@@ -22,6 +22,12 @@ flc_algorithm
 =============
 
 .. literalinclude:: ../src/flc_algorithm.i
+   :linenos:
+
+flc_random
+=============
+
+.. literalinclude:: ../src/flc_random.i
    :linenos:
 
 .. ############################################################################
