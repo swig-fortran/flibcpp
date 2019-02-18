@@ -236,17 +236,49 @@ template <typename T> T SwigValueInit() {
 
 
 #include <algorithm>
+#include <functional>
+#include <numeric>
+
+
+template<class T, class Compare>
+static void sort_impl(T *data, size_t size, Compare cmp) {
+    return std::sort(data, data + size, cmp);
+}
+
+template<class T, class Compare>
+static bool is_sorted_impl(const T *data, size_t size, Compare cmp) {
+    return std::is_sorted(data, data + size, cmp);
+}
+
+template<class T, class Compare>
+static void argsort_impl(const T *data, size_t size,
+                         int *index, size_t index_size,
+                         Compare cmp) {
+  // Fill invalid indices with zero
+  if (size < index_size) {
+    std::fill(index + size, index + index_size, 0);
+  }
+  size = std::min(size, index_size);
+  // Fill the indices with 1 through size
+  std::iota(index, index + size, 1);
+  // Define a comparator that accesses the original data
+  auto int_sort_cmp = [cmp, data](int left, int right)
+  { return cmp(data[left - 1], data[right - 1]); };
+  // Let the standard library do all the hard work!
+  std::sort(index, index + size, int_sort_cmp);
+}
+
 
 
 // Operate using default "less than"
 template<class T>
-static void sort( T *DATA, size_t DATASIZE) {
-  return std::sort(DATA, DATA + DATASIZE);
+static void sort(T *DATA,size_t DATASIZE) {
+  return sort_impl(DATA,DATASIZE, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static void sort_cmp( T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
-  return std::sort(DATA, DATA + DATASIZE, cmp);
+static void sort_cmp(T *DATA,size_t DATASIZE, bool (*cmp)(T, T)) {
+  return sort_impl(DATA,DATASIZE, cmp);
 }
 
 
@@ -277,48 +309,27 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
 
 // Operate using default "less than"
 template<class T>
-static bool is_sorted(const T *DATA, size_t DATASIZE) {
-  return std::is_sorted(DATA, DATA + DATASIZE);
+static bool is_sorted(const T *DATA,size_t DATASIZE) {
+  return is_sorted_impl(DATA,DATASIZE, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static bool is_sorted_cmp(const T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
-  return std::is_sorted(DATA, DATA + DATASIZE, cmp);
+static bool is_sorted_cmp(const T *DATA,size_t DATASIZE, bool (*cmp)(T, T)) {
+  return is_sorted_impl(DATA,DATASIZE, cmp);
 }
 
 
-#include <numeric>
-#include <functional>
-
-template<class T, class Compare>
-static void argsort_impl(const T *data, size_t size,
-                         int *index, size_t index_size,
-                         Compare cmp) {
-  // Fill invalid indices with zero
-  if (size < index_size) {
-    std::fill(index + size, index + index_size, 0);
-  }
-  size = std::min(size, index_size);
-  // Fill the indices with 1 through size
-  std::iota(index, index + size, 1);
-  // Define a comparator that accesses the original data
-  auto int_sort_cmp = [cmp, data](int left, int right)
-  { return cmp(data[left - 1], data[right - 1]); };
-  // Let the standard library do all the hard work!
-  std::sort(index, index + size, int_sort_cmp);
-}
-
-
+// Operate using default "less than"
 template<class T>
-static void argsort(const T *DATA, size_t DATASIZE, int *idx, size_t idx_size) {
-  return argsort_impl(DATA, DATASIZE, idx, idx_size, std::less<T>());
+static void argsort(const T *DATA,size_t DATASIZE,int *IDX,size_t IDXSIZE
+) {
+  return argsort_impl(DATA,DATASIZE,IDX,IDXSIZE, std::less<T>());
 }
-
+// Operate using user-provided function pointer
 template<class T>
-static void argsort_cmp(const T *DATA, size_t DATASIZE,
-                        int *idx, size_t idx_size,
-                        bool (*cmp)(T, T)) {
-  return argsort_impl(DATA, DATASIZE, idx, idx_size, cmp);
+static void argsort_cmp(const T *DATA,size_t DATASIZE,int *IDX,size_t IDXSIZE
+, bool (*cmp)(T, T)) {
+  return argsort_impl(DATA,DATASIZE,IDX,IDXSIZE, cmp);
 }
 
 
@@ -333,15 +344,17 @@ static int binary_search_impl(const T *data, size_t size, T value, Compare cmp) 
 }
 
 
+// Operate using default "less than"
 template<class T>
-static int binary_search(const T *DATA, size_t DATASIZE, T value) {
-  return binary_search_impl(DATA, DATASIZE, value, std::less<T>());
+static int binary_search(const T *DATA,size_t DATASIZE,T value
+) {
+  return binary_search_impl(DATA,DATASIZE,value, std::less<T>());
 }
-
+// Operate using user-provided function pointer
 template<class T>
-static int binary_search_cmp(const T *DATA, size_t DATASIZE, T value,
-                        bool (*cmp)(T, T)) {
-  return binary_search_impl(DATA, DATASIZE, value, cmp);
+static int binary_search_cmp(const T *DATA,size_t DATASIZE,T value
+, bool (*cmp)(T, T)) {
+  return binary_search_impl(DATA,DATASIZE,value, cmp);
 }
 
 

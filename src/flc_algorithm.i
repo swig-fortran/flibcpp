@@ -9,18 +9,24 @@
 %import "flc.i"
 %flc_add_header
 
-%define %flc_cmp_algorithm(RETURN_TYPE, CONST, FUNCNAME)
+%{
+#include <algorithm>
+#include <functional>
+#include <numeric>
+%}
+
+%define %flc_cmp_algorithm(RETURN_TYPE, FUNCNAME, ARGS, CALL)
 
 %inline {
 // Operate using default "less than"
 template<class T>
-static RETURN_TYPE FUNCNAME(CONST T *DATA, size_t DATASIZE) {
-  return std::FUNCNAME(DATA, DATA + DATASIZE);
+static RETURN_TYPE FUNCNAME(ARGS) {
+  return FUNCNAME ## _impl(CALL, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static RETURN_TYPE FUNCNAME ## _cmp(CONST T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
-  return std::FUNCNAME(DATA, DATA + DATASIZE, cmp);
+static RETURN_TYPE FUNCNAME ## _cmp(ARGS, bool (*cmp)(T, T)) {
+  return FUNCNAME ## _impl(CALL, cmp);
 }
 }
 
@@ -33,22 +39,18 @@ static RETURN_TYPE FUNCNAME ## _cmp(CONST T *DATA, size_t DATASIZE, bool (*cmp)(
  * Sorting
  ******************************/
 
-%{
-#include <algorithm>
-%}
-
-%flc_cmp_algorithm(void, , sort)
-%flc_cmp_algorithm(bool, const, is_sorted)
-
-/******************************
- * Finding sorted indices
- ******************************/
-
-%apply (SWIGTYPE *DATA, size_t SIZE) { (int *idx, size_t idx_size) };
+%apply (SWIGTYPE *DATA, size_t SIZE) { (int *IDX, size_t IDXSIZE) };
 
 %{
-#include <numeric>
-#include <functional>
+template<class T, class Compare>
+static void sort_impl(T *data, size_t size, Compare cmp) {
+    return std::sort(data, data + size, cmp);
+}
+
+template<class T, class Compare>
+static bool is_sorted_impl(const T *data, size_t size, Compare cmp) {
+    return std::is_sorted(data, data + size, cmp);
+}
 
 template<class T, class Compare>
 static void argsort_impl(const T *data, size_t size,
@@ -67,24 +69,16 @@ static void argsort_impl(const T *data, size_t size,
   // Let the standard library do all the hard work!
   std::sort(index, index + size, int_sort_cmp);
 }
+
 %}
 
-%inline %{
-template<class T>
-static void argsort(const T *DATA, size_t DATASIZE, int *idx, size_t idx_size) {
-  return argsort_impl(DATA, DATASIZE, idx, idx_size, std::less<T>());
-}
-
-template<class T>
-static void argsort_cmp(const T *DATA, size_t DATASIZE,
-                        int *idx, size_t idx_size,
-                        bool (*cmp)(T, T)) {
-  return argsort_impl(DATA, DATASIZE, idx, idx_size, cmp);
-}
-%}
-
-%flc_template_numeric(argsort, argsort)
-%flc_template_numeric(argsort_cmp, argsort)
+%flc_cmp_algorithm(void, sort, %arg(T *DATA, size_t DATASIZE),
+                   %arg(DATA, DATASIZE))
+%flc_cmp_algorithm(bool, is_sorted, %arg(const T *DATA, size_t DATASIZE),
+                   %arg(DATA, DATASIZE))
+%flc_cmp_algorithm(void, argsort, %arg(const T *DATA, size_t DATASIZE,
+                                       int *IDX, size_t IDXSIZE),
+                   %arg(DATA, DATASIZE, IDX, IDXSIZE))
 
 /******************************
  * Searching
@@ -102,21 +96,9 @@ static int binary_search_impl(const T *data, size_t size, T value, Compare cmp) 
 }
 %}
 
-%inline %{
-template<class T>
-static int binary_search(const T *DATA, size_t DATASIZE, T value) {
-  return binary_search_impl(DATA, DATASIZE, value, std::less<T>());
-}
-
-template<class T>
-static int binary_search_cmp(const T *DATA, size_t DATASIZE, T value,
-                        bool (*cmp)(T, T)) {
-  return binary_search_impl(DATA, DATASIZE, value, cmp);
-}
-%}
-
-%flc_template_numeric(binary_search, binary_search)
-%flc_template_numeric(binary_search_cmp, binary_search)
+%flc_cmp_algorithm(int, binary_search, %arg(const T *DATA, size_t DATASIZE,
+                                            T value),
+                   %arg(DATA, DATASIZE, value))
 
 /******************************
  * Reordering
