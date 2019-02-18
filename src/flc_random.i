@@ -53,9 +53,9 @@ class SWIG_MERSENNE_TWISTER
 %inline {
 static void DISTNAME(TYPE ARG1,
                      std::SWIG_MERSENNE_TWISTER& g,
-                     TYPE *DATA, size_t SIZE) {
+                     TYPE *DATA, size_t DATASIZE) {
     std::DISTNAME<TYPE> dist(ARG1);
-    TYPE *end = DATA + SIZE;
+    TYPE *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }
@@ -66,9 +66,9 @@ static void DISTNAME(TYPE ARG1,
 %inline {
 static void DISTNAME(TYPE ARG1, TYPE ARG2,
                      std::SWIG_MERSENNE_TWISTER& g,
-                     TYPE *DATA, size_t SIZE) {
+                     TYPE *DATA, size_t DATASIZE) {
     std::DISTNAME<TYPE> dist(ARG1, ARG2);
-    TYPE *end = DATA + SIZE;
+    TYPE *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }

@@ -9,6 +9,26 @@
 %import "flc.i"
 %flc_add_header
 
+%define %flc_cmp_algorithm(RETURN_TYPE, FUNCNAME)
+
+%inline {
+// Operate using default "less than"
+template<class T>
+static RETURN_TYPE FUNCNAME(T *DATA, size_t DATASIZE) {
+  return std::FUNCNAME(DATA, DATA + DATASIZE);
+}
+// Operate using user-provided function pointer
+template<class T>
+static RETURN_TYPE FUNCNAME ## _cmp(T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
+  return std::FUNCNAME(DATA, DATA + DATASIZE, cmp);
+}
+}
+
+%flc_template_numeric(FUNCNAME, FUNCNAME)
+%flc_template_numeric(FUNCNAME ## _cmp, FUNCNAME)
+
+%enddef
+
 /******************************
  * Sorting
  ******************************/
@@ -17,21 +37,7 @@
 #include <algorithm>
 %}
 
-%inline %{
-// Sort with "less than"
-template<class T>
-static void sort(T *DATA, size_t SIZE) {
-  std::sort(DATA, DATA + SIZE);
-}
-// Sort given user-provided function pointer
-template<class T>
-static void sort_cmp(T *DATA, size_t SIZE, bool (*cmp)(T, T)) {
-  std::sort(DATA, DATA + SIZE, cmp);
-}
-%}
-
-%flc_template_numeric(sort, sort)
-%flc_template_numeric(sort_cmp, sort)
+%flc_cmp_algorithm(void, sort)
 
 /******************************
  * Searching
@@ -39,8 +45,8 @@ static void sort_cmp(T *DATA, size_t SIZE, bool (*cmp)(T, T)) {
 
 %inline {
 template<class T>
-int binary_search(T *DATA, size_t SIZE, T value) {
-    T *end = DATA + SIZE;
+int binary_search(T *DATA, size_t DATASIZE, T value) {
+    T *end = DATA + DATASIZE;
     auto iter = std::lower_bound(DATA, end, value);
     if (iter == end || *iter != value)
         return 0;
@@ -63,8 +69,8 @@ int binary_search(T *DATA, size_t SIZE, T value) {
 
 %inline {
 template<class T>
-static void shuffle(std::SWIG_MERSENNE_TWISTER& g, T *DATA, size_t SIZE) {
-    std::shuffle(DATA, DATA + SIZE, g);
+static void shuffle(std::SWIG_MERSENNE_TWISTER& g, T *DATA, size_t DATASIZE) {
+    std::shuffle(DATA, DATA + DATASIZE, g);
 }
 }
 

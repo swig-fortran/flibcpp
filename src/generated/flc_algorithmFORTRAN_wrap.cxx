@@ -238,15 +238,15 @@ template <typename T> T SwigValueInit() {
 #include <algorithm>
 
 
-// Sort with "less than"
+// Operate using default "less than"
 template<class T>
-static void sort(T *DATA, size_t SIZE) {
-  std::sort(DATA, DATA + SIZE);
+static void sort(T *DATA, size_t DATASIZE) {
+  return std::sort(DATA, DATA + DATASIZE);
 }
-// Sort given user-provided function pointer
+// Operate using user-provided function pointer
 template<class T>
-static void sort_cmp(T *DATA, size_t SIZE, bool (*cmp)(T, T)) {
-  std::sort(DATA, DATA + SIZE, cmp);
+static void sort_cmp(T *DATA, size_t DATASIZE, bool (*cmp)(T, T)) {
+  return std::sort(DATA, DATA + DATASIZE, cmp);
 }
 
 
@@ -276,8 +276,8 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
 
 
 template<class T>
-int binary_search(T *DATA, size_t SIZE, T value) {
-    T *end = DATA + SIZE;
+int binary_search(T *DATA, size_t DATASIZE, T value) {
+    T *end = DATA + DATASIZE;
     auto iter = std::lower_bound(DATA, end, value);
     if (iter == end || *iter != value)
         return 0;
@@ -290,8 +290,8 @@ int binary_search(T *DATA, size_t SIZE, T value) {
 
 
 template<class T>
-static void shuffle(std::mt19937_64& g, T *DATA, size_t SIZE) {
-    std::shuffle(DATA, DATA + SIZE, g);
+static void shuffle(std::mt19937_64& g, T *DATA, size_t DATASIZE) {
+    std::shuffle(DATA, DATA + DATASIZE, g);
 }
 
 

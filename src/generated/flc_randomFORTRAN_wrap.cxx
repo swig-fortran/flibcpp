@@ -509,9 +509,9 @@ SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, const SwigClassWrapper*
 
 static void uniform_int_distribution(int32_t left, int32_t right,
                      std::mt19937_64& g,
-                     int32_t *DATA, size_t SIZE) {
+                     int32_t *DATA, size_t DATASIZE) {
     std::uniform_int_distribution<int32_t> dist(left, right);
-    int32_t *end = DATA + SIZE;
+    int32_t *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }
@@ -545,9 +545,9 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
 
 static void uniform_int_distribution(int64_t left, int64_t right,
                      std::mt19937_64& g,
-                     int64_t *DATA, size_t SIZE) {
+                     int64_t *DATA, size_t DATASIZE) {
     std::uniform_int_distribution<int64_t> dist(left, right);
-    int64_t *end = DATA + SIZE;
+    int64_t *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }
@@ -556,9 +556,9 @@ static void uniform_int_distribution(int64_t left, int64_t right,
 
 static void uniform_real_distribution(double left, double right,
                      std::mt19937_64& g,
-                     double *DATA, size_t SIZE) {
+                     double *DATA, size_t DATASIZE) {
     std::uniform_real_distribution<double> dist(left, right);
-    double *end = DATA + SIZE;
+    double *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }
@@ -567,9 +567,9 @@ static void uniform_real_distribution(double left, double right,
 
 static void normal_distribution(double mean,
                      std::mt19937_64& g,
-                     double *DATA, size_t SIZE) {
+                     double *DATA, size_t DATASIZE) {
     std::normal_distribution<double> dist(mean);
-    double *end = DATA + SIZE;
+    double *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }
@@ -578,9 +578,9 @@ static void normal_distribution(double mean,
 
 static void normal_distribution(double mean, double stddev,
                      std::mt19937_64& g,
-                     double *DATA, size_t SIZE) {
+                     double *DATA, size_t DATASIZE) {
     std::normal_distribution<double> dist(mean, stddev);
-    double *end = DATA + SIZE;
+    double *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
     }
