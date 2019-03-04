@@ -30,6 +30,7 @@ program test_algorithm
   call test_argsort()
   call test_shuffle()
   call test_binary_search()
+  call test_minmax_element()
 contains
 
 !-----------------------------------------------------------------------------!
@@ -43,11 +44,11 @@ subroutine test_sort()
   real(c_double), dimension(4) :: darr = [ 2.1d0, 5.9d0, 0.d0, -1.25d0 ]
 
   call sort(iarr)
-  write(*,*) "Result:", iarr
+  write(*,"(A8,(8I10))") "Result:", iarr
   call sort(larr)
   write(*,*) "Result:", larr
   call sort(darr)
-  write(*,*) "Result:", darr
+  write(*,"(A8,(8f10.3))") "Result:", darr
 
 end subroutine
 
@@ -58,11 +59,12 @@ subroutine test_sort_compare()
   use flc_algorithm, only : sort, INDEX_INT
   implicit none
   integer(INDEX_INT), dimension(:), allocatable :: arr
+  character(len=*), parameter :: outfmt = "(A12,(8I6))"
 
   allocate(arr(5), source=[ 2, 3, 4, 4, 9])
 
   call sort(arr, c_funloc(compare_ge))
-  write(*,*) "Result:", arr
+  write(*,outfmt) "Result:", arr
 end subroutine
 
 !-----------------------------------------------------------------------------!
@@ -72,21 +74,22 @@ subroutine test_argsort()
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
   integer(INDEX_INT), dimension(5) :: idx
+  character(len=*), parameter :: outfmt = "(A12,(8I6))"
 
   ! Call correctly, with size(idx) == size(iarr)
   call argsort(iarr, idx)
-  write(*,*) "Result:", idx
-  write(*,*) "Reorganized:", iarr(idx)
+  write(*,outfmt) "Result:", idx
+  write(*,outfmt) "Reorganized:", iarr(idx)
 
   ! Call with size(idx) > size(iarr)
   idx(:) = -1
   call argsort(iarr(1:3), idx)
-  write(*,*) "Bad:", idx
+  write(*,outfmt) "Bad:", idx
 
   ! Call with size(idx) < size(iarr)
   idx(:) = -1
   call argsort(iarr, idx(1:3))
-  write(*,*) "Also bad:", idx
+  write(*,outfmt) "Also bad:", idx
 
 end subroutine
 
@@ -103,7 +106,7 @@ subroutine test_shuffle()
 
   do i = 1,3
       call shuffle(rng, iarr)
-      write(*,*) "Shuffled:", iarr
+      write(*,"(A,(8I4))") "Shuffled:", iarr
   end do
 end subroutine
 
@@ -120,6 +123,24 @@ subroutine test_binary_search()
   ASSERT(binary_search(iarr, 3) == 0) ! not found
   ASSERT(binary_search(iarr, 9) == 6)
   ASSERT(binary_search(iarr, 10) == 0)
+
+end subroutine
+
+!-----------------------------------------------------------------------------!
+subroutine test_minmax_element()
+  use, intrinsic :: ISO_C_BINDING
+  use flc_algorithm, only : minmax_element, INDEX_INT
+  implicit none
+  integer, dimension(6) :: iarr = [ -5, 1000, -1000, 999, -1000, 1000]
+  integer(INDEX_INT) :: min_idx, max_idx
+
+  call minmax_element(iarr, min_idx, max_idx)
+  ASSERT(iarr(min_idx) == -1000)
+  ASSERT(iarr(max_idx) == 1000)
+  ! First occurrence is preferably selected for min
+  ASSERT(min_idx == 3)
+  ! Second occurrence is preferably selected for max
+  ASSERT(max_idx == 6)
 
 end subroutine
 

@@ -101,7 +101,20 @@ Example::
 minmax_element
 --------------
 
-TODO
+Finds the smallest and largest element in an array.
+Note that the *first* occurrence of the minimum value is selected, and the
+*last* occurrence of the maximum value is selected. Thus, for a sorted array
+``arr`` which may have duplicate elements, the expression
+``arr(min_idx:max_idx)`` will always return the entire array.
+
+Example::
+
+  use flc_algorithm, only : minmax_element, INDEX_INT
+  implicit none
+  integer, dimension(6) :: iarr = [ -5, 1000, -1000, 999, -1000, 1000]
+  integer(INDEX_INT) :: min_idx, max_idx
+
+  call minmax_element(iarr, min_idx, max_idx) ! min_idx == 3, max_idx == 6
 
 Set operations
 ==============

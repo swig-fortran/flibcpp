@@ -382,6 +382,20 @@ static index_int binary_search_cmp(const T *DATA,size_t DATASIZE,T value
 }
 
 
+// Operate using default "less than"
+template<class T>
+static void minmax_element(const T *DATA,size_t DATASIZE,index_int *min_index,index_int *max_index
+) {
+  return minmax_element_impl(DATA,DATASIZE,min_index,max_index, std::less<T>());
+}
+// Operate using user-provided function pointer
+template<class T>
+static void minmax_element_cmp(const T *DATA,size_t DATASIZE,index_int *min_index,index_int *max_index
+, bool (*cmp)(T, T)) {
+  return minmax_element_impl(DATA,DATASIZE,min_index,max_index, cmp);
+}
+
+
 #include <random>
 
 
@@ -750,6 +764,96 @@ SWIGEXPORT int _wrap_binary_search__SWIG_6(SwigArrayWrapper *farg1, double const
   result = (index_int)binary_search_cmp< double >((double const *)arg1,arg2,arg3,arg4);
   fresult = static_cast< index_int >(result);
   return fresult;
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_1(SwigArrayWrapper *farg1, int *farg3, int *farg4) {
+  int32_t *arg1 = (int32_t *) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  index_int *arg4 = (index_int *) 0 ;
+  
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = reinterpret_cast< index_int * >(farg3);
+  arg4 = reinterpret_cast< index_int * >(farg4);
+  minmax_element< int32_t >((int32_t const *)arg1,arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_2(SwigArrayWrapper *farg1, int *farg3, int *farg4) {
+  int64_t *arg1 = (int64_t *) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  index_int *arg4 = (index_int *) 0 ;
+  
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = reinterpret_cast< index_int * >(farg3);
+  arg4 = reinterpret_cast< index_int * >(farg4);
+  minmax_element< int64_t >((int64_t const *)arg1,arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_3(SwigArrayWrapper *farg1, int *farg3, int *farg4) {
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  index_int *arg4 = (index_int *) 0 ;
+  
+  arg1 = static_cast< double * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = reinterpret_cast< index_int * >(farg3);
+  arg4 = reinterpret_cast< index_int * >(farg4);
+  minmax_element< double >((double const *)arg1,arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_4(SwigArrayWrapper *farg1, int *farg3, int *farg4, bool (*farg5)(int32_t,int32_t)) {
+  int32_t *arg1 = (int32_t *) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  index_int *arg4 = (index_int *) 0 ;
+  bool (*arg5)(int32_t,int32_t) = (bool (*)(int32_t,int32_t)) 0 ;
+  
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = reinterpret_cast< index_int * >(farg3);
+  arg4 = reinterpret_cast< index_int * >(farg4);
+  arg5 = reinterpret_cast< bool (*)(int32_t,int32_t) >(farg5);
+  minmax_element_cmp< int32_t >((int32_t const *)arg1,arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_5(SwigArrayWrapper *farg1, int *farg3, int *farg4, bool (*farg5)(int64_t,int64_t)) {
+  int64_t *arg1 = (int64_t *) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  index_int *arg4 = (index_int *) 0 ;
+  bool (*arg5)(int64_t,int64_t) = (bool (*)(int64_t,int64_t)) 0 ;
+  
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = reinterpret_cast< index_int * >(farg3);
+  arg4 = reinterpret_cast< index_int * >(farg4);
+  arg5 = reinterpret_cast< bool (*)(int64_t,int64_t) >(farg5);
+  minmax_element_cmp< int64_t >((int64_t const *)arg1,arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_6(SwigArrayWrapper *farg1, int *farg3, int *farg4, bool (*farg5)(double,double)) {
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  index_int *arg4 = (index_int *) 0 ;
+  bool (*arg5)(double,double) = (bool (*)(double,double)) 0 ;
+  
+  arg1 = static_cast< double * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = reinterpret_cast< index_int * >(farg3);
+  arg4 = reinterpret_cast< index_int * >(farg4);
+  arg5 = reinterpret_cast< bool (*)(double,double) >(farg5);
+  minmax_element_cmp< double >((double const *)arg1,arg2,arg3,arg4,arg5);
 }
 
 

@@ -35,6 +35,11 @@ integer, parameter, public :: INDEX_INT = C_INT
     swigf_binary_search__SWIG_4, swigf_binary_search__SWIG_5, swigf_binary_search__SWIG_6
  end interface
  public :: binary_search
+ interface minmax_element
+  module procedure swigf_minmax_element__SWIG_1, swigf_minmax_element__SWIG_2, swigf_minmax_element__SWIG_3, &
+    swigf_minmax_element__SWIG_4, swigf_minmax_element__SWIG_5, swigf_minmax_element__SWIG_6
+ end interface
+ public :: minmax_element
  interface shuffle
   module procedure swigf_shuffle__SWIG_1, swigf_shuffle__SWIG_2, swigf_shuffle__SWIG_3
  end interface
@@ -272,6 +277,63 @@ real(C_DOUBLE), intent(in) :: farg3
 type(C_FUNPTR), value :: farg4
 integer(C_INT) :: fresult
 end function
+
+subroutine swigc_minmax_element__SWIG_1(farg1, farg3, farg4) &
+bind(C, name="_wrap_minmax_element__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+end subroutine
+
+subroutine swigc_minmax_element__SWIG_2(farg1, farg3, farg4) &
+bind(C, name="_wrap_minmax_element__SWIG_2")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+end subroutine
+
+subroutine swigc_minmax_element__SWIG_3(farg1, farg3, farg4) &
+bind(C, name="_wrap_minmax_element__SWIG_3")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+end subroutine
+
+subroutine swigc_minmax_element__SWIG_4(farg1, farg3, farg4, farg5) &
+bind(C, name="_wrap_minmax_element__SWIG_4")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+type(C_FUNPTR), value :: farg5
+end subroutine
+
+subroutine swigc_minmax_element__SWIG_5(farg1, farg3, farg4, farg5) &
+bind(C, name="_wrap_minmax_element__SWIG_5")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+type(C_FUNPTR), value :: farg5
+end subroutine
+
+subroutine swigc_minmax_element__SWIG_6(farg1, farg3, farg4, farg5) &
+bind(C, name="_wrap_minmax_element__SWIG_6")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+type(C_FUNPTR), value :: farg5
+end subroutine
 
 subroutine swigc_shuffle__SWIG_1(farg1, farg2) &
 bind(C, name="_wrap_shuffle__SWIG_1")
@@ -893,6 +955,153 @@ farg4 = cmp
 fresult = swigc_binary_search__SWIG_6(farg1, farg3, farg4)
 swig_result = fresult
 end function
+
+subroutine swigf_minmax_element__SWIG_1(data, min_index, max_index)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), intent(in), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+type(SwigArrayWrapper) :: farg1 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+call swigc_minmax_element__SWIG_1(farg1, farg3, farg4)
+end subroutine
+
+subroutine swigf_minmax_element__SWIG_2(data, min_index, max_index)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), intent(in), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+type(SwigArrayWrapper) :: farg1 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+call swigc_minmax_element__SWIG_2(farg1, farg3, farg4)
+end subroutine
+
+subroutine swigf_minmax_element__SWIG_3(data, min_index, max_index)
+use, intrinsic :: ISO_C_BINDING
+real(C_DOUBLE), dimension(:), intent(in), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+type(SwigArrayWrapper) :: farg1 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+call swigc_minmax_element__SWIG_3(farg1, farg3, farg4)
+end subroutine
+
+subroutine swigf_minmax_element__SWIG_4(data, min_index, max_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), intent(in), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+type(C_FUNPTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+farg5 = cmp
+call swigc_minmax_element__SWIG_4(farg1, farg3, farg4, farg5)
+end subroutine
+
+subroutine swigf_minmax_element__SWIG_5(data, min_index, max_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), intent(in), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+type(C_FUNPTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+farg5 = cmp
+call swigc_minmax_element__SWIG_5(farg1, farg3, farg4, farg5)
+end subroutine
+
+subroutine swigf_minmax_element__SWIG_6(data, min_index, max_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+real(C_DOUBLE), dimension(:), intent(in), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+type(C_FUNPTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+farg5 = cmp
+call swigc_minmax_element__SWIG_6(farg1, farg3, farg4, farg5)
+end subroutine
 
 subroutine swigf_shuffle__SWIG_1(g, data)
 use, intrinsic :: ISO_C_BINDING
