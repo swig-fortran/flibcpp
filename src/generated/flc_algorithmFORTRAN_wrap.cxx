@@ -193,8 +193,15 @@ template <typename T> T SwigValueInit() {
  { throw std::logic_error("In " DECL ": " MSG); }
 
 
+enum SwigMemFlags {
+    SWIG_MEM_OWN = 0x01,
+    SWIG_MEM_RVALUE = 0x02,
+    SWIG_MEM_CONST = 0x04
+};
+
+
 #define SWIG_check_mutable(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-    if ((SWIG_CLASS_WRAPPER).mem == SWIG_CREF) { \
+    if ((SWIG_CLASS_WRAPPER).cmemflags & SWIG_MEM_CONST) { \
         SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
             "Cannot pass const " TYPENAME " (class " FNAME ") " \
             "as a mutable reference", \
@@ -203,7 +210,7 @@ template <typename T> T SwigValueInit() {
 
 
 #define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if ((SWIG_CLASS_WRAPPER).mem == SWIG_NULL) { \
+  if (!(SWIG_CLASS_WRAPPER).cptr) { \
     SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -240,6 +247,9 @@ template <typename T> T SwigValueInit() {
 #include <numeric>
 
 
+typedef int index_int;
+
+
 template<class T, class Compare>
 static void sort_impl(T *data, size_t size, Compare cmp) {
     return std::sort(data, data + size, cmp);
@@ -252,7 +262,7 @@ static bool is_sorted_impl(const T *data, size_t size, Compare cmp) {
 
 template<class T, class Compare>
 static void argsort_impl(const T *data, size_t size,
-                         int *index, size_t index_size,
+                         index_int *index, size_t index_size,
                          Compare cmp) {
   // Fill invalid indices with zero
   if (size < index_size) {
@@ -262,7 +272,7 @@ static void argsort_impl(const T *data, size_t size,
   // Fill the indices with 1 through size
   std::iota(index, index + size, 1);
   // Define a comparator that accesses the original data
-  auto int_sort_cmp = [cmp, data](int left, int right)
+  auto int_sort_cmp = [cmp, data](index_int left, index_int right)
   { return cmp(data[left - 1], data[right - 1]); };
   // Let the standard library do all the hard work!
   std::sort(index, index + size, int_sort_cmp);
@@ -321,38 +331,52 @@ static bool is_sorted_cmp(const T *DATA,size_t DATASIZE, bool (*cmp)(T, T)) {
 
 // Operate using default "less than"
 template<class T>
-static void argsort(const T *DATA,size_t DATASIZE,int *IDX,size_t IDXSIZE
+static void argsort(const T *DATA,size_t DATASIZE,index_int *IDX,size_t IDXSIZE
 ) {
   return argsort_impl(DATA,DATASIZE,IDX,IDXSIZE, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static void argsort_cmp(const T *DATA,size_t DATASIZE,int *IDX,size_t IDXSIZE
+static void argsort_cmp(const T *DATA,size_t DATASIZE,index_int *IDX,size_t IDXSIZE
 , bool (*cmp)(T, T)) {
   return argsort_impl(DATA,DATASIZE,IDX,IDXSIZE, cmp);
 }
 
 
 template<class T, class Compare>
-static int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
+static index_int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
   const T *end = data + size;
   auto iter = std::lower_bound(data, end, value, cmp);
   if (iter == end || cmp(*iter, value) || cmp(value, *iter))
-      return 0;
+    return 0;
   // Index of the found item *IN FORTAN INDEXING*
   return (iter - data) + 1;
+}
+
+template<class T, class Compare>
+static void minmax_element_impl(const T *data, size_t size, index_int *min_index, index_int *max_index, Compare cmp) {
+  if (size == 0) {
+    *min_index = 0;
+    *max_index = 0;
+    return;
+  }
+  const T *end = data + size;
+  auto mm_pair = std::minmax_element(data, end, cmp);
+  // Index of the min/max items *IN FORTAN INDEXING*
+  *min_index = mm_pair.first - data + 1;
+  *max_index = mm_pair.second - data + 1;
 }
 
 
 // Operate using default "less than"
 template<class T>
-static int binary_search(const T *DATA,size_t DATASIZE,T value
+static index_int binary_search(const T *DATA,size_t DATASIZE,T value
 ) {
   return binary_search_impl(DATA,DATASIZE,value, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static int binary_search_cmp(const T *DATA,size_t DATASIZE,T value
+static index_int binary_search_cmp(const T *DATA,size_t DATASIZE,T value
 , bool (*cmp)(T, T)) {
   return binary_search_impl(DATA,DATASIZE,value, cmp);
 }
@@ -367,31 +391,20 @@ static void shuffle(std::mt19937_64& g, T *DATA, size_t DATASIZE) {
 }
 
 
-enum SwigMemState {
-    SWIG_NULL,
-    SWIG_OWN,
-    SWIG_MOVE,
-    SWIG_REF,
-    SWIG_CREF
-};
-
-
 struct SwigClassWrapper {
     void* cptr;
-    SwigMemState mem;
+    int cmemflags;
 };
 
 
 SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
     SwigClassWrapper result;
     result.cptr = NULL;
-    result.mem = SWIG_NULL;
+    result.cmemflags = 0;
     return result;
 }
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 SWIGEXPORT void _wrap_sort__SWIG_1(SwigArrayWrapper *farg1) {
   int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
@@ -551,12 +564,12 @@ SWIGEXPORT int _wrap_is_sorted__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(do
 SWIGEXPORT void _wrap_argsort__SWIG_1(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3) {
   int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
-  int *arg3 = (int *) 0 ;
+  index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   
   arg1 = static_cast< int32_t * >(farg1->data);
   arg2 = farg1->size;
-  arg3 = static_cast< int * >(farg3->data);
+  arg3 = static_cast< index_int * >(farg3->data);
   arg4 = farg3->size;
   argsort< int32_t >((int32_t const *)arg1,arg2,arg3,arg4);
 }
@@ -565,12 +578,12 @@ SWIGEXPORT void _wrap_argsort__SWIG_1(SwigArrayWrapper *farg1, SwigArrayWrapper 
 SWIGEXPORT void _wrap_argsort__SWIG_2(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3) {
   int64_t *arg1 = (int64_t *) 0 ;
   size_t arg2 ;
-  int *arg3 = (int *) 0 ;
+  index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   
   arg1 = static_cast< int64_t * >(farg1->data);
   arg2 = farg1->size;
-  arg3 = static_cast< int * >(farg3->data);
+  arg3 = static_cast< index_int * >(farg3->data);
   arg4 = farg3->size;
   argsort< int64_t >((int64_t const *)arg1,arg2,arg3,arg4);
 }
@@ -579,12 +592,12 @@ SWIGEXPORT void _wrap_argsort__SWIG_2(SwigArrayWrapper *farg1, SwigArrayWrapper 
 SWIGEXPORT void _wrap_argsort__SWIG_3(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3) {
   double *arg1 = (double *) 0 ;
   size_t arg2 ;
-  int *arg3 = (int *) 0 ;
+  index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   
   arg1 = static_cast< double * >(farg1->data);
   arg2 = farg1->size;
-  arg3 = static_cast< int * >(farg3->data);
+  arg3 = static_cast< index_int * >(farg3->data);
   arg4 = farg3->size;
   argsort< double >((double const *)arg1,arg2,arg3,arg4);
 }
@@ -593,13 +606,13 @@ SWIGEXPORT void _wrap_argsort__SWIG_3(SwigArrayWrapper *farg1, SwigArrayWrapper 
 SWIGEXPORT void _wrap_argsort__SWIG_4(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(int32_t,int32_t)) {
   int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
-  int *arg3 = (int *) 0 ;
+  index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   bool (*arg5)(int32_t,int32_t) = (bool (*)(int32_t,int32_t)) 0 ;
   
   arg1 = static_cast< int32_t * >(farg1->data);
   arg2 = farg1->size;
-  arg3 = static_cast< int * >(farg3->data);
+  arg3 = static_cast< index_int * >(farg3->data);
   arg4 = farg3->size;
   arg5 = reinterpret_cast< bool (*)(int32_t,int32_t) >(farg5);
   argsort_cmp< int32_t >((int32_t const *)arg1,arg2,arg3,arg4,arg5);
@@ -609,13 +622,13 @@ SWIGEXPORT void _wrap_argsort__SWIG_4(SwigArrayWrapper *farg1, SwigArrayWrapper 
 SWIGEXPORT void _wrap_argsort__SWIG_5(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(int64_t,int64_t)) {
   int64_t *arg1 = (int64_t *) 0 ;
   size_t arg2 ;
-  int *arg3 = (int *) 0 ;
+  index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   bool (*arg5)(int64_t,int64_t) = (bool (*)(int64_t,int64_t)) 0 ;
   
   arg1 = static_cast< int64_t * >(farg1->data);
   arg2 = farg1->size;
-  arg3 = static_cast< int * >(farg3->data);
+  arg3 = static_cast< index_int * >(farg3->data);
   arg4 = farg3->size;
   arg5 = reinterpret_cast< bool (*)(int64_t,int64_t) >(farg5);
   argsort_cmp< int64_t >((int64_t const *)arg1,arg2,arg3,arg4,arg5);
@@ -625,13 +638,13 @@ SWIGEXPORT void _wrap_argsort__SWIG_5(SwigArrayWrapper *farg1, SwigArrayWrapper 
 SWIGEXPORT void _wrap_argsort__SWIG_6(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(double,double)) {
   double *arg1 = (double *) 0 ;
   size_t arg2 ;
-  int *arg3 = (int *) 0 ;
+  index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   bool (*arg5)(double,double) = (bool (*)(double,double)) 0 ;
   
   arg1 = static_cast< double * >(farg1->data);
   arg2 = farg1->size;
-  arg3 = static_cast< int * >(farg3->data);
+  arg3 = static_cast< index_int * >(farg3->data);
   arg4 = farg3->size;
   arg5 = reinterpret_cast< bool (*)(double,double) >(farg5);
   argsort_cmp< double >((double const *)arg1,arg2,arg3,arg4,arg5);
@@ -643,13 +656,13 @@ SWIGEXPORT int _wrap_binary_search__SWIG_1(SwigArrayWrapper *farg1, int32_t cons
   int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
   int32_t arg3 ;
-  int result;
+  index_int result;
   
   arg1 = static_cast< int32_t * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< int32_t >(*farg3);
-  result = (int)binary_search< int32_t >((int32_t const *)arg1,arg2,arg3);
-  fresult = static_cast< int >(result);
+  result = (index_int)binary_search< int32_t >((int32_t const *)arg1,arg2,arg3);
+  fresult = static_cast< index_int >(result);
   return fresult;
 }
 
@@ -659,13 +672,13 @@ SWIGEXPORT int _wrap_binary_search__SWIG_2(SwigArrayWrapper *farg1, int64_t cons
   int64_t *arg1 = (int64_t *) 0 ;
   size_t arg2 ;
   int64_t arg3 ;
-  int result;
+  index_int result;
   
   arg1 = static_cast< int64_t * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< int64_t >(*farg3);
-  result = (int)binary_search< int64_t >((int64_t const *)arg1,arg2,arg3);
-  fresult = static_cast< int >(result);
+  result = (index_int)binary_search< int64_t >((int64_t const *)arg1,arg2,arg3);
+  fresult = static_cast< index_int >(result);
   return fresult;
 }
 
@@ -675,13 +688,13 @@ SWIGEXPORT int _wrap_binary_search__SWIG_3(SwigArrayWrapper *farg1, double const
   double *arg1 = (double *) 0 ;
   size_t arg2 ;
   double arg3 ;
-  int result;
+  index_int result;
   
   arg1 = static_cast< double * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< double >(*farg3);
-  result = (int)binary_search< double >((double const *)arg1,arg2,arg3);
-  fresult = static_cast< int >(result);
+  result = (index_int)binary_search< double >((double const *)arg1,arg2,arg3);
+  fresult = static_cast< index_int >(result);
   return fresult;
 }
 
@@ -692,14 +705,14 @@ SWIGEXPORT int _wrap_binary_search__SWIG_4(SwigArrayWrapper *farg1, int32_t cons
   size_t arg2 ;
   int32_t arg3 ;
   bool (*arg4)(int32_t,int32_t) = (bool (*)(int32_t,int32_t)) 0 ;
-  int result;
+  index_int result;
   
   arg1 = static_cast< int32_t * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< int32_t >(*farg3);
   arg4 = reinterpret_cast< bool (*)(int32_t,int32_t) >(farg4);
-  result = (int)binary_search_cmp< int32_t >((int32_t const *)arg1,arg2,arg3,arg4);
-  fresult = static_cast< int >(result);
+  result = (index_int)binary_search_cmp< int32_t >((int32_t const *)arg1,arg2,arg3,arg4);
+  fresult = static_cast< index_int >(result);
   return fresult;
 }
 
@@ -710,14 +723,14 @@ SWIGEXPORT int _wrap_binary_search__SWIG_5(SwigArrayWrapper *farg1, int64_t cons
   size_t arg2 ;
   int64_t arg3 ;
   bool (*arg4)(int64_t,int64_t) = (bool (*)(int64_t,int64_t)) 0 ;
-  int result;
+  index_int result;
   
   arg1 = static_cast< int64_t * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< int64_t >(*farg3);
   arg4 = reinterpret_cast< bool (*)(int64_t,int64_t) >(farg4);
-  result = (int)binary_search_cmp< int64_t >((int64_t const *)arg1,arg2,arg3,arg4);
-  fresult = static_cast< int >(result);
+  result = (index_int)binary_search_cmp< int64_t >((int64_t const *)arg1,arg2,arg3,arg4);
+  fresult = static_cast< index_int >(result);
   return fresult;
 }
 
@@ -728,14 +741,14 @@ SWIGEXPORT int _wrap_binary_search__SWIG_6(SwigArrayWrapper *farg1, double const
   size_t arg2 ;
   double arg3 ;
   bool (*arg4)(double,double) = (bool (*)(double,double)) 0 ;
-  int result;
+  index_int result;
   
   arg1 = static_cast< double * >(farg1->data);
   arg2 = farg1->size;
   arg3 = static_cast< double >(*farg3);
   arg4 = reinterpret_cast< bool (*)(double,double) >(farg4);
-  result = (int)binary_search_cmp< double >((double const *)arg1,arg2,arg3,arg4);
-  fresult = static_cast< int >(result);
+  result = (index_int)binary_search_cmp< double >((double const *)arg1,arg2,arg3,arg4);
+  fresult = static_cast< index_int >(result);
   return fresult;
 }
 
@@ -779,7 +792,5 @@ SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigClassWrapper const *farg1, SwigArrayWr
 }
 
 
-#ifdef __cplusplus
-}
-#endif
+} // extern
 

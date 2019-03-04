@@ -9,14 +9,14 @@
 
 module fortran_comparators
   use, intrinsic :: ISO_C_BINDING
+  use flc_algorithm, only : INDEX_INT
   implicit none
   public
 contains
 function compare_ge(left, right) bind(C) &
     result(fresult)
-  use, intrinsic :: ISO_C_BINDING
-  integer(C_INT), intent(in), value :: left
-  integer(C_INT), intent(in), value :: right
+  integer(INDEX_INT), intent(in), value :: left
+  integer(INDEX_INT), intent(in), value :: right
   logical(C_BOOL) :: fresult
 
   fresult = (left >= right)
@@ -55,9 +55,9 @@ end subroutine
 subroutine test_sort_compare()
   use, intrinsic :: ISO_C_BINDING
   use fortran_comparators, only : compare_ge
-  use flc_algorithm, only : sort
+  use flc_algorithm, only : sort, INDEX_INT
   implicit none
-  integer(C_INT), dimension(:), allocatable :: arr
+  integer(INDEX_INT), dimension(:), allocatable :: arr
 
   allocate(arr(5), source=[ 2, 3, 4, 4, 9])
 
@@ -68,10 +68,10 @@ end subroutine
 !-----------------------------------------------------------------------------!
 subroutine test_argsort()
   use, intrinsic :: ISO_C_BINDING
-  use flc_algorithm, only : argsort
+  use flc_algorithm, only : argsort, INDEX_INT
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
-  integer(C_INT), dimension(5) :: idx
+  integer(INDEX_INT), dimension(5) :: idx
 
   ! Call correctly, with size(idx) == size(iarr)
   call argsort(iarr, idx)
@@ -97,7 +97,7 @@ subroutine test_shuffle()
   use flc_random, only : Engine
   implicit none
   integer :: i
-  integer(C_INT), dimension(8) :: iarr = (/ ((i), i = -4, 3) /)
+  integer, dimension(8) :: iarr = (/ ((i), i = -4, 3) /)
   type(Engine) :: rng
   rng = Engine()
 

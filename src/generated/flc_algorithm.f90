@@ -16,21 +16,19 @@ module flc_algorithm
  private
 
  ! DECLARATION CONSTRUCTS
+integer, parameter, public :: INDEX_INT = C_INT
+
  type, bind(C) :: SwigArrayWrapper
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
  end type
- enum, bind(c)
-  enumerator :: SWIG_NULL
-  enumerator :: SWIG_OWN
-  enumerator :: SWIG_MOVE
-  enumerator :: SWIG_REF
-  enumerator :: SWIG_CREF
- end enum
- integer, parameter :: SwigMemState = kind(SWIG_NULL)
+
+ integer, parameter :: swig_cmem_own_bit = 0
+ integer, parameter :: swig_cmem_rvalue_bit = 1
+ integer, parameter :: swig_cmem_const_bit = 2
  type, bind(C) :: SwigClassWrapper
   type(C_PTR), public :: cptr = C_NULL_PTR
-  integer(C_INT), public :: mem = SWIG_NULL
+  integer(C_INT), public :: cmemflags = 0
  end type
  interface binary_search
   module procedure swigf_binary_search__SWIG_1, swigf_binary_search__SWIG_2, swigf_binary_search__SWIG_3, &
@@ -746,7 +744,7 @@ end subroutine
 function swigf_binary_search__SWIG_1(data, value) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT) :: swig_result
+integer(INDEX_INT) :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT32_T), intent(in) :: value
@@ -770,7 +768,7 @@ end function
 function swigf_binary_search__SWIG_2(data, value) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT) :: swig_result
+integer(INDEX_INT) :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT64_T), intent(in) :: value
@@ -794,7 +792,7 @@ end function
 function swigf_binary_search__SWIG_3(data, value) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT) :: swig_result
+integer(INDEX_INT) :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 real(C_DOUBLE), intent(in) :: value
@@ -818,7 +816,7 @@ end function
 function swigf_binary_search__SWIG_4(data, value, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT) :: swig_result
+integer(INDEX_INT) :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT32_T), intent(in) :: value
@@ -845,7 +843,7 @@ end function
 function swigf_binary_search__SWIG_5(data, value, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT) :: swig_result
+integer(INDEX_INT) :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT64_T), intent(in) :: value
@@ -872,7 +870,7 @@ end function
 function swigf_binary_search__SWIG_6(data, value, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
-integer(C_INT) :: swig_result
+integer(INDEX_INT) :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 real(C_DOUBLE), intent(in) :: value

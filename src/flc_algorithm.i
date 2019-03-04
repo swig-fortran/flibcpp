@@ -36,10 +36,24 @@ static RETURN_TYPE FUNCNAME ## _cmp(ARGS, bool (*cmp)(T, T)) {
 %enddef
 
 /******************************
+ * Types
+ ******************************/
+
+%inline %{
+typedef int index_int;
+%}
+%insert("fdecl") %{integer, parameter, public :: INDEX_INT = C_INT
+%}
+
+%apply int { index_int };
+%typemap(ftype, in={integer(INDEX_INT), intent(in)}) index_int
+   %{integer(INDEX_INT)%}
+
+/******************************
  * Sorting
  ******************************/
 
-%apply (SWIGTYPE *DATA, size_t SIZE) { (int *IDX, size_t IDXSIZE) };
+%apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
 %{
 template<class T, class Compare>
@@ -54,7 +68,7 @@ static bool is_sorted_impl(const T *data, size_t size, Compare cmp) {
 
 template<class T, class Compare>
 static void argsort_impl(const T *data, size_t size,
-                         int *index, size_t index_size,
+                         index_int *index, size_t index_size,
                          Compare cmp) {
   // Fill invalid indices with zero
   if (size < index_size) {
@@ -64,7 +78,7 @@ static void argsort_impl(const T *data, size_t size,
   // Fill the indices with 1 through size
   std::iota(index, index + size, 1);
   // Define a comparator that accesses the original data
-  auto int_sort_cmp = [cmp, data](int left, int right)
+  auto int_sort_cmp = [cmp, data](index_int left, index_int right)
   { return cmp(data[left - 1], data[right - 1]); };
   // Let the standard library do all the hard work!
   std::sort(index, index + size, int_sort_cmp);
@@ -77,7 +91,7 @@ static void argsort_impl(const T *data, size_t size,
 %flc_cmp_algorithm(bool, is_sorted, %arg(const T *DATA, size_t DATASIZE),
                    %arg(DATA, DATASIZE))
 %flc_cmp_algorithm(void, argsort, %arg(const T *DATA, size_t DATASIZE,
-                                       int *IDX, size_t IDXSIZE),
+                                       index_int *IDX, size_t IDXSIZE),
                    %arg(DATA, DATASIZE, IDX, IDXSIZE))
 
 /******************************
@@ -86,17 +100,17 @@ static void argsort_impl(const T *data, size_t size,
 
 %{
 template<class T, class Compare>
-static int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
+static index_int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
   const T *end = data + size;
   auto iter = std::lower_bound(data, end, value, cmp);
   if (iter == end || cmp(*iter, value) || cmp(value, *iter))
-      return 0;
+    return 0;
   // Index of the found item *IN FORTAN INDEXING*
   return (iter - data) + 1;
 }
 %}
 
-%flc_cmp_algorithm(int, binary_search, %arg(const T *DATA, size_t DATASIZE,
+%flc_cmp_algorithm(index_int, binary_search, %arg(const T *DATA, size_t DATASIZE,
                                             T value),
                    %arg(DATA, DATASIZE, value))
 

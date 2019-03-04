@@ -193,8 +193,15 @@ template <typename T> T SwigValueInit() {
  { throw std::logic_error("In " DECL ": " MSG); }
 
 
+enum SwigMemFlags {
+    SWIG_MEM_OWN = 0x01,
+    SWIG_MEM_RVALUE = 0x02,
+    SWIG_MEM_CONST = 0x04
+};
+
+
 #define SWIG_check_mutable(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-    if ((SWIG_CLASS_WRAPPER).mem == SWIG_CREF) { \
+    if ((SWIG_CLASS_WRAPPER).cmemflags & SWIG_MEM_CONST) { \
         SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
             "Cannot pass const " TYPENAME " (class " FNAME ") " \
             "as a mutable reference", \
@@ -203,7 +210,7 @@ template <typename T> T SwigValueInit() {
 
 
 #define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if ((SWIG_CLASS_WRAPPER).mem == SWIG_NULL) { \
+  if (!(SWIG_CLASS_WRAPPER).cptr) { \
     SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -216,23 +223,14 @@ template <typename T> T SwigValueInit() {
 
 
 namespace swig {
-
-enum AssignmentFlags {
-  IS_DESTR       = 0x01,
-  IS_COPY_CONSTR = 0x02,
-  IS_COPY_ASSIGN = 0x04,
-  IS_MOVE_CONSTR = 0x08,
-  IS_MOVE_ASSIGN = 0x10
+enum AssignmentType {
+  ASSIGNMENT_DEFAULT,
+  ASSIGNMENT_NODESTRUCT,
+  ASSIGNMENT_SMARTPTR
 };
-
-template<class T, int Flags>
-struct assignment_flags;
 }
 
-
-#define SWIG_assign(LEFTTYPE, LEFT, RIGHTTYPE, RIGHT, FLAGS) \
-    SWIG_assign_impl<LEFTTYPE, RIGHTTYPE, swig::assignment_flags<LEFTTYPE, FLAGS >::value >(LEFT, RIGHT);
-
+#define SWIGPOLICY_std__mt19937_64 swig::ASSIGNMENT_DEFAULT
 
 #include <stdexcept>
 
@@ -257,252 +255,121 @@ struct assignment_flags;
 #include <random>
 
 
-enum SwigMemState {
-    SWIG_NULL,
-    SWIG_OWN,
-    SWIG_MOVE,
-    SWIG_REF,
-    SWIG_CREF
-};
-
-
 struct SwigClassWrapper {
     void* cptr;
-    SwigMemState mem;
+    int cmemflags;
 };
 
 
 SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
     SwigClassWrapper result;
     result.cptr = NULL;
-    result.mem = SWIG_NULL;
+    result.cmemflags = 0;
     return result;
 }
 
 
-#include <utility>
+namespace swig {
+
+template<class T, AssignmentType A>
+struct DestructorPolicy {
+  static SwigClassWrapper destruct(SwigClassWrapper self) {
+    delete static_cast<T*>(self.cptr);
+    return SwigClassWrapper_uninitialized();
+  }
+};
+template<class T>
+struct DestructorPolicy<T, ASSIGNMENT_NODESTRUCT> {
+  static SwigClassWrapper destruct(SwigClassWrapper self) {
+    SWIG_exception_impl("assignment", SWIG_TypeError, "Invalid assignment: class type has private destructor", return SwigClassWrapper_uninitialized());
+  }
+};
+}
 
 
 namespace swig {
 
-// Define our own switching struct to support pre-c++11 builds
-template<bool Val>
-struct bool_constant {};
-typedef bool_constant<true>  true_type;
-typedef bool_constant<false> false_type;
-
-// Deletion
-template<class T>
-SWIGINTERN void destruct_impl(T* self, true_type) {
-  delete self;
-}
-template<class T>
-SWIGINTERN T* destruct_impl(T* , false_type) {
-  SWIG_exception_impl("assignment", SWIG_TypeError,
-                      "Invalid assignment: class type has no destructor",
-                      return NULL);
-}
-
-// Copy construction and assignment
-template<class T, class U>
-SWIGINTERN T* copy_construct_impl(const U* other, true_type) {
-  return new T(*other);
-}
-template<class T, class U>
-SWIGINTERN void copy_assign_impl(T* self, const U* other, true_type) {
-  *self = *other;
-}
-
-// Disabled construction and assignment
-template<class T, class U>
-SWIGINTERN T* copy_construct_impl(const U* , false_type) {
-  SWIG_exception_impl("assignment", SWIG_TypeError,
-                      "Invalid assignment: class type has no copy constructor",
-                      return NULL);
-}
-template<class T, class U>
-SWIGINTERN void copy_assign_impl(T* , const U* , false_type) {
-  SWIG_exception_impl("assignment", SWIG_TypeError,
-                      "Invalid assignment: class type has no copy assignment",
-                      return);
-}
-
-#if __cplusplus >= 201103L
-#include <utility>
-#include <type_traits>
-
-// Move construction and assignment
-template<class T, class U>
-SWIGINTERN T* move_construct_impl(U* other, true_type) {
-  return new T(std::move(*other));
-}
-template<class T, class U>
-SWIGINTERN void move_assign_impl(T* self, U* other, true_type) {
-  *self = std::move(*other);
-}
-
-// Disabled move construction and assignment
-template<class T, class U>
-SWIGINTERN T* move_construct_impl(U*, false_type) {
-  SWIG_exception_impl("assignment", SWIG_TypeError,
-                      "Invalid assignment: class type has no move constructor",
-                      return NULL);
-}
-template<class T, class U>
-SWIGINTERN void move_assign_impl(T*, U*, false_type) {
-  SWIG_exception_impl("assignment", SWIG_TypeError,
-                      "Invalid assignment: class type has no move assignment",
-                      return);
-}
-
-template<class T, int Flags>
-struct assignment_flags {
-  constexpr static int value =
-             (std::is_destructible<T>::value       ? IS_DESTR       : 0)
-           | (std::is_copy_constructible<T>::value ? IS_COPY_CONSTR : 0)
-           | (std::is_copy_assignable<T>::value    ? IS_COPY_ASSIGN : 0)
-           | (std::is_move_constructible<T>::value ? IS_MOVE_CONSTR : 0)
-           | (std::is_move_assignable<T>::value    ? IS_MOVE_ASSIGN : 0);
+template<class T, AssignmentType A>
+struct AssignmentPolicy {
+  static SwigClassWrapper destruct(SwigClassWrapper self) {
+    return DestructorPolicy<T, A>::destruct(self);
+  }
+  static SwigClassWrapper alias(SwigClassWrapper other) {
+    SwigClassWrapper self;
+    self.cptr = other.cptr;
+    self.cmemflags = other.cmemflags & ~SWIG_MEM_OWN;
+    return self;
+  }
+  static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    if (self.cmemflags & SWIG_MEM_OWN) {
+      destruct(self);
+    }
+    self.cptr = other.cptr;
+    self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
+    return self;
+  }
+  static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    if (self.cmemflags & SWIG_MEM_OWN) {
+      destruct(self);
+    }
+    self.cptr = other.cptr;
+    self.cmemflags = other.cmemflags & ~SWIG_MEM_OWN;
+    return self;
+  }
 };
 
-#else
-
-template<class T, int Flags>
-struct assignment_flags {
-  enum { value = Flags };
-};
-
-#endif
-
-template<class T, int Flags>
-struct AssignmentTraits {
-  static void destruct(T* self) {
-    destruct_impl<T>(self, bool_constant<Flags & IS_DESTR>());
+template<class T>
+struct AssignmentPolicy<T, ASSIGNMENT_SMARTPTR> {
+  static SwigClassWrapper destruct(SwigClassWrapper self) {
+    return DestructorPolicy<T, ASSIGNMENT_SMARTPTR>::destruct(self);
   }
-
-  template<class U>
-  static T* copy_construct(const U* other) {
-    return copy_construct_impl<T,U>(other, bool_constant<bool(Flags & IS_COPY_CONSTR)>());
+  static SwigClassWrapper alias(SwigClassWrapper other) {
+    SwigClassWrapper self;
+    self.cptr = new T(*static_cast<T*>(other.cptr));
+    self.cmemflags = other.cmemflags | SWIG_MEM_OWN;
+    return self;
   }
-
-  template<class U>
-  static void copy_assign(T* self, const U* other) {
-    copy_assign_impl<T,U>(self, other, bool_constant<bool(Flags & IS_COPY_ASSIGN)>());
+  static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    self = copy_alias(self, other);
+    self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
+    destruct(other);
+    return self;
   }
-
-#if __cplusplus >= 201103L
-  template<class U>
-  static T* move_construct(U* other) {
-    return move_construct_impl<T,U>(other, bool_constant<bool(Flags & IS_MOVE_CONSTR)>());
+  static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    // LHS and RHS should both 'own' their shared pointers
+    T *pself = static_cast<T*>(self.cptr);
+    T *pother = static_cast<T*>(other.cptr);
+    *pself = *pother;
+    return self;
   }
-  template<class U>
-  static void move_assign(T* self, U* other) {
-    move_assign_impl<T,U>(self, other, bool_constant<bool(Flags & IS_MOVE_ASSIGN)>());
-  }
-#else
-  template<class U>
-  static T* move_construct(U* other) {
-    return copy_construct_impl<T,U>(other, bool_constant<bool(Flags & IS_COPY_CONSTR)>());
-  }
-  template<class U>
-  static void move_assign(T* self, U* other) {
-    copy_assign_impl<T,U>(self, other, bool_constant<bool(Flags & IS_COPY_ASSIGN)>());
-  }
-#endif
 };
 
 } // end namespace swig
 
+template<class T, swig::AssignmentType A>
+SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
+  typedef swig::AssignmentPolicy<T, A> Policy_t;
 
-template<class T1, class T2, int AFlags>
-SWIGINTERN void SWIG_assign_impl(SwigClassWrapper* self, const SwigClassWrapper* other) {
-  typedef swig::AssignmentTraits<T1, AFlags> Traits_t;
-  T1* pself  = static_cast<T1*>(self->cptr);
-  T2* pother = static_cast<T2*>(other->cptr);
-
-  switch (self->mem) {
-    case SWIG_NULL:
-      /* LHS is unassigned */
-      switch (other->mem) {
-        case SWIG_NULL: /* null op */
-          break;
-        case SWIG_MOVE: /* capture pointer from RHS */
-          self->cptr = other->cptr;
-          self->mem = SWIG_OWN;
-          break;
-        case SWIG_OWN: /* copy from RHS */
-          self->cptr = Traits_t::copy_construct(pother);
-          self->mem = SWIG_OWN;
-          break;
-        case SWIG_REF: /* pointer to RHS */
-        case SWIG_CREF:
-          self->cptr = other->cptr;
-          self->mem = other->mem;
-          break;
-      }
-      break;
-    case SWIG_OWN:
-      /* LHS owns memory */
-      switch (other->mem) {
-        case SWIG_NULL:
-          /* Delete LHS */
-          Traits_t::destruct(pself);
-          self->cptr = NULL;
-          self->mem = SWIG_NULL;
-          break;
-        case SWIG_MOVE:
-          /* Move RHS into LHS; delete RHS */
-          Traits_t::move_assign(pself, pother);
-          Traits_t::destruct(pother);
-          break;
-        case SWIG_OWN:
-        case SWIG_REF:
-        case SWIG_CREF:
-          /* Copy RHS to LHS */
-          Traits_t::copy_assign(pself, pother);
-          break;
-      }
-      break;
-    case SWIG_MOVE:
-      SWIG_exception_impl("assignment", SWIG_RuntimeError,
-        "Left-hand side of assignment should never be in a 'MOVE' state",
-        return);
-      break;
-    case SWIG_REF:
-      /* LHS is a reference */
-      switch (other->mem) {
-        case SWIG_NULL:
-          /* Remove LHS reference */
-          self->cptr = NULL;
-          self->mem = SWIG_NULL;
-          break;
-        case SWIG_MOVE:
-          /* Move RHS into LHS; delete RHS. The original ownership stays the
-           * same. */
-          Traits_t::move_assign(pself, pother);
-          Traits_t::destruct(pother);
-          break;
-        case SWIG_OWN:
-        case SWIG_REF:
-        case SWIG_CREF:
-          /* Copy RHS to LHS */
-          Traits_t::copy_assign(pself, pother);
-          break;
-      }
-      break;
-    case SWIG_CREF:
-      switch (other->mem) {
-        case SWIG_NULL:
-          /* Remove LHS reference */
-          self->cptr = NULL;
-          self->mem = SWIG_NULL;
-          break;
-        default:
-          SWIG_exception_impl("assignment", SWIG_RuntimeError,
-              "Cannot assign to a const reference", return);
-          break;
-      }
-      break;
+  if (self->cptr == NULL) {
+    /* LHS is unassigned */
+    if (other.cmemflags & SWIG_MEM_RVALUE) {
+      /* Capture pointer from RHS, clear 'moving' flag */
+      self->cptr = other.cptr;
+      self->cmemflags = other.cmemflags & (~SWIG_MEM_RVALUE);
+    } else {
+      /* Aliasing another class; clear ownership or copy smart pointer */
+      *self = Policy_t::alias(other);
+    }
+  } else if (other.cptr == NULL) {
+    /* Replace LHS with a null pointer */
+    *self = Policy_t::destruct(*self);
+  } else if (other.cmemflags & SWIG_MEM_RVALUE) {
+    /* Transferred ownership from a variable that's about to be lost.
+     * Move-assign and delete the transient data */
+    *self = Policy_t::move_alias(*self, other);
+  } else {
+    /* RHS shouldn't be deleted, alias to LHS */
+    *self = Policy_t::copy_alias(*self, other);
   }
 }
 
@@ -586,16 +453,14 @@ static void normal_distribution(double mean, double stddev,
     }
 }
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 SWIGEXPORT SwigClassWrapper _wrap_new_Engine__SWIG_0() {
   SwigClassWrapper fresult ;
   std::mt19937_64 *result = 0 ;
   
   result = (std::mt19937_64 *)new std::mt19937_64();
   fresult.cptr = result;
-  fresult.mem = (1 ? SWIG_MOVE : SWIG_REF);
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
   return fresult;
 }
 
@@ -608,7 +473,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_Engine__SWIG_1(int64_t const *farg1) {
   arg1 = static_cast< std::mt19937_64::result_type >(*farg1);
   result = (std::mt19937_64 *)new std::mt19937_64(arg1);
   fresult.cptr = result;
-  fresult.mem = (1 ? SWIG_MOVE : SWIG_REF);
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
   return fresult;
 }
 
@@ -638,7 +503,8 @@ SWIGEXPORT void _wrap_Engine_discard(SwigClassWrapper const *farg1, long long co
 SWIGEXPORT void _wrap_delete_Engine(SwigClassWrapper *farg1) {
   std::mt19937_64 *arg1 = (std::mt19937_64 *) 0 ;
   
-  (void)sizeof(farg1);
+  SWIG_check_mutable(*farg1, "std::mt19937_64 *", "Engine", "std::mt19937_64::~mt19937_64()", return );
+  arg1 = static_cast< std::mt19937_64 * >(farg1->cptr);
   delete arg1;
 }
 
@@ -649,8 +515,8 @@ SWIGEXPORT void _wrap_Engine_op_assign__(SwigClassWrapper *farg1, SwigClassWrapp
   
   (void)sizeof(arg1);
   (void)sizeof(arg2);
-  typedef std::mt19937_64 swig_lhs_classtype;
-  SWIG_assign(swig_lhs_classtype, farg1, swig_lhs_classtype, farg2, 0 | swig::IS_DESTR | swig::IS_COPY_CONSTR);
+  SWIG_assign<std::mt19937_64, SWIGPOLICY_std__mt19937_64>(farg1, *farg2);
+  
 }
 
 
@@ -737,7 +603,5 @@ SWIGEXPORT void _wrap_normal_distribution__SWIG_1(double const *farg1, double co
 }
 
 
-#ifdef __cplusplus
-}
-#endif
+} // extern
 

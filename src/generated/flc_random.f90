@@ -15,17 +15,13 @@ module flc_random
  private
 
  ! DECLARATION CONSTRUCTS
- enum, bind(c)
-  enumerator :: SWIG_NULL
-  enumerator :: SWIG_OWN
-  enumerator :: SWIG_MOVE
-  enumerator :: SWIG_REF
-  enumerator :: SWIG_CREF
- end enum
- integer, parameter :: SwigMemState = kind(SWIG_NULL)
+
+ integer, parameter :: swig_cmem_own_bit = 0
+ integer, parameter :: swig_cmem_rvalue_bit = 1
+ integer, parameter :: swig_cmem_const_bit = 2
  type, bind(C) :: SwigClassWrapper
   type(C_PTR), public :: cptr = C_NULL_PTR
-  integer(C_INT), public :: mem = SWIG_NULL
+  integer(C_INT), public :: cmemflags = 0
  end type
  ! class std::mt19937_64
  type, public :: Engine
@@ -33,7 +29,7 @@ module flc_random
  contains
   procedure :: seed => swigf_Engine_seed
   procedure :: discard => swigf_Engine_discard
-  procedure :: release => delete_Engine
+  procedure :: release => swigf_release_Engine
   procedure, private :: swigf_Engine_op_assign__
   generic :: assignment(=) => swigf_Engine_op_assign__
  end type Engine
@@ -211,17 +207,18 @@ farg2 = arg1
 call swigc_Engine_discard(farg1, farg2)
 end subroutine
 
-subroutine delete_Engine(self)
+subroutine swigf_release_Engine(self)
 use, intrinsic :: ISO_C_BINDING
 class(Engine), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 
 
 farg1 = self%swigdata
-if (self%swigdata%mem == SWIG_OWN) then
+if (btest(farg1%cmemflags, swig_cmem_own_bit)) then
 call swigc_delete_Engine(farg1)
-end if
-self%swigdata%cptr = C_NULL_PTR
-self%swigdata%mem = SWIG_NULL
+endif
+farg1%cptr = C_NULL_PTR
+farg1%cmemflags = 0
+self%swigdata = farg1
 end subroutine
 
 subroutine swigf_Engine_op_assign__(self, other)

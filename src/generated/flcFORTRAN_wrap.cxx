@@ -221,10 +221,6 @@ using std::size_t;
 
 #include <stdint.h>
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-#ifdef __cplusplus
-}
-#endif
+} // extern
 
