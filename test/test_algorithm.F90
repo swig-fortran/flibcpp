@@ -8,13 +8,13 @@
 #include "fassert.h"
 
 module fortran_comparators
-  use, intrinsic :: ISO_C_BINDING
   use flc_algorithm, only : INDEX_INT
   implicit none
   public
 contains
 function compare_ge(left, right) bind(C) &
     result(fresult)
+  use, intrinsic :: ISO_C_BINDING
   integer(INDEX_INT), intent(in), value :: left
   integer(INDEX_INT), intent(in), value :: right
   logical(C_BOOL) :: fresult
@@ -69,7 +69,6 @@ end subroutine
 
 !-----------------------------------------------------------------------------!
 subroutine test_argsort()
-  use, intrinsic :: ISO_C_BINDING
   use flc_algorithm, only : argsort, INDEX_INT
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
@@ -95,7 +94,6 @@ end subroutine
 
 !-----------------------------------------------------------------------------!
 subroutine test_shuffle()
-  use, intrinsic :: ISO_C_BINDING
   use flc_algorithm, only : shuffle
   use flc_random, only : Engine
   implicit none
@@ -112,7 +110,6 @@ end subroutine
 
 !-----------------------------------------------------------------------------!
 subroutine test_binary_search()
-  use, intrinsic :: ISO_C_BINDING
   use flc_algorithm, only : binary_search
   implicit none
   integer, dimension(6) :: iarr = [ -5, 1, 1, 2, 4, 9]
@@ -128,7 +125,6 @@ end subroutine
 
 !-----------------------------------------------------------------------------!
 subroutine test_minmax_element()
-  use, intrinsic :: ISO_C_BINDING
   use flc_algorithm, only : minmax_element, INDEX_INT
   implicit none
   integer, dimension(6) :: iarr = [ -5, 1000, -1000, 999, -1000, 1000]

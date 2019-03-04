@@ -158,6 +158,18 @@ shuffle
 The "shuffle" subroutine depends on the :ref:`modules_random` module so that it
 can use the supported random number generator to randomly reorder an array.
 
+Example::
+
+  use flc_algorithm, only : shuffle
+  use flc_random, only : Engine
+  implicit none
+  integer :: i
+  integer, dimension(8) :: iarr = (/ ((i), i = -4, 3) /)
+  type(Engine) :: rng
+  rng = Engine()
+
+  call shuffle(rng, iarr)
+
 unique
 ------
 
