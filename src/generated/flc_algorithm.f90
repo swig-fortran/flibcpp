@@ -49,6 +49,11 @@ integer, parameter, public :: INDEX_INT = C_INT
     swigf_is_sorted__SWIG_5, swigf_is_sorted__SWIG_6
  end interface
  public :: is_sorted
+ interface equal_range
+  module procedure swigf_equal_range__SWIG_1, swigf_equal_range__SWIG_2, swigf_equal_range__SWIG_3, swigf_equal_range__SWIG_4, &
+    swigf_equal_range__SWIG_5, swigf_equal_range__SWIG_6
+ end interface
+ public :: equal_range
  interface sort
   module procedure swigf_sort__SWIG_1, swigf_sort__SWIG_2, swigf_sort__SWIG_3, swigf_sort__SWIG_4, swigf_sort__SWIG_5, &
     swigf_sort__SWIG_6
@@ -277,6 +282,69 @@ real(C_DOUBLE), intent(in) :: farg3
 type(C_FUNPTR), value :: farg4
 integer(C_INT) :: fresult
 end function
+
+subroutine swigc_equal_range__SWIG_1(farg1, farg3, farg4, farg5) &
+bind(C, name="_wrap_equal_range__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT32_T), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+end subroutine
+
+subroutine swigc_equal_range__SWIG_2(farg1, farg3, farg4, farg5) &
+bind(C, name="_wrap_equal_range__SWIG_2")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT64_T), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+end subroutine
+
+subroutine swigc_equal_range__SWIG_3(farg1, farg3, farg4, farg5) &
+bind(C, name="_wrap_equal_range__SWIG_3")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+real(C_DOUBLE), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+end subroutine
+
+subroutine swigc_equal_range__SWIG_4(farg1, farg3, farg4, farg5, farg6) &
+bind(C, name="_wrap_equal_range__SWIG_4")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT32_T), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+type(C_FUNPTR), value :: farg6
+end subroutine
+
+subroutine swigc_equal_range__SWIG_5(farg1, farg3, farg4, farg5, farg6) &
+bind(C, name="_wrap_equal_range__SWIG_5")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT64_T), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+type(C_FUNPTR), value :: farg6
+end subroutine
+
+subroutine swigc_equal_range__SWIG_6(farg1, farg3, farg4, farg5, farg6) &
+bind(C, name="_wrap_equal_range__SWIG_6")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+real(C_DOUBLE), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+type(C_FUNPTR), value :: farg6
+end subroutine
 
 subroutine swigc_minmax_element__SWIG_1(farg1, farg3, farg4) &
 bind(C, name="_wrap_minmax_element__SWIG_1")
@@ -955,6 +1023,171 @@ farg4 = cmp
 fresult = swigc_binary_search__SWIG_6(farg1, farg3, farg4)
 swig_result = fresult
 end function
+
+subroutine swigf_equal_range__SWIG_1(data, value, first_index, last_index)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), intent(in), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT32_T), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT32_T) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+call swigc_equal_range__SWIG_1(farg1, farg3, farg4, farg5)
+end subroutine
+
+subroutine swigf_equal_range__SWIG_2(data, value, first_index, last_index)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), intent(in), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT64_T), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT64_T) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+call swigc_equal_range__SWIG_2(farg1, farg3, farg4, farg5)
+end subroutine
+
+subroutine swigf_equal_range__SWIG_3(data, value, first_index, last_index)
+use, intrinsic :: ISO_C_BINDING
+real(C_DOUBLE), dimension(:), intent(in), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+real(C_DOUBLE), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+type(SwigArrayWrapper) :: farg1 
+real(C_DOUBLE) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+call swigc_equal_range__SWIG_3(farg1, farg3, farg4, farg5)
+end subroutine
+
+subroutine swigf_equal_range__SWIG_4(data, value, first_index, last_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), intent(in), target :: data
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT32_T), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT32_T) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+type(C_FUNPTR) :: farg6 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+farg6 = cmp
+call swigc_equal_range__SWIG_4(farg1, farg3, farg4, farg5, farg6)
+end subroutine
+
+subroutine swigf_equal_range__SWIG_5(data, value, first_index, last_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), intent(in), target :: data
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT64_T), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT64_T) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+type(C_FUNPTR) :: farg6 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+farg6 = cmp
+call swigc_equal_range__SWIG_5(farg1, farg3, farg4, farg5, farg6)
+end subroutine
+
+subroutine swigf_equal_range__SWIG_6(data, value, first_index, last_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+real(C_DOUBLE), dimension(:), intent(in), target :: data
+real(C_DOUBLE), pointer :: farg1_view
+real(C_DOUBLE), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+type(C_FUNPTR), intent(in), value :: cmp
+type(SwigArrayWrapper) :: farg1 
+real(C_DOUBLE) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+type(C_FUNPTR) :: farg6 
+
+if (size(data) > 0) then
+farg1_view => data(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+farg6 = cmp
+call swigc_equal_range__SWIG_6(farg1, farg3, farg4, farg5, farg6)
+end subroutine
 
 subroutine swigf_minmax_element__SWIG_1(data, min_index, max_index)
 use, intrinsic :: ISO_C_BINDING

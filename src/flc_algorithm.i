@@ -110,12 +110,16 @@ static index_int binary_search_impl(const T *data, size_t size, T value, Compare
 }
 
 template<class T, class Compare>
+static void equal_range_impl(const T *data, size_t size, T value, index_int *first_index, index_int *last_index, Compare cmp) {
+  const T *end = data + size;
+  auto range_pair = std::equal_range(data, end, value, cmp);
+  // Index of the min/max items *IN FORTAN INDEXING*
+  *first_index = range_pair.first - data + 1;
+  *last_index = range_pair.second - data;
+}
+
+template<class T, class Compare>
 static void minmax_element_impl(const T *data, size_t size, index_int *min_index, index_int *max_index, Compare cmp) {
-  if (size == 0) {
-    *min_index = 0;
-    *max_index = 0;
-    return;
-  }
   const T *end = data + size;
   auto mm_pair = std::minmax_element(data, end, cmp);
   // Index of the min/max items *IN FORTAN INDEXING*
@@ -127,6 +131,11 @@ static void minmax_element_impl(const T *data, size_t size, index_int *min_index
 %flc_cmp_algorithm(index_int, binary_search, %arg(const T *DATA, size_t DATASIZE,
                                             T value),
                    %arg(DATA, DATASIZE, value))
+
+%flc_cmp_algorithm(void, equal_range, %arg(const T *DATA, size_t DATASIZE,
+                                           T value,
+                                           index_int *first_index, index_int *last_index),
+                   %arg(DATA, DATASIZE, value, first_index, last_index))
 
 %flc_cmp_algorithm(void, minmax_element, %arg(const T *DATA, size_t DATASIZE,
                                             index_int *min_index, index_int *max_index),

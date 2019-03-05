@@ -98,6 +98,31 @@ Example::
   idx = binary_search(iarr, 9)    ! returns 6
   idx = binary_search(iarr, 10)   ! returns 0
 
+equal_range
+-----------
+
+Finds the range of elements in a sorted array equivalent to the given value. If
+the exact value isn't present, the first index will point
+to the index at which the value could be inserted to maintain a sorted array.
+If searching for a value that's in the sorted array more than once, the
+expression ``arr(first_idx:last_idx)`` will return the equal values. If the
+value isn't present, ``arr(first_idx:last_idx)`` will be an empty array, and
+the first index will be the point at which the element would be located if it
+were present.
+
+Example::
+  use flc_algorithm, only : equal_range, INDEX_INT
+  implicit none
+  integer(INDEX_INT) :: first, last
+  integer, dimension(6) :: iarr = [ -5, 1, 1, 2, 4, 9]
+
+  call equal_range(iarr, -6, first, last) ! (first,last) are (1,0)
+  call equal_range(iarr, -5, first, last) ! (first,last) are (1,1)
+  call equal_range(iarr,  1, first, last) ! (first,last) are (2,3)
+  call equal_range(iarr,  3, first, last) ! (first,last) are (5,4)
+  call equal_range(iarr,  9, first, last) ! (first,last) are (6,6)
+
+
 minmax_element
 --------------
 

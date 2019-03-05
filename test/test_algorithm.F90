@@ -30,6 +30,7 @@ program test_algorithm
   call test_argsort()
   call test_shuffle()
   call test_binary_search()
+  call test_equal_range()
   call test_minmax_element()
 contains
 
@@ -120,6 +121,45 @@ subroutine test_binary_search()
   ASSERT(binary_search(iarr, 3) == 0) ! not found
   ASSERT(binary_search(iarr, 9) == 6)
   ASSERT(binary_search(iarr, 10) == 0)
+
+end subroutine
+
+!-----------------------------------------------------------------------------!
+subroutine test_equal_range()
+  use flc_algorithm, only : equal_range, INDEX_INT
+  implicit none
+  integer(INDEX_INT) :: first_idx, last_idx
+  integer, dimension(6) :: iarr = [ -5, 1, 1, 2, 4, 9]
+
+  call equal_range(iarr, -6, first_idx, last_idx)
+  ASSERT(first_idx == 1)
+  ASSERT(last_idx == 0)
+  write(*,"(A,(8I4))") "Equal to -6:", iarr(first_idx:last_idx)
+
+  call equal_range(iarr, -5, first_idx, last_idx)
+  ASSERT(first_idx == 1)
+  ASSERT(last_idx == 1)
+  write(*,"(A,(8I4))") "Equal to -5:", iarr(first_idx:last_idx)
+
+  call equal_range(iarr, 1, first_idx, last_idx)
+  ASSERT(first_idx == 2)
+  ASSERT(last_idx == 3)
+  write(*,"(A,(8I4))") "Equal to 1:", iarr(first_idx:last_idx)
+
+  call equal_range(iarr, 3, first_idx, last_idx)
+  ASSERT(first_idx == 5)
+  ASSERT(last_idx == 4)
+
+  call equal_range(iarr, 9, first_idx, last_idx)
+  ASSERT(first_idx == 6)
+  ASSERT(last_idx == 6)
+  write(*,"(A,(8I4))") "Equal to 9:", iarr(first_idx:last_idx)
+
+  call equal_range(iarr, 10, first_idx, last_idx)
+  ASSERT(first_idx == 7)
+  ASSERT(last_idx == 6)
+  write(*,"(A,(8I4))") "Equal to 10:", iarr(first_idx:last_idx)
+
 
 end subroutine
 
