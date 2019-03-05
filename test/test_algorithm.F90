@@ -188,7 +188,7 @@ end subroutine
 subroutine test_includes()
   use flc_algorithm, only : includes
   implicit none
-  integer, dimension(6) :: iarr = [ -5, 1, 2, 4, 9]
+  integer, dimension(5) :: iarr = [ -5, 1, 2, 4, 9]
   integer, dimension(3) :: jarr = [ 1, 2, 5]
 
   ASSERT(includes(iarr, iarr))
