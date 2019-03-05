@@ -22,6 +22,30 @@ integer, parameter, public :: INDEX_INT = C_INT
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
  end type
+ abstract interface
+   function SWIG_cmp_funptr_int32_t(left, right) bind(C) &
+       result(fresult)
+     use, intrinsic :: ISO_C_BINDING
+     integer(C_INT32_T), intent(in), value :: left, right
+     logical(C_BOOL) :: fresult
+   end function
+ end interface
+ abstract interface
+   function SWIG_cmp_funptr_int64_t(left, right) bind(C) &
+       result(fresult)
+     use, intrinsic :: ISO_C_BINDING
+     integer(C_INT64_T), intent(in), value :: left, right
+     logical(C_BOOL) :: fresult
+   end function
+ end interface
+ abstract interface
+   function SWIG_cmp_funptr_double(left, right) bind(C) &
+       result(fresult)
+     use, intrinsic :: ISO_C_BINDING
+     real(C_DOUBLE), intent(in), value :: left, right
+     logical(C_BOOL) :: fresult
+   end function
+ end interface
 
  integer, parameter :: swig_cmem_own_bit = 0
  integer, parameter :: swig_cmem_rvalue_bit = 1
@@ -558,7 +582,7 @@ subroutine swigf_sort__SWIG_4(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), dimension(:), target :: data
 integer(C_INT32_T), pointer :: farg1_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -570,7 +594,7 @@ else
 farg1%data = c_null_ptr
 farg1%size = 0
 end if
-farg3 = cmp
+farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_4(farg1, farg3)
 end subroutine
 
@@ -578,7 +602,7 @@ subroutine swigf_sort__SWIG_5(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), dimension(:), target :: data
 integer(C_INT64_T), pointer :: farg1_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -590,7 +614,7 @@ else
 farg1%data = c_null_ptr
 farg1%size = 0
 end if
-farg3 = cmp
+farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_5(farg1, farg3)
 end subroutine
 
@@ -598,7 +622,7 @@ subroutine swigf_sort__SWIG_6(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), dimension(:), target :: data
 real(C_DOUBLE), pointer :: farg1_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -610,7 +634,7 @@ else
 farg1%data = c_null_ptr
 farg1%size = 0
 end if
-farg3 = cmp
+farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_6(farg1, farg3)
 end subroutine
 
@@ -696,7 +720,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
@@ -709,7 +733,7 @@ else
 farg1%data = c_null_ptr
 farg1%size = 0
 end if
-farg3 = cmp
+farg3 = c_funloc(cmp)
 fresult = swigc_is_sorted__SWIG_4(farg1, farg3)
 swig_result = SWIG_int_to_logical(fresult)
 end function
@@ -720,7 +744,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
@@ -733,7 +757,7 @@ else
 farg1%data = c_null_ptr
 farg1%size = 0
 end if
-farg3 = cmp
+farg3 = c_funloc(cmp)
 fresult = swigc_is_sorted__SWIG_5(farg1, farg3)
 swig_result = SWIG_int_to_logical(fresult)
 end function
@@ -744,7 +768,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
@@ -757,7 +781,7 @@ else
 farg1%data = c_null_ptr
 farg1%size = 0
 end if
-farg3 = cmp
+farg3 = c_funloc(cmp)
 fresult = swigc_is_sorted__SWIG_6(farg1, farg3)
 swig_result = SWIG_int_to_logical(fresult)
 end function
@@ -852,7 +876,7 @@ integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
@@ -873,7 +897,7 @@ else
 farg3%data = c_null_ptr
 farg3%size = 0
 end if
-farg5 = cmp
+farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_4(farg1, farg3, farg5)
 end subroutine
 
@@ -883,7 +907,7 @@ integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
@@ -904,7 +928,7 @@ else
 farg3%data = c_null_ptr
 farg3%size = 0
 end if
-farg5 = cmp
+farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_5(farg1, farg3, farg5)
 end subroutine
 
@@ -914,7 +938,7 @@ real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 integer(C_INT), dimension(:), target :: idx
 integer(C_INT), pointer :: farg3_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
@@ -935,7 +959,7 @@ else
 farg3%data = c_null_ptr
 farg3%size = 0
 end if
-farg5 = cmp
+farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_6(farg1, farg3, farg5)
 end subroutine
 
@@ -1018,7 +1042,7 @@ integer(INDEX_INT) :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT32_T), intent(in) :: value
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT32_T) :: farg3 
@@ -1033,7 +1057,7 @@ farg1%data = c_null_ptr
 farg1%size = 0
 end if
 farg3 = value
-farg4 = cmp
+farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_4(farg1, farg3, farg4)
 swig_result = fresult
 end function
@@ -1045,7 +1069,7 @@ integer(INDEX_INT) :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT64_T), intent(in) :: value
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT64_T) :: farg3 
@@ -1060,7 +1084,7 @@ farg1%data = c_null_ptr
 farg1%size = 0
 end if
 farg3 = value
-farg4 = cmp
+farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_5(farg1, farg3, farg4)
 swig_result = fresult
 end function
@@ -1072,7 +1096,7 @@ integer(INDEX_INT) :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 real(C_DOUBLE), intent(in) :: value
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 real(C_DOUBLE) :: farg3 
@@ -1087,7 +1111,7 @@ farg1%data = c_null_ptr
 farg1%size = 0
 end if
 farg3 = value
-farg4 = cmp
+farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_6(farg1, farg3, farg4)
 swig_result = fresult
 end function
@@ -1177,7 +1201,7 @@ integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT32_T), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT32_T) :: farg3 
 type(C_PTR) :: farg4 
@@ -1195,7 +1219,7 @@ end if
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
-farg6 = cmp
+farg6 = c_funloc(cmp)
 call swigc_equal_range__SWIG_4(farg1, farg3, farg4, farg5, farg6)
 end subroutine
 
@@ -1206,7 +1230,7 @@ integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT64_T), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT64_T) :: farg3 
 type(C_PTR) :: farg4 
@@ -1224,7 +1248,7 @@ end if
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
-farg6 = cmp
+farg6 = c_funloc(cmp)
 call swigc_equal_range__SWIG_5(farg1, farg3, farg4, farg5, farg6)
 end subroutine
 
@@ -1235,7 +1259,7 @@ real(C_DOUBLE), pointer :: farg1_view
 real(C_DOUBLE), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 real(C_DOUBLE) :: farg3 
 type(C_PTR) :: farg4 
@@ -1253,7 +1277,7 @@ end if
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
-farg6 = cmp
+farg6 = c_funloc(cmp)
 call swigc_equal_range__SWIG_6(farg1, farg3, farg4, farg5, farg6)
 end subroutine
 
@@ -1332,7 +1356,7 @@ integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), pointer :: farg1_view
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
@@ -1348,7 +1372,7 @@ farg1%size = 0
 end if
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
-farg5 = cmp
+farg5 = c_funloc(cmp)
 call swigc_minmax_element__SWIG_4(farg1, farg3, farg4, farg5)
 end subroutine
 
@@ -1358,7 +1382,7 @@ integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), pointer :: farg1_view
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
@@ -1374,7 +1398,7 @@ farg1%size = 0
 end if
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
-farg5 = cmp
+farg5 = c_funloc(cmp)
 call swigc_minmax_element__SWIG_5(farg1, farg3, farg4, farg5)
 end subroutine
 
@@ -1384,7 +1408,7 @@ real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), pointer :: farg1_view
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
@@ -1400,7 +1424,7 @@ farg1%size = 0
 end if
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
-farg5 = cmp
+farg5 = c_funloc(cmp)
 call swigc_minmax_element__SWIG_6(farg1, farg3, farg4, farg5)
 end subroutine
 
@@ -1508,7 +1532,7 @@ integer(C_INT32_T), dimension(:), intent(in), target :: data1
 integer(C_INT32_T), pointer :: farg1_view
 integer(C_INT32_T), dimension(:), intent(in), target :: data2
 integer(C_INT32_T), pointer :: farg3_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int32_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
@@ -1530,7 +1554,7 @@ else
 farg3%data = c_null_ptr
 farg3%size = 0
 end if
-farg5 = cmp
+farg5 = c_funloc(cmp)
 fresult = swigc_includes__SWIG_4(farg1, farg3, farg5)
 swig_result = SWIG_int_to_logical(fresult)
 end function
@@ -1543,7 +1567,7 @@ integer(C_INT64_T), dimension(:), intent(in), target :: data1
 integer(C_INT64_T), pointer :: farg1_view
 integer(C_INT64_T), dimension(:), intent(in), target :: data2
 integer(C_INT64_T), pointer :: farg3_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_int64_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
@@ -1565,7 +1589,7 @@ else
 farg3%data = c_null_ptr
 farg3%size = 0
 end if
-farg5 = cmp
+farg5 = c_funloc(cmp)
 fresult = swigc_includes__SWIG_5(farg1, farg3, farg5)
 swig_result = SWIG_int_to_logical(fresult)
 end function
@@ -1578,7 +1602,7 @@ real(C_DOUBLE), dimension(:), intent(in), target :: data1
 real(C_DOUBLE), pointer :: farg1_view
 real(C_DOUBLE), dimension(:), intent(in), target :: data2
 real(C_DOUBLE), pointer :: farg3_view
-type(C_FUNPTR), intent(in), value :: cmp
+procedure(SWIG_cmp_funptr_double) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
@@ -1600,7 +1624,7 @@ else
 farg3%data = c_null_ptr
 farg3%size = 0
 end if
-farg5 = cmp
+farg5 = c_funloc(cmp)
 fresult = swigc_includes__SWIG_6(farg1, farg3, farg5)
 swig_result = SWIG_int_to_logical(fresult)
 end function

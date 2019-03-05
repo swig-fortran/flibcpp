@@ -8,15 +8,14 @@
 #include "fassert.h"
 
 module fortran_comparators
-  use flc_algorithm, only : INDEX_INT
   implicit none
   public
 contains
 function compare_ge(left, right) bind(C) &
     result(fresult)
   use, intrinsic :: ISO_C_BINDING
-  integer(INDEX_INT), intent(in), value :: left
-  integer(INDEX_INT), intent(in), value :: right
+  integer(C_INT), intent(in), value :: left
+  integer(C_INT), intent(in), value :: right
   logical(C_BOOL) :: fresult
 
   fresult = (left >= right)
@@ -61,14 +60,14 @@ end subroutine
 subroutine test_sort_compare()
   use, intrinsic :: ISO_C_BINDING
   use fortran_comparators, only : compare_ge
-  use flc_algorithm, only : sort, INDEX_INT
+  use flc_algorithm, only : sort
   implicit none
-  integer(INDEX_INT), dimension(:), allocatable :: arr
+  integer(C_INT), dimension(:), allocatable :: arr
   character(len=*), parameter :: outfmt = "(A12,(8I6))"
 
   allocate(arr(5), source=[ 2, 3, 4, 4, 9])
 
-  call sort(arr, c_funloc(compare_ge))
+  call sort(arr, compare_ge)
   write(*,outfmt) "Result:", arr
 end subroutine
 

@@ -14,7 +14,7 @@ target-qualified 1-D arrays.
 
 Algorithms that take comparators (e.g. sorting and searching) are instantiated
 with function pointers that allow user functions to add arbitrary ordering by
-defining ``bind(C)`` functions and calling with ``c_funloc(my_comparator)``.
+defining ``bind(C)`` functions.
 
 Wherever possible, array indices are returned as Fortran 1-offset native
 integers, with the value 0 indicating off-the-end (e.g. "not found").

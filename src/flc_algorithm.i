@@ -35,10 +35,31 @@ static RETURN_TYPE FUNCNAME ## _cmp(ARGS, bool (*cmp)(T, T)) {
 
 %enddef
 
+// >>> Create a native function pointer interface for the given comparator.
+%define %flc_cmp_funptr(CTYPE, FTYPE)
+
+// Define an abstract interface that gets inserted into the module
+%fragment("SWIG_cmp_funptr_"{CTYPE}, "fdecl", noblock=1)
+{ abstract interface
+   function SWIG_cmp_funptr_ ## CTYPE(left, right) bind(C) &
+       result(fresult)
+     use, intrinsic :: ISO_C_BINDING
+     FTYPE, intent(in), value :: left, right
+     logical(C_BOOL) :: fresult
+   end function
+ end interface}
+
+%apply bool (*)(SWIGTYPE, SWIGTYPE) { bool (*)(CTYPE, CTYPE) };
+%typemap(ftype, in={procedure(SWIG_cmp_funptr_ ## CTYPE)}, fragment="SWIG_cmp_funptr_"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
+  {procedure(SWIG_cmp_funptr_ ## CTYPE), pointer}
+
+%enddef
+
 /******************************
  * Types
  ******************************/
 
+// >>> Index integer type
 %inline %{
 typedef int index_int;
 %}
@@ -49,6 +70,7 @@ typedef int index_int;
 %typemap(ftype, in={integer(INDEX_INT), intent(in)}) index_int
    %{integer(INDEX_INT)%}
 
+// >>> Array types
 %apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
 %apply (const SWIGTYPE *DATA, size_t SIZE) {
@@ -58,6 +80,20 @@ typedef int index_int;
        (const int32_t  *DATA2, size_t DATASIZE2),
        (const int64_t  *DATA2, size_t DATASIZE2),
        (const double   *DATA2, size_t DATASIZE2) };
+
+
+// >>> Function pointer types
+%typemap(fin) bool (*)(SWIGTYPE, SWIGTYPE)
+  "$1 = c_funloc($input)"
+%typemap(findecl, match="fin") bool (*)(SWIGTYPE, SWIGTYPE) ""
+%typemap(fout) bool (*)(CTYPE, CTYPE)
+  "call c_f_procpointer($1, $result)"
+%typemap(foutdecl, match="fout") bool (*)(SWIGTYPE, SWIGTYPE) ""
+
+%flc_cmp_funptr(int32_t, integer(C_INT32_T))
+%flc_cmp_funptr(int64_t, integer(C_INT64_T))
+%flc_cmp_funptr(double,  real(C_DOUBLE))
+%flc_cmp_funptr(index_int,  integer(INDEX_INT))
 
 /******************************
  * Sorting
