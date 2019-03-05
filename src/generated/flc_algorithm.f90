@@ -44,6 +44,11 @@ integer, parameter, public :: INDEX_INT = C_INT
   module procedure swigf_shuffle__SWIG_1, swigf_shuffle__SWIG_2, swigf_shuffle__SWIG_3
  end interface
  public :: shuffle
+ interface includes
+  module procedure swigf_includes__SWIG_1, swigf_includes__SWIG_2, swigf_includes__SWIG_3, swigf_includes__SWIG_4, &
+    swigf_includes__SWIG_5, swigf_includes__SWIG_6
+ end interface
+ public :: includes
  interface is_sorted
   module procedure swigf_is_sorted__SWIG_1, swigf_is_sorted__SWIG_2, swigf_is_sorted__SWIG_3, swigf_is_sorted__SWIG_4, &
     swigf_is_sorted__SWIG_5, swigf_is_sorted__SWIG_6
@@ -402,6 +407,69 @@ type(C_PTR), value :: farg3
 type(C_PTR), value :: farg4
 type(C_FUNPTR), value :: farg5
 end subroutine
+
+function swigc_includes__SWIG_1(farg1, farg3) &
+bind(C, name="_wrap_includes__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+integer(C_INT) :: fresult
+end function
+
+function swigc_includes__SWIG_2(farg1, farg3) &
+bind(C, name="_wrap_includes__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+integer(C_INT) :: fresult
+end function
+
+function swigc_includes__SWIG_3(farg1, farg3) &
+bind(C, name="_wrap_includes__SWIG_3") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+integer(C_INT) :: fresult
+end function
+
+function swigc_includes__SWIG_4(farg1, farg3, farg5) &
+bind(C, name="_wrap_includes__SWIG_4") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+integer(C_INT) :: fresult
+end function
+
+function swigc_includes__SWIG_5(farg1, farg3, farg5) &
+bind(C, name="_wrap_includes__SWIG_5") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+integer(C_INT) :: fresult
+end function
+
+function swigc_includes__SWIG_6(farg1, farg3, farg5) &
+bind(C, name="_wrap_includes__SWIG_6") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+integer(C_INT) :: fresult
+end function
 
 subroutine swigc_shuffle__SWIG_1(farg1, farg2) &
 bind(C, name="_wrap_shuffle__SWIG_1")
@@ -1335,6 +1403,207 @@ farg4 = c_loc(max_index)
 farg5 = cmp
 call swigc_minmax_element__SWIG_6(farg1, farg3, farg4, farg5)
 end subroutine
+
+function swigf_includes__SWIG_1(data1, data2) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+integer(C_INT32_T), dimension(:), intent(in), target :: data1
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT32_T), dimension(:), intent(in), target :: data2
+integer(C_INT32_T), pointer :: farg3_view
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+
+if (size(data1) > 0) then
+farg1_view => data1(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data1)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(data2) > 0) then
+farg3_view => data2(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(data2)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+fresult = swigc_includes__SWIG_1(farg1, farg3)
+swig_result = SWIG_int_to_logical(fresult)
+end function
+
+function swigf_includes__SWIG_2(data1, data2) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+integer(C_INT64_T), dimension(:), intent(in), target :: data1
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT64_T), dimension(:), intent(in), target :: data2
+integer(C_INT64_T), pointer :: farg3_view
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+
+if (size(data1) > 0) then
+farg1_view => data1(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data1)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(data2) > 0) then
+farg3_view => data2(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(data2)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+fresult = swigc_includes__SWIG_2(farg1, farg3)
+swig_result = SWIG_int_to_logical(fresult)
+end function
+
+function swigf_includes__SWIG_3(data1, data2) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+real(C_DOUBLE), dimension(:), intent(in), target :: data1
+real(C_DOUBLE), pointer :: farg1_view
+real(C_DOUBLE), dimension(:), intent(in), target :: data2
+real(C_DOUBLE), pointer :: farg3_view
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+
+if (size(data1) > 0) then
+farg1_view => data1(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data1)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(data2) > 0) then
+farg3_view => data2(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(data2)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+fresult = swigc_includes__SWIG_3(farg1, farg3)
+swig_result = SWIG_int_to_logical(fresult)
+end function
+
+function swigf_includes__SWIG_4(data1, data2, cmp) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+integer(C_INT32_T), dimension(:), intent(in), target :: data1
+integer(C_INT32_T), pointer :: farg1_view
+integer(C_INT32_T), dimension(:), intent(in), target :: data2
+integer(C_INT32_T), pointer :: farg3_view
+type(C_FUNPTR), intent(in), value :: cmp
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+if (size(data1) > 0) then
+farg1_view => data1(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data1)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(data2) > 0) then
+farg3_view => data2(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(data2)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+farg5 = cmp
+fresult = swigc_includes__SWIG_4(farg1, farg3, farg5)
+swig_result = SWIG_int_to_logical(fresult)
+end function
+
+function swigf_includes__SWIG_5(data1, data2, cmp) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+integer(C_INT64_T), dimension(:), intent(in), target :: data1
+integer(C_INT64_T), pointer :: farg1_view
+integer(C_INT64_T), dimension(:), intent(in), target :: data2
+integer(C_INT64_T), pointer :: farg3_view
+type(C_FUNPTR), intent(in), value :: cmp
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+if (size(data1) > 0) then
+farg1_view => data1(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data1)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(data2) > 0) then
+farg3_view => data2(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(data2)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+farg5 = cmp
+fresult = swigc_includes__SWIG_5(farg1, farg3, farg5)
+swig_result = SWIG_int_to_logical(fresult)
+end function
+
+function swigf_includes__SWIG_6(data1, data2, cmp) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+real(C_DOUBLE), dimension(:), intent(in), target :: data1
+real(C_DOUBLE), pointer :: farg1_view
+real(C_DOUBLE), dimension(:), intent(in), target :: data2
+real(C_DOUBLE), pointer :: farg3_view
+type(C_FUNPTR), intent(in), value :: cmp
+integer(C_INT) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+if (size(data1) > 0) then
+farg1_view => data1(1)
+farg1%data = c_loc(farg1_view)
+farg1%size = size(data1)
+else
+farg1%data = c_null_ptr
+farg1%size = 0
+end if
+if (size(data2) > 0) then
+farg3_view => data2(1)
+farg3%data = c_loc(farg3_view)
+farg3%size = size(data2)
+else
+farg3%data = c_null_ptr
+farg3%size = 0
+end if
+farg5 = cmp
+fresult = swigc_includes__SWIG_6(farg1, farg3, farg5)
+swig_result = SWIG_int_to_logical(fresult)
+end function
 
 subroutine swigf_shuffle__SWIG_1(g, data)
 use, intrinsic :: ISO_C_BINDING

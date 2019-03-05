@@ -416,6 +416,26 @@ static void minmax_element_cmp(const T *DATA,size_t DATASIZE,index_int *min_inde
 }
 
 
+template<class T, class Compare>
+static bool includes_impl(const T *data1, size_t size1, const T *data2, size_t size2, Compare cmp) {
+  return std::includes(data1, data1 + size1, data2, data2 + size2, cmp);
+}
+
+
+// Operate using default "less than"
+template<class T>
+static bool includes(const T *DATA1,size_t DATASIZE1,const T *DATA2,size_t DATASIZE2
+) {
+  return includes_impl(DATA1,DATASIZE1,DATA2,DATASIZE2, std::less<T>());
+}
+// Operate using user-provided function pointer
+template<class T>
+static bool includes_cmp(const T *DATA1,size_t DATASIZE1,const T *DATA2,size_t DATASIZE2
+, bool (*cmp)(T, T)) {
+  return includes_impl(DATA1,DATASIZE1,DATA2,DATASIZE2, cmp);
+}
+
+
 #include <random>
 
 
@@ -976,6 +996,120 @@ SWIGEXPORT void _wrap_minmax_element__SWIG_6(SwigArrayWrapper *farg1, int *farg3
   arg4 = reinterpret_cast< index_int * >(farg4);
   arg5 = reinterpret_cast< bool (*)(double,double) >(farg5);
   minmax_element_cmp< double >((double const *)arg1,arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT int _wrap_includes__SWIG_1(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3) {
+  int fresult ;
+  int32_t *arg1 = (int32_t *) 0 ;
+  size_t arg2 ;
+  int32_t *arg3 = (int32_t *) 0 ;
+  size_t arg4 ;
+  bool result;
+  
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< int32_t * >(farg3->data);
+  arg4 = farg3->size;
+  result = (bool)includes< int32_t >((int32_t const *)arg1,arg2,(int32_t const *)arg3,arg4);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_includes__SWIG_2(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3) {
+  int fresult ;
+  int64_t *arg1 = (int64_t *) 0 ;
+  size_t arg2 ;
+  int64_t *arg3 = (int64_t *) 0 ;
+  size_t arg4 ;
+  bool result;
+  
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< int64_t * >(farg3->data);
+  arg4 = farg3->size;
+  result = (bool)includes< int64_t >((int64_t const *)arg1,arg2,(int64_t const *)arg3,arg4);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_includes__SWIG_3(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3) {
+  int fresult ;
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  double *arg3 = (double *) 0 ;
+  size_t arg4 ;
+  bool result;
+  
+  arg1 = static_cast< double * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< double * >(farg3->data);
+  arg4 = farg3->size;
+  result = (bool)includes< double >((double const *)arg1,arg2,(double const *)arg3,arg4);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_includes__SWIG_4(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(int32_t,int32_t)) {
+  int fresult ;
+  int32_t *arg1 = (int32_t *) 0 ;
+  size_t arg2 ;
+  int32_t *arg3 = (int32_t *) 0 ;
+  size_t arg4 ;
+  bool (*arg5)(int32_t,int32_t) = (bool (*)(int32_t,int32_t)) 0 ;
+  bool result;
+  
+  arg1 = static_cast< int32_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< int32_t * >(farg3->data);
+  arg4 = farg3->size;
+  arg5 = reinterpret_cast< bool (*)(int32_t,int32_t) >(farg5);
+  result = (bool)includes_cmp< int32_t >((int32_t const *)arg1,arg2,(int32_t const *)arg3,arg4,arg5);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_includes__SWIG_5(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(int64_t,int64_t)) {
+  int fresult ;
+  int64_t *arg1 = (int64_t *) 0 ;
+  size_t arg2 ;
+  int64_t *arg3 = (int64_t *) 0 ;
+  size_t arg4 ;
+  bool (*arg5)(int64_t,int64_t) = (bool (*)(int64_t,int64_t)) 0 ;
+  bool result;
+  
+  arg1 = static_cast< int64_t * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< int64_t * >(farg3->data);
+  arg4 = farg3->size;
+  arg5 = reinterpret_cast< bool (*)(int64_t,int64_t) >(farg5);
+  result = (bool)includes_cmp< int64_t >((int64_t const *)arg1,arg2,(int64_t const *)arg3,arg4,arg5);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_includes__SWIG_6(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(double,double)) {
+  int fresult ;
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  double *arg3 = (double *) 0 ;
+  size_t arg4 ;
+  bool (*arg5)(double,double) = (bool (*)(double,double)) 0 ;
+  bool result;
+  
+  arg1 = static_cast< double * >(farg1->data);
+  arg2 = farg1->size;
+  arg3 = static_cast< double * >(farg3->data);
+  arg4 = farg3->size;
+  arg5 = reinterpret_cast< bool (*)(double,double) >(farg5);
+  result = (bool)includes_cmp< double >((double const *)arg1,arg2,(double const *)arg3,arg4,arg5);
+  fresult = (result ? 1 : 0);
+  return fresult;
 }
 
 

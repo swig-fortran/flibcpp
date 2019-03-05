@@ -49,11 +49,19 @@ typedef int index_int;
 %typemap(ftype, in={integer(INDEX_INT), intent(in)}) index_int
    %{integer(INDEX_INT)%}
 
+%apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
+
+%apply (const SWIGTYPE *DATA, size_t SIZE) {
+       (const int32_t  *DATA1, size_t DATASIZE1),
+       (const int64_t  *DATA1, size_t DATASIZE1),
+       (const double   *DATA1, size_t DATASIZE1),
+       (const int32_t  *DATA2, size_t DATASIZE2),
+       (const int64_t  *DATA2, size_t DATASIZE2),
+       (const double   *DATA2, size_t DATASIZE2) };
+
 /******************************
  * Sorting
  ******************************/
-
-%apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
 %{
 template<class T, class Compare>
@@ -141,6 +149,20 @@ static void minmax_element_impl(const T *data, size_t size, index_int *min_index
                                             index_int *min_index, index_int *max_index),
                    %arg(DATA, DATASIZE, min_index, max_index))
 
+/******************************
+ * Set operations
+ ******************************/
+
+%{
+template<class T, class Compare>
+static bool includes_impl(const T *data1, size_t size1, const T *data2, size_t size2, Compare cmp) {
+  return std::includes(data1, data1 + size1, data2, data2 + size2, cmp);
+}
+%}
+
+%flc_cmp_algorithm(bool, includes, %arg(const T *DATA1, size_t DATASIZE1,
+                                        const T *DATA2, size_t DATASIZE2),
+                   %arg(DATA1, DATASIZE1, DATA2, DATASIZE2))
 
 /******************************
  * Reordering

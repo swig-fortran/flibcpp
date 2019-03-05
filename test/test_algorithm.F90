@@ -28,10 +28,14 @@ program test_algorithm
   call test_sort()
   call test_sort_compare()
   call test_argsort()
-  call test_shuffle()
+
   call test_binary_search()
   call test_equal_range()
   call test_minmax_element()
+
+  call test_includes()
+
+  call test_shuffle()
 contains
 
 !-----------------------------------------------------------------------------!
@@ -177,6 +181,22 @@ subroutine test_minmax_element()
   ASSERT(min_idx == 3)
   ! Second occurrence is preferably selected for max
   ASSERT(max_idx == 6)
+
+end subroutine
+
+!-----------------------------------------------------------------------------!
+subroutine test_includes()
+  use flc_algorithm, only : includes
+  implicit none
+  integer, dimension(6) :: iarr = [ -5, 1, 2, 4, 9]
+  integer, dimension(3) :: jarr = [ 1, 2, 5]
+
+  ASSERT(includes(iarr, iarr))
+  ASSERT(includes(iarr, iarr(:3)))
+  ASSERT(includes(iarr, iarr(3:)))
+  ASSERT(.not. includes(iarr(3:), iarr))
+  ASSERT(.not. includes(iarr, jarr))
+  ASSERT(includes(iarr, jarr(1:2)))
 
 end subroutine
 

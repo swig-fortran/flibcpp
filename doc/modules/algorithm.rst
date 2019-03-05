@@ -145,12 +145,28 @@ Set operations
 ==============
 
 Sorted arrays can be manipulated as "sets," supporting unions, intersections,
-and differences. TODO.
+and differences.
 
 includes
 --------
 
-TODO
+Whether one set encloses another set: every item of the second array is present
+in the first array.
+
+Example::
+
+  use flc_algorithm, only : includes
+  implicit none
+  integer, dimension(6) :: iarr = [ -5, 1, 2, 4, 9]
+  integer, dimension(3) :: jarr = [ 1, 2, 5]
+  logical :: is_superset
+
+  is_superset = includes(iarr, iarr)) ! true
+  is_superset = includes(iarr, iarr(:3))) ! true
+  is_superset = includes(iarr, iarr(3:))) ! true
+  is_superset = includes(iarr(3:), iarr)) ! false
+  is_superset = includes(iarr, jarr) ! false
+  is_superset = includes(iarr, jarr(1:2))) ! true
 
 set_difference
 --------------
