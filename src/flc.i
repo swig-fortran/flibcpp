@@ -62,10 +62,16 @@ using std::size_t;
  * Linked into auto-generated file flibcpp_version.cpp
  ************************/
 
-%apply const char* { const char flibcpp_version_string[] };
+%apply const char* { const char flibcpp_version[] };
+%fortranbindc flibcpp_version_major;
+%fortranbindc flibcpp_version_minor;
+%fortranbindc flibcpp_version_patch;
 
 %inline %{
 extern "C" {
-extern const char flibcpp_version_string[];
+extern const char flibcpp_version[];
+extern const int flibcpp_version_major;
+extern const int flibcpp_version_minor;
+extern const int flibcpp_version_patch;
 }
 %}

@@ -1,1 +1,4 @@
-extern "C" const char flibcpp_version_string[] = "@Flibcpp_VERSION@";
+extern "C" const char flibcpp_version[] = "@FLIBCPP_VERSION_STRING@";
+extern "C" const int flibcpp_version_major = @PROJECT_VERSION_MAJOR@;
+extern "C" const int flibcpp_version_minor = @PROJECT_VERSION_MINOR@;
+extern "C" const int flibcpp_version_patch = @PROJECT_VERSION_PATCH@;

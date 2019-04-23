@@ -60,8 +60,37 @@ else()
 endif()
 
 #---------------------------------------------------------------------------#
-# GIT
+# VERSIONING
 #---------------------------------------------------------------------------#
+
+
+# Get a possible Git version generated using git-archive (see the .gitattributes
+# file)
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-version.txt"
+     FLIBCPP_VERSION_STRING)
+
+if (NOT FLIBCPP_VERSION_STRING MATCHES "\\$Format:")
+  # First line are decorators, second is hash
+  list(GET FLIBCPP_VERSION_STRING 0 _tag)
+  string(REGEX REPLACE ".*, *(tag: *)?" "" _tag "${_tag}")
+  list(GET FLIBCPP_VERSION_STRING 1 _hash)
+  string(REGEX REPLACE " +" "" _hash "${_hash}")
+  set(FLIBCPP_VERSION_STRING "${_tag}-g${_hash}")
+else()
+  find_package(Git)
+  if (Git_FOUND)
+    execute_process(
+      COMMAND "${GIT_EXECUTABLE}" "describe"
+      ERROR_QUIET
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+      OUTPUT_VARIABLE FLIBCPP_VERSION_STRING
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+  else()
+    set(FLIBCPP_VERSION_STRING "${Flibcpp_VERSION}")
+  endif()
+endif()
+
 
 set(FLIBCPP_VERSION_CPP "${CMAKE_CURRENT_BINARY_DIR}/flibcpp_version.cpp")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/flibcpp_version.cpp.in"
@@ -87,8 +116,6 @@ function(swig_fortran_add_module name)
   # We need to include the source directory
   set_property(SOURCE src/${name}.i
     PROPERTY USE_TARGET_INCLUDE_DIRECTORIES ON)
-
-  message(STATUS "Extra sources for ${name}: ${ARGN}")
 
   if (FLIBCPP_USE_SWIG)
     # SWIG is available; actually generate the library dynamically.
@@ -158,7 +185,6 @@ install(EXPORT Flibcpp-targets
 # Create a ConfigVersion.cmake file
 include(CMakePackageConfigHelpers)
 
-message(STATUS "Libraries: ${FLIBCPP_LIBRARIES}")
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/FlibcppConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/FlibcppConfig.cmake

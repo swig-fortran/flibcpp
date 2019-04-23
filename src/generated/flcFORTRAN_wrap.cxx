@@ -223,7 +223,10 @@ using std::size_t;
 
 
 extern "C" {
-extern const char flibcpp_version_string[];
+extern const char flibcpp_version[];
+extern const int flibcpp_version_major;
+extern const int flibcpp_version_minor;
+extern const int flibcpp_version_patch;
 }
 
 
@@ -255,11 +258,11 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
 #include <string.h>
 
 extern "C" {
-SWIGEXPORT SwigArrayWrapper _wrap_flibcpp_version_string_get() {
+SWIGEXPORT SwigArrayWrapper _wrap_flibcpp_version_get() {
   SwigArrayWrapper fresult ;
   char *result = 0 ;
   
-  result = (char *)(char *)flibcpp_version_string;
+  result = (char *)(char *)flibcpp_version;
   fresult.size = strlen(reinterpret_cast< const char* >(result));
   fresult.data = const_cast< char * >(result);
   return fresult;

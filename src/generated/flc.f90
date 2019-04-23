@@ -18,12 +18,18 @@ module flc
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
  end type
- public :: get_flibcpp_version_string
+ public :: get_flibcpp_version
+ integer(C_INT), protected, public, &
+   bind(C, name="flibcpp_version_major") :: flibcpp_version_major
+ integer(C_INT), protected, public, &
+   bind(C, name="flibcpp_version_minor") :: flibcpp_version_minor
+ integer(C_INT), protected, public, &
+   bind(C, name="flibcpp_version_patch") :: flibcpp_version_patch
 
 ! WRAPPER DECLARATIONS
 interface
-function swigc_flibcpp_version_string_get() &
-bind(C, name="_wrap_flibcpp_version_string_get") &
+function swigc_flibcpp_version_get() &
+bind(C, name="_wrap_flibcpp_version_get") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
@@ -54,13 +60,13 @@ subroutine SWIG_chararray_to_string(wrap, string)
   end do
 end subroutine
 
-function get_flibcpp_version_string() &
+function get_flibcpp_version() &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 character(kind=C_CHAR, len=:), allocatable :: swig_result
 type(SwigArrayWrapper) :: fresult 
 
-fresult = swigc_flibcpp_version_string_get()
+fresult = swigc_flibcpp_version_get()
 call SWIG_chararray_to_string(fresult, swig_result)
 if (.false.) call SWIG_free(fresult%data)
 end function
