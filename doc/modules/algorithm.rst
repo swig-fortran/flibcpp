@@ -111,6 +111,7 @@ the first index will be the point at which the element would be located if it
 were present.
 
 Example::
+
   use flc_algorithm, only : equal_range, INDEX_INT
   implicit none
   integer(INDEX_INT) :: first, last

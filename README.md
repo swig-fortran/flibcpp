@@ -29,8 +29,9 @@ recent version of CMake:
    3.8 or higher)
 3. Install using `make install`
 
-More detailed installation instructions will be {are?} available in the
-documentation.  An example Fortran application that depends only on Flibcpp is
+More detailed installation instructions are available [in the
+documentation](https://flibcpp.readthedocs.io/en/latest/introduction.html#installation).
+An example Fortran application that depends only on Flibcpp is
 available [on Github](https://github.com/swig-fortran/flibcpp-example-app).
 
 ## Documentation

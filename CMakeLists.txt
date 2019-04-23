@@ -12,7 +12,7 @@ project(Flibcpp VERSION 0.1.0 LANGUAGES CXX Fortran)
 # SWIG setup
 #---------------------------------------------------------------------------#
 
-option(USE_SWIG "Enable SWIG generation" ON)
+option(USE_SWIG "Enable SWIG generation" OFF)
 if (USE_SWIG)
   find_package(SWIG)
 endif()
