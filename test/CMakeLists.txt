@@ -7,7 +7,7 @@
 
 # Create test with dependencies
 macro(swig_fortran_add_test TESTNAME)
-  add_executable(${TESTNAME}.exe ${TESTNAME}.f90)
+  add_executable(${TESTNAME}.exe ${TESTNAME}.F90)
   message("Linking ${TESTNAME} against ${ARGN}")
   target_link_libraries(${TESTNAME}.exe ${ARGN})
   add_test(NAME ${TESTNAME} COMMAND ${TESTNAME}.exe)

@@ -9,15 +9,41 @@ cmake_minimum_required(VERSION 3.8)
 project(Flibcpp VERSION 0.1.0 LANGUAGES CXX Fortran)
 
 #---------------------------------------------------------------------------#
+# OPTIONS
+#---------------------------------------------------------------------------#
+
+if (NOT DEFINED(FLIBCPP_DEV))
+  set(FLIBCPP_DEV OFF CACHE STRING
+    "Default to using development-centered options")
+endif()
+
+if (NOT DEFINED(CMAKER_BUILD_SHARED))
+  set(FLIBCPP_DEV OFF CACHE STRING
+    "Default to using development-centered options")
+endif()
+
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  if (FLIBCPP_DEV)
+    set(_CMAKE_BUILD_TYPE "Debug")
+  else ()
+    set(_CMAKE_BUILD_TYPE "RelWithDebInfo")
+  endif()
+  message(STATUS "No build type selected, default to ${_CMAKE_BUILD_TYPE}")
+  set(CMAKE_BUILD_TYPE "${_CMAKE_BUILD_TYPE}" CACHE STRING "Build type" FORCE)
+endif()
+
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
+#---------------------------------------------------------------------------#
 # SWIG setup
 #---------------------------------------------------------------------------#
 
-option(USE_SWIG "Enable SWIG generation" OFF)
-if (USE_SWIG)
+option(FLIBCPP_USE_SWIG "Enable SWIG generation" ${FLIBCPP_DEV})
+if (FLIBCPP_USE_SWIG)
   find_package(SWIG)
 endif()
 
-if (USE_SWIG AND SWIG_FOUND)
+if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
   # SWIG is requested and available; make sure it's the Fortran fork.
   list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
   include(CheckSWIGFortran)
@@ -30,18 +56,27 @@ if (USE_SWIG AND SWIG_FOUND)
     include(UseSWIG)
   endif()
 else()
-  set(USE_SWIG FALSE)
+  set(FLIBCPP_USE_SWIG FALSE)
 endif()
+
+#---------------------------------------------------------------------------#
+# GIT
+#---------------------------------------------------------------------------#
+
+set(FLIBCPP_VERSION_CPP "${CMAKE_CURRENT_BINARY_DIR}/flibcpp_version.cpp")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/flibcpp_version.cpp.in"
+  "${FLIBCPP_VERSION_CPP}" @ONLY)
 
 #---------------------------------------------------------------------------#
 # LIBRARY
 #---------------------------------------------------------------------------#
+
 include(GNUInstallDirs)
 
-set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/module)
-set(FLIBCPP_GENERATE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/generated)
-set(FLIBCPP_INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/Flibcpp)
-set(FLIBCPP_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR})
+set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/module")
+set(FLIBCPP_GENERATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/generated")
+set(FLIBCPP_INSTALL_CONFIGDIR "${CMAKE_INSTALL_LIBDIR}/cmake/Flibcpp")
+set(FLIBCPP_INSTALL_MODULEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
 set(FLIBCPP_NAMESPACE Flibcpp::)
 
 set(FLIBCPP_LIBRARIES)
@@ -53,7 +88,9 @@ function(swig_fortran_add_module name)
   set_property(SOURCE src/${name}.i
     PROPERTY USE_TARGET_INCLUDE_DIRECTORIES ON)
 
-  if (USE_SWIG)
+  message(STATUS "Extra sources for ${name}: ${ARGN}")
+
+  if (FLIBCPP_USE_SWIG)
     # SWIG is available; actually generate the library dynamically.
     # Create the library
     swig_add_library(${name}
@@ -98,7 +135,7 @@ function(swig_fortran_add_module name)
 endfunction()
 
 # Four SWIG libraries
-swig_fortran_add_module(flc)
+swig_fortran_add_module(flc "${FLIBCPP_VERSION_CPP}")
 swig_fortran_add_module(flc_random)
 target_link_libraries(flc_random flc)
 swig_fortran_add_module(flc_algorithm)
@@ -144,21 +181,27 @@ install(
 # TESTING
 #---------------------------------------------------------------------------#
 
-enable_testing()
-add_subdirectory(test)
+option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
+if (FLIBCPP_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(test)
+endif()
 
 #---------------------------------------------------------------------------#
 # EXECUTABLES
 #---------------------------------------------------------------------------#
 
-add_subdirectory(example)
+option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
+if (FLIBCPP_BUILD_EXAMPLES)
+  add_subdirectory(example)
+endif()
 
 #---------------------------------------------------------------------------#
 # DOCUMENTATION
 #---------------------------------------------------------------------------#
 
-option(ENABLE_DOC "Build documentation" OFF)
-if (ENABLE_DOC)
+option(FLIBCPP_BUILD_DOCS "Build documentation" ${FLIBCPP_DEV})
+if (FLIBCPP_BUILD_DOCS)
   add_subdirectory(doc)
 endif()
 

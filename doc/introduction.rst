@@ -26,6 +26,9 @@ software stack with a Fortran and compatible C++ compiler.
 5. Make and install (by default it will install to ``/usr/local``):
    ``make install``.
 
+By default, Flibcpp builds shared libraries. Add the CMake argument
+``-DBUILD_SHARED_LIBS:BOOL=OFF`` to build static libraries.
+
 .. _CMake: https://cmake.org
 .. _Homebrew: https://brew.sh
 .. _YUM: https://access.redhat.com/solutions/9934
@@ -59,6 +62,19 @@ will have to inform the compiler of the proper include path, library path, and
 library names. Depending on your system configuration, you might have to
 also explicitly link your app against the compiler's C++ standard libraries
 using ``-lstdc++``.
+
+Developing
+==========
+
+If you are interested in extending the capabilities of Flibcpp, you will need
+the latest version of the `SWIG+Fortran`_ tool installed on your machine. When
+configuring CMake, you will want to configure using
+``cmake -DFLIBCPP_DEV=ON ..`` to enable tests and documentation. Tests,
+examples, and documentation can be independently enabled using the
+``FLIBCPP_BUILD_TESTS``, ``FLIBCPP_BUILD_EXAMPLES``, and ``FLIBCPP_BUILD_DOCS``
+options.
+
+.. _SWIG+Fortran: https://github.com/swig-fortran
 
 .. ############################################################################
 .. end of doc/introduction.rst
