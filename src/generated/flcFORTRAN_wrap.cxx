@@ -221,6 +221,50 @@ using std::size_t;
 
 #include <stdint.h>
 
+
 extern "C" {
+extern const char flibcpp_version_string[];
+}
+
+
+#include <stdlib.h>
+#ifdef _MSC_VER
+# ifndef strtoull
+#  define strtoull _strtoui64
+# endif
+# ifndef strtoll
+#  define strtoll _strtoi64
+# endif
+#endif
+
+
+struct SwigArrayWrapper {
+    void* data;
+    size_t size;
+};
+
+
+SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
+  SwigArrayWrapper result;
+  result.data = NULL;
+  result.size = 0;
+  return result;
+}
+
+
+#include <string.h>
+
+extern "C" {
+SWIGEXPORT SwigArrayWrapper _wrap_flibcpp_version_string_get() {
+  SwigArrayWrapper fresult ;
+  char *result = 0 ;
+  
+  result = (char *)(char *)flibcpp_version_string;
+  fresult.size = strlen(reinterpret_cast< const char* >(result));
+  fresult.data = const_cast< char * >(result);
+  return fresult;
+}
+
+
 } // extern
 

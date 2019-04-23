@@ -55,3 +55,17 @@ using std::size_t;
        (const int32_t  *DATA, size_t DATASIZE),
        (const int64_t  *DATA, size_t DATASIZE),
        (const double   *DATA, size_t DATASIZE) };
+
+/************************
+ * Version information
+ *
+ * Linked into auto-generated file flibcpp_version.cpp
+ ************************/
+
+%apply const char* { const char flibcpp_version_string[] };
+
+%inline %{
+extern "C" {
+extern const char flibcpp_version_string[];
+}
+%}

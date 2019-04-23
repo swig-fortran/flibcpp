@@ -14,5 +14,56 @@ module flc
  private
 
  ! DECLARATION CONSTRUCTS
+ type, bind(C) :: SwigArrayWrapper
+  type(C_PTR), public :: data = C_NULL_PTR
+  integer(C_SIZE_T), public :: size = 0
+ end type
+ public :: get_flibcpp_version_string
+
+! WRAPPER DECLARATIONS
+interface
+function swigc_flibcpp_version_string_get() &
+bind(C, name="_wrap_flibcpp_version_string_get") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: fresult
+end function
+
+ subroutine SWIG_free(cptr) &
+  bind(C, name="free")
+ use, intrinsic :: ISO_C_BINDING
+ type(C_PTR), value :: cptr
+end subroutine
+end interface
+
+
+contains
+ ! MODULE SUBPROGRAMS
+
+subroutine SWIG_chararray_to_string(wrap, string)
+  use, intrinsic :: ISO_C_BINDING
+  type(SwigArrayWrapper), intent(IN) :: wrap
+  character(kind=C_CHAR, len=:), allocatable, intent(OUT) :: string
+  character(kind=C_CHAR), dimension(:), pointer :: chars
+  integer(kind=C_SIZE_T) :: i
+  call c_f_pointer(wrap%data, chars, [wrap%size])
+  allocate(character(kind=C_CHAR, len=wrap%size) :: string)
+  do i=1, wrap%size
+    string(i:i) = chars(i)
+  end do
+end subroutine
+
+function get_flibcpp_version_string() &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+character(kind=C_CHAR, len=:), allocatable :: swig_result
+type(SwigArrayWrapper) :: fresult 
+
+fresult = swigc_flibcpp_version_string_get()
+call SWIG_chararray_to_string(fresult, swig_result)
+if (.false.) call SWIG_free(fresult%data)
+end function
+
 
 end module
