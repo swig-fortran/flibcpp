@@ -32,7 +32,7 @@ By default, Flibcpp builds shared libraries. Add the CMake argument
 .. _CMake: https://cmake.org
 .. _Homebrew: https://brew.sh
 .. _YUM: https://access.redhat.com/solutions/9934
-.. _Flibcpp source code: https://github.com/swig-fortran/flibcpp/releases .
+.. _Flibcpp source code: https://github.com/swig-fortran/flibcpp/releases
 
 Downstream usage
 ================

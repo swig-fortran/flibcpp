@@ -24,7 +24,7 @@ Installation of Flibcpp is trivial, as it requires no external dependencies
 other than existing and compatible C++ and Fortran compilers, and a relatively
 recent version of CMake:
 
-1. Clone the repository; `git clone https://github.com/swig-fortran/flibcpp`
+1. Clone the repository with `git clone https://github.com/swig-fortran/flibcpp` or [download a release](https://github.com/swig-fortran/flibcpp/releases)
 2. Create a build directory and execute `cmake $PATH_TO_SOURCE` (requires CMake
    3.8 or higher)
 3. Install using `make install`
@@ -36,13 +36,14 @@ available [on Github](https://github.com/swig-fortran/flibcpp-example-app).
 
 ## Documentation
 
-See the [latest documentation](https://flibcpp.readthedocs.io/en/latest).
+The [latest documentation](https://flibcpp.readthedocs.io/en/latest) is hosted
+on readthedocs.io.
 
 ## Contribute
 
 Pull requests are welcome. Feature requests can be added as issues. If there is
 strong interest in adding an option for C++03 compatibility, it could be
-eventually added. It would also be trivial to add support for single-precision
+added. It would also be trivial to add support for single-precision
 floats, but since most scientific software uses double-precision, we only
 support those for now.
 
