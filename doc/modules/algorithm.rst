@@ -169,25 +169,13 @@ Example::
   is_superset = includes(iarr, jarr) ! false
   is_superset = includes(iarr, jarr(1:2))) ! true
 
-set_difference
---------------
+Not yet implemented
+-------------------
 
-TODO
-
-set_intersection
-----------------
-
-TODO
-
-set_symmetric_difference
-------------------------
-
-TODO
-
-set_union
----------
-
-TODO
+- set_difference
+- set_intersection
+- set_symmetric_difference
+- set_union
 
 Modifying
 =========
@@ -212,10 +200,11 @@ Example::
 
   call shuffle(rng, iarr)
 
-unique
-------
+Not yet implemented
+-------------------
 
-TODO
+- unique
+
 
 .. ############################################################################
 .. end of doc/modules/algorithm.rst

@@ -8,8 +8,7 @@
 Chrono
 ******
 
-TODO: Time calculations and timers.
-
+Time calculations and timers are not yet implemented.
 
 .. ############################################################################
 .. end of doc/modules/chrono.rst

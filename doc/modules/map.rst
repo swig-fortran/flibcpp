@@ -8,7 +8,7 @@
 Map
 ***
 
-Sorted dictionaries mapping keys to values.
+Maps, sorted dictionaries mapping keys to values, are not yet implemented.
 
 .. ############################################################################
 .. end of doc/modules/map.rst

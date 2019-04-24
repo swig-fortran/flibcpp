@@ -8,8 +8,7 @@
 String
 ******
 
-String manipulation.
-
+String manipulation is not yet implemented.
 
 .. ############################################################################
 .. end of doc/modules/string.rst
