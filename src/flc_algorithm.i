@@ -21,17 +21,17 @@
 // Operate using default "less than"
 template<class T>
 static RETURN_TYPE FUNCNAME(ARGS) {
-  return FUNCNAME ## _impl(CALL, std::less<T>());
+  return FUNCNAME##_impl(CALL, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static RETURN_TYPE FUNCNAME ## _cmp(ARGS, bool (*cmp)(T, T)) {
-  return FUNCNAME ## _impl(CALL, cmp);
+static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
+  return FUNCNAME##_impl(CALL, cmp);
 }
 }
 
 %flc_template_numeric(FUNCNAME, FUNCNAME)
-%flc_template_numeric(FUNCNAME ## _cmp, FUNCNAME)
+%flc_template_numeric(FUNCNAME##_cmp, FUNCNAME)
 
 %enddef
 
@@ -41,7 +41,7 @@ static RETURN_TYPE FUNCNAME ## _cmp(ARGS, bool (*cmp)(T, T)) {
 // Define an abstract interface that gets inserted into the module
 %fragment("SWIG_cmp_funptr_"{CTYPE}, "fdecl", noblock=1)
 { abstract interface
-   function SWIG_cmp_funptr_ ## CTYPE(left, right) bind(C) &
+   function SWIG_cmp_funptr_##CTYPE(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      FTYPE, intent(in), value :: left, right
@@ -50,8 +50,8 @@ static RETURN_TYPE FUNCNAME ## _cmp(ARGS, bool (*cmp)(T, T)) {
  end interface}
 
 %apply bool (*)(SWIGTYPE, SWIGTYPE) { bool (*)(CTYPE, CTYPE) };
-%typemap(ftype, in={procedure(SWIG_cmp_funptr_ ## CTYPE)}, fragment="SWIG_cmp_funptr_"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
-  {procedure(SWIG_cmp_funptr_ ## CTYPE), pointer}
+%typemap(ftype, in={procedure(SWIG_cmp_funptr_##CTYPE)}, fragment="SWIG_cmp_funptr_"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
+  {procedure(SWIG_cmp_funptr_##CTYPE), pointer}
 
 %enddef
 
