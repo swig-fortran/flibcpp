@@ -19,8 +19,3 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Sphinx
                                   "Failed to locate sphinx-build executable"
                                   SPHINX_EXECUTABLE)
-
-# Provide options for controlling different types of output
-option(SPHINX_OUTPUT_HTML "Output standalone HTML files" ON)
-option(SPHINX_OUTPUT_MAN "Output man pages" ON)
-

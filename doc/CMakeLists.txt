@@ -8,31 +8,17 @@
 find_package(Sphinx REQUIRED)
 
 add_custom_target(doc ALL)
+add_custom_command(TARGET doc
+  COMMAND "${SPHINX_EXECUTABLE}" -q
+    -d "${CMAKE_CURRENT_BINARY_DIR}/doctrees"
+    -b html
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}/html"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+  COMMENT "Building HTML documentation with Sphinx"
+  BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/html/index.html"
+  )
 
-if (SPHINX_OUTPUT_HTML)
-  add_custom_command(TARGET doc
-    COMMAND ${SPHINX_EXECUTABLE} -q -b html
-      "${CMAKE_CURRENT_SOURCE_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}/html"
-    COMMENT "Building HTML documentation with Sphinx"
-    BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/html"
-    )
-
-  install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html"
-    DESTINATION "${DOCDIR}"
-    )
-endif()
-
-if (SPHINX_OUTPUT_MAN)
-  add_custom_command(TARGET doc
-    COMMAND ${SPHINX_EXECUTABLE} -q -b man
-      "${CMAKE_CURRENT_SOURCE_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}/man"
-    COMMENT "Building manpage documentation with Sphinx"
-    BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/man"
-    )
-
-  install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man"
-    DESTINATION "${MANDIR}"
-    )
-endif()
+install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html/"
+  DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+  )
