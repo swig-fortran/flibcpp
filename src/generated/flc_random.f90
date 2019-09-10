@@ -18,7 +18,6 @@ module flc_random
 
  integer, parameter :: swig_cmem_own_bit = 0
  integer, parameter :: swig_cmem_rvalue_bit = 1
- integer, parameter :: swig_cmem_const_bit = 2
  type, bind(C) :: SwigClassWrapper
   type(C_PTR), public :: cptr = C_NULL_PTR
   integer(C_INT), public :: cmemflags = 0
@@ -234,13 +233,27 @@ call swigc_Engine_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 
+subroutine  SWIGTM_fin_int32_t_Sb__SB_ (finp, iminp)
+  use, intrinsic :: ISO_C_BINDING
+  integer(C_INT32_T), dimension(:), intent(in), target :: finp
+  type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_INT32_T), pointer :: imtemp
+
+  if (size(finp) > 0) then
+    imtemp => finp(1)
+    iminp%data = c_loc(imtemp)
+    iminp%size = size(finp)
+  else
+    iminp%data = c_null_ptr
+    iminp%size = 0
+  end if
+end subroutine
 subroutine swigf_uniform_int_distribution__SWIG_0(left, right, g, data)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), intent(in) :: left
 integer(C_INT32_T), intent(in) :: right
 class(Engine), intent(in) :: g
 integer(C_INT32_T), dimension(:), target :: data
-integer(C_INT32_T), pointer :: farg4_view
 integer(C_INT32_T) :: farg1 
 integer(C_INT32_T) :: farg2 
 type(SwigClassWrapper) :: farg3 
@@ -249,24 +262,31 @@ type(SwigArrayWrapper) :: farg4
 farg1 = left
 farg2 = right
 farg3 = g%swigdata
-if (size(data) > 0) then
-farg4_view => data(1)
-farg4%data = c_loc(farg4_view)
-farg4%size = size(data)
-else
-farg4%data = c_null_ptr
-farg4%size = 0
-end if
+call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg4)
 call swigc_uniform_int_distribution__SWIG_0(farg1, farg2, farg3, farg4)
 end subroutine
 
+subroutine  SWIGTM_fin_int64_t_Sb__SB_ (finp, iminp)
+  use, intrinsic :: ISO_C_BINDING
+  integer(C_INT64_T), dimension(:), intent(in), target :: finp
+  type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_INT64_T), pointer :: imtemp
+
+  if (size(finp) > 0) then
+    imtemp => finp(1)
+    iminp%data = c_loc(imtemp)
+    iminp%size = size(finp)
+  else
+    iminp%data = c_null_ptr
+    iminp%size = 0
+  end if
+end subroutine
 subroutine swigf_uniform_int_distribution__SWIG_1(left, right, g, data)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), intent(in) :: left
 integer(C_INT64_T), intent(in) :: right
 class(Engine), intent(in) :: g
 integer(C_INT64_T), dimension(:), target :: data
-integer(C_INT64_T), pointer :: farg4_view
 integer(C_INT64_T) :: farg1 
 integer(C_INT64_T) :: farg2 
 type(SwigClassWrapper) :: farg3 
@@ -275,24 +295,31 @@ type(SwigArrayWrapper) :: farg4
 farg1 = left
 farg2 = right
 farg3 = g%swigdata
-if (size(data) > 0) then
-farg4_view => data(1)
-farg4%data = c_loc(farg4_view)
-farg4%size = size(data)
-else
-farg4%data = c_null_ptr
-farg4%size = 0
-end if
+call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg4)
 call swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4)
 end subroutine
 
+subroutine  SWIGTM_fin_double_Sb__SB_ (finp, iminp)
+  use, intrinsic :: ISO_C_BINDING
+  real(C_DOUBLE), dimension(:), intent(in), target :: finp
+  type(SwigArrayWrapper), intent(out) :: iminp
+  real(C_DOUBLE), pointer :: imtemp
+
+  if (size(finp) > 0) then
+    imtemp => finp(1)
+    iminp%data = c_loc(imtemp)
+    iminp%size = size(finp)
+  else
+    iminp%data = c_null_ptr
+    iminp%size = 0
+  end if
+end subroutine
 subroutine uniform_real_distribution(left, right, g, data)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), intent(in) :: left
 real(C_DOUBLE), intent(in) :: right
 class(Engine), intent(in) :: g
 real(C_DOUBLE), dimension(:), target :: data
-real(C_DOUBLE), pointer :: farg4_view
 real(C_DOUBLE) :: farg1 
 real(C_DOUBLE) :: farg2 
 type(SwigClassWrapper) :: farg3 
@@ -301,14 +328,7 @@ type(SwigArrayWrapper) :: farg4
 farg1 = left
 farg2 = right
 farg3 = g%swigdata
-if (size(data) > 0) then
-farg4_view => data(1)
-farg4%data = c_loc(farg4_view)
-farg4%size = size(data)
-else
-farg4%data = c_null_ptr
-farg4%size = 0
-end if
+call  SWIGTM_fin_double_Sb__SB_ (data, farg4)
 call swigc_uniform_real_distribution(farg1, farg2, farg3, farg4)
 end subroutine
 
@@ -317,21 +337,13 @@ use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), intent(in) :: mean
 class(Engine), intent(in) :: g
 real(C_DOUBLE), dimension(:), target :: data
-real(C_DOUBLE), pointer :: farg3_view
 real(C_DOUBLE) :: farg1 
 type(SwigClassWrapper) :: farg2 
 type(SwigArrayWrapper) :: farg3 
 
 farg1 = mean
 farg2 = g%swigdata
-if (size(data) > 0) then
-farg3_view => data(1)
-farg3%data = c_loc(farg3_view)
-farg3%size = size(data)
-else
-farg3%data = c_null_ptr
-farg3%size = 0
-end if
+call  SWIGTM_fin_double_Sb__SB_ (data, farg3)
 call swigc_normal_distribution__SWIG_0(farg1, farg2, farg3)
 end subroutine
 
@@ -341,7 +353,6 @@ real(C_DOUBLE), intent(in) :: mean
 real(C_DOUBLE), intent(in) :: stddev
 class(Engine), intent(in) :: g
 real(C_DOUBLE), dimension(:), target :: data
-real(C_DOUBLE), pointer :: farg4_view
 real(C_DOUBLE) :: farg1 
 real(C_DOUBLE) :: farg2 
 type(SwigClassWrapper) :: farg3 
@@ -350,14 +361,7 @@ type(SwigArrayWrapper) :: farg4
 farg1 = mean
 farg2 = stddev
 farg3 = g%swigdata
-if (size(data) > 0) then
-farg4_view => data(1)
-farg4%data = c_loc(farg4_view)
-farg4%size = size(data)
-else
-farg4%data = c_null_ptr
-farg4%size = 0
-end if
+call  SWIGTM_fin_double_Sb__SB_ (data, farg4)
 call swigc_normal_distribution__SWIG_1(farg1, farg2, farg3, farg4)
 end subroutine
 

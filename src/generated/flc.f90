@@ -28,6 +28,11 @@ module flc
 
 ! WRAPPER DECLARATIONS
 interface
+ subroutine SWIG_free(cptr) &
+  bind(C, name="free")
+ use, intrinsic :: ISO_C_BINDING
+ type(C_PTR), value :: cptr
+end subroutine
 function swigc_flibcpp_version_get() &
 bind(C, name="_wrap_flibcpp_version_get") &
 result(fresult)
@@ -36,27 +41,22 @@ import :: swigarraywrapper
 type(SwigArrayWrapper) :: fresult
 end function
 
- subroutine SWIG_free(cptr) &
-  bind(C, name="free")
- use, intrinsic :: ISO_C_BINDING
- type(C_PTR), value :: cptr
-end subroutine
 end interface
 
 
 contains
  ! MODULE SUBPROGRAMS
 
-subroutine SWIG_chararray_to_string(wrap, string)
+subroutine  SWIGTM_fout_const_SS_char_Sm_ (imout, fout)
   use, intrinsic :: ISO_C_BINDING
-  type(SwigArrayWrapper), intent(IN) :: wrap
-  character(kind=C_CHAR, len=:), allocatable, intent(OUT) :: string
+  type(SwigArrayWrapper), intent(in) :: imout
+  character(kind=C_CHAR, len=:), allocatable, intent(out) :: fout
   character(kind=C_CHAR), dimension(:), pointer :: chars
   integer(kind=C_SIZE_T) :: i
-  call c_f_pointer(wrap%data, chars, [wrap%size])
-  allocate(character(kind=C_CHAR, len=wrap%size) :: string)
-  do i=1, wrap%size
-    string(i:i) = chars(i)
+  call c_f_pointer(imout%data, chars, [imout%size])
+  allocate(character(kind=C_CHAR, len=imout%size) :: fout)
+  do i=1, imout%size
+    fout(i:i) = chars(i)
   end do
 end subroutine
 
@@ -67,7 +67,7 @@ character(kind=C_CHAR, len=:), allocatable :: swig_result
 type(SwigArrayWrapper) :: fresult 
 
 fresult = swigc_flibcpp_version_get()
-call SWIG_chararray_to_string(fresult, swig_result)
+call  SWIGTM_fout_const_SS_char_Sm_ (fresult, swig_result)
 if (.false.) call SWIG_free(fresult%data)
 end function
 
