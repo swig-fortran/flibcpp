@@ -526,7 +526,7 @@ end interface
 
 contains
  ! MODULE SUBPROGRAMS
-subroutine  SWIGTM_fin_int32_t_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_int32_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT32_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -546,11 +546,11 @@ use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), dimension(:), target :: data
 type(SwigArrayWrapper) :: farg1 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 call swigc_sort__SWIG_1(farg1)
 end subroutine
 
-subroutine  SWIGTM_fin_int64_t_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT64_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -570,11 +570,11 @@ use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), dimension(:), target :: data
 type(SwigArrayWrapper) :: farg1 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 call swigc_sort__SWIG_2(farg1)
 end subroutine
 
-subroutine  SWIGTM_fin_double_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   real(C_DOUBLE), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -594,7 +594,7 @@ use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), dimension(:), target :: data
 type(SwigArrayWrapper) :: farg1 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 call swigc_sort__SWIG_3(farg1)
 end subroutine
 
@@ -605,7 +605,7 @@ procedure(SWIG_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_4(farg1, farg3)
 end subroutine
@@ -617,7 +617,7 @@ procedure(SWIG_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_5(farg1, farg3)
 end subroutine
@@ -629,13 +629,13 @@ procedure(SWIG_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_6(farg1, farg3)
 end subroutine
 
 
-subroutine  SWIGTM_fout_bool (imout, fout)
+subroutine SWIGTM_fout_bool(imout, fout)
   use, intrinsic :: ISO_C_BINDING
   integer(kind=C_INT), intent(IN) :: imout
   logical, intent(OUT) :: fout
@@ -655,9 +655,9 @@ integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 fresult = swigc_is_sorted__SWIG_1(farg1)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_is_sorted__SWIG_2(data) &
@@ -668,9 +668,9 @@ integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 fresult = swigc_is_sorted__SWIG_2(farg1)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_is_sorted__SWIG_3(data) &
@@ -681,9 +681,9 @@ real(C_DOUBLE), dimension(:), intent(in), target :: data
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 fresult = swigc_is_sorted__SWIG_3(farg1)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_is_sorted__SWIG_4(data, cmp) &
@@ -696,10 +696,10 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = c_funloc(cmp)
 fresult = swigc_is_sorted__SWIG_4(farg1, farg3)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_is_sorted__SWIG_5(data, cmp) &
@@ -712,10 +712,10 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = c_funloc(cmp)
 fresult = swigc_is_sorted__SWIG_5(farg1, farg3)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_is_sorted__SWIG_6(data, cmp) &
@@ -728,13 +728,13 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = c_funloc(cmp)
 fresult = swigc_is_sorted__SWIG_6(farg1, farg3)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
-subroutine  SWIGTM_fin_int_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_int_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -756,8 +756,8 @@ integer(C_INT), dimension(:), target :: idx
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
-call  SWIGTM_fin_int_Sb__SB_ (idx, farg3)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 call swigc_argsort__SWIG_1(farg1, farg3)
 end subroutine
 
@@ -768,8 +768,8 @@ integer(C_INT), dimension(:), target :: idx
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
-call  SWIGTM_fin_int_Sb__SB_ (idx, farg3)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 call swigc_argsort__SWIG_2(farg1, farg3)
 end subroutine
 
@@ -780,8 +780,8 @@ integer(C_INT), dimension(:), target :: idx
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
-call  SWIGTM_fin_int_Sb__SB_ (idx, farg3)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 call swigc_argsort__SWIG_3(farg1, farg3)
 end subroutine
 
@@ -794,8 +794,8 @@ type(SwigArrayWrapper) :: farg1
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
-call  SWIGTM_fin_int_Sb__SB_ (idx, farg3)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_4(farg1, farg3, farg5)
 end subroutine
@@ -809,8 +809,8 @@ type(SwigArrayWrapper) :: farg1
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
-call  SWIGTM_fin_int_Sb__SB_ (idx, farg3)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_5(farg1, farg3, farg5)
 end subroutine
@@ -824,8 +824,8 @@ type(SwigArrayWrapper) :: farg1
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
-call  SWIGTM_fin_int_Sb__SB_ (idx, farg3)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_6(farg1, farg3, farg5)
 end subroutine
@@ -840,7 +840,7 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT32_T) :: farg3 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = value
 fresult = swigc_binary_search__SWIG_1(farg1, farg3)
 swig_result = fresult
@@ -856,7 +856,7 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT64_T) :: farg3 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = value
 fresult = swigc_binary_search__SWIG_2(farg1, farg3)
 swig_result = fresult
@@ -872,7 +872,7 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 real(C_DOUBLE) :: farg3 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = value
 fresult = swigc_binary_search__SWIG_3(farg1, farg3)
 swig_result = fresult
@@ -890,7 +890,7 @@ type(SwigArrayWrapper) :: farg1
 integer(C_INT32_T) :: farg3 
 type(C_FUNPTR) :: farg4 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_4(farg1, farg3, farg4)
@@ -909,7 +909,7 @@ type(SwigArrayWrapper) :: farg1
 integer(C_INT64_T) :: farg3 
 type(C_FUNPTR) :: farg4 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_5(farg1, farg3, farg4)
@@ -928,7 +928,7 @@ type(SwigArrayWrapper) :: farg1
 real(C_DOUBLE) :: farg3 
 type(C_FUNPTR) :: farg4 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_6(farg1, farg3, farg4)
@@ -946,7 +946,7 @@ integer(C_INT32_T) :: farg3
 type(C_PTR) :: farg4 
 type(C_PTR) :: farg5 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
@@ -964,7 +964,7 @@ integer(C_INT64_T) :: farg3
 type(C_PTR) :: farg4 
 type(C_PTR) :: farg5 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
@@ -982,7 +982,7 @@ real(C_DOUBLE) :: farg3
 type(C_PTR) :: farg4 
 type(C_PTR) :: farg5 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
@@ -1002,7 +1002,7 @@ type(C_PTR) :: farg4
 type(C_PTR) :: farg5 
 type(C_FUNPTR) :: farg6 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
@@ -1023,7 +1023,7 @@ type(C_PTR) :: farg4
 type(C_PTR) :: farg5 
 type(C_FUNPTR) :: farg6 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
@@ -1044,7 +1044,7 @@ type(C_PTR) :: farg4
 type(C_PTR) :: farg5 
 type(C_FUNPTR) :: farg6 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_loc(first_index)
 farg5 = c_loc(last_index)
@@ -1061,7 +1061,7 @@ type(SwigArrayWrapper) :: farg1
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 call swigc_minmax_element__SWIG_1(farg1, farg3, farg4)
@@ -1076,7 +1076,7 @@ type(SwigArrayWrapper) :: farg1
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 call swigc_minmax_element__SWIG_2(farg1, farg3, farg4)
@@ -1091,7 +1091,7 @@ type(SwigArrayWrapper) :: farg1
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 call swigc_minmax_element__SWIG_3(farg1, farg3, farg4)
@@ -1108,7 +1108,7 @@ type(C_PTR) :: farg3
 type(C_PTR) :: farg4 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg1)
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 farg5 = c_funloc(cmp)
@@ -1126,7 +1126,7 @@ type(C_PTR) :: farg3
 type(C_PTR) :: farg4 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg1)
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 farg5 = c_funloc(cmp)
@@ -1144,7 +1144,7 @@ type(C_PTR) :: farg3
 type(C_PTR) :: farg4 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_double_Sb__SB_ (data, farg1)
+call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 farg5 = c_funloc(cmp)
@@ -1161,10 +1161,10 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data1, farg1)
-call  SWIGTM_fin_int32_t_Sb__SB_ (data2, farg3)
+call SWIGTM_fin_int32_t_Sb__SB_(data1, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data2, farg3)
 fresult = swigc_includes__SWIG_1(farg1, farg3)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_includes__SWIG_2(data1, data2) &
@@ -1177,10 +1177,10 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data1, farg1)
-call  SWIGTM_fin_int64_t_Sb__SB_ (data2, farg3)
+call SWIGTM_fin_int64_t_Sb__SB_(data1, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data2, farg3)
 fresult = swigc_includes__SWIG_2(farg1, farg3)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_includes__SWIG_3(data1, data2) &
@@ -1193,10 +1193,10 @@ integer(C_INT) :: fresult
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 
-call  SWIGTM_fin_double_Sb__SB_ (data1, farg1)
-call  SWIGTM_fin_double_Sb__SB_ (data2, farg3)
+call SWIGTM_fin_double_Sb__SB_(data1, farg1)
+call SWIGTM_fin_double_Sb__SB_(data2, farg3)
 fresult = swigc_includes__SWIG_3(farg1, farg3)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_includes__SWIG_4(data1, data2, cmp) &
@@ -1211,11 +1211,11 @@ type(SwigArrayWrapper) :: farg1
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_int32_t_Sb__SB_ (data1, farg1)
-call  SWIGTM_fin_int32_t_Sb__SB_ (data2, farg3)
+call SWIGTM_fin_int32_t_Sb__SB_(data1, farg1)
+call SWIGTM_fin_int32_t_Sb__SB_(data2, farg3)
 farg5 = c_funloc(cmp)
 fresult = swigc_includes__SWIG_4(farg1, farg3, farg5)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_includes__SWIG_5(data1, data2, cmp) &
@@ -1230,11 +1230,11 @@ type(SwigArrayWrapper) :: farg1
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_int64_t_Sb__SB_ (data1, farg1)
-call  SWIGTM_fin_int64_t_Sb__SB_ (data2, farg3)
+call SWIGTM_fin_int64_t_Sb__SB_(data1, farg1)
+call SWIGTM_fin_int64_t_Sb__SB_(data2, farg3)
 farg5 = c_funloc(cmp)
 fresult = swigc_includes__SWIG_5(farg1, farg3, farg5)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 function swigf_includes__SWIG_6(data1, data2, cmp) &
@@ -1249,11 +1249,11 @@ type(SwigArrayWrapper) :: farg1
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-call  SWIGTM_fin_double_Sb__SB_ (data1, farg1)
-call  SWIGTM_fin_double_Sb__SB_ (data2, farg3)
+call SWIGTM_fin_double_Sb__SB_(data1, farg1)
+call SWIGTM_fin_double_Sb__SB_(data2, farg3)
 farg5 = c_funloc(cmp)
 fresult = swigc_includes__SWIG_6(farg1, farg3, farg5)
-call  SWIGTM_fout_bool (fresult, swig_result)
+call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 subroutine swigf_shuffle__SWIG_1(g, data)
@@ -1264,7 +1264,7 @@ type(SwigClassWrapper) :: farg1
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = g%swigdata
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg2)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg2)
 call swigc_shuffle__SWIG_1(farg1, farg2)
 end subroutine
 
@@ -1276,7 +1276,7 @@ type(SwigClassWrapper) :: farg1
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = g%swigdata
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg2)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg2)
 call swigc_shuffle__SWIG_2(farg1, farg2)
 end subroutine
 
@@ -1288,7 +1288,7 @@ type(SwigClassWrapper) :: farg1
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = g%swigdata
-call  SWIGTM_fin_double_Sb__SB_ (data, farg2)
+call SWIGTM_fin_double_Sb__SB_(data, farg2)
 call swigc_shuffle__SWIG_3(farg1, farg2)
 end subroutine
 

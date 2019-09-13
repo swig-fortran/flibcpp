@@ -233,7 +233,7 @@ call swigc_Engine_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 
-subroutine  SWIGTM_fin_int32_t_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_int32_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT32_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -262,11 +262,11 @@ type(SwigArrayWrapper) :: farg4
 farg1 = left
 farg2 = right
 farg3 = g%swigdata
-call  SWIGTM_fin_int32_t_Sb__SB_ (data, farg4)
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg4)
 call swigc_uniform_int_distribution__SWIG_0(farg1, farg2, farg3, farg4)
 end subroutine
 
-subroutine  SWIGTM_fin_int64_t_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT64_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -295,11 +295,11 @@ type(SwigArrayWrapper) :: farg4
 farg1 = left
 farg2 = right
 farg3 = g%swigdata
-call  SWIGTM_fin_int64_t_Sb__SB_ (data, farg4)
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg4)
 call swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4)
 end subroutine
 
-subroutine  SWIGTM_fin_double_Sb__SB_ (finp, iminp)
+subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   real(C_DOUBLE), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -328,7 +328,7 @@ type(SwigArrayWrapper) :: farg4
 farg1 = left
 farg2 = right
 farg3 = g%swigdata
-call  SWIGTM_fin_double_Sb__SB_ (data, farg4)
+call SWIGTM_fin_double_Sb__SB_(data, farg4)
 call swigc_uniform_real_distribution(farg1, farg2, farg3, farg4)
 end subroutine
 
@@ -343,7 +343,7 @@ type(SwigArrayWrapper) :: farg3
 
 farg1 = mean
 farg2 = g%swigdata
-call  SWIGTM_fin_double_Sb__SB_ (data, farg3)
+call SWIGTM_fin_double_Sb__SB_(data, farg3)
 call swigc_normal_distribution__SWIG_0(farg1, farg2, farg3)
 end subroutine
 
@@ -361,7 +361,7 @@ type(SwigArrayWrapper) :: farg4
 farg1 = mean
 farg2 = stddev
 farg3 = g%swigdata
-call  SWIGTM_fin_double_Sb__SB_ (data, farg4)
+call SWIGTM_fin_double_Sb__SB_(data, farg4)
 call swigc_normal_distribution__SWIG_1(farg1, farg2, farg3, farg4)
 end subroutine
 

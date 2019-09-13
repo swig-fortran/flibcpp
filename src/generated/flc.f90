@@ -47,7 +47,7 @@ end interface
 contains
  ! MODULE SUBPROGRAMS
 
-subroutine  SWIGTM_fout_const_SS_char_Sm_ (imout, fout)
+subroutine SWIGTM_fout_const_SS_char_Sm_(imout, fout)
   use, intrinsic :: ISO_C_BINDING
   type(SwigArrayWrapper), intent(in) :: imout
   character(kind=C_CHAR, len=:), allocatable, intent(out) :: fout
@@ -67,7 +67,7 @@ character(kind=C_CHAR, len=:), allocatable :: swig_result
 type(SwigArrayWrapper) :: fresult 
 
 fresult = swigc_flibcpp_version_get()
-call  SWIGTM_fout_const_SS_char_Sm_ (fresult, swig_result)
+call SWIGTM_fout_const_SS_char_Sm_(fresult, swig_result)
 if (.false.) call SWIG_free(fresult%data)
 end function
 
