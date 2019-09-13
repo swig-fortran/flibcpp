@@ -193,6 +193,21 @@ template <typename T> T SwigValueInit() {
  { throw std::logic_error("In " DECL ": " MSG); }
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+void SWIG_check_unhandled_exception_impl(const char* decl);
+void SWIG_store_exception(const char* decl, int errcode, const char *msg);
+#ifdef __cplusplus
+}
+#endif
+
+
+#undef SWIG_exception_impl
+#define SWIG_exception_impl(DECL, CODE, MSG, RETURNNULL) \
+    SWIG_store_exception(DECL, CODE, MSG); RETURNNULL;
+
+
 enum SwigMemFlags {
     SWIG_MEM_OWN = 0x01,
     SWIG_MEM_RVALUE = 0x02,

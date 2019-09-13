@@ -14,10 +14,13 @@ module flc
  private
 
  ! DECLARATION CONSTRUCTS
+ integer(C_INT), public, &
+   bind(C, name="flc_ierr") :: ierr
  type, bind(C) :: SwigArrayWrapper
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
  end type
+ public :: get_serr
  public :: get_flibcpp_version
  integer(C_INT), protected, public, &
    bind(C, name="flibcpp_version_major") :: flibcpp_version_major
@@ -33,6 +36,14 @@ interface
  use, intrinsic :: ISO_C_BINDING
  type(C_PTR), value :: cptr
 end subroutine
+function swigc_get_serr() &
+bind(C, name="_wrap_get_serr") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: fresult
+end function
+
 function swigc_flibcpp_version_get() &
 bind(C, name="_wrap_flibcpp_version_get") &
 result(fresult)
@@ -59,6 +70,17 @@ subroutine SWIGTM_fout_const_SS_char_Sm_(imout, fout)
     fout(i:i) = chars(i)
   end do
 end subroutine
+
+function get_serr() &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+character(kind=C_CHAR, len=:), allocatable :: swig_result
+type(SwigArrayWrapper) :: fresult 
+
+fresult = swigc_get_serr()
+call SWIGTM_fout_const_SS_char_Sm_(fresult, swig_result)
+if (.false.) call SWIG_free(fresult%data)
+end function
 
 function get_flibcpp_version() &
 result(swig_result)

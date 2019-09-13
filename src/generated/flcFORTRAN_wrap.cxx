@@ -192,6 +192,38 @@ template <typename T> T SwigValueInit() {
 #define SWIG_exception_impl(DECL, CODE, MSG, RETURNNULL) \
  { throw std::logic_error("In " DECL ": " MSG); }
 
+/*  Errors in SWIG */
+#define  SWIG_UnknownError    	   -1
+#define  SWIG_IOError        	   -2
+#define  SWIG_RuntimeError   	   -3
+#define  SWIG_IndexError     	   -4
+#define  SWIG_TypeError      	   -5
+#define  SWIG_DivisionByZero 	   -6
+#define  SWIG_OverflowError  	   -7
+#define  SWIG_SyntaxError    	   -8
+#define  SWIG_ValueError     	   -9
+#define  SWIG_SystemError    	   -10
+#define  SWIG_AttributeError 	   -11
+#define  SWIG_MemoryError    	   -12
+#define  SWIG_NullReferenceError   -13
+
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+void SWIG_check_unhandled_exception_impl(const char* decl);
+void SWIG_store_exception(const char* decl, int errcode, const char *msg);
+#ifdef __cplusplus
+}
+#endif
+
+
+#undef SWIG_exception_impl
+#define SWIG_exception_impl(DECL, CODE, MSG, RETURNNULL) \
+    SWIG_store_exception(DECL, CODE, MSG); RETURNNULL;
+
 
 #include <stdexcept>
 
@@ -213,21 +245,13 @@ template <typename T> T SwigValueInit() {
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),reinterpret_cast< void** >(a)) 
 
 
-#include <cstdint>
-using std::int32_t;
-using std::int64_t;
-using std::size_t;
-
-
-#include <stdint.h>
-
 
 extern "C" {
-extern const char flibcpp_version[];
-extern const int flibcpp_version_major;
-extern const int flibcpp_version_minor;
-extern const int flibcpp_version_patch;
+
+int flc_ierr = 0;
+
 }
+
 
 
 #include <stdlib.h>
@@ -257,7 +281,93 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
 
 #include <string.h>
 
+
+// Stored exception message
+SWIGINTERN const char* swig_last_exception_cstr = NULL;
+// Retrieve error message
+SWIGEXPORT const char* flc_get_serr() {
+  if (!swig_last_exception_cstr) {
+    SWIG_store_exception("UNKNOWN", SWIG_RuntimeError,
+                         "no error string was present");
+  }
+  return swig_last_exception_cstr;
+}
+
+
+#include <string>
+
+
+#include <cctype>
+
+
 extern "C" {
+// Call this function before any new action
+SWIGEXPORT void SWIG_check_unhandled_exception_impl(const char* decl) {
+  if (flc_ierr != 0) {
+    // Construct message; calling the error string function ensures that
+    // the string is allocated if the user did something goofy like
+    // manually setting the integer. Since this function is not expected to
+    // be wrapped by a catch statement, it will probably terminate the
+    // program.
+    std::string msg("An unhandled exception occurred before a call to ");
+    msg += decl;
+    msg += "; ";
+    std::string prev_msg = flc_get_serr();
+    prev_msg[0] = std::tolower(prev_msg[0]);
+    msg += prev_msg;
+    throw std::runtime_error(msg);
+  }
+}
+
+// Save an exception to the fortran error code and string
+SWIGEXPORT void SWIG_store_exception(const char *decl,
+                                     int errcode,
+                                     const char *msg) {
+  ::flc_ierr = errcode;
+
+  static std::string last_exception_msg;
+  // Save the message to a std::string first
+  last_exception_msg = "In ";
+  last_exception_msg += decl;
+  last_exception_msg += ": ";
+  last_exception_msg += msg;
+  swig_last_exception_cstr = last_exception_msg.c_str();
+}
+}
+
+
+#include <typeinfo>
+#include <stdexcept>
+
+
+#include <cstdint>
+using std::int32_t;
+using std::int64_t;
+using std::size_t;
+
+
+#include <stdint.h>
+
+
+extern "C" {
+extern const char flibcpp_version[];
+extern const int flibcpp_version_major;
+extern const int flibcpp_version_minor;
+extern const int flibcpp_version_patch;
+}
+
+extern "C" {
+SWIGEXPORT SwigArrayWrapper _wrap_get_serr() {
+  SwigArrayWrapper fresult ;
+  char *result = 0 ;
+  
+  result = (char *)flc_get_serr();
+  fresult.size = strlen(reinterpret_cast< const char* >(result));
+  fresult.data = const_cast< char * >(result);
+  return fresult;
+}
+
+
 SWIGEXPORT SwigArrayWrapper _wrap_flibcpp_version_get() {
   SwigArrayWrapper fresult ;
   char *result = 0 ;

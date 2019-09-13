@@ -24,6 +24,23 @@
 
 %flc_add_header
 
+/************************
+ * Exception handling
+ ************************/
+
+/* Rename the error variables' internal C symbols */
+#define SWIG_FORTRAN_ERROR_INT flc_ierr
+#define SWIG_FORTRAN_ERROR_STR flc_get_serr
+
+/* Restore names in the wrapper code */
+%rename(ierr) flc_ierr;
+%rename(get_serr) flc_get_serr;
+
+/* Unless we're directly building this module, delay exception handling */
+#ifndef SWIGIMPORTED
+%include <exception.i>
+#endif
+
 /******************************
  * Data types and instantiation
  ******************************/
