@@ -13,7 +13,9 @@ macro(swig_fortran_add_test TESTNAME)
   add_test(NAME ${TESTNAME} COMMAND ${TESTNAME}.exe)
 endmacro()
 
-swig_fortran_add_test(test_random
-  flc_random)
 swig_fortran_add_test(test_algorithm
   flc_algorithm)
+swig_fortran_add_test(test_random
+  flc_random)
+swig_fortran_add_test(test_vector
+  flc_vector)

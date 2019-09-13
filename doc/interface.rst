@@ -24,10 +24,22 @@ flc_algorithm
 .. literalinclude:: ../src/flc_algorithm.i
    :linenos:
 
+flc_chrono
+=============
+
+.. literalinclude:: ../src/flc_chrono.i
+   :linenos:
+
 flc_random
 =============
 
 .. literalinclude:: ../src/flc_random.i
+   :linenos:
+
+flc_vector
+=============
+
+.. literalinclude:: ../src/flc_vector.i
    :linenos:
 
 .. ############################################################################

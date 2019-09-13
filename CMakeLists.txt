@@ -169,6 +169,8 @@ swig_fortran_add_module(flc_random)
 target_link_libraries(flc_random flc)
 swig_fortran_add_module(flc_algorithm)
 target_link_libraries(flc_algorithm flc_random flc)
+swig_fortran_add_module(flc_vector)
+target_link_libraries(flc_vector flc)
 
 #---------------------------------------------------------------------------#
 # INSTALLATION
