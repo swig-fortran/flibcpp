@@ -12,7 +12,7 @@ macro(swig_fortran_add_example name)
 endmacro()
 
 swig_fortran_add_example(sort
-  flc_algorithm)
+  flc_algorithm flc_random flc_string)
 
 ##---------------------------------------------------------------------------##
 ## end of common/CMakeLists.txt
