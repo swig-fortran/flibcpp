@@ -17,6 +17,11 @@ swig_fortran_add_example(sort
 swig_fortran_add_example(vecstr
   flc_string flc_vector)
 
+add_test(
+  NAME examples
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/run-examples.sh"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+
 ##---------------------------------------------------------------------------##
 ## end of common/CMakeLists.txt
 ##---------------------------------------------------------------------------##

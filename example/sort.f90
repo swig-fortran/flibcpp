@@ -55,8 +55,8 @@ function read_positive_int(desc) result(result_int)
     read(STDIN, "(a)", iostat=io_ierr) readstr
     if (io_ierr == IOSTAT_END) then
       ! Error condition: ctrl-D during input
-      write(STDOUT, *) "End of line"
-      stop 0
+      write(STDOUT, *) "User terminated"
+      stop 1
     endif
 
     result_int = stoi(readstr)
@@ -73,14 +73,14 @@ function read_positive_int(desc) result(result_int)
 
     if (ierr == SWIG_OVERFLOWERROR) then
       ! Error condition: integer doesn't fit in native integer
-      write(0,*) "Your integer is too darn big!"
+      write(STDOUT,*) "Your integer is too darn big!"
     else if (ierr == SWIG_VALUEERROR) then
       ! Error condition: not an integer at all
-      write(0,*) "That text you entered? It wasn't an integer."
+      write(STDOUT,*) "That text you entered? It wasn't an integer."
     else
-      write(0,*) "Unknown error", ierr
+      write(STDOUT,*) "Unknown error", ierr
     end if
-    write(0,*) "(Detailed error message: ", get_serr(), ")"
+    write(STDOUT,*) "(Detailed error message: ", get_serr(), ")"
 
     ! Clear error flag so the next call to stoi succeeds
     ierr = 0
