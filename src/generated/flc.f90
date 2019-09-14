@@ -21,6 +21,19 @@ module flc
   integer(C_SIZE_T), public :: size = 0
  end type
  public :: get_serr
+ integer(C_INT), parameter, public :: SWIG_UnknownError = -1_C_INT
+ integer(C_INT), parameter, public :: SWIG_IOError = -2_C_INT
+ integer(C_INT), parameter, public :: SWIG_RuntimeError = -3_C_INT
+ integer(C_INT), parameter, public :: SWIG_IndexError = -4_C_INT
+ integer(C_INT), parameter, public :: SWIG_TypeError = -5_C_INT
+ integer(C_INT), parameter, public :: SWIG_DivisionByZero = -6_C_INT
+ integer(C_INT), parameter, public :: SWIG_OverflowError = -7_C_INT
+ integer(C_INT), parameter, public :: SWIG_SyntaxError = -8_C_INT
+ integer(C_INT), parameter, public :: SWIG_ValueError = -9_C_INT
+ integer(C_INT), parameter, public :: SWIG_SystemError = -10_C_INT
+ integer(C_INT), parameter, public :: SWIG_AttributeError = -11_C_INT
+ integer(C_INT), parameter, public :: SWIG_MemoryError = -12_C_INT
+ integer(C_INT), parameter, public :: SWIG_NullReferenceError = -13_C_INT
  public :: get_flibcpp_version
  integer(C_INT), protected, public, &
    bind(C, name="flibcpp_version_major") :: flibcpp_version_major

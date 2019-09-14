@@ -165,10 +165,16 @@ endfunction()
 
 # Four SWIG libraries
 swig_fortran_add_module(flc "${FLIBCPP_VERSION_CPP}")
-swig_fortran_add_module(flc_random)
-target_link_libraries(flc_random flc)
+
 swig_fortran_add_module(flc_algorithm)
 target_link_libraries(flc_algorithm flc_random flc)
+
+swig_fortran_add_module(flc_random)
+target_link_libraries(flc_random flc)
+
+swig_fortran_add_module(flc_string)
+target_link_libraries(flc_string flc)
+
 swig_fortran_add_module(flc_vector)
 target_link_libraries(flc_vector flc)
 

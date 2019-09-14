@@ -52,7 +52,7 @@ the end of the vector (increasing the size by one) with ``push_back``. The
 removes a specific vector index or range of indices. ``clear`` removes
 all elements. Finally, ``set`` sets the value of an element at a given index.
 
-.. important:: Unlike the C++ version of this class, **all vectors in flibcpp
+.. important:: Unlike the C++ version of this class, **all vectors in Flibcpp
    use 1-offset indexing**. This means that ``v%get(1)`` is the same as the C++
    ``v[0]``: it returns the first element (i.e. the element with an offset of
    zero).

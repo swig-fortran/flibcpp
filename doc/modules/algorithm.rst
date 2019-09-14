@@ -72,6 +72,8 @@ zero.
 
 .. _argsort: https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.argsort.html
 
+.. _modules_algorithm_searching:
+
 Searching
 =========
 
