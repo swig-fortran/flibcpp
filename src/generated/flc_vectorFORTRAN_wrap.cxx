@@ -171,23 +171,6 @@ template <typename T> T SwigValueInit() {
 # pragma warning disable 592
 #endif
 
-/*  Errors in SWIG */
-#define  SWIG_UnknownError    	   -1
-#define  SWIG_IOError        	   -2
-#define  SWIG_RuntimeError   	   -3
-#define  SWIG_IndexError     	   -4
-#define  SWIG_TypeError      	   -5
-#define  SWIG_DivisionByZero 	   -6
-#define  SWIG_OverflowError  	   -7
-#define  SWIG_SyntaxError    	   -8
-#define  SWIG_ValueError     	   -9
-#define  SWIG_SystemError    	   -10
-#define  SWIG_AttributeError 	   -11
-#define  SWIG_MemoryError    	   -12
-#define  SWIG_NullReferenceError   -13
-
-
-
 
 #define SWIG_exception_impl(DECL, CODE, MSG, RETURNNULL) \
  { throw std::logic_error("In " DECL ": " MSG); }
@@ -206,6 +189,23 @@ void SWIG_store_exception(const char* decl, int errcode, const char *msg);
 #undef SWIG_exception_impl
 #define SWIG_exception_impl(DECL, CODE, MSG, RETURNNULL) \
     SWIG_store_exception(DECL, CODE, MSG); RETURNNULL;
+
+/*  Errors in SWIG */
+#define  SWIG_UnknownError    	   -1
+#define  SWIG_IOError        	   -2
+#define  SWIG_RuntimeError   	   -3
+#define  SWIG_IndexError     	   -4
+#define  SWIG_TypeError      	   -5
+#define  SWIG_DivisionByZero 	   -6
+#define  SWIG_OverflowError  	   -7
+#define  SWIG_SyntaxError    	   -8
+#define  SWIG_ValueError     	   -9
+#define  SWIG_SystemError    	   -10
+#define  SWIG_AttributeError 	   -11
+#define  SWIG_MemoryError    	   -12
+#define  SWIG_NullReferenceError   -13
+
+
 
 
 enum SwigMemFlags {
@@ -704,6 +704,15 @@ SWIGEXPORT void _wrap_VectorInt4_push_back(SwigClassWrapper *farg1, int32_t cons
 }
 
 
+SWIGEXPORT void _wrap_VectorInt4_pop_back(SwigClassWrapper *farg1) {
+  std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
+  
+  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::pop_back()", return );
+  arg1 = (std::vector< int32_t > *)farg1->cptr;
+  (arg1)->pop_back();
+}
+
+
 SWIGEXPORT void _wrap_VectorInt4_clear(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   
@@ -1013,6 +1022,15 @@ SWIGEXPORT void _wrap_VectorInt8_push_back(SwigClassWrapper *farg1, int64_t cons
 }
 
 
+SWIGEXPORT void _wrap_VectorInt8_pop_back(SwigClassWrapper *farg1) {
+  std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
+  
+  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::pop_back()", return );
+  arg1 = (std::vector< int64_t > *)farg1->cptr;
+  (arg1)->pop_back();
+}
+
+
 SWIGEXPORT void _wrap_VectorInt8_clear(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   
@@ -1319,6 +1337,15 @@ SWIGEXPORT void _wrap_VectorReal8_push_back(SwigClassWrapper *farg1, double cons
   temp2 = (double)(*farg2);
   arg2 = &temp2;
   (arg1)->push_back((double const &)*arg2);
+}
+
+
+SWIGEXPORT void _wrap_VectorReal8_pop_back(SwigClassWrapper *farg1) {
+  std::vector< double > *arg1 = (std::vector< double > *) 0 ;
+  
+  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::pop_back()", return );
+  arg1 = (std::vector< double > *)farg1->cptr;
+  (arg1)->pop_back();
 }
 
 

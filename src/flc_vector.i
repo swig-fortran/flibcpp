@@ -11,7 +11,7 @@
 %include <std_vector.i>
 
 /* ------------------------------------------------------------------------- */
-%define EXTEND_STD_VECTOR_POD_INTERNAL(CTYPE)
+%define EXTEND_STD_VECTOR_POD(CTYPE)
   %apply (const SWIGTYPE *DATA, ::size_t SIZE)
     { (const CTYPE* DATA, size_type SIZE) };
 
@@ -50,9 +50,10 @@
 %define %specialize_std_vector_pod(T)
 namespace std {
   template<> class vector<T> {
-    SWIG_STD_VECTOR_MINIMUM_INTERNAL(T, const T&)
+    SWIG_STD_VECTOR_COMMON(T, const T&)
+    SWIG_STD_VECTOR_REF(T)
     %extend {
-      EXTEND_STD_VECTOR_POD_INTERNAL(T)
+      EXTEND_STD_VECTOR_POD(T)
     }
   };
 }
