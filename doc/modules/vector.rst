@@ -8,8 +8,14 @@
 Vector
 ******
 
-Vectors are resizeable arrays of elements. All vectors support the following
-basic operations.
+Vectors are resizeable arrays of elements. The ``flc_vector`` module
+instantiates vectors of ``integer(4)``,  ``integer(8)``,  ``real(8)``, and
+``type(String)``.
+
+Common functionality
+====================
+
+All vector types support the following basic operations.
 
 Construction and destruction
 ----------------------------
@@ -77,6 +83,14 @@ The size of a vector is returned by the bound function ``size``; ``get``
 returns the value at an index; and ``front`` and ``back`` are aliases for
 ``get(1)`` and ``get(v%size())``, respectively.
 
+Additionally, ``front_ref``, ``back_ref``, and ``get_ref`` return pointers to
+the elements of the array.
+
+.. warning:: Array element pointers are valid **only** as long as the vector's
+  size is not changed. Calling ``erase``, ``push_back``, and so forth will
+  invalidate the pointer; accessing it at that point results in undefined
+  behavior.
+
 Numeric vectors
 ===============
 
@@ -99,6 +113,8 @@ an array pointer::
 
    v = Vector(iarr)
    write(0,*) "Size should be 4:", v%size()
+
+The ``assign`` bound method acts like a constructor but for an existing vector.
 
 View as an array pointer
 ------------------------
@@ -124,7 +140,20 @@ underlying memory as the C++ object::
 String vectors
 ==============
 
-String vectors are not yet implemented.
+String vectors' native "element" type is a ``character(len=:)``. Vector
+operations that accept an input will take any native character string; and
+returned values will be allocatable character arrays.
+
+The ``front_ref``, ``back_ref``, and ``get_ref`` functions allow the underlying
+``std::string`` class to be accessed with the ``String`` Fortran derived type
+wrapper. Note that unlike for intrinsic types, where these functions return a
+``integer, pointer``, the vector of strings returns just ``type(String)``.
+However, as with native pointers described above, these references are
+*invalid* once the string changes size. They should be cleared with the
+``%release()`` bound method.
+
+An additional ``set_ref`` function allows vector elements to be assigned from
+vector classes.
 
 .. ############################################################################
 .. end of doc/modules/vector.rst

@@ -68,3 +68,18 @@ namespace std {
 %template(VectorInt4) std::vector<int32_t>;
 %template(VectorInt8) std::vector<int64_t>;
 %template(VectorReal8) std::vector<double>;
+
+/* ------------------------------------------------------------------------- */
+
+%extend std::vector<std::string> {
+  void set_ref(size_type index, std::string& str) {
+    SWIG_check_range(index, $self->size(),
+                     "std::vector<std::string>::set_ref",
+                     return);
+    (*$self)[index] = str;
+  }
+}
+
+%include <std_string.i>
+%import "flc_string.i"
+%template(VectorString) std::vector<std::string>;

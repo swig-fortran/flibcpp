@@ -176,7 +176,7 @@ swig_fortran_add_module(flc_string)
 target_link_libraries(flc_string flc)
 
 swig_fortran_add_module(flc_vector)
-target_link_libraries(flc_vector flc)
+target_link_libraries(flc_vector flc flc_string)
 
 #---------------------------------------------------------------------------#
 # INSTALLATION
