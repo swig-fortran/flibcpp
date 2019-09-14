@@ -46,7 +46,7 @@ subroutine test_class()
   charptr => s%view()
   charptr(1) = "Y"
   ! Convert the string to a Fortran string
-  native = s%str()
+  allocate(native, source=s%str())
   ASSERT(native == "Yello.")
   call s%pop_back()
   call s%append(" there")
@@ -76,10 +76,12 @@ subroutine test_conversion()
   implicit none
   integer(4) :: temp
   real(8) :: dbl
-  character(len=100) :: tempstr
 
   ASSERT(stoi("1234567") == 1234567_c_int32_t)
   ASSERT(stoll("1234567890123") == 1234567890123_c_int64_t)
+
+  ! Check alternate bases
+  ASSERT(stoi("0x100", 16) == 256)
 
   ! Check error reporting
   temp = stoi("1234567890123")
@@ -90,41 +92,14 @@ subroutine test_conversion()
   ASSERT(ierr == SWIG_ValueError)
   ierr = 0
 
+  temp = stoi("123 go")
+  ASSERT(ierr == SWIG_ValueError)
+  ierr = 0
+
   dbl = stod("3.625")
   ASSERT(dbl == 3.625)
 
 end subroutine
-
-! ! An example of best practices for loop logic
-! subroutine test_reading()
-!   use, intrinsic :: ISO_C_BINDING
-!   use flc, only : ierr, get_serr, SWIG_OverflowError, SWIG_ValueError
-!   use flc_string
-!   implicit none
-!   integer(4) :: temp
-!   character(len=100) :: tempstr
-! 
-! 1 write(0,*) "Enter an integer > 10 to exit"
-!   read(*, '(a)') tempstr
-!   temp = stoi(trim(tempstr))
-!   if (ierr == SWIG_OverflowError) then
-!     write(0,*) "Your integer is too darn big!"
-!     goto 2
-!   elseif (ierr == SWIG_ValueError) then
-!     write(0,*) "That thing you entered? It wasn't an integer."
-!     goto 2
-!   elseif (ierr /= 0) then
-!     write(0,*) "Unknown error", ierr
-!     goto 2
-!   elseif (temp > 10) then
-!     goto 3
-!   end if
-!   goto 1
-! 2 write(0,*) "(Detailed error message: ", get_serr(), ")"
-!   ierr = 0
-!   goto 1
-! 3 write(0,*) "You did it!"
-! end subroutine
 
 !-----------------------------------------------------------------------------!
 end program

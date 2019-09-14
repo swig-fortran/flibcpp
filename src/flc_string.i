@@ -122,11 +122,35 @@ class string {
   }
 }
 
-// String conversion
-int stoi(const std::string& s);
-long stol(const std::string& s);
-long long stoll(const std::string& s);
-float stof(const std::string& s);
-double stod(const std::string& s);
+%fragment("flc_has_junk", "header", fragment="<cctype>", fragment="<algorithm>") %{
+  SWIGINTERN bool flc_has_junk(const std::string& s, size_t pos) {
+    return !std::all_of(s.begin() + pos, s.end(), std::isspace);
+  }
+%}
+
+%typemap(in, numinputs=0, noblock=1) size_t* result_pos (size_t temp_pos) {
+  temp_pos = 0;
+  $1 = &temp_pos;
+}
+%typemap(argout, noblock=1, fragment="flc_has_junk") size_t* result_pos {
+  if (flc_has_junk(*arg1, temp_pos$argnum)) {
+    SWIG_exception(SWIG_ValueError, "Junk at end of string");
+  }
+}
+
+// String conversion routines
+#define %add_string_int_conversion(RETURN_TYPE, NAME) \
+  RETURN_TYPE NAME(const string& s, size_t* result_pos, int base = 10)
+#define %add_string_real_conversion(RETURN_TYPE, NAME) \
+  RETURN_TYPE NAME(const string& s, size_t* result_pos)
+
+%add_string_int_conversion(int, stoi);
+%add_string_int_conversion(long, stol);
+%add_string_int_conversion(long long, stoll);
+%add_string_real_conversion(float, stof);
+%add_string_real_conversion(double, stod);
+
+// Don't add exception code later
+%exception;
 
 } // namespace std

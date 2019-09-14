@@ -419,6 +419,17 @@ SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
   }
 }
 
+
+#include <cctype>
+
+
+#include <algorithm>
+
+
+  SWIGINTERN bool flc_has_junk(const std::string& s, size_t pos) {
+    return !std::all_of(s.begin() + pos, s.end(), std::isspace);
+  }
+
 extern "C" {
 SWIGEXPORT SwigClassWrapper _wrap_new_string__SWIG_0() {
   SwigClassWrapper fresult ;
@@ -719,77 +730,200 @@ SWIGEXPORT void _wrap_string_op_assign__(SwigClassWrapper *farg1, SwigClassWrapp
 }
 
 
-SWIGEXPORT int _wrap_stoi(SwigArrayWrapper *farg1) {
+SWIGEXPORT int _wrap_stoi__SWIG_0(SwigArrayWrapper *farg1, int const *farg3) {
   int fresult ;
   std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
+  int arg3 ;
   std::string tempstr1 ;
+  std::size_t temp_pos2 ;
   int result;
   
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
   tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
+  arg3 = (int)(*farg3);
   {
-    SWIG_check_unhandled_exception_impl("std::stoi(std::string const &)");;
+    SWIG_check_unhandled_exception_impl("std::stoi(std::string const &,std::size_t *,int)");;
     try {
-      result = (int)std::stoi((std::string const &)*arg1);
+      result = (int)std::stoi((std::string const &)*arg1,arg2,arg3);
     }
     catch (const std::invalid_argument& e) {
-      SWIG_exception_impl("std::stoi(std::string const &)", -9, e.what(), return 0);
+      SWIG_exception_impl("std::stoi(std::string const &,std::size_t *,int)", -9, e.what(), return 0);
     }
     catch (const std::out_of_range& e) {
-      SWIG_exception_impl("std::stoi(std::string const &)", -7, e.what(), return 0);
+      SWIG_exception_impl("std::stoi(std::string const &,std::size_t *,int)", -7, e.what(), return 0);
     }
   }
   fresult = (int)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stoi(std::string const &,std::size_t *,int)", -9, "Junk at end of string", return 0);
+  }
   return fresult;
 }
 
 
-SWIGEXPORT long _wrap_stol(SwigArrayWrapper *farg1) {
-  long fresult ;
+SWIGEXPORT int _wrap_stoi__SWIG_1(SwigArrayWrapper *farg1) {
+  int fresult ;
   std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
   std::string tempstr1 ;
-  long result;
+  std::size_t temp_pos2 ;
+  int result;
   
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
   tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
-    SWIG_check_unhandled_exception_impl("std::stol(std::string const &)");;
+    SWIG_check_unhandled_exception_impl("std::stoi(std::string const &,std::size_t *)");;
     try {
-      result = (long)std::stol((std::string const &)*arg1);
+      result = (int)std::stoi((std::string const &)*arg1,arg2);
     }
     catch (const std::invalid_argument& e) {
-      SWIG_exception_impl("std::stol(std::string const &)", -9, e.what(), return 0);
+      SWIG_exception_impl("std::stoi(std::string const &,std::size_t *)", -9, e.what(), return 0);
     }
     catch (const std::out_of_range& e) {
-      SWIG_exception_impl("std::stol(std::string const &)", -7, e.what(), return 0);
+      SWIG_exception_impl("std::stoi(std::string const &,std::size_t *)", -7, e.what(), return 0);
+    }
+  }
+  fresult = (int)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stoi(std::string const &,std::size_t *)", -9, "Junk at end of string", return 0);
+  }
+  return fresult;
+}
+
+
+SWIGEXPORT long _wrap_stol__SWIG_0(SwigArrayWrapper *farg1, int const *farg3) {
+  long fresult ;
+  std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
+  int arg3 ;
+  std::string tempstr1 ;
+  std::size_t temp_pos2 ;
+  long result;
+  
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
+  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  arg1 = &tempstr1;
+  arg3 = (int)(*farg3);
+  {
+    SWIG_check_unhandled_exception_impl("std::stol(std::string const &,std::size_t *,int)");;
+    try {
+      result = (long)std::stol((std::string const &)*arg1,arg2,arg3);
+    }
+    catch (const std::invalid_argument& e) {
+      SWIG_exception_impl("std::stol(std::string const &,std::size_t *,int)", -9, e.what(), return 0);
+    }
+    catch (const std::out_of_range& e) {
+      SWIG_exception_impl("std::stol(std::string const &,std::size_t *,int)", -7, e.what(), return 0);
     }
   }
   fresult = (long)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stol(std::string const &,std::size_t *,int)", -9, "Junk at end of string", return 0);
+  }
   return fresult;
 }
 
 
-SWIGEXPORT long long _wrap_stoll(SwigArrayWrapper *farg1) {
-  long long fresult ;
+SWIGEXPORT long _wrap_stol__SWIG_1(SwigArrayWrapper *farg1) {
+  long fresult ;
   std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
   std::string tempstr1 ;
-  long long result;
+  std::size_t temp_pos2 ;
+  long result;
   
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
   tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
-    SWIG_check_unhandled_exception_impl("std::stoll(std::string const &)");;
+    SWIG_check_unhandled_exception_impl("std::stol(std::string const &,std::size_t *)");;
     try {
-      result = (long long)std::stoll((std::string const &)*arg1);
+      result = (long)std::stol((std::string const &)*arg1,arg2);
     }
     catch (const std::invalid_argument& e) {
-      SWIG_exception_impl("std::stoll(std::string const &)", -9, e.what(), return 0);
+      SWIG_exception_impl("std::stol(std::string const &,std::size_t *)", -9, e.what(), return 0);
     }
     catch (const std::out_of_range& e) {
-      SWIG_exception_impl("std::stoll(std::string const &)", -7, e.what(), return 0);
+      SWIG_exception_impl("std::stol(std::string const &,std::size_t *)", -7, e.what(), return 0);
+    }
+  }
+  fresult = (long)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stol(std::string const &,std::size_t *)", -9, "Junk at end of string", return 0);
+  }
+  return fresult;
+}
+
+
+SWIGEXPORT long long _wrap_stoll__SWIG_0(SwigArrayWrapper *farg1, int const *farg3) {
+  long long fresult ;
+  std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
+  int arg3 ;
+  std::string tempstr1 ;
+  std::size_t temp_pos2 ;
+  long long result;
+  
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
+  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  arg1 = &tempstr1;
+  arg3 = (int)(*farg3);
+  {
+    SWIG_check_unhandled_exception_impl("std::stoll(std::string const &,std::size_t *,int)");;
+    try {
+      result = (long long)std::stoll((std::string const &)*arg1,arg2,arg3);
+    }
+    catch (const std::invalid_argument& e) {
+      SWIG_exception_impl("std::stoll(std::string const &,std::size_t *,int)", -9, e.what(), return 0);
+    }
+    catch (const std::out_of_range& e) {
+      SWIG_exception_impl("std::stoll(std::string const &,std::size_t *,int)", -7, e.what(), return 0);
     }
   }
   fresult = (long long)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stoll(std::string const &,std::size_t *,int)", -9, "Junk at end of string", return 0);
+  }
+  return fresult;
+}
+
+
+SWIGEXPORT long long _wrap_stoll__SWIG_1(SwigArrayWrapper *farg1) {
+  long long fresult ;
+  std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
+  std::string tempstr1 ;
+  std::size_t temp_pos2 ;
+  long long result;
+  
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
+  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  arg1 = &tempstr1;
+  {
+    SWIG_check_unhandled_exception_impl("std::stoll(std::string const &,std::size_t *)");;
+    try {
+      result = (long long)std::stoll((std::string const &)*arg1,arg2);
+    }
+    catch (const std::invalid_argument& e) {
+      SWIG_exception_impl("std::stoll(std::string const &,std::size_t *)", -9, e.what(), return 0);
+    }
+    catch (const std::out_of_range& e) {
+      SWIG_exception_impl("std::stoll(std::string const &,std::size_t *)", -7, e.what(), return 0);
+    }
+  }
+  fresult = (long long)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stoll(std::string const &,std::size_t *)", -9, "Junk at end of string", return 0);
+  }
   return fresult;
 }
 
@@ -797,24 +931,31 @@ SWIGEXPORT long long _wrap_stoll(SwigArrayWrapper *farg1) {
 SWIGEXPORT float _wrap_stof(SwigArrayWrapper *farg1) {
   float fresult ;
   std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
   std::string tempstr1 ;
+  std::size_t temp_pos2 ;
   float result;
   
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
   tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
-    SWIG_check_unhandled_exception_impl("std::stof(std::string const &)");;
+    SWIG_check_unhandled_exception_impl("std::stof(std::string const &,std::size_t *)");;
     try {
-      result = (float)std::stof((std::string const &)*arg1);
+      result = (float)std::stof((std::string const &)*arg1,arg2);
     }
     catch (const std::invalid_argument& e) {
-      SWIG_exception_impl("std::stof(std::string const &)", -9, e.what(), return 0);
+      SWIG_exception_impl("std::stof(std::string const &,std::size_t *)", -9, e.what(), return 0);
     }
     catch (const std::out_of_range& e) {
-      SWIG_exception_impl("std::stof(std::string const &)", -7, e.what(), return 0);
+      SWIG_exception_impl("std::stof(std::string const &,std::size_t *)", -7, e.what(), return 0);
     }
   }
   fresult = (float)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stof(std::string const &,std::size_t *)", -9, "Junk at end of string", return 0);
+  }
   return fresult;
 }
 
@@ -822,24 +963,31 @@ SWIGEXPORT float _wrap_stof(SwigArrayWrapper *farg1) {
 SWIGEXPORT double _wrap_stod(SwigArrayWrapper *farg1) {
   double fresult ;
   std::string *arg1 = 0 ;
+  std::size_t *arg2 = (std::size_t *) 0 ;
   std::string tempstr1 ;
+  std::size_t temp_pos2 ;
   double result;
   
+  temp_pos2 = 0;
+  arg2 = &temp_pos2;
   tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
-    SWIG_check_unhandled_exception_impl("std::stod(std::string const &)");;
+    SWIG_check_unhandled_exception_impl("std::stod(std::string const &,std::size_t *)");;
     try {
-      result = (double)std::stod((std::string const &)*arg1);
+      result = (double)std::stod((std::string const &)*arg1,arg2);
     }
     catch (const std::invalid_argument& e) {
-      SWIG_exception_impl("std::stod(std::string const &)", -9, e.what(), return 0);
+      SWIG_exception_impl("std::stod(std::string const &,std::size_t *)", -9, e.what(), return 0);
     }
     catch (const std::out_of_range& e) {
-      SWIG_exception_impl("std::stod(std::string const &)", -7, e.what(), return 0);
+      SWIG_exception_impl("std::stod(std::string const &,std::size_t *)", -7, e.what(), return 0);
     }
   }
   fresult = (double)(result);
+  if (flc_has_junk(*arg1, temp_pos2)) {
+    SWIG_exception_impl("std::stod(std::string const &,std::size_t *)", -9, "Junk at end of string", return 0);
+  }
   return fresult;
 }
 

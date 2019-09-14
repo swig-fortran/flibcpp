@@ -59,11 +59,20 @@ module flc_string
   module procedure swigf_new_string__SWIG_1
   module procedure swigf_new_string__SWIG_2
  end interface
- public :: stoi
- public :: stol
- public :: stoll
  public :: stof
  public :: stod
+ interface stoi
+  module procedure swigf_stoi__SWIG_0, swigf_stoi__SWIG_1
+ end interface
+ public :: stoi
+ interface stoll
+  module procedure swigf_stoll__SWIG_0, swigf_stoll__SWIG_1
+ end interface
+ public :: stoll
+ interface stol
+  module procedure swigf_stol__SWIG_0, swigf_stol__SWIG_1
+ end interface
+ public :: stol
 
 ! WRAPPER DECLARATIONS
 interface
@@ -275,8 +284,18 @@ type(SwigClassWrapper), intent(inout) :: farg1
 type(SwigClassWrapper) :: farg2
 end subroutine
 
-function swigc_stoi(farg1) &
-bind(C, name="_wrap_stoi") &
+function swigc_stoi__SWIG_0(farg1, farg3) &
+bind(C, name="_wrap_stoi__SWIG_0") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT), intent(in) :: farg3
+integer(C_INT) :: fresult
+end function
+
+function swigc_stoi__SWIG_1(farg1) &
+bind(C, name="_wrap_stoi__SWIG_1") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
@@ -284,8 +303,18 @@ type(SwigArrayWrapper) :: farg1
 integer(C_INT) :: fresult
 end function
 
-function swigc_stol(farg1) &
-bind(C, name="_wrap_stol") &
+function swigc_stol__SWIG_0(farg1, farg3) &
+bind(C, name="_wrap_stol__SWIG_0") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT), intent(in) :: farg3
+integer(C_LONG) :: fresult
+end function
+
+function swigc_stol__SWIG_1(farg1) &
+bind(C, name="_wrap_stol__SWIG_1") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
@@ -293,8 +322,18 @@ type(SwigArrayWrapper) :: farg1
 integer(C_LONG) :: fresult
 end function
 
-function swigc_stoll(farg1) &
-bind(C, name="_wrap_stoll") &
+function swigc_stoll__SWIG_0(farg1, farg3) &
+bind(C, name="_wrap_stoll__SWIG_0") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+integer(C_INT), intent(in) :: farg3
+integer(C_LONG_LONG) :: fresult
+end function
+
+function swigc_stoll__SWIG_1(farg1) &
+bind(C, name="_wrap_stoll__SWIG_1") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
@@ -693,7 +732,24 @@ call swigc_string_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 
-function stoi(s) &
+function swigf_stoi__SWIG_0(s, base) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT) :: swig_result
+character(kind=C_CHAR, len=*), target :: s
+integer(C_INT), intent(in) :: base
+integer(C_INT) :: fresult 
+character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT) :: farg3 
+
+call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+farg3 = base
+fresult = swigc_stoi__SWIG_0(farg1, farg3)
+swig_result = fresult
+end function
+
+function swigf_stoi__SWIG_1(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
@@ -703,11 +759,28 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp
 type(SwigArrayWrapper) :: farg1 
 
 call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
-fresult = swigc_stoi(farg1)
+fresult = swigc_stoi__SWIG_1(farg1)
 swig_result = fresult
 end function
 
-function stol(s) &
+function swigf_stol__SWIG_0(s, base) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(C_LONG) :: swig_result
+character(kind=C_CHAR, len=*), target :: s
+integer(C_INT), intent(in) :: base
+integer(C_LONG) :: fresult 
+character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT) :: farg3 
+
+call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+farg3 = base
+fresult = swigc_stol__SWIG_0(farg1, farg3)
+swig_result = fresult
+end function
+
+function swigf_stol__SWIG_1(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_LONG) :: swig_result
@@ -717,11 +790,28 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp
 type(SwigArrayWrapper) :: farg1 
 
 call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
-fresult = swigc_stol(farg1)
+fresult = swigc_stol__SWIG_1(farg1)
 swig_result = fresult
 end function
 
-function stoll(s) &
+function swigf_stoll__SWIG_0(s, base) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(C_LONG_LONG) :: swig_result
+character(kind=C_CHAR, len=*), target :: s
+integer(C_INT), intent(in) :: base
+integer(C_LONG_LONG) :: fresult 
+character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
+type(SwigArrayWrapper) :: farg1 
+integer(C_INT) :: farg3 
+
+call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+farg3 = base
+fresult = swigc_stoll__SWIG_0(farg1, farg3)
+swig_result = fresult
+end function
+
+function swigf_stoll__SWIG_1(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_LONG_LONG) :: swig_result
@@ -731,7 +821,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp
 type(SwigArrayWrapper) :: farg1 
 
 call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
-fresult = swigc_stoll(farg1)
+fresult = swigc_stoll__SWIG_1(farg1)
 swig_result = fresult
 end function
 
