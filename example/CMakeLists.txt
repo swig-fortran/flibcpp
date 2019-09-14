@@ -14,6 +14,9 @@ endmacro()
 swig_fortran_add_example(sort
   flc_algorithm flc_random flc_string)
 
+swig_fortran_add_example(vecstr
+  flc_string flc_vector)
+
 ##---------------------------------------------------------------------------##
 ## end of common/CMakeLists.txt
 ##---------------------------------------------------------------------------##

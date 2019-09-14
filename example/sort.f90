@@ -4,8 +4,8 @@
 ! Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
 !-----------------------------------------------------------------------------!
 
-program main
-  use ISO_FORTRAN_ENV
+program sort_example
+  use, intrinsic :: ISO_FORTRAN_ENV
   use, intrinsic :: ISO_C_BINDING
   use flc
   use flc_algorithm, only : sort

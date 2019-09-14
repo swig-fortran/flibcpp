@@ -142,6 +142,11 @@ and exception-safe, allowing intelligent error handling from the Fortran side.
      write(0,*) "That thing you entered? It wasn't an integer."
    end if
 
+Integer conversion defaults to base-10, but passing an additional integer
+argument allows conversion from other bases. The special integer value of ``0``
+allows auto-detection of values in octal (with a leading ``0`` as in ``0777``)
+or hexadecimal (with a leading ``0x`` as in ``0xb1f1c2a3``).
+
 .. ############################################################################
 .. end of doc/modules/string.rst
 .. ############################################################################

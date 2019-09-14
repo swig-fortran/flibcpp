@@ -23,6 +23,15 @@ This example:
 .. literalinclude:: ../example/sort.f90
    :linenos:
 
+Vectors of strings
+==================
+
+Strings and vectors of strings can be easily manipulated and converted to and
+from native Fortran strings.
+
+.. literalinclude:: ../example/vecstr.f90
+   :linenos:
+
 .. ############################################################################
 .. end of doc/examples.rst
 .. ############################################################################

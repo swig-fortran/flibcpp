@@ -140,7 +140,7 @@ underlying memory as the C++ object::
 String vectors
 ==============
 
-String vectors' native "element" type is a ``character(len=:)``. Vector
+The native "element" type of ``VectorString`` is a ``character(len=:)``. Vector
 operations that accept an input will take any native character string; and
 returned values will be allocatable character arrays.
 
