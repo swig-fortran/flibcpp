@@ -7,6 +7,7 @@
 
 %module "flc_string"
 %include "import_flc.i"
+%flc_add_header
 
 // SWIG always represents std::string as native strings. We load its typemaps
 // but will explicitly create the class.

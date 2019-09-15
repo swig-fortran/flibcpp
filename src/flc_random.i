@@ -7,6 +7,7 @@
 
 %module "flc_random"
 %include "import_flc.i"
+%flc_add_header
 
 /******************************
  * Generator definition

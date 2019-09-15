@@ -7,6 +7,7 @@
 
 %module "flc_chrono"
 %include "import_flc.i"
+%flc_add_header
 
 %{
 #include <chrono>

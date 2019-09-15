@@ -14,6 +14,3 @@
 
 // Support external exceptions
 %include <extern_exception.i>
-
-// Instantiate header
-%flc_add_header

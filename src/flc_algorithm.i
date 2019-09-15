@@ -7,6 +7,7 @@
 
 %module "flc_algorithm"
 %include "import_flc.i"
+%flc_add_header
 
 %{
 #include <algorithm>
