@@ -34,8 +34,8 @@ By default, Flibcpp builds shared libraries. Add the CMake argument
 .. _YUM: https://access.redhat.com/solutions/9934
 .. _Flibcpp source code: https://github.com/swig-fortran/flibcpp/releases
 
-Downstream usage
-================
+Downstream usage as a library
+=============================
 
 The Flibcpp library is most easily used when your downstream app is built with
 CMake. It should require a single line to initialize::
@@ -63,6 +63,32 @@ library names. Depending on your system configuration, you might have to
 also explicitly link your app against the compiler's C++ standard libraries
 using ``-lstdc++``.
 
+Downstream usage as a component
+===============================
+
+Flibcpp's SWIG interface files can be used with your Fortran-accessible
+C++ project to seamlessly integrate the Flibcpp Fortran wrapper code with
+yours. To start, you must have the latest version of the `SWIG+Fortran`_ tool
+installed on your machine: the version of SWIG used by your installation of
+Flibcpp *must* match the version used by your downstream library/app. When you
+build Flibcpp for downstream SWIG usage, you must configure using ``cmake
+-DFLIBCPP_USE_SWIG=ON ..``. This will cause the SWIG interface files to be
+installed to ``${CMAKE_PREFIX_PATH}/include`` to make them available
+downstream. Finally, in your downstream SWIG interface code, instead of calling
+``%import <flc.i>`` you must use ``%include <import_flc.i>``. This is necessary
+to inject function declarations and other internal macros into your wrapper
+code.
+
+At that point, all you have to do is (for example) ``%import <flc_vector>`` to
+allow ``std::vector<double>`` in your library headers to be wrapped by
+Flibcpp's ``VectorReal8`` Fortran proxy derived type.
+
+An `example C++/Fortran library`_ that integrates with Flibcpp will be made
+available on Github.
+
+.. _SWIG+Fortran: https://github.com/swig-fortran
+.. _example C++/Fortran library: https://github.com/swig-fortran/flibcpp-example-lib).
+
 Developing
 ==========
 
@@ -73,8 +99,6 @@ configuring CMake, you will want to configure using
 examples, and documentation can be independently enabled using the
 ``FLIBCPP_BUILD_TESTS``, ``FLIBCPP_BUILD_EXAMPLES``, and ``FLIBCPP_BUILD_DOCS``
 options.
-
-.. _SWIG+Fortran: https://github.com/swig-fortran
 
 .. ############################################################################
 .. end of doc/introduction.rst

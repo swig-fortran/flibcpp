@@ -15,37 +15,37 @@ flc
 
 The primary file defines typemaps.
 
-.. literalinclude:: ../src/flc.i
+.. literalinclude:: ../include/flc.i
    :linenos:
 
 flc_algorithm
 =============
 
-.. literalinclude:: ../src/flc_algorithm.i
+.. literalinclude:: ../include/flc_algorithm.i
    :linenos:
 
 flc_chrono
 =============
 
-.. literalinclude:: ../src/flc_chrono.i
+.. literalinclude:: ../include/flc_chrono.i
    :linenos:
 
 flc_random
 =============
 
-.. literalinclude:: ../src/flc_random.i
+.. literalinclude:: ../include/flc_random.i
    :linenos:
 
 flc_string
 =============
 
-.. literalinclude:: ../src/flc_string.i
+.. literalinclude:: ../include/flc_string.i
    :linenos:
 
 flc_vector
 =============
 
-.. literalinclude:: ../src/flc_vector.i
+.. literalinclude:: ../include/flc_vector.i
    :linenos:
 
 .. ############################################################################
