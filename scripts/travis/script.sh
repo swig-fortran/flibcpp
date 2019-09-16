@@ -7,10 +7,6 @@
 
 set -e
 
-if [ "${FLIBCPP_DEV}" = "ON" ]; then
-  echo "SWIG version: $(swig -version | grep SWIG)"
-fi
-
 CXX_FLAGS="-Wall -Wextra -Werror"
 Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals -Wno-maybe-uninitialized"
 

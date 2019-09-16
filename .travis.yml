@@ -1,7 +1,14 @@
 language: cpp
 dist: bionic
-sudo: true
 compiler: gcc
+sudo: false
+
+# Only build master or PRs merging into master
+branches:
+  only:
+  - master
+
+# List of configurations to check
 matrix:
   include:
     - os: linux
@@ -14,9 +21,13 @@ matrix:
     - os: linux
       env: FLIBCPP_DEV=OFF GENERATOR=make
            FLIBCPP_FORTRAN_STD=f2008
+
+# Required components
 addons:
   apt:
     packages: [gfortran]
+
+# Build phases
 install:
   - source scripts/travis/install.sh
 script:
