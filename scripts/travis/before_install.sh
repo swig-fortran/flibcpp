@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/bash -ex
 ###############################################################################
 # File  : example/before_install.sh
 ###############################################################################
@@ -11,6 +11,10 @@ export PATH=${INSTALL_ROOT}/bin:${PATH}
 export FC=${FC:-gfortran}
 
 mkdir -p ${BUILD_ROOT}
+
+set +x
+
+type announce 2>/dev/null
 
 # Define a command (using built-in travis functions) to launch one of our
 # scripts

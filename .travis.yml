@@ -29,6 +29,7 @@ matrix:
 
 # Build phases
 before_install:
+  - for fn in fold_start fold_end announce; do export -f $fn; done
   - source ./scripts/travis/before_install.sh
 install:
   - ./scripts/travis/install.sh
