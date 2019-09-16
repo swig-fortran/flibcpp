@@ -5,20 +5,21 @@ compiler: gcc
 matrix:
   include:
     - os: linux
-      env: FLIBCPP_DEV=ON CMAKE_GENERATOR=Ninja FLIBCPP_FORTRAN_STD=f2003
+      env: FLIBCPP_DEV=ON GENERATOR=ninja
+           FLIBCPP_FORTRAN_STD=f2003
       addons:
         apt:
           packages:
             python3-sphinx
     - os: linux
-      env: FLIBCPP_DEV=OFF CMAKE_GENERATOR=Makefile FLIBCPP_FORTRAN_STD=f2008
+      env: FLIBCPP_DEV=OFF GENERATOR=make
+           FLIBCPP_FORTRAN_STD=f2008
 addons:
   apt:
     packages: [gfortran]
 install:
   - source scripts/travis/install.sh
 script:
-  - echo $PATH
   - ./scripts/travis/script.sh
   #  - ./scripts/travis/configure.sh
   #  - ./scripts/travis/compile.sh
