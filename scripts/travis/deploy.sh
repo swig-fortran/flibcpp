@@ -4,6 +4,13 @@
 ###############################################################################
 
 set -e
+
+if [ $(uname -s) = "Darwin" ]; then
+  SO_EXT=.dylib
+else
+  SO_EXT=.so
+fi
+
 cd ${BUILD_ROOT}
 ${GENERATOR} install
 
@@ -15,7 +22,7 @@ if [ "${FLIBCPP_DEV}" = "ON" ]; then
 fi
 
 test -f ${INSTALL_ROOT}/include/flc.mod
-test -f ${INSTALL_ROOT}/lib/libflc.dylib
+test -f ${INSTALL_ROOT}/lib/libflc${SO_EXT}
 test -f ${INSTALL_ROOT}/lib/cmake/Flibcpp/FlibcppConfig.cmake
 
 ###############################################################################

@@ -21,7 +21,7 @@ fi
   
 echo "Fortran compiler: ${FC}"
 if [ -n "${FC}" ]; then
-  echo "Compiler version: $(${FC} | head -1)"
+  echo "Compiler version: $(${FC} --version | head -1)"
 fi
 
 if [ "${FLIBCPP_DEV}" = "ON" ]; then
