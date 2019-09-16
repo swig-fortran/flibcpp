@@ -12,12 +12,12 @@ project(Flibcpp VERSION 0.2.1 LANGUAGES CXX Fortran)
 # OPTIONS
 #---------------------------------------------------------------------------#
 
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(FLIBCPP_DEV "Default to using development-centered options" OFF)
 option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
-option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
-option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
 option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
+option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
 
 #---------------------------------------------------------------------------#
 # FLAGS
