@@ -3,9 +3,6 @@
 # File  : scripts/travis/deploy.sh
 ###############################################################################
 
-set +x
-set -e
-
 if [ $(uname -s) = "Darwin" ]; then
   SO_EXT=.dylib
 else

@@ -3,9 +3,6 @@
 # File  : scripts/travis/configure.sh
 ###############################################################################
 
-set +x
-set -e
-
 if [ "${GENERATOR}" = "ninja" ]; then
   CMAKE_GENERATOR="Ninja"
 elif [ "${GENERATOR}" = "make" ]; then

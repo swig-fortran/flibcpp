@@ -5,7 +5,7 @@
 # Install dependencies. 
 ###############################################################################
 
-set -e
+set -x
 
 mkdir -p ${INSTALL_ROOT}/bin
 
@@ -20,7 +20,7 @@ if [ "${GENERATOR}" = "ninja" ]; then
 fi
   
 echo "Fortran compiler: ${FC}"
-if [ -n "${FC}" ]; then
+if hash "${FC}" 2>/dev/null; then
   echo "Compiler version: $(${FC} --version | head -1)"
 fi
 

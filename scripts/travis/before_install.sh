@@ -12,14 +12,16 @@ export FC=${FC:-gfortran}
 
 mkdir -p ${BUILD_ROOT}
 
-set +x
-
 # Define a command (using built-in travis functions) to launch one of our
 # scripts
 function run_script {
+  set +x
+  set -e
   fold_start $1 "$2"
   announce ${SOURCE_ROOT}/scripts/travis/$1.sh
+  local result=$?
   fold_end $1
+  return $?
 }
 
 ###############################################################################
