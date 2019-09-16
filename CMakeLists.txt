@@ -34,6 +34,9 @@ endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
+set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
+   "Fortran standard for compiling generated code")
+
 #---------------------------------------------------------------------------#
 # SWIG setup
 #---------------------------------------------------------------------------#
@@ -152,11 +155,18 @@ function(swig_fortran_add_module name)
     )
   endif()
 
-  # Enable C++11
+  # Compile C++ code with C++11
   target_compile_features(${name}
     PRIVATE
       cxx_std_11
   )
+
+  if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    # Compile Fortran code with given standard
+    target_compile_options(${name}
+      PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:-std=${FLIBCPP_FORTRAN_STD}>
+    )
+  endif()
 
   target_include_directories(${name}
     PUBLIC

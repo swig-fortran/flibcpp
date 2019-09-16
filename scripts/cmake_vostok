@@ -2,7 +2,7 @@
 BUILD=/rnsdhpc/code/build/flibcpp
 SOURCE=/rnsdhpc/code/src/flibcpp
 
-test -d "$BUILD" || mkdir "$BUILD"
+test -d "$BUILD" || mkdir -p "$BUILD"
 cd $BUILD
 
 cmake \
@@ -11,8 +11,8 @@ cmake \
   -D SWIG_EXECUTABLE="/rnsdhpc/code/build/swig-debug/swig"  \
   -D SWIG_DIR="/rnsdhpc/code/src/swig/Lib" \
   -D BUILD_SHARED_LIBS=ON \
-  -D CMAKE_Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals -std=f2003" \
+  -D CMAKE_Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals" \
   -D CMAKE_CXX_FLAGS="-Wall -Wextra" \
-  -D CMAKE_INSTALL_PREFIX="/rnsdhpc/code/install/flibcpp"
+  -D CMAKE_INSTALL_PREFIX="/rnsdhpc/code/install/flibcpp" \
   $SOURCE
 ninja
