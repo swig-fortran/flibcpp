@@ -12,21 +12,20 @@ branches:
 matrix:
   include:
       - os: linux
-    #  - os: linux
-    #    env: FLIBCPP_DEV=ON GENERATOR=ninja
-    #         FLIBCPP_FORTRAN_STD=f2003
-    #    addons:
-    #      apt:
-    #        packages:
-    #        - gfortran
-    #        - python3-sphinx
-    #  - os: linux
-    #    env: FLIBCPP_DEV=OFF GENERATOR=make
-    #         FLIBCPP_FORTRAN_STD=f2008
-    #    addons:
-    #      apt:
-    #        packages:
-    #        - gfortran
+        env: FLIBCPP_DEV=ON GENERATOR=ninja
+             FLIBCPP_FORTRAN_STD=f2003
+        addons:
+          apt:
+            packages:
+            - gfortran
+            - python3-sphinx
+      - os: linux
+        env: FLIBCPP_DEV=OFF GENERATOR=make
+             FLIBCPP_FORTRAN_STD=f2008
+        addons:
+          apt:
+            packages:
+            - gfortran
 
 # Build phases
 before_install:
