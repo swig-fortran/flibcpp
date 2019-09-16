@@ -5,7 +5,7 @@
 # Install dependencies. 
 ###############################################################################
 
-export FC=$(hash gfortran)
+export FC=${FC:-gfortran}
 echo "Fortran compiler: ${FC}"
 if [ -n "${FC}" ]; then
   echo "Compiler version: $(${FC} | head -1)"
@@ -29,14 +29,13 @@ if [ "${FLIBCPP_DEV}" = "ON" ]; then
   echo "Installed SWIG version: $(swig -version | grep SWIG)"
 fi
 
+
 if [ "${GENERATOR}" = "ninja" ]; then
   # Install Ninja
-  NINJA_ROOT=$(mktemp -d)
-  mkdir -p ${INSTALL_ROOT}/bin
-  pushd ${NINJA_ROOT}/bin
-  NINJA_VERSION=ninja-1.9.0.g99df1.kitware.dyndep-1.jobserver-1
-  wget https://github.com/Kitware/ninja/releases/download/${NINJA_VERSION}/${NINJA_VERSION}_x86_64-linux-gnu.tar.gz -O ninja.tar.gz
-  tar -xf ninja.tar.gz --strip 1
+  pushd $(mktemp -d)
+  NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
+  curl -L https://github.com/Kitware/ninja/releases/download/v${NINJA_VERSION}/ninja-${NINJA_VERSION}_x86_64-linux-gnu.tar.gz \
+    | tar -x --strip 1
   mv ninja ${INSTALL_ROOT}/bin
   popd
   echo "Installed Ninja version: $(ninja --version | head -1)"

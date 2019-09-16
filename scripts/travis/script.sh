@@ -12,7 +12,7 @@ Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-comp
 
 if [ "${GENERATOR}" = "ninja" ]; then
   CMAKE_GENERATOR="Ninja"
-elif [ "${GENERATOR}" = "makefile" ]; then
+elif [ "${GENERATOR}" = "make" ]; then
   CMAKE_GENERATOR="Unix Makefiles"
 else
   echo "Invalid generator '${GENERATOR}'"
