@@ -12,15 +12,16 @@ project(Flibcpp VERSION 0.1.0 LANGUAGES CXX Fortran)
 # OPTIONS
 #---------------------------------------------------------------------------#
 
-if (NOT DEFINED(FLIBCPP_DEV))
-  set(FLIBCPP_DEV OFF CACHE STRING
-    "Default to using development-centered options")
-endif()
+option(FLIBCPP_DEV "Default to using development-centered options" OFF)
+option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
+option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
+option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
+option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
-if (NOT DEFINED(CMAKER_BUILD_SHARED))
-  set(FLIBCPP_DEV OFF CACHE STRING
-    "Default to using development-centered options")
-endif()
+#---------------------------------------------------------------------------#
+# FLAGS
+#---------------------------------------------------------------------------#
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   if (FLIBCPP_DEV)
@@ -32,8 +33,6 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "${_CMAKE_BUILD_TYPE}" CACHE STRING "Build type" FORCE)
 endif()
 
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-
 set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
    "Fortran standard for compiling generated code")
 
@@ -41,7 +40,6 @@ set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
 # SWIG setup
 #---------------------------------------------------------------------------#
 
-option(FLIBCPP_USE_SWIG "Enable SWIG generation" ${FLIBCPP_DEV})
 if (FLIBCPP_USE_SWIG)
   find_package(SWIG)
 endif()
@@ -50,7 +48,7 @@ if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
   # SWIG is requested and available; make sure it's the Fortran fork.
   list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
   include(CheckSWIGFortran)
-  if (CMAKE_VERSION VERSION_LESS 3.20)
+  if (CMAKE_VERSION VERSION_LESS 3.99)
     # TODO: This is until Fortran support gets added to the upstream cmake script
     include(UseSWIGFortran)
   else()
@@ -65,7 +63,6 @@ endif()
 #---------------------------------------------------------------------------#
 # VERSIONING
 #---------------------------------------------------------------------------#
-
 
 # Get a possible Git version generated using git-archive (see the .gitattributes
 # file)
@@ -249,29 +246,21 @@ install(FILES
 )
 
 #---------------------------------------------------------------------------#
-# TESTING
+# TESTING AND DOCS
 #---------------------------------------------------------------------------#
 
-option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
-if (FLIBCPP_BUILD_TESTS)
+if (FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
   enable_testing()
+endif()
+
+if (FLIBCPP_BUILD_TESTS)
   add_subdirectory(test)
 endif()
 
-#---------------------------------------------------------------------------#
-# EXECUTABLES
-#---------------------------------------------------------------------------#
-
-option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
 if (FLIBCPP_BUILD_EXAMPLES)
   add_subdirectory(example)
 endif()
 
-#---------------------------------------------------------------------------#
-# DOCUMENTATION
-#---------------------------------------------------------------------------#
-
-option(FLIBCPP_BUILD_DOCS "Build documentation" ${FLIBCPP_DEV})
 if (FLIBCPP_BUILD_DOCS)
   add_subdirectory(doc)
 endif()
