@@ -26,6 +26,7 @@ cmake -G "${CMAKE_GENERATOR}" \
   -D FLIBCPP_FORTRAN_STD="${FLIBCPP_FORTRAN_STD}" \
   -D CMAKE_CXX_FLAGS="${CXX_FLAGS}" \
   -D CMAKE_Fortran_FLAGS="${Fortran_FLAGS}" \
+  -D CMAKE_INSTALL_PREFIX="${INSTALL_ROOT}" \
   ${SOURCE_ROOT}
 
 ###############################################################################

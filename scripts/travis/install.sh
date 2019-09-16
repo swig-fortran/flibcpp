@@ -28,7 +28,7 @@ if [ "${FLIBCPP_DEV}" = "ON" ]; then
   # Install SWIG-fortran
   cd $(mktemp -d)
   git clone --depth=1 https://github.com/swig-fortran/swig
-  pushd swig 
+  cd swig 
   echo "SWIG git revision: $(git rev-parse HEAD)"
   ./autogen.sh
   ./configure --prefix="${INSTALL_ROOT}" --without-alllang --with-fortran=$FC
