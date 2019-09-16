@@ -1,0 +1,46 @@
+language: cpp
+dist: bionic
+compiler: gcc
+sudo: false
+
+# Only build master or PRs merging into master
+branches:
+  only:
+  - master
+
+# List of configurations to check
+matrix:
+  include:
+      - os: linux
+        env: FLIBCPP_DEV=ON GENERATOR=ninja
+             FLIBCPP_FORTRAN_STD=f2003
+        addons:
+          apt:
+            packages:
+            - gfortran
+            - python3-sphinx
+      - os: linux
+        env: FLIBCPP_DEV=OFF GENERATOR=make
+             FLIBCPP_FORTRAN_STD=f2008
+        addons:
+          apt:
+            packages:
+            - gfortran
+      - os: linux
+        env: FLIBCPP_DEV=OFF GENERATOR=make
+             FLIBCPP_FORTRAN_STD=f2008
+        addons:
+          apt:
+            packages:
+            - gfortran
+
+# Build phases
+before_install:
+  - source ./scripts/travis/before_install.sh
+install:
+  - ./scripts/travis/install.sh
+script:
+  - run_script configure
+  - run_script compile
+  - run_script test
+  - run_script deploy

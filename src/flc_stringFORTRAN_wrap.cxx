@@ -427,7 +427,8 @@ SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
 
 
   SWIGINTERN bool flc_has_junk(const std::string& s, size_t pos) {
-    return !std::all_of(s.begin() + pos, s.end(), std::isspace);
+    return !std::all_of(s.begin() + pos, s.end(),
+                        [](unsigned char c) -> bool { return std::isspace(c); });
   }
 
 extern "C" {

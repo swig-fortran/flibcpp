@@ -125,7 +125,8 @@ class string {
 
 %fragment("flc_has_junk", "header", fragment="<cctype>", fragment="<algorithm>") %{
   SWIGINTERN bool flc_has_junk(const std::string& s, size_t pos) {
-    return !std::all_of(s.begin() + pos, s.end(), std::isspace);
+    return !std::all_of(s.begin() + pos, s.end(),
+                        [](unsigned char c) -> bool { return std::isspace(c); });
   }
 %}
 

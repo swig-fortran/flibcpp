@@ -1,14 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
 FAIL=0
 
-function overall_result()
+function overall_result
 {
   exit ${FAIL}
 }
 trap overall_result EXIT
 
-function run_test()
+function run_test
 {
   local TESTNAME=$1
   local EXE=./${TESTNAME}.exe
