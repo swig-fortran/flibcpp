@@ -11,25 +11,31 @@ branches:
 # List of configurations to check
 matrix:
   include:
-    - os: linux
-      env: FLIBCPP_DEV=ON GENERATOR=ninja
-           FLIBCPP_FORTRAN_STD=f2003
-      addons:
-        apt:
-          packages:
-            python3-sphinx
-    - os: linux
-      env: FLIBCPP_DEV=OFF GENERATOR=make
-           FLIBCPP_FORTRAN_STD=f2008
-
-# Required components
-addons:
-  apt:
-    packages: [gfortran]
+  - os: linux
+    env: FLIBCPP_DEV=ON GENERATOR=ninja
+         FLIBCPP_FORTRAN_STD=f2003
+    addons:
+      apt:
+        packages:
+        - gfortran
+        - python3-sphinx
+  - os: linux
+    env: FLIBCPP_DEV=OFF GENERATOR=make
+         FLIBCPP_FORTRAN_STD=f2008
+    addons:
+      apt:
+        packages:
+        - gfortran
 
 # Build phases
+before_install:
+  - export FC=${FC:-gfortran}
+  - ${FC} --version
 install:
-  - source scripts/travis/install.sh
+  - export INSTALL_ROOT=${PWD}/install
+  - export CMAKE_PREFIX_PATH=${INSTALL_ROOT}:${CMAKE_PREFIX_PATH}
+  - export PATH=${INSTALL_ROOT}/bin:${PATH}
+  - ./scripts/travis/install.sh
 script:
   - ./scripts/travis/script.sh
   #  - ./scripts/travis/configure.sh
