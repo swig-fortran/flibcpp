@@ -37,8 +37,9 @@ install:
   - export PATH=${INSTALL_ROOT}/bin:${PATH}
   - ./scripts/travis/install.sh
 script:
-  - ./scripts/travis/script.sh
-  #  - ./scripts/travis/configure.sh
-  #  - ./scripts/travis/compile.sh
-  #  - ./scripts/travis/test.sh
-  #  - ./scripts/travis/install.sh
+  - export SOURCE_ROOT=${PWD}
+  - export BUILD_ROOT=${PWD}/build
+  - ./scripts/travis/configure.sh
+  - ./scripts/travis/compile.sh
+  - ./scripts/travis/test.sh
+  - ./scripts/travis/deploy.sh

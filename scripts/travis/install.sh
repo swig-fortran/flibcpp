@@ -5,6 +5,8 @@
 # Install dependencies. 
 ###############################################################################
 
+echo "PATH=${PATH}"
+
 set -e
 
 mkdir -p ${INSTALL_ROOT}/bin
