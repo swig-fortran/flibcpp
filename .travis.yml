@@ -29,17 +29,11 @@ matrix:
 
 # Build phases
 before_install:
-  - export FC=${FC:-gfortran}
-  - ${FC} --version
+  - source ./scripts/travis/before_install.sh
 install:
-  - export INSTALL_ROOT=${PWD}/install
-  - export CMAKE_PREFIX_PATH=${INSTALL_ROOT}:${CMAKE_PREFIX_PATH}
-  - export PATH=${INSTALL_ROOT}/bin:${PATH}
   - ./scripts/travis/install.sh
 script:
-  - export SOURCE_ROOT=${PWD}
-  - export BUILD_ROOT=${PWD}/build
-  - ./scripts/travis/configure.sh
-  - ./scripts/travis/compile.sh
-  - ./scripts/travis/test.sh
-  - ./scripts/travis/deploy.sh
+  - run_script configure
+  - run_script compile
+  - run_script test
+  - run_script deploy

@@ -1,8 +1,9 @@
-#!/bin/sh -ex
+#!/bin/sh
 ###############################################################################
 # File  : scripts/travis/configure.sh
 ###############################################################################
 
+set +x
 set -e
 
 if [ "${GENERATOR}" = "ninja" ]; then
@@ -17,9 +18,8 @@ fi
 CXX_FLAGS="-Wall -Wextra -Werror"
 Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals -Wno-maybe-uninitialized"
 
-mkdir -p ${BUILD_ROOT}
-cd ${BUILD_ROOT}
-cmake -G "${CMAKE_GENERATOR}" \
+set -x
+cd ${BUILD_ROOT} && cmake -G "${CMAKE_GENERATOR}" \
   -D FLIBCPP_DEV=${FLIBCPP_DEV} \
   -D FLIBCPP_BUILD_EXAMPLES=ON \
   -D FLIBCPP_BUILD_TESTS=ON \

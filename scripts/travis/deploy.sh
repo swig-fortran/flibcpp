@@ -3,6 +3,7 @@
 # File  : scripts/travis/deploy.sh
 ###############################################################################
 
+set +x
 set -e
 
 if [ $(uname -s) = "Darwin" ]; then
@@ -11,8 +12,8 @@ else
   SO_EXT=.so
 fi
 
-cd ${BUILD_ROOT}
-${GENERATOR} install
+set -x
+cd ${BUILD_ROOT} && ${GENERATOR} install
 
 # Test existence of install files
 

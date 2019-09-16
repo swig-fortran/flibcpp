@@ -4,8 +4,7 @@
 ###############################################################################
 
 set -e
-cd ${BUILD_ROOT}
-ctest --output-on-failure
+cd ${BUILD_ROOT} && ctest --output-on-failure
 
 ###############################################################################
 # end of scripts/travis/test.sh
