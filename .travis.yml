@@ -26,6 +26,13 @@ matrix:
           apt:
             packages:
             - gfortran
+      - os: linux
+        env: FLIBCPP_DEV=OFF GENERATOR=make
+             FLIBCPP_FORTRAN_STD=f2008
+        addons:
+          apt:
+            packages:
+            - gfortran
 
 # Build phases
 before_install:

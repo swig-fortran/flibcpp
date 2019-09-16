@@ -2,7 +2,7 @@
 ###############################################################################
 # File  : scripts/travis/install.sh
 #
-# Install dependencies. 
+# Install dependencies.
 ###############################################################################
 
 set -x
@@ -18,7 +18,7 @@ if [ "${GENERATOR}" = "ninja" ]; then
   mv ninja ${INSTALL_ROOT}/bin
   echo "Installed Ninja version: $(ninja --version | head -1)"
 fi
-  
+
 echo "Fortran compiler: ${FC}"
 if hash "${FC}" 2>/dev/null; then
   echo "Compiler version: $(${FC} --version | head -1)"
@@ -28,7 +28,7 @@ if [ "${FLIBCPP_DEV}" = "ON" ]; then
   # Install SWIG-fortran
   cd $(mktemp -d)
   git clone --depth=1 https://github.com/swig-fortran/swig
-  cd swig 
+  cd swig
   echo "SWIG git revision: $(git rev-parse HEAD)"
   ./autogen.sh
   ./configure --prefix="${INSTALL_ROOT}" --without-alllang --with-fortran=$FC

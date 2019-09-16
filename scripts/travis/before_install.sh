@@ -28,7 +28,7 @@ function run_script {
 
 ###############################################################################
 # UTILITIES FROM TRAVIS
-# 
+#
 # from https://github.com/travis-ci/travis-rubies/blob/build/build.sh
 ###############################################################################
 
