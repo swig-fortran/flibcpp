@@ -72,7 +72,7 @@ file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-version.txt"
 if (NOT FLIBCPP_VERSION_STRING MATCHES "\\$Format:")
   # First line are decorators, second is hash
   list(GET FLIBCPP_VERSION_STRING 0 _tag)
-  string(REGEX REPLACE ".*, *(tag: *)?" "" _tag "${_tag}")
+  string(REGEX REPLACE "tag: *" "" _tag "${_tag}")
   list(GET FLIBCPP_VERSION_STRING 1 _hash)
   string(REGEX REPLACE " +" "" _hash "${_hash}")
   set(FLIBCPP_VERSION_STRING "${_tag}-g${_hash}")
