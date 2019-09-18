@@ -83,7 +83,7 @@ using std::size_t;
  * Linked into auto-generated file flibcpp_version.cpp
  ************************/
 
-%apply const char* { const char flibcpp_version[] };
+%apply char* { const char flibcpp_version[] };
 %fortranbindc flibcpp_version_major;
 %fortranbindc flibcpp_version_minor;
 %fortranbindc flibcpp_version_patch;

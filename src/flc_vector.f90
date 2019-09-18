@@ -2379,7 +2379,7 @@ self%swigdata = fresult
 end function
 
 
-subroutine SWIGTM_fin_const_SS_char_Sm_(finp, iminp, temp)
+subroutine SWIGTM_fin_char_Sm_(finp, iminp, temp)
   use, intrinsic :: ISO_C_BINDING
   character(kind=C_CHAR, len=*), intent(in) :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -2408,7 +2408,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = int(count, C_INT)
-call SWIGTM_fin_const_SS_char_Sm_(v, farg2, farg2_temp)
+call SWIGTM_fin_char_Sm_(v, farg2, farg2_temp)
 fresult = swigc_new_VectorString__SWIG_3(farg1, farg2)
 self%swigdata = fresult
 end function
@@ -2453,7 +2453,7 @@ call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
 
-subroutine SWIGTM_fout_const_SS_char_Sm_(imout, fout)
+subroutine SWIGTM_fout_char_Sm_(imout, fout)
   use, intrinsic :: ISO_C_BINDING
   type(SwigArrayWrapper), intent(in) :: imout
   character(kind=C_CHAR, len=:), allocatable, intent(out) :: fout
@@ -2476,7 +2476,7 @@ type(SwigClassWrapper) :: farg1
 
 farg1 = self%swigdata
 fresult = swigc_VectorString_front(farg1)
-call SWIGTM_fout_const_SS_char_Sm_(fresult, swig_result)
+call SWIGTM_fout_char_Sm_(fresult, swig_result)
 end function
 
 function swigf_VectorString_back(self) &
@@ -2489,7 +2489,7 @@ type(SwigClassWrapper) :: farg1
 
 farg1 = self%swigdata
 fresult = swigc_VectorString_back(farg1)
-call SWIGTM_fout_const_SS_char_Sm_(fresult, swig_result)
+call SWIGTM_fout_char_Sm_(fresult, swig_result)
 end function
 
 subroutine swigf_VectorString_reserve(self, count)
@@ -2528,7 +2528,7 @@ type(SwigArrayWrapper) :: farg3
 
 farg1 = self%swigdata
 farg2 = int(count, C_INT)
-call SWIGTM_fin_const_SS_char_Sm_(v, farg3, farg3_temp)
+call SWIGTM_fin_char_Sm_(v, farg3, farg3_temp)
 call swigc_VectorString_resize__SWIG_1(farg1, farg2, farg3)
 end subroutine
 
@@ -2541,7 +2541,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = self%swigdata
-call SWIGTM_fin_const_SS_char_Sm_(v, farg2, farg2_temp)
+call SWIGTM_fin_char_Sm_(v, farg2, farg2_temp)
 call swigc_VectorString_push_back(farg1, farg2)
 end subroutine
 
@@ -2575,7 +2575,7 @@ type(SwigArrayWrapper) :: farg3
 
 farg1 = self%swigdata
 farg2 = int(index, C_INT)
-call SWIGTM_fin_const_SS_char_Sm_(v, farg3, farg3_temp)
+call SWIGTM_fin_char_Sm_(v, farg3, farg3_temp)
 call swigc_VectorString_set(farg1, farg2, farg3)
 end subroutine
 
@@ -2592,7 +2592,7 @@ integer(C_LONG) :: farg2
 farg1 = self%swigdata
 farg2 = int(index, C_INT)
 fresult = swigc_VectorString_get(farg1, farg2)
-call SWIGTM_fout_const_SS_char_Sm_(fresult, swig_result)
+call SWIGTM_fout_char_Sm_(fresult, swig_result)
 end function
 
 subroutine swigf_VectorString_insert(self, index, v)
@@ -2607,7 +2607,7 @@ type(SwigArrayWrapper) :: farg3
 
 farg1 = self%swigdata
 farg2 = int(index, C_INT)
-call SWIGTM_fin_const_SS_char_Sm_(v, farg3, farg3_temp)
+call SWIGTM_fin_char_Sm_(v, farg3, farg3_temp)
 call swigc_VectorString_insert(farg1, farg2, farg3)
 end subroutine
 

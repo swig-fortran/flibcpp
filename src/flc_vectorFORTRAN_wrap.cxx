@@ -216,16 +216,9 @@ enum SwigMemFlags {
 
 #define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
   if (!(SWIG_CLASS_WRAPPER).cptr) { \
-    SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
+    SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
-  }
-
-
-#define SWIG_check_range(INDEX, SIZE, FUNCNAME, RETURNNULL) \
-  if (!(INDEX < SIZE)) { \
-    SWIG_exception_impl(FUNCNAME, SWIG_IndexError, \
-                        "index out of range", RETURNNULL); \
   }
 
 
@@ -237,10 +230,18 @@ enum AssignmentType {
 };
 }
 
-#define SWIGPOLICY_std__vectorT_int32_t_t swig::ASSIGNMENT_DEFAULT
-#define SWIGPOLICY_std__vectorT_int64_t_t swig::ASSIGNMENT_DEFAULT
-#define SWIGPOLICY_std__vectorT_double_t swig::ASSIGNMENT_DEFAULT
-#define SWIGPOLICY_std__vectorT_std__string_t swig::ASSIGNMENT_DEFAULT
+
+#define SWIG_check_range(INDEX, SIZE, FUNCNAME, RETURNNULL) \
+  if (!(INDEX < SIZE)) { \
+    SWIG_exception_impl(FUNCNAME, SWIG_IndexError, \
+                        "index out of range", RETURNNULL); \
+  }
+
+#define SWIGPOLICY_std_vector_Sl_int32_t_Sg_ swig::ASSIGNMENT_DEFAULT
+#define SWIGPOLICY_std_vector_Sl_int64_t_Sg_ swig::ASSIGNMENT_DEFAULT
+#define SWIGPOLICY_std_vector_Sl_double_Sg_ swig::ASSIGNMENT_DEFAULT
+#define SWIGPOLICY_std_string swig::ASSIGNMENT_DEFAULT
+#define SWIGPOLICY_std_vector_Sl_std_string_Sg_ swig::ASSIGNMENT_DEFAULT
 
 #include <stdexcept>
 
@@ -277,6 +278,123 @@ SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
     result.cmemflags = 0;
     return result;
 }
+
+
+namespace swig {
+
+template<class T, AssignmentType A>
+struct DestructorPolicy {
+  static SwigClassWrapper destroy(SwigClassWrapper self) {
+    delete static_cast<T*>(self.cptr);
+    return SwigClassWrapper_uninitialized();
+  }
+};
+template<class T>
+struct DestructorPolicy<T, ASSIGNMENT_NODESTRUCT> {
+  static SwigClassWrapper destroy(SwigClassWrapper) {
+    SWIG_exception_impl("assignment", SWIG_TypeError, "Invalid assignment: class type has private destructor", return SwigClassWrapper_uninitialized());
+  }
+};
+}
+
+
+namespace swig {
+
+SWIGINTERN SwigClassWrapper capture(SwigClassWrapper other) {
+  other.cmemflags &= ~SWIG_MEM_RVALUE;
+  return other;
+}
+
+template<class T, AssignmentType A>
+struct AssignmentPolicy {
+  static SwigClassWrapper destroy(SwigClassWrapper self) {
+    return DestructorPolicy<T, A>::destroy(self);
+  }
+  static SwigClassWrapper alias(SwigClassWrapper other) {
+    SwigClassWrapper self = other;
+    self.cmemflags &= ~SWIG_MEM_OWN;
+    return self;
+  }
+  static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    if (self.cmemflags & SWIG_MEM_OWN) {
+      destroy(self);
+    }
+    return capture(other);
+  }
+  static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    if (self.cmemflags & SWIG_MEM_OWN) {
+      destroy(self);
+    }
+    return capture(other);
+  }
+};
+
+template<class T>
+struct AssignmentPolicy<T, ASSIGNMENT_SMARTPTR> {
+  static SwigClassWrapper destroy(SwigClassWrapper self) {
+    return DestructorPolicy<T, ASSIGNMENT_SMARTPTR>::destroy(self);
+  }
+  static SwigClassWrapper alias(SwigClassWrapper other) {
+    SwigClassWrapper self;
+    self.cptr = new T(*static_cast<T*>(other.cptr));
+    self.cmemflags = other.cmemflags | SWIG_MEM_OWN;
+    return self;
+  }
+  static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    self = copy_alias(self, other);
+    self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
+    destroy(other);
+    return self;
+  }
+  static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
+    // LHS and RHS should both 'own' their shared pointers
+    T *pself = static_cast<T*>(self.cptr);
+    T *pother = static_cast<T*>(other.cptr);
+    *pself = *pother;
+    return self;
+  }
+};
+
+} // end namespace swig
+
+template<class T, swig::AssignmentType A>
+SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
+  typedef swig::AssignmentPolicy<T, A> Policy_t;
+
+  if (self->cptr == NULL) {
+    /* LHS is unassigned */
+    if (other.cmemflags & SWIG_MEM_RVALUE) {
+      /* Capture pointer from RHS, clear 'moving' flag */
+      *self = swig::capture(other);
+    } else {
+      /* Aliasing another class; clear ownership or copy smart pointer */
+      *self = Policy_t::alias(other);
+    }
+  } else if (other.cptr == NULL) {
+    /* Replace LHS with a null pointer */
+    *self = Policy_t::destroy(*self);
+  } else if (self->cptr == other.cptr) {
+    /* Self-assignment: ignore */
+  } else if (other.cmemflags & SWIG_MEM_RVALUE) {
+    /* Transferred ownership from a variable that's about to be lost.
+     * Move-assign and delete the transient data */
+    *self = Policy_t::move_alias(*self, other);
+  } else {
+    /* RHS shouldn't be deleted, alias to LHS */
+    *self = Policy_t::copy_alias(*self, other);
+  }
+}
+
+template<class T, swig::AssignmentType A>
+SWIGINTERN void SWIG_free_rvalue(SwigClassWrapper other) {
+  typedef swig::AssignmentPolicy<T, A> Policy_t;
+  if (other.cmemflags & SWIG_MEM_RVALUE 
+      && other.cmemflags & SWIG_MEM_OWN) {
+    /* We own *and* are being passed an expiring value */
+    Policy_t::destroy(other);
+  }
+}
+
 
 SWIGINTERN void std_vector_Sl_int32_t_Sg__set(std::vector< int32_t > *self,std::vector< int32_t >::size_type index,int32_t const &v){
         SWIG_check_range(index, self->size(),
@@ -357,111 +475,6 @@ SWIGINTERN void std_vector_Sl_int32_t_Sg__assign(std::vector< int32_t > *self,in
 SWIGINTERN std::vector< int32_t > &std_vector_Sl_int32_t_Sg__view(std::vector< int32_t > *self){
     return *self;
   }
-
-namespace swig {
-
-template<class T, AssignmentType A>
-struct DestructorPolicy {
-  static SwigClassWrapper destruct(SwigClassWrapper self) {
-    delete static_cast<T*>(self.cptr);
-    return SwigClassWrapper_uninitialized();
-  }
-};
-template<class T>
-struct DestructorPolicy<T, ASSIGNMENT_NODESTRUCT> {
-  static SwigClassWrapper destruct(SwigClassWrapper) {
-    SWIG_exception_impl("assignment", SWIG_TypeError, "Invalid assignment: class type has private destructor", return SwigClassWrapper_uninitialized());
-  }
-};
-}
-
-
-namespace swig {
-
-template<class T, AssignmentType A>
-struct AssignmentPolicy {
-  static SwigClassWrapper destruct(SwigClassWrapper self) {
-    return DestructorPolicy<T, A>::destruct(self);
-  }
-  static SwigClassWrapper alias(SwigClassWrapper other) {
-    SwigClassWrapper self;
-    self.cptr = other.cptr;
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_OWN;
-    return self;
-  }
-  static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
-    if (self.cmemflags & SWIG_MEM_OWN) {
-      destruct(self);
-    }
-    self.cptr = other.cptr;
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
-    return self;
-  }
-  static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
-    if (self.cmemflags & SWIG_MEM_OWN) {
-      destruct(self);
-    }
-    self.cptr = other.cptr;
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_OWN;
-    return self;
-  }
-};
-
-template<class T>
-struct AssignmentPolicy<T, ASSIGNMENT_SMARTPTR> {
-  static SwigClassWrapper destruct(SwigClassWrapper self) {
-    return DestructorPolicy<T, ASSIGNMENT_SMARTPTR>::destruct(self);
-  }
-  static SwigClassWrapper alias(SwigClassWrapper other) {
-    SwigClassWrapper self;
-    self.cptr = new T(*static_cast<T*>(other.cptr));
-    self.cmemflags = other.cmemflags | SWIG_MEM_OWN;
-    return self;
-  }
-  static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
-    self = copy_alias(self, other);
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
-    destruct(other);
-    return self;
-  }
-  static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
-    // LHS and RHS should both 'own' their shared pointers
-    T *pself = static_cast<T*>(self.cptr);
-    T *pother = static_cast<T*>(other.cptr);
-    *pself = *pother;
-    return self;
-  }
-};
-
-} // end namespace swig
-
-template<class T, swig::AssignmentType A>
-SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
-  typedef swig::AssignmentPolicy<T, A> Policy_t;
-
-  if (self->cptr == NULL) {
-    /* LHS is unassigned */
-    if (other.cmemflags & SWIG_MEM_RVALUE) {
-      /* Capture pointer from RHS, clear 'moving' flag */
-      self->cptr = other.cptr;
-      self->cmemflags = other.cmemflags & (~SWIG_MEM_RVALUE);
-    } else {
-      /* Aliasing another class; clear ownership or copy smart pointer */
-      *self = Policy_t::alias(other);
-    }
-  } else if (other.cptr == NULL) {
-    /* Replace LHS with a null pointer */
-    *self = Policy_t::destruct(*self);
-  } else if (other.cmemflags & SWIG_MEM_RVALUE) {
-    /* Transferred ownership from a variable that's about to be lost.
-     * Move-assign and delete the transient data */
-    *self = Policy_t::move_alias(*self, other);
-  } else {
-    /* RHS shouldn't be deleted, alias to LHS */
-    *self = Policy_t::copy_alias(*self, other);
-  }
-}
-
 SWIGINTERN void std_vector_Sl_int64_t_Sg__set(std::vector< int64_t > *self,std::vector< int64_t >::size_type index,int64_t const &v){
         SWIG_check_range(index, self->size(),
                          "std::vector<""int64_t" ">::set",
@@ -646,6 +659,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorInt4__SWIG_1(SwigClassWrapper *farg1
   result = (std::vector< int32_t > *)new std::vector< int32_t >((std::vector< int32_t > const &)*arg1);
   fresult.cptr = (void*)result;
   fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  SWIG_free_rvalue< std::vector< int32_t >, SWIGPOLICY_std_vector_Sl_int32_t_Sg_ >(*farg1);
   return fresult;
 }
 
@@ -979,7 +993,7 @@ SWIGEXPORT void _wrap_VectorInt4_op_assign__(SwigClassWrapper *farg1, SwigClassW
   
   (void)sizeof(arg1);
   (void)sizeof(arg2);
-  SWIG_assign<std::vector< int32_t >, SWIGPOLICY_std__vectorT_int32_t_t>(farg1, *farg2);
+  SWIG_assign<std::vector< int32_t >, SWIGPOLICY_std_vector_Sl_int32_t_Sg_>(farg1, *farg2);
   
 }
 
@@ -1005,6 +1019,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorInt8__SWIG_1(SwigClassWrapper *farg1
   result = (std::vector< int64_t > *)new std::vector< int64_t >((std::vector< int64_t > const &)*arg1);
   fresult.cptr = (void*)result;
   fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  SWIG_free_rvalue< std::vector< int64_t >, SWIGPOLICY_std_vector_Sl_int64_t_Sg_ >(*farg1);
   return fresult;
 }
 
@@ -1338,7 +1353,7 @@ SWIGEXPORT void _wrap_VectorInt8_op_assign__(SwigClassWrapper *farg1, SwigClassW
   
   (void)sizeof(arg1);
   (void)sizeof(arg2);
-  SWIG_assign<std::vector< int64_t >, SWIGPOLICY_std__vectorT_int64_t_t>(farg1, *farg2);
+  SWIG_assign<std::vector< int64_t >, SWIGPOLICY_std_vector_Sl_int64_t_Sg_>(farg1, *farg2);
   
 }
 
@@ -1364,6 +1379,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorReal8__SWIG_1(SwigClassWrapper *farg
   result = (std::vector< double > *)new std::vector< double >((std::vector< double > const &)*arg1);
   fresult.cptr = (void*)result;
   fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  SWIG_free_rvalue< std::vector< double >, SWIGPOLICY_std_vector_Sl_double_Sg_ >(*farg1);
   return fresult;
 }
 
@@ -1697,7 +1713,7 @@ SWIGEXPORT void _wrap_VectorReal8_op_assign__(SwigClassWrapper *farg1, SwigClass
   
   (void)sizeof(arg1);
   (void)sizeof(arg2);
-  SWIG_assign<std::vector< double >, SWIGPOLICY_std__vectorT_double_t>(farg1, *farg2);
+  SWIG_assign<std::vector< double >, SWIGPOLICY_std_vector_Sl_double_Sg_>(farg1, *farg2);
   
 }
 
@@ -1723,6 +1739,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorString__SWIG_1(SwigClassWrapper *far
   result = (std::vector< std::string > *)new std::vector< std::string >((std::vector< std::string > const &)*arg1);
   fresult.cptr = (void*)result;
   fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  SWIG_free_rvalue< std::vector< std::string >, SWIGPOLICY_std_vector_Sl_std_string_Sg_ >(*farg1);
   return fresult;
 }
 
@@ -1748,7 +1765,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorString__SWIG_3(long const *farg1, Sw
   std::vector< std::string > *result = 0 ;
   
   arg1 = (std::vector< std::string >::size_type)(*farg1);
-  tempstr2 = std::string(static_cast<const char *>(farg2->data), farg2->size);
+  tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
   result = (std::vector< std::string > *)new std::vector< std::string >(arg1,(std::string const &)*arg2);
   fresult.cptr = (void*)result;
@@ -1855,7 +1872,7 @@ SWIGEXPORT void _wrap_VectorString_resize__SWIG_1(SwigClassWrapper *farg1, long 
   SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::resize(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = (std::vector< std::string >::size_type)(*farg2);
-  tempstr3 = std::string(static_cast<const char *>(farg3->data), farg3->size);
+  tempstr3 = std::string(static_cast<char *>(farg3->data), farg3->size);
   arg3 = &tempstr3;
   (arg1)->resize(arg2,(std::string const &)*arg3);
 }
@@ -1868,7 +1885,7 @@ SWIGEXPORT void _wrap_VectorString_push_back(SwigClassWrapper *farg1, SwigArrayW
   
   SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::push_back(std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
-  tempstr2 = std::string(static_cast<const char *>(farg2->data), farg2->size);
+  tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
   (arg1)->push_back((std::string const &)*arg2);
 }
@@ -1901,7 +1918,7 @@ SWIGEXPORT void _wrap_VectorString_set(SwigClassWrapper *farg1, long const *farg
   SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::set(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
-  tempstr3 = std::string(static_cast<const char *>(farg3->data), farg3->size);
+  tempstr3 = std::string(static_cast<char *>(farg3->data), farg3->size);
   arg3 = &tempstr3;
   std_vector_Sl_std_string_Sg__set(arg1,arg2,(std::string const &)*arg3);
 }
@@ -1932,7 +1949,7 @@ SWIGEXPORT void _wrap_VectorString_insert(SwigClassWrapper *farg1, long const *f
   SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::insert(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
-  tempstr3 = std::string(static_cast<const char *>(farg3->data), farg3->size);
+  tempstr3 = std::string(static_cast<char *>(farg3->data), farg3->size);
   arg3 = &tempstr3;
   std_vector_Sl_std_string_Sg__insert(arg1,arg2,(std::string const &)*arg3);
 }
@@ -2017,6 +2034,7 @@ SWIGEXPORT void _wrap_VectorString_set_ref(SwigClassWrapper *farg1, long const *
   SWIG_check_nonnull(*farg3, "std::string &", "string", "std::vector< std::string >::set_ref(std::vector< std::string >::size_type,std::string &)", return );
   arg3 = (std::string *)farg3->cptr;
   std_vector_Sl_std_string_Sg__set_ref(arg1,arg2,*arg3);
+  SWIG_free_rvalue< std::string, SWIGPOLICY_std_string >(*farg3);
 }
 
 
@@ -2034,7 +2052,7 @@ SWIGEXPORT void _wrap_VectorString_op_assign__(SwigClassWrapper *farg1, SwigClas
   
   (void)sizeof(arg1);
   (void)sizeof(arg2);
-  SWIG_assign<std::vector< std::string >, SWIGPOLICY_std__vectorT_std__string_t>(farg1, *farg2);
+  SWIG_assign<std::vector< std::string >, SWIGPOLICY_std_vector_Sl_std_string_Sg_>(farg1, *farg2);
   
 }
 

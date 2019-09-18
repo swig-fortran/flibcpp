@@ -391,7 +391,7 @@ self%swigdata = fresult
 end function
 
 
-subroutine SWIGTM_fin_const_SS_char_Sm_(finp, iminp, temp)
+subroutine SWIGTM_fin_char_Sm_(finp, iminp, temp)
   use, intrinsic :: ISO_C_BINDING
   character(kind=C_CHAR, len=*), intent(in) :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
@@ -417,7 +417,7 @@ type(SwigClassWrapper) :: fresult
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 fresult = swigc_new_string__SWIG_2(farg1)
 self%swigdata = fresult
 end function
@@ -523,7 +523,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = self%swigdata
-call SWIGTM_fin_const_SS_char_Sm_(s, farg2, farg2_temp)
+call SWIGTM_fin_char_Sm_(s, farg2, farg2_temp)
 call swigc_string_assign(farg1, farg2)
 end subroutine
 
@@ -571,7 +571,7 @@ type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: farg3 
 
 farg1 = self%swigdata
-call SWIGTM_fin_const_SS_char_Sm_(s, farg2, farg2_temp)
+call SWIGTM_fin_char_Sm_(s, farg2, farg2_temp)
 farg3 = int(pos, C_INT)
 fresult = swigc_string_find__SWIG_0(farg1, farg2, farg3)
 swig_result = int(fresult)
@@ -589,7 +589,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = self%swigdata
-call SWIGTM_fin_const_SS_char_Sm_(s, farg2, farg2_temp)
+call SWIGTM_fin_char_Sm_(s, farg2, farg2_temp)
 fresult = swigc_string_find__SWIG_1(farg1, farg2)
 swig_result = int(fresult)
 end function
@@ -603,7 +603,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = self%swigdata
-call SWIGTM_fin_const_SS_char_Sm_(s, farg2, farg2_temp)
+call SWIGTM_fin_char_Sm_(s, farg2, farg2_temp)
 call swigc_string_append(farg1, farg2)
 end subroutine
 
@@ -679,7 +679,7 @@ call SWIGTM_fout_char_Sb__SB_(fresult, swig_result)
 end function
 
 
-subroutine SWIGTM_fout_const_SS_char_Sm_(imout, fout)
+subroutine SWIGTM_fout_char_Sm_(imout, fout)
   use, intrinsic :: ISO_C_BINDING
   type(SwigArrayWrapper), intent(in) :: imout
   character(kind=C_CHAR, len=:), allocatable, intent(out) :: fout
@@ -702,7 +702,7 @@ type(SwigClassWrapper) :: farg1
 
 farg1 = self%swigdata
 fresult = swigc_string_str(farg1)
-call SWIGTM_fout_const_SS_char_Sm_(fresult, swig_result)
+call SWIGTM_fout_char_Sm_(fresult, swig_result)
 end function
 
 subroutine swigf_release_string(self)
@@ -743,7 +743,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT) :: farg3 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 farg3 = base
 fresult = swigc_stoi__SWIG_0(farg1, farg3)
 swig_result = fresult
@@ -758,7 +758,7 @@ integer(C_INT) :: fresult
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 fresult = swigc_stoi__SWIG_1(farg1)
 swig_result = fresult
 end function
@@ -774,7 +774,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT) :: farg3 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 farg3 = base
 fresult = swigc_stol__SWIG_0(farg1, farg3)
 swig_result = fresult
@@ -789,7 +789,7 @@ integer(C_LONG) :: fresult
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 fresult = swigc_stol__SWIG_1(farg1)
 swig_result = fresult
 end function
@@ -805,7 +805,7 @@ character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT) :: farg3 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 farg3 = base
 fresult = swigc_stoll__SWIG_0(farg1, farg3)
 swig_result = fresult
@@ -820,7 +820,7 @@ integer(C_LONG_LONG) :: fresult
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 fresult = swigc_stoll__SWIG_1(farg1)
 swig_result = fresult
 end function
@@ -834,7 +834,7 @@ real(C_FLOAT) :: fresult
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 fresult = swigc_stof(farg1)
 swig_result = fresult
 end function
@@ -848,7 +848,7 @@ real(C_DOUBLE) :: fresult
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
 
-call SWIGTM_fin_const_SS_char_Sm_(s, farg1, farg1_temp)
+call SWIGTM_fin_char_Sm_(s, farg1, farg1_temp)
 fresult = swigc_stod(farg1)
 swig_result = fresult
 end function

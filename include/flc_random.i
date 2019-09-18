@@ -27,6 +27,7 @@
 #endif
 
 %rename(Engine) std::SWIG_MERSENNE_TWISTER;
+%fortran_autofree_rvalue(std::SWIG_MERSENNE_TWISTER);
 
 namespace std {
 class SWIG_MERSENNE_TWISTER

@@ -51,6 +51,9 @@
 %define %specialize_std_vector_pod(T)
 namespace std {
   template<> class vector<T> {
+    // Automatically free temporary vectors as appropriate
+    %fortran_autofree_rvalue(std::vector<T>);
+
     SWIG_STD_VECTOR_COMMON(T, const T&)
     SWIG_STD_VECTOR_REF(T)
     %extend {
@@ -72,6 +75,7 @@ namespace std {
 
 /* ------------------------------------------------------------------------- */
 
+%fortran_autofree_rvalue(std::vector<std::string>);
 %extend std::vector<std::string> {
   void set_ref(size_type index, std::string& str) {
     SWIG_check_range(index, $self->size(),
