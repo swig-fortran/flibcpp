@@ -5,8 +5,10 @@
  * Distributed under an MIT open source license: see LICENSE for details.
  */
 
-#ifdef SWIGIMPORTED
-#error "To use this header, %include "import_flc.i", don't %import it"
+// Make sure that the downstream module isn't doing ``%import "import_flc.i"``
+// or ``%import "flc.i"``: only ``%include "import_flc.i"``
+#ifndef SWIGIMPORTED
+#define FLC_SWIGIMPORTED
 #endif
 
 // Set up macros, etc.

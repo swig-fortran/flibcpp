@@ -7,6 +7,10 @@
 
 %module "flc"
 
+#if defined(SWIGIMPORTED) && !defined(SWIGIMPORTED)
+#error "To import the FLC module correctly, use ``%include \"import_flc.i\"``"
+#endif
+
 %define %flc_add_header
 %insert("fbegin") %{
 ! Flibcpp project, https://github.com/swig-fortran/flibcpp
