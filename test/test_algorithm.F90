@@ -100,6 +100,7 @@ end subroutine
 subroutine test_shuffle()
   use flc_algorithm, only : shuffle
   use flc_random, only : Engine
+  use, intrinsic :: ISO_C_BINDING
   implicit none
   integer :: i
   integer, dimension(8) :: iarr = (/ ((i), i = -4, 3) /)
@@ -110,6 +111,11 @@ subroutine test_shuffle()
       call shuffle(rng, iarr)
       write(*,"(A,(8I4))") "Shuffled:", iarr
   end do
+  call rng%release()
+
+  ! Shuffle using temporary RNG using seed 12345
+  call shuffle(Engine(12345_c_int64_t), iarr)
+  write(*,"(A,(8I4))") "Shuffled:", iarr
 end subroutine
 
 !-----------------------------------------------------------------------------!

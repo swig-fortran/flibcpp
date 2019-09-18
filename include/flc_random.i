@@ -36,9 +36,9 @@ class SWIG_MERSENNE_TWISTER
     typedef SWIG_MERSENNE_RESULT_TYPE result_type;
 
     SWIG_MERSENNE_TWISTER();
-    explicit SWIG_MERSENNE_TWISTER(result_type);
-    void seed(result_type);
-    void discard(unsigned long long);
+    explicit SWIG_MERSENNE_TWISTER(result_type seed_value);
+    void seed(result_type seed_value);
+    void discard(unsigned long long count);
 };
 } // namespace std
 
