@@ -12,8 +12,12 @@ project(Flibcpp VERSION 0.2.1 LANGUAGES CXX Fortran)
 # OPTIONS
 #---------------------------------------------------------------------------#
 
+if (FLIBCPP_DEV OR FLIBCPP_BUILD_EXAMPLES OR FLIBCPP_BUILD_TESTS)
+  set(_DEFAULT_BUILD_TESTING ON)
+endif()
+
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(BUILD_TESTING "Enable CTest" ${FLIBCPP_DEV})
+option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 option(FLIBCPP_DEV "Default to using development-centered options" OFF)
 option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
 option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
