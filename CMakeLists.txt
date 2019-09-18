@@ -12,11 +12,16 @@ project(Flibcpp VERSION 0.2.1 LANGUAGES CXX Fortran)
 # OPTIONS
 #---------------------------------------------------------------------------#
 
+if (FLIBCPP_DEV OR FLIBCPP_BUILD_EXAMPLES OR FLIBCPP_BUILD_TESTS)
+  set(_DEFAULT_BUILD_TESTING ON)
+endif()
+
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 option(FLIBCPP_DEV "Default to using development-centered options" OFF)
 option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
 option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
-option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
+option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${BUILD_TESTING})
 option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
 
 #---------------------------------------------------------------------------#
@@ -37,7 +42,7 @@ set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
    "Fortran standard for compiling generated code")
 
 #---------------------------------------------------------------------------#
-# SWIG setup
+# MODULES TO LOAD
 #---------------------------------------------------------------------------#
 
 if (FLIBCPP_USE_SWIG)
@@ -60,6 +65,9 @@ else()
   set(FLIBCPP_USE_SWIG FALSE)
 endif()
 
+# Enable testing based on BUILD_TESTING flag
+include(CTest)
+
 #---------------------------------------------------------------------------#
 # VERSIONING
 #---------------------------------------------------------------------------#
@@ -72,7 +80,7 @@ file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-version.txt"
 if (NOT FLIBCPP_VERSION_STRING MATCHES "\\$Format:")
   # First line are decorators, second is hash
   list(GET FLIBCPP_VERSION_STRING 0 _tag)
-  string(REGEX REPLACE ".*, *(tag: *)?" "" _tag "${_tag}")
+  string(REGEX REPLACE "tag: *" "" _tag "${_tag}")
   list(GET FLIBCPP_VERSION_STRING 1 _hash)
   string(REGEX REPLACE " +" "" _hash "${_hash}")
   set(FLIBCPP_VERSION_STRING "${_tag}-g${_hash}")
@@ -248,10 +256,6 @@ install(FILES
 #---------------------------------------------------------------------------#
 # TESTING AND DOCS
 #---------------------------------------------------------------------------#
-
-if (FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
-  enable_testing()
-endif()
 
 if (FLIBCPP_BUILD_TESTS)
   add_subdirectory(test)

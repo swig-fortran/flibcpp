@@ -7,6 +7,10 @@
 
 %module "flc"
 
+#if defined(SWIGIMPORTED) && !defined(SWIGIMPORTED)
+#error "To import the FLC module correctly, use ``%include \"import_flc.i\"``"
+#endif
+
 %define %flc_add_header
 %insert("fbegin") %{
 ! Flibcpp project, https://github.com/swig-fortran/flibcpp
@@ -79,7 +83,7 @@ using std::size_t;
  * Linked into auto-generated file flibcpp_version.cpp
  ************************/
 
-%apply const char* { const char flibcpp_version[] };
+%apply char* { const char flibcpp_version[] };
 %fortranbindc flibcpp_version_major;
 %fortranbindc flibcpp_version_minor;
 %fortranbindc flibcpp_version_patch;

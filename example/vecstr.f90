@@ -27,6 +27,7 @@ program vecstr_example
 
   if (vec%empty()) then
     write(STDOUT, *) "No vectors provided"
+    call vec%release()
     stop 0
   endif
 

@@ -216,7 +216,7 @@ enum SwigMemFlags {
 
 #define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
   if (!(SWIG_CLASS_WRAPPER).cptr) { \
-    SWIG_exception_impl(FUNCNAME, SWIG_TypeError, \
+    SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
   }
@@ -237,7 +237,7 @@ enum AssignmentType {
 };
 }
 
-#define SWIGPOLICY_std__string swig::ASSIGNMENT_DEFAULT
+#define SWIGPOLICY_std_string swig::ASSIGNMENT_DEFAULT
 
 #include <stdexcept>
 
@@ -319,14 +319,14 @@ namespace swig {
 
 template<class T, AssignmentType A>
 struct DestructorPolicy {
-  static SwigClassWrapper destruct(SwigClassWrapper self) {
+  static SwigClassWrapper destroy(SwigClassWrapper self) {
     delete static_cast<T*>(self.cptr);
     return SwigClassWrapper_uninitialized();
   }
 };
 template<class T>
 struct DestructorPolicy<T, ASSIGNMENT_NODESTRUCT> {
-  static SwigClassWrapper destruct(SwigClassWrapper) {
+  static SwigClassWrapper destroy(SwigClassWrapper) {
     SWIG_exception_impl("assignment", SWIG_TypeError, "Invalid assignment: class type has private destructor", return SwigClassWrapper_uninitialized());
   }
 };
@@ -335,39 +335,39 @@ struct DestructorPolicy<T, ASSIGNMENT_NODESTRUCT> {
 
 namespace swig {
 
+SWIGINTERN SwigClassWrapper capture(SwigClassWrapper other) {
+  other.cmemflags &= ~SWIG_MEM_RVALUE;
+  return other;
+}
+
 template<class T, AssignmentType A>
 struct AssignmentPolicy {
-  static SwigClassWrapper destruct(SwigClassWrapper self) {
-    return DestructorPolicy<T, A>::destruct(self);
+  static SwigClassWrapper destroy(SwigClassWrapper self) {
+    return DestructorPolicy<T, A>::destroy(self);
   }
   static SwigClassWrapper alias(SwigClassWrapper other) {
-    SwigClassWrapper self;
-    self.cptr = other.cptr;
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_OWN;
+    SwigClassWrapper self = other;
+    self.cmemflags &= ~SWIG_MEM_OWN;
     return self;
   }
   static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
     if (self.cmemflags & SWIG_MEM_OWN) {
-      destruct(self);
+      destroy(self);
     }
-    self.cptr = other.cptr;
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
-    return self;
+    return capture(other);
   }
   static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
     if (self.cmemflags & SWIG_MEM_OWN) {
-      destruct(self);
+      destroy(self);
     }
-    self.cptr = other.cptr;
-    self.cmemflags = other.cmemflags & ~SWIG_MEM_OWN;
-    return self;
+    return capture(other);
   }
 };
 
 template<class T>
 struct AssignmentPolicy<T, ASSIGNMENT_SMARTPTR> {
-  static SwigClassWrapper destruct(SwigClassWrapper self) {
-    return DestructorPolicy<T, ASSIGNMENT_SMARTPTR>::destruct(self);
+  static SwigClassWrapper destroy(SwigClassWrapper self) {
+    return DestructorPolicy<T, ASSIGNMENT_SMARTPTR>::destroy(self);
   }
   static SwigClassWrapper alias(SwigClassWrapper other) {
     SwigClassWrapper self;
@@ -378,7 +378,7 @@ struct AssignmentPolicy<T, ASSIGNMENT_SMARTPTR> {
   static SwigClassWrapper move_alias(SwigClassWrapper self, SwigClassWrapper other) {
     self = copy_alias(self, other);
     self.cmemflags = other.cmemflags & ~SWIG_MEM_RVALUE;
-    destruct(other);
+    destroy(other);
     return self;
   }
   static SwigClassWrapper copy_alias(SwigClassWrapper self, SwigClassWrapper other) {
@@ -400,15 +400,16 @@ SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
     /* LHS is unassigned */
     if (other.cmemflags & SWIG_MEM_RVALUE) {
       /* Capture pointer from RHS, clear 'moving' flag */
-      self->cptr = other.cptr;
-      self->cmemflags = other.cmemflags & (~SWIG_MEM_RVALUE);
+      *self = swig::capture(other);
     } else {
       /* Aliasing another class; clear ownership or copy smart pointer */
       *self = Policy_t::alias(other);
     }
   } else if (other.cptr == NULL) {
     /* Replace LHS with a null pointer */
-    *self = Policy_t::destruct(*self);
+    *self = Policy_t::destroy(*self);
+  } else if (self->cptr == other.cptr) {
+    /* Self-assignment: ignore */
   } else if (other.cmemflags & SWIG_MEM_RVALUE) {
     /* Transferred ownership from a variable that's about to be lost.
      * Move-assign and delete the transient data */
@@ -418,6 +419,17 @@ SWIGINTERN void SWIG_assign(SwigClassWrapper* self, SwigClassWrapper other) {
     *self = Policy_t::copy_alias(*self, other);
   }
 }
+
+template<class T, swig::AssignmentType A>
+SWIGINTERN void SWIG_free_rvalue(SwigClassWrapper other) {
+  typedef swig::AssignmentPolicy<T, A> Policy_t;
+  if (other.cmemflags & SWIG_MEM_RVALUE 
+      && other.cmemflags & SWIG_MEM_OWN) {
+    /* We own *and* are being passed an expiring value */
+    Policy_t::destroy(other);
+  }
+}
+
 
 
 #include <cctype>
@@ -464,7 +476,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_string__SWIG_2(SwigArrayWrapper *farg1) {
   std::string tempstr1 ;
   std::string *result = 0 ;
   
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   result = (std::string *)new std::string((std::string const &)*arg1);
   fresult.cptr = (void*)result;
@@ -556,7 +568,7 @@ SWIGEXPORT void _wrap_string_assign(SwigClassWrapper *farg1, SwigArrayWrapper *f
   
   SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::assign(std::string const &)", return );
   arg1 = (std::string *)farg1->cptr;
-  tempstr2 = std::string(static_cast<const char *>(farg2->data), farg2->size);
+  tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
   (arg1)->assign((std::string const &)*arg2);
 }
@@ -601,7 +613,7 @@ SWIGEXPORT long _wrap_string_find__SWIG_0(SwigClassWrapper *farg1, SwigArrayWrap
   
   SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::find(std::string const &,std::string::size_type)", return 0);
   arg1 = (std::string *)farg1->cptr;
-  tempstr2 = std::string(static_cast<const char *>(farg2->data), farg2->size);
+  tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
   arg3 = *farg3 - 1;
   result = (std::string::size_type)(arg1)->find((std::string const &)*arg2,arg3);
@@ -619,7 +631,7 @@ SWIGEXPORT long _wrap_string_find__SWIG_1(SwigClassWrapper *farg1, SwigArrayWrap
   
   SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::find(std::string const &)", return 0);
   arg1 = (std::string *)farg1->cptr;
-  tempstr2 = std::string(static_cast<const char *>(farg2->data), farg2->size);
+  tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
   result = (std::string::size_type)(arg1)->find((std::string const &)*arg2);
   fresult = (result == std::string::npos ? 0 : result + 1);
@@ -634,7 +646,7 @@ SWIGEXPORT void _wrap_string_append(SwigClassWrapper *farg1, SwigArrayWrapper *f
   
   SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::append(std::string const &)", return );
   arg1 = (std::string *)farg1->cptr;
-  tempstr2 = std::string(static_cast<const char *>(farg2->data), farg2->size);
+  tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
   (arg1)->append((std::string const &)*arg2);
 }
@@ -726,7 +738,7 @@ SWIGEXPORT void _wrap_string_op_assign__(SwigClassWrapper *farg1, SwigClassWrapp
   
   (void)sizeof(arg1);
   (void)sizeof(arg2);
-  SWIG_assign<std::string, SWIGPOLICY_std__string>(farg1, *farg2);
+  SWIG_assign<std::string, SWIGPOLICY_std_string>(farg1, *farg2);
   
 }
 
@@ -742,7 +754,7 @@ SWIGEXPORT int _wrap_stoi__SWIG_0(SwigArrayWrapper *farg1, int const *farg3) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   arg3 = (int)(*farg3);
   {
@@ -775,7 +787,7 @@ SWIGEXPORT int _wrap_stoi__SWIG_1(SwigArrayWrapper *farg1) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
     SWIG_check_unhandled_exception_impl("std::stoi(std::string const &,std::size_t *)");;
@@ -808,7 +820,7 @@ SWIGEXPORT long _wrap_stol__SWIG_0(SwigArrayWrapper *farg1, int const *farg3) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   arg3 = (int)(*farg3);
   {
@@ -841,7 +853,7 @@ SWIGEXPORT long _wrap_stol__SWIG_1(SwigArrayWrapper *farg1) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
     SWIG_check_unhandled_exception_impl("std::stol(std::string const &,std::size_t *)");;
@@ -874,7 +886,7 @@ SWIGEXPORT long long _wrap_stoll__SWIG_0(SwigArrayWrapper *farg1, int const *far
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   arg3 = (int)(*farg3);
   {
@@ -907,7 +919,7 @@ SWIGEXPORT long long _wrap_stoll__SWIG_1(SwigArrayWrapper *farg1) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
     SWIG_check_unhandled_exception_impl("std::stoll(std::string const &,std::size_t *)");;
@@ -939,7 +951,7 @@ SWIGEXPORT float _wrap_stof(SwigArrayWrapper *farg1) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
     SWIG_check_unhandled_exception_impl("std::stof(std::string const &,std::size_t *)");;
@@ -971,7 +983,7 @@ SWIGEXPORT double _wrap_stod(SwigArrayWrapper *farg1) {
   
   temp_pos2 = 0;
   arg2 = &temp_pos2;
-  tempstr1 = std::string(static_cast<const char *>(farg1->data), farg1->size);
+  tempstr1 = std::string(static_cast<char *>(farg1->data), farg1->size);
   arg1 = &tempstr1;
   {
     SWIG_check_unhandled_exception_impl("std::stod(std::string const &,std::size_t *)");;

@@ -169,40 +169,40 @@ fresult = swigc_new_Engine__SWIG_0()
 self%swigdata = fresult
 end function
 
-function swigf_new_Engine__SWIG_1(arg0) &
+function swigf_new_Engine__SWIG_1(seed_value) &
 result(self)
 use, intrinsic :: ISO_C_BINDING
 type(Engine) :: self
-integer(C_INT64_T), intent(in) :: arg0
+integer(C_INT64_T), intent(in) :: seed_value
 type(SwigClassWrapper) :: fresult 
 integer(C_INT64_T) :: farg1 
 
-farg1 = arg0
+farg1 = seed_value
 fresult = swigc_new_Engine__SWIG_1(farg1)
 self%swigdata = fresult
 end function
 
-subroutine swigf_Engine_seed(self, arg1)
+subroutine swigf_Engine_seed(self, seed_value)
 use, intrinsic :: ISO_C_BINDING
 class(Engine), intent(in) :: self
-integer(C_INT64_T), intent(in) :: arg1
+integer(C_INT64_T), intent(in) :: seed_value
 type(SwigClassWrapper) :: farg1 
 integer(C_INT64_T) :: farg2 
 
 farg1 = self%swigdata
-farg2 = arg1
+farg2 = seed_value
 call swigc_Engine_seed(farg1, farg2)
 end subroutine
 
-subroutine swigf_Engine_discard(self, arg1)
+subroutine swigf_Engine_discard(self, count)
 use, intrinsic :: ISO_C_BINDING
 class(Engine), intent(in) :: self
-integer(C_LONG_LONG), intent(in) :: arg1
+integer(C_LONG_LONG), intent(in) :: count
 type(SwigClassWrapper) :: farg1 
 integer(C_LONG_LONG) :: farg2 
 
 farg1 = self%swigdata
-farg2 = arg1
+farg2 = count
 call swigc_Engine_discard(farg1, farg2)
 end subroutine
 

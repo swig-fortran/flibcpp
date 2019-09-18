@@ -22,6 +22,9 @@
   $result = ($1 == std::string::npos ? 0 : $1 + 1);
 }
 
+// Automatically free temporary strings as appropriate
+%fortran_autofree_rvalue(std::string);
+
 namespace std {
 class string {
   public:

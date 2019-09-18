@@ -66,6 +66,7 @@ subroutine test_class()
   ASSERT(i == 5)
   i = s%find("woof")
   ASSERT(i == 0)
+  call s%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!

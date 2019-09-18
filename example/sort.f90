@@ -38,6 +38,12 @@ program sort_example
 
   ! Write output
   write(STDOUT, "(a, 4(f8.3,','))") "First few elements:", x(:min(4, size(x)))
+
+  call rng%release()
+
+  ! Valgrind fails without deallocating the array, but technically it's not
+  ! necessary in Fortran to do this
+  deallocate(x)
 contains
 
 ! Loop until the user inputs a positive integer. Catch error conditions. 

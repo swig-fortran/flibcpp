@@ -345,7 +345,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_get_serr() {
   char *result = 0 ;
   
   result = (char *)flc_get_serr();
-  fresult.size = strlen(reinterpret_cast< const char* >(result));
+  fresult.size = strlen((char*)(result));
   fresult.data = const_cast< char * >(result);
   return fresult;
 }
@@ -356,7 +356,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_flibcpp_version_get() {
   char *result = 0 ;
   
   result = (char *)(char *)flibcpp_version;
-  fresult.size = strlen(reinterpret_cast< const char* >(result));
+  fresult.size = strlen((char*)(result));
   fresult.data = const_cast< char * >(result);
   return fresult;
 }
