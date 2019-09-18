@@ -11,14 +11,16 @@ String
 The string module includes the ``String`` derived type and a handful of string
 conversion functions.
 
+.. _modules_string_type:
+
 String type
 ===========
 
 The C++ standard library "string" is a dynamically resizable, mutable character
 array.
 
-Construction and destruction
-----------------------------
+Constructors
+------------
 
 Strings are constructed using three interface functions:
 
@@ -31,7 +33,7 @@ Strings are constructed using three interface functions:
 Here are three examples of initialization::
 
    use flc_string, only : String
-   type(String) :: v
+   type(String) :: s
 
    s = String()
    ! s%size() == 0
@@ -39,6 +41,17 @@ Here are three examples of initialization::
    ! s%size() == 10
    ! s%get(i) == "!"
    s = String("I am a string!")
+
+
+Character element access
+------------------------
+
+The number of characters in the string is returned by the bound function
+``size``. The ``get`` function returns the character at an index; and ``front``
+and ``back`` are aliases for ``get(1)`` and ``get(v%size())``, respectively.
+
+.. important:: Unlike the C++ version of this class, **strings in Flibcpp
+   use 1-offset indexing**. See :ref:`conventions_indexing`.
 
 Modification
 ------------
@@ -60,18 +73,6 @@ specified index::
    s = String("=", 10)
    call s%set(1, "8")
    call s%set(s%size(), "D")
-
-.. important:: Unlike the C++ version of this class, **strings in Flibcpp
-   use 1-offset indexing**. This means that ``s%get(1)`` is the same as the C++
-   ``s[0]``: it returns the first element (i.e. the element with an offset of
-   zero).
-
-Access
-------
-
-The size of a string is returned by the bound function ``size``; ``get``
-returns the character at an index; and ``front`` and ``back`` are aliases for
-``get(1)`` and ``get(v%size())``, respectively.
 
 Search
 ------

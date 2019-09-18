@@ -77,6 +77,8 @@ zero.
 Searching
 =========
 
+.. _modules_algorithm_binary_search:
+
 binary_search
 -------------
 
@@ -143,6 +145,8 @@ Example::
   integer(INDEX_INT) :: min_idx, max_idx
 
   call minmax_element(iarr, min_idx, max_idx) ! min_idx == 3, max_idx == 6
+
+.. _modules_algorithm_set_operations:
 
 Set operations
 ==============

@@ -83,8 +83,8 @@ The size of a vector is returned by the bound function ``size``; ``get``
 returns the value at an index; and ``front`` and ``back`` are aliases for
 ``get(1)`` and ``get(v%size())``, respectively.
 
-Additionally, ``front_ref``, ``back_ref``, and ``get_ref`` return pointers to
-the elements of the array.
+Additionally, ``front_ref``, ``back_ref``, and ``get_ref`` return Fortran
+pointers to the elements of the array.
 
 .. warning:: Array element pointers are valid **only** as long as the vector's
   size is not changed. Calling ``erase``, ``push_back``, and so forth will
