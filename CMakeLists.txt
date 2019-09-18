@@ -13,10 +13,11 @@ project(Flibcpp VERSION 0.2.1 LANGUAGES CXX Fortran)
 #---------------------------------------------------------------------------#
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_TESTING "Enable CTest" ${FLIBCPP_DEV})
 option(FLIBCPP_DEV "Default to using development-centered options" OFF)
 option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
 option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
-option(FLIBCPP_BUILD_TESTS "Build unit tests" ${FLIBCPP_DEV})
+option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${BUILD_TESTING})
 option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
 
 #---------------------------------------------------------------------------#
@@ -37,7 +38,7 @@ set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
    "Fortran standard for compiling generated code")
 
 #---------------------------------------------------------------------------#
-# SWIG setup
+# MODULES TO LOAD
 #---------------------------------------------------------------------------#
 
 if (FLIBCPP_USE_SWIG)
@@ -59,6 +60,9 @@ if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
 else()
   set(FLIBCPP_USE_SWIG FALSE)
 endif()
+
+# Enable testing based on BUILD_TESTING flag
+include(CTest)
 
 #---------------------------------------------------------------------------#
 # VERSIONING
@@ -248,10 +252,6 @@ install(FILES
 #---------------------------------------------------------------------------#
 # TESTING AND DOCS
 #---------------------------------------------------------------------------#
-
-if (FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
-  enable_testing()
-endif()
 
 if (FLIBCPP_BUILD_TESTS)
   add_subdirectory(test)
