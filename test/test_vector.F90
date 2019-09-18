@@ -72,7 +72,7 @@ subroutine test_int4()
   ASSERT(element_ptr == -2)
   element_ptr = 1234
   ASSERT(v2%get(2) == 1234)
-
+  call v2%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!
@@ -96,6 +96,8 @@ subroutine test_string()
   call v%set_ref(4, v%get_ref(5))
   ASSERT(v%get(4) == "yours")
 
+  call sref%release()
+  call v%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!

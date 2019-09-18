@@ -25,6 +25,7 @@ subroutine test_uniform_int_distribution()
 
   call uniform_int_distribution(5, 15, rng, arr)
   write(*,*) "Result:", arr
+  call rng%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!
@@ -39,6 +40,7 @@ subroutine test_uniform_real_distribution()
 
   call uniform_real_distribution(5.d0, 15.d0, rng, arr)
   write(*,*) "Result:", arr
+  call rng%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!
@@ -58,6 +60,7 @@ subroutine test_normal_distribution()
   ! Mean=1, sigma=1
   call normal_distribution(1.0d0, rng, arr)
   write(*,*) "Result:", arr
+  call rng%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!
