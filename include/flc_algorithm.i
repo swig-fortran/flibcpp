@@ -55,22 +55,24 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
 
 %enddef
 
-/******************************
+/* -------------------------------------------------------------------------
  * Types
- ******************************/
+ * ------------------------------------------------------------------------- */
 
-// >>> Index integer type
+// Alias the native C integer to an "indexing" integer returned by algorithm
+// functions.
 %inline %{
 typedef int index_int;
 %}
 %insert("fdecl") %{integer, parameter, public :: INDEX_INT = C_INT
 %}
 
+// Give it a particularly named type in the Fortran proxy code.
 %apply int { index_int };
 %typemap(ftype, in={integer(INDEX_INT), intent(in)}) index_int
-   %{integer(INDEX_INT)%}
+  %{integer(INDEX_INT)%}
 
-// >>> Array types
+// Apply array-to-C translation for numeric values
 %apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
 %apply (const SWIGTYPE *DATA, size_t SIZE) {
@@ -82,7 +84,7 @@ typedef int index_int;
        (const double   *DATA2, size_t DATASIZE2) };
 
 
-// >>> Function pointer types
+// Make function pointers available as generic types
 %typemap(fin) bool (*)(SWIGTYPE, SWIGTYPE)
   "$1 = c_funloc($input)"
 %typemap(findecl, match="fin") bool (*)(SWIGTYPE, SWIGTYPE) ""
@@ -90,14 +92,14 @@ typedef int index_int;
   "call c_f_procpointer($1, $result)"
 %typemap(foutdecl, match="fout") bool (*)(SWIGTYPE, SWIGTYPE) ""
 
-%flc_cmp_funptr(int32_t, integer(C_INT32_T))
-%flc_cmp_funptr(int64_t, integer(C_INT64_T))
-%flc_cmp_funptr(double,  real(C_DOUBLE))
-%flc_cmp_funptr(index_int,  integer(INDEX_INT))
+%flc_cmp_funptr(int32_t,   integer(C_INT32_T))
+%flc_cmp_funptr(int64_t,   integer(C_INT64_T))
+%flc_cmp_funptr(double,    real(C_DOUBLE))
+%flc_cmp_funptr(index_int, integer(INDEX_INT))
 
-/******************************
- * Sorting
- ******************************/
+/* -------------------------------------------------------------------------
+ * Sorting routines
+ * ------------------------------------------------------------------------- */
 
 %{
 template<class T, class Compare>
@@ -130,21 +132,25 @@ static void argsort_impl(const T *data, size_t size,
 
 %}
 
-%flc_cmp_algorithm(void, sort, %arg(T *DATA, size_t DATASIZE),
+%flc_cmp_algorithm(void, sort,
+                   %arg(T *DATA, size_t DATASIZE),
                    %arg(DATA, DATASIZE))
-%flc_cmp_algorithm(bool, is_sorted, %arg(const T *DATA, size_t DATASIZE),
+%flc_cmp_algorithm(bool, is_sorted,
+                   %arg(const T *DATA, size_t DATASIZE),
                    %arg(DATA, DATASIZE))
-%flc_cmp_algorithm(void, argsort, %arg(const T *DATA, size_t DATASIZE,
-                                       index_int *IDX, size_t IDXSIZE),
+%flc_cmp_algorithm(void, argsort,
+                   %arg(const T *DATA, size_t DATASIZE,
+                        index_int *IDX, size_t IDXSIZE),
                    %arg(DATA, DATASIZE, IDX, IDXSIZE))
 
-/******************************
- * Searching
- ******************************/
+/* -------------------------------------------------------------------------
+ * Searching routines
+ * ------------------------------------------------------------------------- */
 
 %{
 template<class T, class Compare>
-static index_int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
+static index_int binary_search_impl(const T *data, size_t size, T value,
+                                    Compare cmp) {
   const T *end = data + size;
   auto iter = std::lower_bound(data, end, value, cmp);
   if (iter == end || cmp(*iter, value) || cmp(value, *iter))
@@ -154,7 +160,9 @@ static index_int binary_search_impl(const T *data, size_t size, T value, Compare
 }
 
 template<class T, class Compare>
-static void equal_range_impl(const T *data, size_t size, T value, index_int &first_index, index_int &last_index, Compare cmp) {
+static void equal_range_impl(const T *data, size_t size, T value,
+                             index_int &first_index, index_int &last_index,
+                             Compare cmp) {
   const T *end = data + size;
   auto range_pair = std::equal_range(data, end, value, cmp);
   // Index of the min/max items *IN FORTAN INDEXING*
@@ -163,7 +171,9 @@ static void equal_range_impl(const T *data, size_t size, T value, index_int &fir
 }
 
 template<class T, class Compare>
-static void minmax_element_impl(const T *data, size_t size, index_int &min_index, index_int &max_index, Compare cmp) {
+static void minmax_element_impl(const T *data, size_t size,
+                                index_int &min_index, index_int &max_index,
+                                Compare cmp) {
   const T *end = data + size;
   auto mm_pair = std::minmax_element(data, end, cmp);
   // Index of the min/max items *IN FORTAN INDEXING*
@@ -172,37 +182,41 @@ static void minmax_element_impl(const T *data, size_t size, index_int &min_index
 }
 %}
 
-%flc_cmp_algorithm(index_int, binary_search, %arg(const T *DATA, size_t DATASIZE,
-                                            T value),
+%flc_cmp_algorithm(index_int, binary_search,
+                   %arg(const T *DATA, size_t DATASIZE, T value),
                    %arg(DATA, DATASIZE, value))
 
-%flc_cmp_algorithm(void, equal_range, %arg(const T *DATA, size_t DATASIZE,
-                                           T value,
-                                           index_int &first_index, index_int &last_index),
+%flc_cmp_algorithm(void, equal_range,
+                   %arg(const T *DATA, size_t DATASIZE, T value,
+                        index_int &first_index, index_int &last_index),
                    %arg(DATA, DATASIZE, value, first_index, last_index))
 
-%flc_cmp_algorithm(void, minmax_element, %arg(const T *DATA, size_t DATASIZE,
-                                            index_int &min_index, index_int &max_index),
+%flc_cmp_algorithm(void, minmax_element,
+                   %arg(const T *DATA, size_t DATASIZE,
+                        index_int &min_index, index_int &max_index),
                    %arg(DATA, DATASIZE, min_index, max_index))
 
-/******************************
- * Set operations
- ******************************/
+/* -------------------------------------------------------------------------
+ * Set operation routines
+ * ------------------------------------------------------------------------- */
 
 %{
 template<class T, class Compare>
-static bool includes_impl(const T *data1, size_t size1, const T *data2, size_t size2, Compare cmp) {
+static bool includes_impl(const T *data1, size_t size1,
+                          const T *data2, size_t size2,
+                          Compare cmp) {
   return std::includes(data1, data1 + size1, data2, data2 + size2, cmp);
 }
 %}
 
-%flc_cmp_algorithm(bool, includes, %arg(const T *DATA1, size_t DATASIZE1,
-                                        const T *DATA2, size_t DATASIZE2),
+%flc_cmp_algorithm(bool, includes,
+                   %arg(const T *DATA1, size_t DATASIZE1,
+                        const T *DATA2, size_t DATASIZE2),
                    %arg(DATA1, DATASIZE1, DATA2, DATASIZE2))
 
-/******************************
- * Reordering
- ******************************/
+/* -------------------------------------------------------------------------
+ * Modifying routines
+ * ------------------------------------------------------------------------- */
 
 %{
 #include <random>

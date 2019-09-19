@@ -34,6 +34,7 @@ which wrap the C++ library.
    :caption: Contents
 
    introduction.rst
+   conventions.rst
    modules.rst
    examples.rst
    conclusion.rst

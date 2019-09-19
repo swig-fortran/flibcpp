@@ -73,6 +73,13 @@ subroutine test_int4()
   element_ptr = 1234
   ASSERT(v2%get(2) == 1234)
   call v2%release()
+
+  ! Create from an in-place array
+  v = Vector([integer(4) :: 1, 2, 3, 5, 8, 13])
+  ASSERT(v%size() == 6)
+  ASSERT(v%get(1) == 1)
+  ASSERT(v%back() == 13)
+  call v%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!

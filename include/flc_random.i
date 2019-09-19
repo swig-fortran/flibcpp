@@ -9,9 +9,9 @@
 %include "import_flc.i"
 %flc_add_header
 
-/******************************
- * Generator definition
- ******************************/
+/* -------------------------------------------------------------------------
+ * Generator class definition
+ * ------------------------------------------------------------------------- */
 
 %{
 #include <random>
@@ -42,13 +42,13 @@ class SWIG_MERSENNE_TWISTER
 };
 } // namespace std
 
-/******************************
- * Distributions
+/* -------------------------------------------------------------------------
+ * RNG distribution routines
  *
  * The generated subroutines will be called from Fortran like:
  *
  *     call uniform_real_distribution(gen, -10, 10, fill_array)
- ******************************/
+ * ------------------------------------------------------------------------- */
 
 %define %flc_random_distribution1(DISTNAME, TYPE, ARG1)
 %inline {

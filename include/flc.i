@@ -11,6 +11,10 @@
 #error "To import the FLC module correctly, use ``%include \"import_flc.i\"``"
 #endif
 
+/* -------------------------------------------------------------------------
+ * Header definition macros
+ * ------------------------------------------------------------------------- */
+
 %define %flc_add_header
 %insert("fbegin") %{
 ! Flibcpp project, https://github.com/swig-fortran/flibcpp
@@ -28,26 +32,27 @@
 
 %flc_add_header
 
-/************************
+/* -------------------------------------------------------------------------
  * Exception handling
- ************************/
+ * ------------------------------------------------------------------------- */
 
-/* Rename the error variables' internal C symbols */
+// Rename the error variables' internal C symbols
 #define SWIG_FORTRAN_ERROR_INT flc_ierr
 #define SWIG_FORTRAN_ERROR_STR flc_get_serr
 
-/* Restore names in the wrapper code */
+// Restore names in the wrapper code
 %rename(ierr) flc_ierr;
 %rename(get_serr) flc_get_serr;
 
-/* Unless we're directly building this module, delay exception handling */
+// Unless we're directly building this module, delay exception handling
 #ifndef SWIGIMPORTED
 %include <exception.i>
 #endif
 
-/******************************
+/* -------------------------------------------------------------------------
  * Data types and instantiation
- ******************************/
+ * ------------------------------------------------------------------------- */
+
 %{
 #include <cstdint>
 using std::int32_t;
@@ -62,9 +67,9 @@ using std::size_t;
 %template(DST) SRC<double>;
 %enddef
 
-/************************
+/* -------------------------------------------------------------------------
  * Array view translation
- ************************/
+ * ------------------------------------------------------------------------- */
 
 %include <typemaps.i>
 %apply (SWIGTYPE *DATA, size_t SIZE) {
@@ -77,17 +82,16 @@ using std::size_t;
        (const int64_t  *DATA, size_t DATASIZE),
        (const double   *DATA, size_t DATASIZE) };
 
-/************************
+/* -------------------------------------------------------------------------
  * Version information
- *
- * Linked into auto-generated file flibcpp_version.cpp
- ************************/
+ * ------------------------------------------------------------------------- */
 
 %apply char* { const char flibcpp_version[] };
 %fortranbindc flibcpp_version_major;
 %fortranbindc flibcpp_version_minor;
 %fortranbindc flibcpp_version_patch;
 
+// These symbols are defined in the CMake-generated `flibcpp_version.cpp`
 %inline %{
 extern "C" {
 extern const char flibcpp_version[];

@@ -16,11 +16,20 @@
 // Include typemaps for integer offsets and native integer types
 %include <std_common.i>
 
-// Typemap to convert positions from npos -> 0 and 1-offset otherwise
+/* -------------------------------------------------------------------------
+ * Typemaps
+ * ------------------------------------------------------------------------- */
+
+// Typemap to convert positions from npos -> 0 and 1-offset otherwise. Similar
+// to
 %apply int FORTRAN_INT { std::size_t POSITION };
 %typemap(out, noblock=1) std::size_t POSITION {
   $result = ($1 == std::string::npos ? 0 : $1 + 1);
 }
+
+/* -------------------------------------------------------------------------
+ * String class definition
+ * ------------------------------------------------------------------------- */
 
 // Automatically free temporary strings as appropriate
 %fortran_autofree_rvalue(std::string);
@@ -113,6 +122,10 @@ class string {
     }
 };
 
+/* -------------------------------------------------------------------------
+ * String conversion routines
+ * ------------------------------------------------------------------------- */
+
 %exception {
   SWIG_check_unhandled_exception();
   try {
@@ -126,7 +139,8 @@ class string {
   }
 }
 
-%fragment("flc_has_junk", "header", fragment="<cctype>", fragment="<algorithm>") %{
+%fragment("flc_has_junk", "header",
+          fragment="<cctype>", fragment="<algorithm>") %{
   SWIGINTERN bool flc_has_junk(const std::string& s, size_t pos) {
     return !std::all_of(s.begin() + pos, s.end(),
                         [](unsigned char c) -> bool { return std::isspace(c); });
@@ -155,7 +169,7 @@ class string {
 %add_string_real_conversion(float, stof);
 %add_string_real_conversion(double, stod);
 
-// Don't add exception code later
+// Don't add exception code for subsequent functions
 %exception;
 
 } // namespace std

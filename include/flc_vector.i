@@ -11,7 +11,10 @@
 
 %include <std_vector.i>
 
-/* ------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------
+ * Macro definitions
+ * ------------------------------------------------------------------------- */
+
 %define EXTEND_STD_VECTOR_POD(CTYPE)
   %apply (const SWIGTYPE *DATA, ::size_t SIZE)
     { (const CTYPE* DATA, size_type SIZE) };
@@ -40,7 +43,7 @@
 %enddef
 
 /* ------------------------------------------------------------------------- */
-/*! \def EXTEND_STD_VECTOR_POD_INTERNAL
+/*! \def %specialize_std_vector_pod
  *
  * Inject member functions and typemaps for POD classes.
  *
@@ -49,10 +52,12 @@
  * vector-owned data.
  */
 %define %specialize_std_vector_pod(T)
+
+// Automatically free temporary vectors as appropriate
+%fortran_autofree_rvalue(std::vector<T>);
+
 namespace std {
   template<> class vector<T> {
-    // Automatically free temporary vectors as appropriate
-    %fortran_autofree_rvalue(std::vector<T>);
 
     SWIG_STD_VECTOR_COMMON(T, const T&)
     SWIG_STD_VECTOR_REF(T)
@@ -63,7 +68,9 @@ namespace std {
 }
 %enddef
 
-/* ------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------
+ * Numeric vectors
+ * ------------------------------------------------------------------------- */
 
 %specialize_std_vector_pod(int32_t)
 %specialize_std_vector_pod(int64_t)
@@ -73,7 +80,9 @@ namespace std {
 %template(VectorInt8) std::vector<int64_t>;
 %template(VectorReal8) std::vector<double>;
 
-/* ------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------
+ * String vectors
+ * ------------------------------------------------------------------------- */
 
 %fortran_autofree_rvalue(std::vector<std::string>);
 %extend std::vector<std::string> {
