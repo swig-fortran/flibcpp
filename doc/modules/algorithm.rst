@@ -10,19 +10,18 @@ Algorithm
 
 The ``flc_algorithm`` module wraps C++ standard `<algorithm>`_ routines.
 Instead of taking pairs of iterators, the Flibcpp algorithm subroutines accept
-target-qualified 1-D arrays.
-
-Algorithms that take comparators (e.g. sorting and searching) are instantiated
-with function pointers that allow user functions to add arbitrary ordering by
-defining ``bind(C)`` functions.
-
-Wherever possible, array indices are returned as Fortran 1-offset native
-integers, with the value 0 indicating off-the-end (e.g. "not found").
+target-qualified one-dimensional arrays. All algorithms follow the
+:ref:`indexing convention <conventions_indexing>` that the first element of an
+array has index 1, and an index of 0 indicates "not found".
 
 .. _<algorithm> : https://en.cppreference.com/w/cpp/numeric/random
 
 Sorting
 =======
+
+Sorting algorithms for numeric types default to increasing order when provided
+with a single array argument. Numeric sorting routines accept an optional
+second argument, a comparator function,
 
 sort
 ----
@@ -56,11 +55,10 @@ takes an array to analyze and an empty array of integers to fill::
   use flc_algorithm, only : argsort, INDEX_INT
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
-  integer(INDEX_INT), dimension(5) :: idx
+  integer(INDEX_INT), dimension(size(iarr)) :: idx
 
   call argsort(iarr, idx)
-  ! This line prints a sorted array:
-  write(*,*) iarr(idx)
+  write(*,*) iarr(idx) ! Prints the sorted array
 
 Note that the index array is always a ``INDEX_INT``, which is an alias to
 ``C_INT``. On some compilers and platforms, this may be the same as native

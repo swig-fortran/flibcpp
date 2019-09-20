@@ -40,6 +40,7 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
 %enddef
 
 // >>> Create a native function pointer interface for the given comparator.
+
 %define %flc_cmp_funptr(CTYPE, FTYPE)
 
 #define flc_cmp_funptr flc_cmp_funptr_ ## %mangle(CTYPE)

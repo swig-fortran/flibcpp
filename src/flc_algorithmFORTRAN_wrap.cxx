@@ -339,20 +339,6 @@ static bool is_sorted_cmp(const T *DATA,size_t DATASIZE, bool (*cmp)(T, T)) {
 }
 
 
-struct SwigClassWrapper {
-    void* cptr;
-    int cmemflags;
-};
-
-
-SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
-    SwigClassWrapper result;
-    result.cptr = NULL;
-    result.cmemflags = 0;
-    return result;
-}
-
-
 // Operate using default "less than"
 template<class T>
 static void argsort(const T *DATA,size_t DATASIZE,index_int *IDX,size_t IDXSIZE
@@ -460,6 +446,20 @@ template<class T>
 static bool includes_cmp(const T *DATA1,size_t DATASIZE1,const T *DATA2,size_t DATASIZE2
 , bool (*cmp)(T, T)) {
   return includes_impl(DATA1,DATASIZE1,DATA2,DATASIZE2, cmp);
+}
+
+
+struct SwigClassWrapper {
+    void* cptr;
+    int cmemflags;
+};
+
+
+SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
+    SwigClassWrapper result;
+    result.cptr = NULL;
+    result.cmemflags = 0;
+    return result;
 }
 
 
@@ -757,15 +757,15 @@ SWIGEXPORT int _wrap_is_sorted__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(do
 }
 
 
-SWIGEXPORT int _wrap_is_sorted__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, bool (*farg3)(void *,void *)) {
+SWIGEXPORT int _wrap_is_sorted__SWIG_7(SwigArrayWrapper *farg1, bool (*farg3)(void *,void *)) {
   int fresult ;
   void **arg1 = (void **) 0 ;
   size_t arg2 ;
   bool (*arg3)(void *,void *) = (bool (*)(void *,void *)) 0 ;
   bool result;
   
-  arg1 = (void **)farg1->cptr;
-  arg2 = (size_t)(*farg2);
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
   arg3 = (bool (*)(void *,void *))(*farg3);
   result = (bool)is_sorted_cmp< void * >((void *const *)arg1,arg2,arg3);
   fresult = (result ? 1 : 0);
@@ -863,15 +863,15 @@ SWIGEXPORT void _wrap_argsort__SWIG_6(SwigArrayWrapper *farg1, SwigArrayWrapper 
 }
 
 
-SWIGEXPORT void _wrap_argsort__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, SwigArrayWrapper *farg3, bool (*farg5)(void *,void *)) {
+SWIGEXPORT void _wrap_argsort__SWIG_7(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(void *,void *)) {
   void **arg1 = (void **) 0 ;
   size_t arg2 ;
   index_int *arg3 = (index_int *) 0 ;
   size_t arg4 ;
   bool (*arg5)(void *,void *) = (bool (*)(void *,void *)) 0 ;
   
-  arg1 = (void **)farg1->cptr;
-  arg2 = (size_t)(*farg2);
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
   arg3 = (index_int *)farg3->data;
   arg4 = farg3->size;
   arg5 = (bool (*)(void *,void *))(*farg5);
@@ -981,7 +981,7 @@ SWIGEXPORT int _wrap_binary_search__SWIG_6(SwigArrayWrapper *farg1, double const
 }
 
 
-SWIGEXPORT int _wrap_binary_search__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, void const **farg3, bool (*farg4)(void *,void *)) {
+SWIGEXPORT int _wrap_binary_search__SWIG_7(SwigArrayWrapper *farg1, void const **farg3, bool (*farg4)(void *,void *)) {
   int fresult ;
   void **arg1 = (void **) 0 ;
   size_t arg2 ;
@@ -989,8 +989,8 @@ SWIGEXPORT int _wrap_binary_search__SWIG_7(SwigClassWrapper *farg1, size_t const
   bool (*arg4)(void *,void *) = (bool (*)(void *,void *)) 0 ;
   index_int result;
   
-  arg1 = (void **)farg1->cptr;
-  arg2 = (size_t)(*farg2);
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
   arg3 = (void *)(*farg3);
   arg4 = (bool (*)(void *,void *))(*farg4);
   result = (index_int)binary_search_cmp< void * >((void *const *)arg1,arg2,arg3,arg4);
@@ -1101,7 +1101,7 @@ SWIGEXPORT void _wrap_equal_range__SWIG_6(SwigArrayWrapper *farg1, double const 
 }
 
 
-SWIGEXPORT void _wrap_equal_range__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, void const **farg3, int *farg4, int *farg5, bool (*farg6)(void *,void *)) {
+SWIGEXPORT void _wrap_equal_range__SWIG_7(SwigArrayWrapper *farg1, void const **farg3, int *farg4, int *farg5, bool (*farg6)(void *,void *)) {
   void **arg1 = (void **) 0 ;
   size_t arg2 ;
   void *arg3 = (void *) 0 ;
@@ -1109,8 +1109,8 @@ SWIGEXPORT void _wrap_equal_range__SWIG_7(SwigClassWrapper *farg1, size_t const 
   index_int *arg5 = 0 ;
   bool (*arg6)(void *,void *) = (bool (*)(void *,void *)) 0 ;
   
-  arg1 = (void **)farg1->cptr;
-  arg2 = (size_t)(*farg2);
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
   arg3 = (void *)(*farg3);
   arg4 = (index_int *)(farg4);
   arg5 = (index_int *)(farg5);
@@ -1209,15 +1209,15 @@ SWIGEXPORT void _wrap_minmax_element__SWIG_6(SwigArrayWrapper *farg1, int *farg3
 }
 
 
-SWIGEXPORT void _wrap_minmax_element__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, int *farg3, int *farg4, bool (*farg5)(void *,void *)) {
+SWIGEXPORT void _wrap_minmax_element__SWIG_7(SwigArrayWrapper *farg1, int *farg3, int *farg4, bool (*farg5)(void *,void *)) {
   void **arg1 = (void **) 0 ;
   size_t arg2 ;
   index_int *arg3 = 0 ;
   index_int *arg4 = 0 ;
   bool (*arg5)(void *,void *) = (bool (*)(void *,void *)) 0 ;
   
-  arg1 = (void **)farg1->cptr;
-  arg2 = (size_t)(*farg2);
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
   arg3 = (index_int *)(farg3);
   arg4 = (index_int *)(farg4);
   arg5 = (bool (*)(void *,void *))(*farg5);

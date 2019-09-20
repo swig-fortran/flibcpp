@@ -30,6 +30,9 @@ swig_fortran_add_example(sort
 swig_fortran_add_example(vecstr
   flc_string flc_vector example_utils_lib)
 
+swig_fortran_add_example(sort_generic
+  flc_algorithm example_utils_lib)
+
 #---------------------------------------------------------------------------##
 # TESTS
 #---------------------------------------------------------------------------##

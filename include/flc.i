@@ -82,7 +82,7 @@ using std::size_t;
        (const int32_t  *DATA, size_t DATASIZE),
        (const int64_t  *DATA, size_t DATASIZE),
        (const double   *DATA, size_t DATASIZE),
-       (const void    **DATA, size_t DATASIZE)};
+       (void * const   *DATA, size_t DATASIZE)};
 
 /* -------------------------------------------------------------------------
  * Version information
