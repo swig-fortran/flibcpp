@@ -23,7 +23,7 @@ integer, parameter, public :: INDEX_INT = C_INT
   integer(C_SIZE_T), public :: size = 0
  end type
  abstract interface
-   function SWIG_cmp_funptr_int32_t(left, right) bind(C) &
+   function flc_cmp_funptr_int32_t(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      integer(C_INT32_T), intent(in), value :: left, right
@@ -31,7 +31,7 @@ integer, parameter, public :: INDEX_INT = C_INT
    end function
  end interface
  abstract interface
-   function SWIG_cmp_funptr_int64_t(left, right) bind(C) &
+   function flc_cmp_funptr_int64_t(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      integer(C_INT64_T), intent(in), value :: left, right
@@ -39,7 +39,7 @@ integer, parameter, public :: INDEX_INT = C_INT
    end function
  end interface
  abstract interface
-   function SWIG_cmp_funptr_double(left, right) bind(C) &
+   function flc_cmp_funptr_double(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      real(C_DOUBLE), intent(in), value :: left, right
@@ -47,7 +47,7 @@ integer, parameter, public :: INDEX_INT = C_INT
    end function
  end interface
  abstract interface
-   function SWIG_cmp_funptr_void_Sm_(left, right) bind(C) &
+   function flc_cmp_funptr_void_Sm_(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      type(C_PTR), intent(in), value :: left, right
@@ -699,7 +699,7 @@ end subroutine
 subroutine swigf_sort__SWIG_4(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), dimension(:), target :: data
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -711,7 +711,7 @@ end subroutine
 subroutine swigf_sort__SWIG_5(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), dimension(:), target :: data
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -723,7 +723,7 @@ end subroutine
 subroutine swigf_sort__SWIG_6(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), dimension(:), target :: data
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -750,7 +750,7 @@ end subroutine
 subroutine swigf_sort__SWIG_7(data, cmp)
 use, intrinsic :: ISO_C_BINDING
 type(C_PTR), dimension(:), target :: data
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
 
@@ -816,7 +816,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
@@ -832,7 +832,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
@@ -848,7 +848,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(C_FUNPTR) :: farg3 
@@ -865,7 +865,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 class(SWIGTYPE_p_p_void), intent(in) :: data
 integer(C_SIZE_T), intent(in) :: datasize
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
@@ -933,7 +933,7 @@ subroutine swigf_argsort__SWIG_4(data, idx, cmp)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT), dimension(:), target :: idx
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
@@ -948,7 +948,7 @@ subroutine swigf_argsort__SWIG_5(data, idx, cmp)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT), dimension(:), target :: idx
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
@@ -963,7 +963,7 @@ subroutine swigf_argsort__SWIG_6(data, idx, cmp)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 integer(C_INT), dimension(:), target :: idx
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
@@ -979,7 +979,7 @@ use, intrinsic :: ISO_C_BINDING
 class(SWIGTYPE_p_p_void), intent(in) :: data
 integer(C_SIZE_T), intent(in) :: datasize
 integer(C_INT), dimension(:), target :: idx
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
 type(SwigArrayWrapper) :: farg3 
@@ -1046,7 +1046,7 @@ use, intrinsic :: ISO_C_BINDING
 integer(INDEX_INT) :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), intent(in) :: value
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT32_T) :: farg3 
@@ -1065,7 +1065,7 @@ use, intrinsic :: ISO_C_BINDING
 integer(INDEX_INT) :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), intent(in) :: value
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT64_T) :: farg3 
@@ -1084,7 +1084,7 @@ use, intrinsic :: ISO_C_BINDING
 integer(INDEX_INT) :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), intent(in) :: value
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 real(C_DOUBLE) :: farg3 
@@ -1104,7 +1104,7 @@ integer(INDEX_INT) :: swig_result
 class(SWIGTYPE_p_p_void), intent(in) :: data
 integer(C_SIZE_T), intent(in) :: datasize
 type(C_PTR), intent(in) :: value
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
@@ -1179,7 +1179,7 @@ integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(C_INT32_T), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT32_T) :: farg3 
 type(C_PTR) :: farg4 
@@ -1200,7 +1200,7 @@ integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(C_INT64_T), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 integer(C_INT64_T) :: farg3 
 type(C_PTR) :: farg4 
@@ -1221,7 +1221,7 @@ real(C_DOUBLE), dimension(:), intent(in), target :: data
 real(C_DOUBLE), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 real(C_DOUBLE) :: farg3 
 type(C_PTR) :: farg4 
@@ -1243,7 +1243,7 @@ integer(C_SIZE_T), intent(in) :: datasize
 type(C_PTR), intent(in) :: value
 integer(INDEX_INT), target, intent(inout) :: first_index
 integer(INDEX_INT), target, intent(inout) :: last_index
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
 type(C_PTR) :: farg3 
@@ -1310,7 +1310,7 @@ use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), dimension(:), intent(in), target :: data
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
@@ -1328,7 +1328,7 @@ use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), dimension(:), intent(in), target :: data
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
@@ -1346,7 +1346,7 @@ use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), dimension(:), intent(in), target :: data
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 type(SwigArrayWrapper) :: farg1 
 type(C_PTR) :: farg3 
 type(C_PTR) :: farg4 
@@ -1365,7 +1365,7 @@ class(SWIGTYPE_p_p_void), intent(in) :: data
 integer(C_SIZE_T), intent(in) :: datasize
 integer(INDEX_INT), target, intent(inout) :: min_index
 integer(INDEX_INT), target, intent(inout) :: max_index
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
 type(C_PTR) :: farg3 
@@ -1434,7 +1434,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 integer(C_INT32_T), dimension(:), intent(in), target :: data1
 integer(C_INT32_T), dimension(:), intent(in), target :: data2
-procedure(SWIG_cmp_funptr_int32_t) :: cmp
+procedure(flc_cmp_funptr_int32_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
@@ -1453,7 +1453,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 integer(C_INT64_T), dimension(:), intent(in), target :: data1
 integer(C_INT64_T), dimension(:), intent(in), target :: data2
-procedure(SWIG_cmp_funptr_int64_t) :: cmp
+procedure(flc_cmp_funptr_int64_t) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
@@ -1472,7 +1472,7 @@ use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
 real(C_DOUBLE), dimension(:), intent(in), target :: data1
 real(C_DOUBLE), dimension(:), intent(in), target :: data2
-procedure(SWIG_cmp_funptr_double) :: cmp
+procedure(flc_cmp_funptr_double) :: cmp
 integer(C_INT) :: fresult 
 type(SwigArrayWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg3 
@@ -1493,7 +1493,7 @@ class(SWIGTYPE_p_p_void), intent(in) :: data1
 integer(C_SIZE_T), intent(in) :: datasize1
 class(SWIGTYPE_p_p_void), intent(in) :: data2
 integer(C_SIZE_T), intent(in) :: datasize2
-procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+procedure(flc_cmp_funptr_void_Sm_) :: cmp
 integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 

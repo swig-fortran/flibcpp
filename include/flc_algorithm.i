@@ -42,12 +42,12 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
 // >>> Create a native function pointer interface for the given comparator.
 %define %flc_cmp_funptr(CTYPE, FTYPE)
 
-#define SWIG_cmp_funptr SWIG_cmp_funptr_## %mangle(CTYPE)
+#define flc_cmp_funptr flc_cmp_funptr_ ## %mangle(CTYPE)
 
 // Define an abstract interface that gets inserted into the module
-%fragment("SWIG_cmp_funptr_"{CTYPE}, "fdecl", noblock=1)
+%fragment("flc_cmp_funptr"{CTYPE}, "fdecl", noblock=1)
 { abstract interface
-   function SWIG_cmp_funptr(left, right) bind(C) &
+   function flc_cmp_funptr(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      FTYPE, intent(in), value :: left, right
@@ -56,8 +56,9 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
  end interface}
 
 %apply bool (*)(SWIGTYPE, SWIGTYPE) { bool (*)(CTYPE, CTYPE) };
-%typemap(ftype, in={procedure(SWIG_cmp_funptr)}, fragment="SWIG_cmp_funptr_"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
-  {procedure(SWIG_cmp_funptr), pointer}
+%typemap(ftype, in={procedure(flc_cmp_funptr)},
+         fragment="flc_cmp_funptr"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
+  {procedure(flc_cmp_funptr), pointer}
 
 #undef SWIG_cmp_funptr
 
