@@ -9,12 +9,15 @@ program vecstr_example
   use flc
   use flc_string, only : String
   use flc_vector, only : VectorString
-  use example_utils, only : read_strings, STDOUT
+  use example_utils, only : read_strings, write_version, STDOUT
   implicit none
   integer :: i
   type(VectorString) :: vec
   type(String) :: back, front
   character(C_CHAR), dimension(:), pointer :: chars
+
+  ! Print version information
+  call write_version()
 
   ! Read a vector of strings
   call read_strings(vec)

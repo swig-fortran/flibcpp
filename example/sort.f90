@@ -7,7 +7,7 @@
 program sort_example
   use, intrinsic :: ISO_C_BINDING
   use flc
-  use flc_algorithm, only : sort
+  use flc_algorithm, only : sort, shuffle
   use flc_random, only : Engine, normal_distribution
   use example_utils, only : write_version, read_positive_int, STDOUT
   implicit none
@@ -29,9 +29,11 @@ program sort_example
 
   ! Sort the array
   call sort(x)
-
-  ! Write output
   write(STDOUT, "(a, 4(f8.3,','))") "First few elements:", x(:min(4, size(x)))
+
+  ! Rearrange it randomly
+  call shuffle(rng, x)
+  write(STDOUT, "(a, 4(f8.3,','))") "After shuffling:", x(:min(4, size(x)))
 
   call rng%release()
 end program
