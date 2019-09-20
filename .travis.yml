@@ -1,7 +1,6 @@
-language: cpp
 dist: bionic
-compiler: gcc
 sudo: required # apt-get done in before_install.sh
+language: minimal
 
 # Only build master or PRs merging into master
 branches:
@@ -11,21 +10,21 @@ branches:
 # List of configurations to check
 matrix:
   include:
-      - os: linux
-        env: FLIBCPP_DEV=ON GENERATOR=ninja
-        addons:
-          apt:
-            packages:
-            - python3-sphinx
-            - valgrind
-      - os: linux
-        env: FLIBCPP_DEV=OFF GENERATOR=make
-             FLIBCPP_FORTRAN_STD=f2003
-             GCC_VERSION=8
-      - os: linux
-        env: FLIBCPP_DEV=OFF GENERATOR=make
-             FLIBCPP_FORTRAN_STD=f2008
-             GCC_VERSION=9
+    - os: linux
+      env: FLIBCPP_DEV=ON GENERATOR=ninja
+      addons:
+        apt:
+          packages:
+          - python3-sphinx
+          - valgrind
+    - os: linux
+      env: FLIBCPP_DEV=OFF GENERATOR=make
+           FLIBCPP_FORTRAN_STD=f2003
+           GCC_VERSION=8
+    - os: linux
+      env: FLIBCPP_DEV=OFF GENERATOR=make
+           FLIBCPP_FORTRAN_STD=f2008
+           GCC_VERSION=9
 # Build phases
 before_install:
   - source ./scripts/travis/before_install.sh

@@ -20,14 +20,13 @@ fi
 if [ -n "${GCC_VERSION}" ]; then
   # Suffix for compilers and packages
   _GCCV="-${GCC_VERSION}"
-fi
 
-sudo apt-get install gfortran${_GCCV} -y
-
-if [ -n "${GCC_VERSION}" ]; then
+  # Download GCC packages
   sudo apt-get install gcc${_GCCV} -y
   sudo apt-get install g++${_GCCV} -y
 fi
+
+sudo apt-get install gfortran${_GCCV} -y
 
 set +x
 
