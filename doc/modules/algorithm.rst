@@ -21,7 +21,17 @@ Sorting
 
 Sorting algorithms for numeric types default to increasing order when provided
 with a single array argument. Numeric sorting routines accept an optional
-second argument, a comparator function,
+second argument, a comparator function, which should return ``true`` if the
+first argument is strictly less than the right-hand side.
+
+.. warning:: For every value of ``a`` and ``b``, the comparator ``cmp`` *must*
+   satisfy ``.not. (cmp(a, b) .and. cmp(b, a))``. If this strict ordering is
+   not satisfied, some of the algorithms below may crash the program.
+
+All sorting algorithms are *also* instantiated so that they accept an array of
+``type(C_PTR)`` and a generic comparator function. **This enables arrays of any
+native Fortran object to be sorted**. See :ref:`the generic
+sorting example <example_generic>` for a demonstration.
 
 sort
 ----
@@ -44,6 +54,8 @@ Checking the ordering of array is just as simple::
   logical :: sortitude
 
   sortitude = is_sorted(iarr)
+
+.. _modules_algorithm_argsort:
 
 argsort
 -------
@@ -74,6 +86,10 @@ zero.
 
 Searching
 =========
+
+Like the sorting algorithms, searching algorithms are instantiated on numeric
+types and the C pointer type, and they provide an optional procedure pointer
+argument that allows the arrays to be ordered with an arbitrary comparator.
 
 .. _modules_algorithm_binary_search:
 
