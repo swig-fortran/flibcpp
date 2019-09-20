@@ -38,8 +38,8 @@ applications that operate on large chunks of data. This example demonstrates
 the generic version of the :ref:`modules_algorithm_argsort` subroutine by
 sorting a native Fortran array of native Fortran types using a native Fortran
 subroutine. The only C interaction needed is to create C pointers to the
-Fortran array entries and to provide a C-bound comparator that converts those
-pointers back to native Fortran pointers.
+Fortran array entries and to provide a C-bound comparator that
+converts those pointers back to native Fortran pointers. [#c_f_pointer]_
 
 .. literalinclude:: ../example/sort_generic.f90
    :linenos:
@@ -59,6 +59,27 @@ provides procedures to:
 
 .. literalinclude:: ../example/example_utils.f90
    :linenos:
+
+
+.. rubric:: Footnotes
+
+.. [#c_f_pointer] Older versions of Gfortran (before GCC-8) fail to compile the
+   generic sort example because of a bug that incorrectly claims that taking
+   the C pointer of a scalar Fortran value is a violation of the standard:
+
+   .. code-block:: none
+
+      ../example/sort_generic.f90:84:38:
+
+           call c_f_pointer(cptr=rcptr, fptr=rptr)
+                                            1
+      Error: TS 29113/TS 18508: Noninteroperable array FPTR at (1) to
+      C_F_POINTER: Expression is a noninteroperable derived type
+
+   See `this bug report`_ for more details.
+
+   .. _this bug report: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84924
+
 
 .. ############################################################################
 .. end of doc/examples.rst

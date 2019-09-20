@@ -13,7 +13,6 @@ matrix:
   include:
       - os: linux
         env: FLIBCPP_DEV=ON GENERATOR=ninja
-             FLIBCPP_FORTRAN_STD=f2003
         addons:
           apt:
             packages:
@@ -22,18 +21,20 @@ matrix:
             - valgrind
       - os: linux
         env: FLIBCPP_DEV=OFF GENERATOR=make
-             FLIBCPP_FORTRAN_STD=f2008
+             FLIBCPP_FORTRAN_STD=f2003
         addons:
           apt:
             packages:
-            - gfortran
+            - gcc-8
+            - gfortran-8
       - os: linux
         env: FLIBCPP_DEV=OFF GENERATOR=make
              FLIBCPP_FORTRAN_STD=f2008
         addons:
           apt:
             packages:
-            - gfortran
+            - gcc-9
+            - gfortran-9
 
 # Build phases
 before_install:
