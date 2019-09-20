@@ -11,11 +11,31 @@ macro(swig_fortran_add_example name)
   target_link_libraries(${name}.exe ${ARGN})
 endmacro()
 
+#---------------------------------------------------------------------------##
+# TEST LIBRARIES
+#---------------------------------------------------------------------------##
+
+add_library(example_utils_lib
+  "example_utils.f90"
+)
+target_link_libraries(example_utils_lib flc flc_string flc_vector)
+
+#---------------------------------------------------------------------------##
+# EXAMPLES
+#---------------------------------------------------------------------------##
+
 swig_fortran_add_example(sort
-  flc_algorithm flc_random flc_string)
+  flc_algorithm flc_random flc_string example_utils_lib)
 
 swig_fortran_add_example(vecstr
-  flc_string flc_vector)
+  flc_string flc_vector example_utils_lib)
+
+swig_fortran_add_example(sort_generic
+  flc_algorithm example_utils_lib)
+
+#---------------------------------------------------------------------------##
+# TESTS
+#---------------------------------------------------------------------------##
 
 if (BUILD_TESTING)
   add_test(

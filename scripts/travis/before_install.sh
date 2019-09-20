@@ -3,12 +3,45 @@
 # File  : example/before_install.sh
 ###############################################################################
 
+###############################################################################
+# APT PACKAGE INSTALLS
+#
+# see https://docs.travis-ci.com/user/installing-dependencies
+###############################################################################
+
+set -x
+
+if [ "${GCC_VERSION}" = "9" ]; then
+  # Special repo needed for new GCC version
+  sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  sudo apt-get update -q
+fi
+
+if [ -n "${GCC_VERSION}" ]; then
+  # Suffix for compilers and packages
+  _GCCV="-${GCC_VERSION}"
+
+  # Download GCC packages
+  sudo apt-get install gcc${_GCCV} -y
+  sudo apt-get install g++${_GCCV} -y
+fi
+
+sudo apt-get install gfortran${_GCCV} -y
+
+set +x
+
+###############################################################################
+# ENVIRONMENT VARIABLES
+###############################################################################
+
 export SOURCE_ROOT=${PWD}
 export BUILD_ROOT=${SOURCE_ROOT}/build
 export INSTALL_ROOT=${HOME}/install
 export CMAKE_PREFIX_PATH=${INSTALL_ROOT}:${CMAKE_PREFIX_PATH}
 export PATH=${INSTALL_ROOT}/bin:${PATH}
-export FC=${FC:-gfortran}
+export FC=${FC:-gfortran${_GCCV}}
+export CC=${CC:-gcc${_GCCV}}
+export CXX=${CXX:-g++${_GCCV}}
 
 mkdir -p ${BUILD_ROOT}
 

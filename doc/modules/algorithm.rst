@@ -10,19 +10,28 @@ Algorithm
 
 The ``flc_algorithm`` module wraps C++ standard `<algorithm>`_ routines.
 Instead of taking pairs of iterators, the Flibcpp algorithm subroutines accept
-target-qualified 1-D arrays.
-
-Algorithms that take comparators (e.g. sorting and searching) are instantiated
-with function pointers that allow user functions to add arbitrary ordering by
-defining ``bind(C)`` functions.
-
-Wherever possible, array indices are returned as Fortran 1-offset native
-integers, with the value 0 indicating off-the-end (e.g. "not found").
+target-qualified one-dimensional arrays. All algorithms follow the
+:ref:`indexing convention <conventions_indexing>` that the first element of an
+array has index 1, and an index of 0 indicates "not found".
 
 .. _<algorithm> : https://en.cppreference.com/w/cpp/numeric/random
 
 Sorting
 =======
+
+Sorting algorithms for numeric types default to increasing order when provided
+with a single array argument. Numeric sorting routines accept an optional
+second argument, a comparator function, which should return ``true`` if the
+first argument is strictly less than the right-hand side.
+
+.. warning:: For every value of ``a`` and ``b``, the comparator ``cmp`` *must*
+   satisfy ``.not. (cmp(a, b) .and. cmp(b, a))``. If this strict ordering is
+   not satisfied, some of the algorithms below may crash the program.
+
+All sorting algorithms are *also* instantiated so that they accept an array of
+``type(C_PTR)`` and a generic comparator function. **This enables arrays of any
+native Fortran object to be sorted**. See :ref:`the generic
+sorting example <example_generic>` for a demonstration.
 
 sort
 ----
@@ -46,6 +55,8 @@ Checking the ordering of array is just as simple::
 
   sortitude = is_sorted(iarr)
 
+.. _modules_algorithm_argsort:
+
 argsort
 -------
 
@@ -56,11 +67,10 @@ takes an array to analyze and an empty array of integers to fill::
   use flc_algorithm, only : argsort, INDEX_INT
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
-  integer(INDEX_INT), dimension(5) :: idx
+  integer(INDEX_INT), dimension(size(iarr)) :: idx
 
   call argsort(iarr, idx)
-  ! This line prints a sorted array:
-  write(*,*) iarr(idx)
+  write(*,*) iarr(idx) ! Prints the sorted array
 
 Note that the index array is always a ``INDEX_INT``, which is an alias to
 ``C_INT``. On some compilers and platforms, this may be the same as native
@@ -76,6 +86,10 @@ zero.
 
 Searching
 =========
+
+Like the sorting algorithms, searching algorithms are instantiated on numeric
+types and the C pointer type, and they provide an optional procedure pointer
+argument that allows the arrays to be ordered with an arbitrary comparator.
 
 .. _modules_algorithm_binary_search:
 

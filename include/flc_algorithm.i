@@ -30,18 +30,25 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
 }
 }
 
+// Instantiate numeric overloads
 %flc_template_numeric(FUNCNAME, FUNCNAME)
 %flc_template_numeric(FUNCNAME##_cmp, FUNCNAME)
+
+// Instantiate comparators with void* arguments
+%template(FUNCNAME) FUNCNAME##_cmp<void*>;
 
 %enddef
 
 // >>> Create a native function pointer interface for the given comparator.
+
 %define %flc_cmp_funptr(CTYPE, FTYPE)
 
+#define flc_cmp_funptr flc_cmp_funptr_ ## %mangle(CTYPE)
+
 // Define an abstract interface that gets inserted into the module
-%fragment("SWIG_cmp_funptr_"{CTYPE}, "fdecl", noblock=1)
+%fragment("flc_cmp_funptr"{CTYPE}, "fdecl", noblock=1)
 { abstract interface
-   function SWIG_cmp_funptr_##CTYPE(left, right) bind(C) &
+   function flc_cmp_funptr(left, right) bind(C) &
        result(fresult)
      use, intrinsic :: ISO_C_BINDING
      FTYPE, intent(in), value :: left, right
@@ -50,8 +57,11 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
  end interface}
 
 %apply bool (*)(SWIGTYPE, SWIGTYPE) { bool (*)(CTYPE, CTYPE) };
-%typemap(ftype, in={procedure(SWIG_cmp_funptr_##CTYPE)}, fragment="SWIG_cmp_funptr_"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
-  {procedure(SWIG_cmp_funptr_##CTYPE), pointer}
+%typemap(ftype, in={procedure(flc_cmp_funptr)},
+         fragment="flc_cmp_funptr"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
+  {procedure(flc_cmp_funptr), pointer}
+
+#undef SWIG_cmp_funptr
 
 %enddef
 
@@ -76,12 +86,14 @@ typedef int index_int;
 %apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
 %apply (const SWIGTYPE *DATA, size_t SIZE) {
-       (const int32_t  *DATA1, size_t DATASIZE1),
-       (const int64_t  *DATA1, size_t DATASIZE1),
-       (const double   *DATA1, size_t DATASIZE1),
-       (const int32_t  *DATA2, size_t DATASIZE2),
-       (const int64_t  *DATA2, size_t DATASIZE2),
-       (const double   *DATA2, size_t DATASIZE2) };
+       (int32_t  const *DATA1, size_t DATASIZE1),
+       (int64_t  const *DATA1, size_t DATASIZE1),
+       (double   const *DATA1, size_t DATASIZE1),
+       (void*    const *DATA1, size_t DATASIZE1),
+       (int32_t  const *DATA2, size_t DATASIZE2),
+       (int64_t  const *DATA2, size_t DATASIZE2),
+       (double   const *DATA2, size_t DATASIZE2),
+       (void*    const *DATA2, size_t DATASIZE2)};
 
 
 // Make function pointers available as generic types
@@ -96,6 +108,7 @@ typedef int index_int;
 %flc_cmp_funptr(int64_t,   integer(C_INT64_T))
 %flc_cmp_funptr(double,    real(C_DOUBLE))
 %flc_cmp_funptr(index_int, integer(INDEX_INT))
+%flc_cmp_funptr(void*,     type(C_PTR))
 
 /* -------------------------------------------------------------------------
  * Sorting routines
@@ -232,4 +245,4 @@ static void shuffle(std::SWIG_MERSENNE_TWISTER& g, T *DATA, size_t DATASIZE) {
 }
 
 %flc_template_numeric(shuffle, shuffle)
-
+%template(shuffle) shuffle<void*>;

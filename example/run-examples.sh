@@ -35,6 +35,14 @@ three
 20
 EOF
 
+run_test sort_generic << EOF
+5
+a short string
+a shirt string
+shorter
+and the next string is unallocated
+EOF
+
 run_test vecstr << EOF
 This is the first string
 a second string

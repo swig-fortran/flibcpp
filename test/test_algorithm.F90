@@ -11,6 +11,7 @@ module fortran_comparators
   implicit none
   public
 contains
+
 function compare_ge(left, right) bind(C) &
     result(fresult)
   use, intrinsic :: ISO_C_BINDING
@@ -20,12 +21,39 @@ function compare_ge(left, right) bind(C) &
 
   fresult = (left >= right)
 end function
+
+function compare_ptr(lcptr, rcptr) bind(C) &
+    result(fresult)
+  use, intrinsic :: ISO_C_BINDING
+  type(C_PTR), intent(in), value :: lcptr
+  type(C_PTR), intent(in), value :: rcptr
+  logical(C_BOOL) :: fresult
+  integer(C_INT), pointer :: lval
+  integer(C_INT), pointer :: rval
+
+  ! First check association: null => "less than"
+  if (.not. c_associated(lcptr)) then
+    fresult = .true.
+    return
+  elseif (.not. c_associated(rcptr)) then
+    fresult = .false.
+    return
+  endif
+
+  ! Convert from C to Fortran pointers
+  call c_f_pointer(cptr=lcptr, fptr=lval)
+  call c_f_pointer(cptr=rcptr, fptr=rval)
+
+  ! Compare the values
+  fresult = (lval < rval)
+end function
 end module
 
 program test_algorithm
   implicit none
   call test_sort()
   call test_sort_compare()
+  call test_sort_generic()
   call test_argsort()
 
   call test_binary_search()
@@ -72,11 +100,47 @@ subroutine test_sort_compare()
 end subroutine
 
 !-----------------------------------------------------------------------------!
+subroutine test_sort_generic()
+  use, intrinsic :: ISO_C_BINDING
+  use fortran_comparators
+  use flc_algorithm, only : sort
+  implicit none
+  integer(C_INT), dimension(:), allocatable, target :: arr, sorted, expected
+  type(c_ptr), dimension(:), allocatable :: ptrs
+  integer(C_INT), pointer :: fptr
+  integer :: i
+
+  ! Allcoate the test array
+  allocate(arr(5), source=[ 200, 1, 3, -10, 0])
+
+  ! Create array of pointers
+  allocate(ptrs(size(arr)))
+  do i = 1, size(arr)
+    ptrs(i) = c_loc(arr(i))
+  enddo
+
+  ! Sort the pointers
+  call sort(ptrs, compare_ptr)
+
+  ! Copy pointers back to an array
+  allocate(sorted(size(ptrs)))
+  do i = 1, size(sorted)
+    call c_f_pointer(ptrs(i), fptr)
+    sorted(i) = fptr
+  enddo
+
+  expected = [-10, 0, 1, 3, 200]
+  do i = 1, size(sorted)
+    ASSERT(sorted(i) == expected(i))
+  enddo
+end subroutine
+
+!-----------------------------------------------------------------------------!
 subroutine test_argsort()
   use flc_algorithm, only : argsort, INDEX_INT
   implicit none
   integer, dimension(5) :: iarr = [ 2, 5, -2, 3, -10000]
-  integer(INDEX_INT), dimension(5) :: idx
+  integer(INDEX_INT), dimension(size(iarr)) :: idx
   character(len=*), parameter :: outfmt = "(A12,(8I6))"
 
   ! Call correctly, with size(idx) == size(iarr)

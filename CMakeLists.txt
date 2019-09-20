@@ -166,7 +166,7 @@ function(swig_fortran_add_module name)
       cxx_std_11
   )
 
-  if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+  if (FLIBCPP_FORTRAN_STD AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     # Compile Fortran code with given standard
     target_compile_options(${name}
       PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:-std=${FLIBCPP_FORTRAN_STD}>
