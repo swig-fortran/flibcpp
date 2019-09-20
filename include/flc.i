@@ -78,11 +78,11 @@ using std::size_t;
        (double   *DATA, size_t DATASIZE),
        (void    **DATA, size_t DATASIZE)};
 
-%apply (const SWIGTYPE *DATA, size_t SIZE) {
-       (const int32_t  *DATA, size_t DATASIZE),
-       (const int64_t  *DATA, size_t DATASIZE),
-       (const double   *DATA, size_t DATASIZE),
-       (void * const   *DATA, size_t DATASIZE)};
+%apply (SWIGTYPE const *DATA, size_t SIZE) {
+       (int32_t  const *DATA, size_t DATASIZE),
+       (int64_t  const *DATA, size_t DATASIZE),
+       (double   const *DATA, size_t DATASIZE),
+       (void*    const *DATA, size_t DATASIZE)};
 
 /* -------------------------------------------------------------------------
  * Version information

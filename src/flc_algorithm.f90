@@ -61,9 +61,6 @@ integer, parameter, public :: INDEX_INT = C_INT
   type(C_PTR), public :: cptr = C_NULL_PTR
   integer(C_INT), public :: cmemflags = 0
  end type
- type, public :: SWIGTYPE_p_p_void
-  type(SwigClassWrapper), public :: swigdata
- end type
  interface binary_search
   module procedure swigf_binary_search__SWIG_1, swigf_binary_search__SWIG_2, swigf_binary_search__SWIG_3, &
     swigf_binary_search__SWIG_4, swigf_binary_search__SWIG_5, swigf_binary_search__SWIG_6, swigf_binary_search__SWIG_7
@@ -564,15 +561,13 @@ type(C_FUNPTR), value :: farg5
 integer(C_INT) :: fresult
 end function
 
-function swigc_includes__SWIG_7(farg1, farg2, farg3, farg4, farg5) &
+function swigc_includes__SWIG_7(farg1, farg3, farg5) &
 bind(C, name="_wrap_includes__SWIG_7") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
-import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-integer(C_SIZE_T), intent(in) :: farg2
-type(SwigClassWrapper) :: farg3
-integer(C_SIZE_T), intent(in) :: farg4
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
 type(C_FUNPTR), value :: farg5
 integer(C_INT) :: fresult
 end function
@@ -1464,28 +1459,22 @@ fresult = swigc_includes__SWIG_6(farg1, farg3, farg5)
 call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
-function swigf_includes__SWIG_7(data1, datasize1, data2, datasize2, cmp) &
+function swigf_includes__SWIG_7(data1, data2, cmp) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 logical :: swig_result
-class(SWIGTYPE_p_p_void), intent(in) :: data1
-integer(C_SIZE_T), intent(in) :: datasize1
-class(SWIGTYPE_p_p_void), intent(in) :: data2
-integer(C_SIZE_T), intent(in) :: datasize2
+type(C_PTR), dimension(:), intent(in), target :: data1
+type(C_PTR), dimension(:), intent(in), target :: data2
 procedure(flc_cmp_funptr_void_Sm_) :: cmp
 integer(C_INT) :: fresult 
-type(SwigClassWrapper) :: farg1 
-integer(C_SIZE_T) :: farg2 
-type(SwigClassWrapper) :: farg3 
-integer(C_SIZE_T) :: farg4 
+type(SwigArrayWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg3 
 type(C_FUNPTR) :: farg5 
 
-farg1 = data1%swigdata
-farg2 = datasize1
-farg3 = data2%swigdata
-farg4 = datasize2
+call SWIGTM_fin_void_Sm__Sb__SB_(data1, farg1)
+call SWIGTM_fin_void_Sm__Sb__SB_(data2, farg3)
 farg5 = c_funloc(cmp)
-fresult = swigc_includes__SWIG_7(farg1, farg2, farg3, farg4, farg5)
+fresult = swigc_includes__SWIG_7(farg1, farg3, farg5)
 call SWIGTM_fout_bool(fresult, swig_result)
 end function
 

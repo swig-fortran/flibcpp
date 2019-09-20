@@ -449,6 +449,15 @@ static bool includes_cmp(const T *DATA1,size_t DATASIZE1,const T *DATA2,size_t D
 }
 
 
+#include <random>
+
+
+template<class T>
+static void shuffle(std::mt19937_64& g, T *DATA, size_t DATASIZE) {
+    std::shuffle(DATA, DATA + DATASIZE, g);
+}
+
+
 struct SwigClassWrapper {
     void* cptr;
     int cmemflags;
@@ -460,15 +469,6 @@ SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
     result.cptr = NULL;
     result.cmemflags = 0;
     return result;
-}
-
-
-#include <random>
-
-
-template<class T>
-static void shuffle(std::mt19937_64& g, T *DATA, size_t DATASIZE) {
-    std::shuffle(DATA, DATA + DATASIZE, g);
 }
 
 
@@ -1339,7 +1339,7 @@ SWIGEXPORT int _wrap_includes__SWIG_6(SwigArrayWrapper *farg1, SwigArrayWrapper 
 }
 
 
-SWIGEXPORT int _wrap_includes__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, SwigClassWrapper *farg3, size_t const *farg4, bool (*farg5)(void *,void *)) {
+SWIGEXPORT int _wrap_includes__SWIG_7(SwigArrayWrapper *farg1, SwigArrayWrapper *farg3, bool (*farg5)(void *,void *)) {
   int fresult ;
   void **arg1 = (void **) 0 ;
   size_t arg2 ;
@@ -1348,10 +1348,10 @@ SWIGEXPORT int _wrap_includes__SWIG_7(SwigClassWrapper *farg1, size_t const *far
   bool (*arg5)(void *,void *) = (bool (*)(void *,void *)) 0 ;
   bool result;
   
-  arg1 = (void **)farg1->cptr;
-  arg2 = (size_t)(*farg2);
-  arg3 = (void **)farg3->cptr;
-  arg4 = (size_t)(*farg4);
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
+  arg3 = (void **)farg3->data;
+  arg4 = farg3->size;
   arg5 = (bool (*)(void *,void *))(*farg5);
   result = (bool)includes_cmp< void * >((void *const *)arg1,arg2,(void *const *)arg3,arg4,arg5);
   fresult = (result ? 1 : 0);

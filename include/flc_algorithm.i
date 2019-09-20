@@ -86,14 +86,14 @@ typedef int index_int;
 %apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
 %apply (const SWIGTYPE *DATA, size_t SIZE) {
-       (const int32_t  *DATA1, size_t DATASIZE1),
-       (const int64_t  *DATA1, size_t DATASIZE1),
-       (const double   *DATA1, size_t DATASIZE1),
-       (const void    **DATA1, size_t DATASIZE1),
-       (const int32_t  *DATA2, size_t DATASIZE2),
-       (const int64_t  *DATA2, size_t DATASIZE2),
-       (const double   *DATA2, size_t DATASIZE2),
-       (const void    **DATA2, size_t DATASIZE2)};
+       (int32_t  const *DATA1, size_t DATASIZE1),
+       (int64_t  const *DATA1, size_t DATASIZE1),
+       (double   const *DATA1, size_t DATASIZE1),
+       (void*    const *DATA1, size_t DATASIZE1),
+       (int32_t  const *DATA2, size_t DATASIZE2),
+       (int64_t  const *DATA2, size_t DATASIZE2),
+       (double   const *DATA2, size_t DATASIZE2),
+       (void*    const *DATA2, size_t DATASIZE2)};
 
 
 // Make function pointers available as generic types
