@@ -339,6 +339,20 @@ static bool is_sorted_cmp(const T *DATA,size_t DATASIZE, bool (*cmp)(T, T)) {
 }
 
 
+struct SwigClassWrapper {
+    void* cptr;
+    int cmemflags;
+};
+
+
+SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
+    SwigClassWrapper result;
+    result.cptr = NULL;
+    result.cmemflags = 0;
+    return result;
+}
+
+
 // Operate using default "less than"
 template<class T>
 static void argsort(const T *DATA,size_t DATASIZE,index_int *IDX,size_t IDXSIZE
@@ -354,7 +368,8 @@ static void argsort_cmp(const T *DATA,size_t DATASIZE,index_int *IDX,size_t IDXS
 
 
 template<class T, class Compare>
-static index_int binary_search_impl(const T *data, size_t size, T value, Compare cmp) {
+static index_int binary_search_impl(const T *data, size_t size, T value,
+                                    Compare cmp) {
   const T *end = data + size;
   auto iter = std::lower_bound(data, end, value, cmp);
   if (iter == end || cmp(*iter, value) || cmp(value, *iter))
@@ -364,7 +379,9 @@ static index_int binary_search_impl(const T *data, size_t size, T value, Compare
 }
 
 template<class T, class Compare>
-static void equal_range_impl(const T *data, size_t size, T value, index_int &first_index, index_int &last_index, Compare cmp) {
+static void equal_range_impl(const T *data, size_t size, T value,
+                             index_int &first_index, index_int &last_index,
+                             Compare cmp) {
   const T *end = data + size;
   auto range_pair = std::equal_range(data, end, value, cmp);
   // Index of the min/max items *IN FORTAN INDEXING*
@@ -373,7 +390,9 @@ static void equal_range_impl(const T *data, size_t size, T value, index_int &fir
 }
 
 template<class T, class Compare>
-static void minmax_element_impl(const T *data, size_t size, index_int &min_index, index_int &max_index, Compare cmp) {
+static void minmax_element_impl(const T *data, size_t size,
+                                index_int &min_index, index_int &max_index,
+                                Compare cmp) {
   const T *end = data + size;
   auto mm_pair = std::minmax_element(data, end, cmp);
   // Index of the min/max items *IN FORTAN INDEXING*
@@ -384,14 +403,12 @@ static void minmax_element_impl(const T *data, size_t size, index_int &min_index
 
 // Operate using default "less than"
 template<class T>
-static index_int binary_search(const T *DATA,size_t DATASIZE,T value
-) {
+static index_int binary_search(const T *DATA,size_t DATASIZE,T value) {
   return binary_search_impl(DATA,DATASIZE,value, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
-static index_int binary_search_cmp(const T *DATA,size_t DATASIZE,T value
-, bool (*cmp)(T, T)) {
+static index_int binary_search_cmp(const T *DATA,size_t DATASIZE,T value, bool (*cmp)(T, T)) {
   return binary_search_impl(DATA,DATASIZE,value, cmp);
 }
 
@@ -399,14 +416,12 @@ static index_int binary_search_cmp(const T *DATA,size_t DATASIZE,T value
 // Operate using default "less than"
 template<class T>
 static void equal_range(const T *DATA,size_t DATASIZE,T value,index_int &first_index,index_int &last_index
-
 ) {
   return equal_range_impl(DATA,DATASIZE,value,first_index,last_index, std::less<T>());
 }
 // Operate using user-provided function pointer
 template<class T>
 static void equal_range_cmp(const T *DATA,size_t DATASIZE,T value,index_int &first_index,index_int &last_index
-
 , bool (*cmp)(T, T)) {
   return equal_range_impl(DATA,DATASIZE,value,first_index,last_index, cmp);
 }
@@ -427,7 +442,9 @@ static void minmax_element_cmp(const T *DATA,size_t DATASIZE,index_int &min_inde
 
 
 template<class T, class Compare>
-static bool includes_impl(const T *data1, size_t size1, const T *data2, size_t size2, Compare cmp) {
+static bool includes_impl(const T *data1, size_t size1,
+                          const T *data2, size_t size2,
+                          Compare cmp) {
   return std::includes(data1, data1 + size1, data2, data2 + size2, cmp);
 }
 
@@ -452,20 +469,6 @@ static bool includes_cmp(const T *DATA1,size_t DATASIZE1,const T *DATA2,size_t D
 template<class T>
 static void shuffle(std::mt19937_64& g, T *DATA, size_t DATASIZE) {
     std::shuffle(DATA, DATA + DATASIZE, g);
-}
-
-
-struct SwigClassWrapper {
-    void* cptr;
-    int cmemflags;
-};
-
-
-SWIGINTERN SwigClassWrapper SwigClassWrapper_uninitialized() {
-    SwigClassWrapper result;
-    result.cptr = NULL;
-    result.cmemflags = 0;
-    return result;
 }
 
 
@@ -652,6 +655,18 @@ SWIGEXPORT void _wrap_sort__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(double
 }
 
 
+SWIGEXPORT void _wrap_sort__SWIG_7(SwigArrayWrapper *farg1, bool (*farg3)(void *,void *)) {
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  bool (*arg3)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  
+  arg1 = (void **)farg1->data;
+  arg2 = farg1->size;
+  arg3 = (bool (*)(void *,void *))(*farg3);
+  sort_cmp< void * >(arg1,arg2,arg3);
+}
+
+
 SWIGEXPORT int _wrap_is_sorted__SWIG_1(SwigArrayWrapper *farg1) {
   int fresult ;
   int32_t *arg1 = (int32_t *) 0 ;
@@ -737,6 +752,22 @@ SWIGEXPORT int _wrap_is_sorted__SWIG_6(SwigArrayWrapper *farg1, bool (*farg3)(do
   arg2 = farg1->size;
   arg3 = (bool (*)(double,double))(*farg3);
   result = (bool)is_sorted_cmp< double >((double const *)arg1,arg2,arg3);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_is_sorted__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, bool (*farg3)(void *,void *)) {
+  int fresult ;
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  bool (*arg3)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  bool result;
+  
+  arg1 = (void **)farg1->cptr;
+  arg2 = (size_t)(*farg2);
+  arg3 = (bool (*)(void *,void *))(*farg3);
+  result = (bool)is_sorted_cmp< void * >((void *const *)arg1,arg2,arg3);
   fresult = (result ? 1 : 0);
   return fresult;
 }
@@ -829,6 +860,22 @@ SWIGEXPORT void _wrap_argsort__SWIG_6(SwigArrayWrapper *farg1, SwigArrayWrapper 
   arg4 = farg3->size;
   arg5 = (bool (*)(double,double))(*farg5);
   argsort_cmp< double >((double const *)arg1,arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void _wrap_argsort__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, SwigArrayWrapper *farg3, bool (*farg5)(void *,void *)) {
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = (index_int *) 0 ;
+  size_t arg4 ;
+  bool (*arg5)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  
+  arg1 = (void **)farg1->cptr;
+  arg2 = (size_t)(*farg2);
+  arg3 = (index_int *)farg3->data;
+  arg4 = farg3->size;
+  arg5 = (bool (*)(void *,void *))(*farg5);
+  argsort_cmp< void * >((void *const *)arg1,arg2,arg3,arg4,arg5);
 }
 
 
@@ -929,6 +976,24 @@ SWIGEXPORT int _wrap_binary_search__SWIG_6(SwigArrayWrapper *farg1, double const
   arg3 = (double)(*farg3);
   arg4 = (bool (*)(double,double))(*farg4);
   result = (index_int)binary_search_cmp< double >((double const *)arg1,arg2,arg3,arg4);
+  fresult = (index_int)(result);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_binary_search__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, void const **farg3, bool (*farg4)(void *,void *)) {
+  int fresult ;
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  void *arg3 = (void *) 0 ;
+  bool (*arg4)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  index_int result;
+  
+  arg1 = (void **)farg1->cptr;
+  arg2 = (size_t)(*farg2);
+  arg3 = (void *)(*farg3);
+  arg4 = (bool (*)(void *,void *))(*farg4);
+  result = (index_int)binary_search_cmp< void * >((void *const *)arg1,arg2,arg3,arg4);
   fresult = (index_int)(result);
   return fresult;
 }
@@ -1036,6 +1101,24 @@ SWIGEXPORT void _wrap_equal_range__SWIG_6(SwigArrayWrapper *farg1, double const 
 }
 
 
+SWIGEXPORT void _wrap_equal_range__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, void const **farg3, int *farg4, int *farg5, bool (*farg6)(void *,void *)) {
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  void *arg3 = (void *) 0 ;
+  index_int *arg4 = 0 ;
+  index_int *arg5 = 0 ;
+  bool (*arg6)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  
+  arg1 = (void **)farg1->cptr;
+  arg2 = (size_t)(*farg2);
+  arg3 = (void *)(*farg3);
+  arg4 = (index_int *)(farg4);
+  arg5 = (index_int *)(farg5);
+  arg6 = (bool (*)(void *,void *))(*farg6);
+  equal_range_cmp< void * >((void *const *)arg1,arg2,arg3,*arg4,*arg5,arg6);
+}
+
+
 SWIGEXPORT void _wrap_minmax_element__SWIG_1(SwigArrayWrapper *farg1, int *farg3, int *farg4) {
   int32_t *arg1 = (int32_t *) 0 ;
   size_t arg2 ;
@@ -1123,6 +1206,22 @@ SWIGEXPORT void _wrap_minmax_element__SWIG_6(SwigArrayWrapper *farg1, int *farg3
   arg4 = (index_int *)(farg4);
   arg5 = (bool (*)(double,double))(*farg5);
   minmax_element_cmp< double >((double const *)arg1,arg2,*arg3,*arg4,arg5);
+}
+
+
+SWIGEXPORT void _wrap_minmax_element__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, int *farg3, int *farg4, bool (*farg5)(void *,void *)) {
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  index_int *arg3 = 0 ;
+  index_int *arg4 = 0 ;
+  bool (*arg5)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  
+  arg1 = (void **)farg1->cptr;
+  arg2 = (size_t)(*farg2);
+  arg3 = (index_int *)(farg3);
+  arg4 = (index_int *)(farg4);
+  arg5 = (bool (*)(void *,void *))(*farg5);
+  minmax_element_cmp< void * >((void *const *)arg1,arg2,*arg3,*arg4,arg5);
 }
 
 
@@ -1240,6 +1339,26 @@ SWIGEXPORT int _wrap_includes__SWIG_6(SwigArrayWrapper *farg1, SwigArrayWrapper 
 }
 
 
+SWIGEXPORT int _wrap_includes__SWIG_7(SwigClassWrapper *farg1, size_t const *farg2, SwigClassWrapper *farg3, size_t const *farg4, bool (*farg5)(void *,void *)) {
+  int fresult ;
+  void **arg1 = (void **) 0 ;
+  size_t arg2 ;
+  void **arg3 = (void **) 0 ;
+  size_t arg4 ;
+  bool (*arg5)(void *,void *) = (bool (*)(void *,void *)) 0 ;
+  bool result;
+  
+  arg1 = (void **)farg1->cptr;
+  arg2 = (size_t)(*farg2);
+  arg3 = (void **)farg3->cptr;
+  arg4 = (size_t)(*farg4);
+  arg5 = (bool (*)(void *,void *))(*farg5);
+  result = (bool)includes_cmp< void * >((void *const *)arg1,arg2,(void *const *)arg3,arg4,arg5);
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
 SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
   std::mt19937_64 *arg1 = 0 ;
   int32_t *arg2 = (int32_t *) 0 ;
@@ -1278,6 +1397,20 @@ SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigClassWrapper *farg1, SwigArrayWrapper 
   arg2 = (double *)farg2->data;
   arg3 = farg2->size;
   shuffle< double >(*arg1,arg2,arg3);
+  SWIG_free_rvalue< std::mt19937_64, SWIGPOLICY_std_mt19937_64 >(*farg1);
+}
+
+
+SWIGEXPORT void _wrap_shuffle__SWIG_4(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
+  std::mt19937_64 *arg1 = 0 ;
+  void **arg2 = (void **) 0 ;
+  size_t arg3 ;
+  
+  SWIG_check_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< void * >(std::mt19937_64 &,void **,size_t)", return );
+  arg1 = (std::mt19937_64 *)farg1->cptr;
+  arg2 = (void **)farg2->data;
+  arg3 = farg2->size;
+  shuffle< void * >(*arg1,arg2,arg3);
   SWIG_free_rvalue< std::mt19937_64, SWIGPOLICY_std_mt19937_64 >(*farg1);
 }
 

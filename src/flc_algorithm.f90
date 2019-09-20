@@ -46,6 +46,14 @@ integer, parameter, public :: INDEX_INT = C_INT
      logical(C_BOOL) :: fresult
    end function
  end interface
+ abstract interface
+   function SWIG_cmp_funptr_void_Sm_(left, right) bind(C) &
+       result(fresult)
+     use, intrinsic :: ISO_C_BINDING
+     type(C_PTR), intent(in), value :: left, right
+     logical(C_BOOL) :: fresult
+   end function
+ end interface
 
  integer, parameter :: swig_cmem_own_bit = 0
  integer, parameter :: swig_cmem_rvalue_bit = 1
@@ -53,43 +61,46 @@ integer, parameter, public :: INDEX_INT = C_INT
   type(C_PTR), public :: cptr = C_NULL_PTR
   integer(C_INT), public :: cmemflags = 0
  end type
+ type, public :: SWIGTYPE_p_p_void
+  type(SwigClassWrapper), public :: swigdata
+ end type
  interface binary_search
   module procedure swigf_binary_search__SWIG_1, swigf_binary_search__SWIG_2, swigf_binary_search__SWIG_3, &
-    swigf_binary_search__SWIG_4, swigf_binary_search__SWIG_5, swigf_binary_search__SWIG_6
+    swigf_binary_search__SWIG_4, swigf_binary_search__SWIG_5, swigf_binary_search__SWIG_6, swigf_binary_search__SWIG_7
  end interface
  public :: binary_search
  interface minmax_element
   module procedure swigf_minmax_element__SWIG_1, swigf_minmax_element__SWIG_2, swigf_minmax_element__SWIG_3, &
-    swigf_minmax_element__SWIG_4, swigf_minmax_element__SWIG_5, swigf_minmax_element__SWIG_6
+    swigf_minmax_element__SWIG_4, swigf_minmax_element__SWIG_5, swigf_minmax_element__SWIG_6, swigf_minmax_element__SWIG_7
  end interface
  public :: minmax_element
  interface shuffle
-  module procedure swigf_shuffle__SWIG_1, swigf_shuffle__SWIG_2, swigf_shuffle__SWIG_3
+  module procedure swigf_shuffle__SWIG_1, swigf_shuffle__SWIG_2, swigf_shuffle__SWIG_3, swigf_shuffle__SWIG_4
  end interface
  public :: shuffle
  interface includes
   module procedure swigf_includes__SWIG_1, swigf_includes__SWIG_2, swigf_includes__SWIG_3, swigf_includes__SWIG_4, &
-    swigf_includes__SWIG_5, swigf_includes__SWIG_6
+    swigf_includes__SWIG_5, swigf_includes__SWIG_6, swigf_includes__SWIG_7
  end interface
  public :: includes
  interface is_sorted
   module procedure swigf_is_sorted__SWIG_1, swigf_is_sorted__SWIG_2, swigf_is_sorted__SWIG_3, swigf_is_sorted__SWIG_4, &
-    swigf_is_sorted__SWIG_5, swigf_is_sorted__SWIG_6
+    swigf_is_sorted__SWIG_5, swigf_is_sorted__SWIG_6, swigf_is_sorted__SWIG_7
  end interface
  public :: is_sorted
  interface equal_range
   module procedure swigf_equal_range__SWIG_1, swigf_equal_range__SWIG_2, swigf_equal_range__SWIG_3, swigf_equal_range__SWIG_4, &
-    swigf_equal_range__SWIG_5, swigf_equal_range__SWIG_6
+    swigf_equal_range__SWIG_5, swigf_equal_range__SWIG_6, swigf_equal_range__SWIG_7
  end interface
  public :: equal_range
  interface sort
   module procedure swigf_sort__SWIG_1, swigf_sort__SWIG_2, swigf_sort__SWIG_3, swigf_sort__SWIG_4, swigf_sort__SWIG_5, &
-    swigf_sort__SWIG_6
+    swigf_sort__SWIG_6, swigf_sort__SWIG_7
  end interface
  public :: sort
  interface argsort
   module procedure swigf_argsort__SWIG_1, swigf_argsort__SWIG_2, swigf_argsort__SWIG_3, swigf_argsort__SWIG_4, &
-    swigf_argsort__SWIG_5, swigf_argsort__SWIG_6
+    swigf_argsort__SWIG_5, swigf_argsort__SWIG_6, swigf_argsort__SWIG_7
  end interface
  public :: argsort
 
@@ -134,6 +145,14 @@ end subroutine
 
 subroutine swigc_sort__SWIG_6(farg1, farg3) &
 bind(C, name="_wrap_sort__SWIG_6")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(C_FUNPTR), value :: farg3
+end subroutine
+
+subroutine swigc_sort__SWIG_7(farg1, farg3) &
+bind(C, name="_wrap_sort__SWIG_7")
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 type(SwigArrayWrapper) :: farg1
@@ -197,6 +216,17 @@ type(C_FUNPTR), value :: farg3
 integer(C_INT) :: fresult
 end function
 
+function swigc_is_sorted__SWIG_7(farg1, farg2, farg3) &
+bind(C, name="_wrap_is_sorted__SWIG_7") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+integer(C_SIZE_T), intent(in) :: farg2
+type(C_FUNPTR), value :: farg3
+integer(C_INT) :: fresult
+end function
+
 subroutine swigc_argsort__SWIG_1(farg1, farg3) &
 bind(C, name="_wrap_argsort__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
@@ -244,6 +274,17 @@ bind(C, name="_wrap_argsort__SWIG_6")
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 type(SwigArrayWrapper) :: farg1
+type(SwigArrayWrapper) :: farg3
+type(C_FUNPTR), value :: farg5
+end subroutine
+
+subroutine swigc_argsort__SWIG_7(farg1, farg2, farg3, farg5) &
+bind(C, name="_wrap_argsort__SWIG_7")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigClassWrapper) :: farg1
+integer(C_SIZE_T), intent(in) :: farg2
 type(SwigArrayWrapper) :: farg3
 type(C_FUNPTR), value :: farg5
 end subroutine
@@ -311,6 +352,18 @@ type(C_FUNPTR), value :: farg4
 integer(C_INT) :: fresult
 end function
 
+function swigc_binary_search__SWIG_7(farg1, farg2, farg3, farg4) &
+bind(C, name="_wrap_binary_search__SWIG_7") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+integer(C_SIZE_T), intent(in) :: farg2
+type(C_PTR), intent(in) :: farg3
+type(C_FUNPTR), value :: farg4
+integer(C_INT) :: fresult
+end function
+
 subroutine swigc_equal_range__SWIG_1(farg1, farg3, farg4, farg5) &
 bind(C, name="_wrap_equal_range__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
@@ -374,6 +427,18 @@ type(C_PTR), value :: farg5
 type(C_FUNPTR), value :: farg6
 end subroutine
 
+subroutine swigc_equal_range__SWIG_7(farg1, farg2, farg3, farg4, farg5, farg6) &
+bind(C, name="_wrap_equal_range__SWIG_7")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+integer(C_SIZE_T), intent(in) :: farg2
+type(C_PTR), intent(in) :: farg3
+type(C_PTR), value :: farg4
+type(C_PTR), value :: farg5
+type(C_FUNPTR), value :: farg6
+end subroutine
+
 subroutine swigc_minmax_element__SWIG_1(farg1, farg3, farg4) &
 bind(C, name="_wrap_minmax_element__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
@@ -426,6 +491,17 @@ bind(C, name="_wrap_minmax_element__SWIG_6")
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 type(SwigArrayWrapper) :: farg1
+type(C_PTR), value :: farg3
+type(C_PTR), value :: farg4
+type(C_FUNPTR), value :: farg5
+end subroutine
+
+subroutine swigc_minmax_element__SWIG_7(farg1, farg2, farg3, farg4, farg5) &
+bind(C, name="_wrap_minmax_element__SWIG_7")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+integer(C_SIZE_T), intent(in) :: farg2
 type(C_PTR), value :: farg3
 type(C_PTR), value :: farg4
 type(C_FUNPTR), value :: farg5
@@ -494,6 +570,19 @@ type(C_FUNPTR), value :: farg5
 integer(C_INT) :: fresult
 end function
 
+function swigc_includes__SWIG_7(farg1, farg2, farg3, farg4, farg5) &
+bind(C, name="_wrap_includes__SWIG_7") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+integer(C_SIZE_T), intent(in) :: farg2
+type(SwigClassWrapper) :: farg3
+integer(C_SIZE_T), intent(in) :: farg4
+type(C_FUNPTR), value :: farg5
+integer(C_INT) :: fresult
+end function
+
 subroutine swigc_shuffle__SWIG_1(farg1, farg2) &
 bind(C, name="_wrap_shuffle__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
@@ -514,6 +603,15 @@ end subroutine
 
 subroutine swigc_shuffle__SWIG_3(farg1, farg2) &
 bind(C, name="_wrap_shuffle__SWIG_3")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigClassWrapper) :: farg1
+type(SwigArrayWrapper) :: farg2
+end subroutine
+
+subroutine swigc_shuffle__SWIG_4(farg1, farg2) &
+bind(C, name="_wrap_shuffle__SWIG_4")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
@@ -634,6 +732,33 @@ farg3 = c_funloc(cmp)
 call swigc_sort__SWIG_6(farg1, farg3)
 end subroutine
 
+subroutine SWIGTM_fin_void_Sm__Sb__SB_(finp, iminp)
+  use, intrinsic :: ISO_C_BINDING
+  type(C_PTR), dimension(:), intent(in), target :: finp
+  type(SwigArrayWrapper), intent(out) :: iminp
+  type(C_PTR), pointer :: imtemp
+
+  if (size(finp) > 0) then
+    imtemp => finp(1)
+    iminp%data = c_loc(imtemp)
+    iminp%size = size(finp)
+  else
+    iminp%data = c_null_ptr
+    iminp%size = 0
+  end if
+end subroutine
+subroutine swigf_sort__SWIG_7(data, cmp)
+use, intrinsic :: ISO_C_BINDING
+type(C_PTR), dimension(:), target :: data
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+type(SwigArrayWrapper) :: farg1 
+type(C_FUNPTR) :: farg3 
+
+call SWIGTM_fin_void_Sm__Sb__SB_(data, farg1)
+farg3 = c_funloc(cmp)
+call swigc_sort__SWIG_7(farg1, farg3)
+end subroutine
+
 
 subroutine SWIGTM_fout_bool(imout, fout)
   use, intrinsic :: ISO_C_BINDING
@@ -734,6 +859,25 @@ fresult = swigc_is_sorted__SWIG_6(farg1, farg3)
 call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
+function swigf_is_sorted__SWIG_7(data, datasize, cmp) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+class(SWIGTYPE_p_p_void), intent(in) :: data
+integer(C_SIZE_T), intent(in) :: datasize
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+integer(C_SIZE_T) :: farg2 
+type(C_FUNPTR) :: farg3 
+
+farg1 = data%swigdata
+farg2 = datasize
+farg3 = c_funloc(cmp)
+fresult = swigc_is_sorted__SWIG_7(farg1, farg2, farg3)
+call SWIGTM_fout_bool(fresult, swig_result)
+end function
+
 subroutine SWIGTM_fin_int_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT), dimension(:), intent(in), target :: finp
@@ -828,6 +972,24 @@ call SWIGTM_fin_double_Sb__SB_(data, farg1)
 call SWIGTM_fin_int_Sb__SB_(idx, farg3)
 farg5 = c_funloc(cmp)
 call swigc_argsort__SWIG_6(farg1, farg3, farg5)
+end subroutine
+
+subroutine swigf_argsort__SWIG_7(data, datasize, idx, cmp)
+use, intrinsic :: ISO_C_BINDING
+class(SWIGTYPE_p_p_void), intent(in) :: data
+integer(C_SIZE_T), intent(in) :: datasize
+integer(C_INT), dimension(:), target :: idx
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+type(SwigClassWrapper) :: farg1 
+integer(C_SIZE_T) :: farg2 
+type(SwigArrayWrapper) :: farg3 
+type(C_FUNPTR) :: farg5 
+
+farg1 = data%swigdata
+farg2 = datasize
+call SWIGTM_fin_int_Sb__SB_(idx, farg3)
+farg5 = c_funloc(cmp)
+call swigc_argsort__SWIG_7(farg1, farg2, farg3, farg5)
 end subroutine
 
 function swigf_binary_search__SWIG_1(data, value) &
@@ -932,6 +1094,28 @@ call SWIGTM_fin_double_Sb__SB_(data, farg1)
 farg3 = value
 farg4 = c_funloc(cmp)
 fresult = swigc_binary_search__SWIG_6(farg1, farg3, farg4)
+swig_result = fresult
+end function
+
+function swigf_binary_search__SWIG_7(data, datasize, value, cmp) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(INDEX_INT) :: swig_result
+class(SWIGTYPE_p_p_void), intent(in) :: data
+integer(C_SIZE_T), intent(in) :: datasize
+type(C_PTR), intent(in) :: value
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+integer(C_SIZE_T) :: farg2 
+type(C_PTR) :: farg3 
+type(C_FUNPTR) :: farg4 
+
+farg1 = data%swigdata
+farg2 = datasize
+farg3 = value
+farg4 = c_funloc(cmp)
+fresult = swigc_binary_search__SWIG_7(farg1, farg2, farg3, farg4)
 swig_result = fresult
 end function
 
@@ -1052,6 +1236,30 @@ farg6 = c_funloc(cmp)
 call swigc_equal_range__SWIG_6(farg1, farg3, farg4, farg5, farg6)
 end subroutine
 
+subroutine swigf_equal_range__SWIG_7(data, datasize, value, first_index, last_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+class(SWIGTYPE_p_p_void), intent(in) :: data
+integer(C_SIZE_T), intent(in) :: datasize
+type(C_PTR), intent(in) :: value
+integer(INDEX_INT), target, intent(inout) :: first_index
+integer(INDEX_INT), target, intent(inout) :: last_index
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+type(SwigClassWrapper) :: farg1 
+integer(C_SIZE_T) :: farg2 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+type(C_PTR) :: farg5 
+type(C_FUNPTR) :: farg6 
+
+farg1 = data%swigdata
+farg2 = datasize
+farg3 = value
+farg4 = c_loc(first_index)
+farg5 = c_loc(last_index)
+farg6 = c_funloc(cmp)
+call swigc_equal_range__SWIG_7(farg1, farg2, farg3, farg4, farg5, farg6)
+end subroutine
+
 subroutine swigf_minmax_element__SWIG_1(data, min_index, max_index)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), dimension(:), intent(in), target :: data
@@ -1149,6 +1357,27 @@ farg3 = c_loc(min_index)
 farg4 = c_loc(max_index)
 farg5 = c_funloc(cmp)
 call swigc_minmax_element__SWIG_6(farg1, farg3, farg4, farg5)
+end subroutine
+
+subroutine swigf_minmax_element__SWIG_7(data, datasize, min_index, max_index, cmp)
+use, intrinsic :: ISO_C_BINDING
+class(SWIGTYPE_p_p_void), intent(in) :: data
+integer(C_SIZE_T), intent(in) :: datasize
+integer(INDEX_INT), target, intent(inout) :: min_index
+integer(INDEX_INT), target, intent(inout) :: max_index
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+type(SwigClassWrapper) :: farg1 
+integer(C_SIZE_T) :: farg2 
+type(C_PTR) :: farg3 
+type(C_PTR) :: farg4 
+type(C_FUNPTR) :: farg5 
+
+farg1 = data%swigdata
+farg2 = datasize
+farg3 = c_loc(min_index)
+farg4 = c_loc(max_index)
+farg5 = c_funloc(cmp)
+call swigc_minmax_element__SWIG_7(farg1, farg2, farg3, farg4, farg5)
 end subroutine
 
 function swigf_includes__SWIG_1(data1, data2) &
@@ -1256,6 +1485,31 @@ fresult = swigc_includes__SWIG_6(farg1, farg3, farg5)
 call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
+function swigf_includes__SWIG_7(data1, datasize1, data2, datasize2, cmp) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+class(SWIGTYPE_p_p_void), intent(in) :: data1
+integer(C_SIZE_T), intent(in) :: datasize1
+class(SWIGTYPE_p_p_void), intent(in) :: data2
+integer(C_SIZE_T), intent(in) :: datasize2
+procedure(SWIG_cmp_funptr_void_Sm_) :: cmp
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+integer(C_SIZE_T) :: farg2 
+type(SwigClassWrapper) :: farg3 
+integer(C_SIZE_T) :: farg4 
+type(C_FUNPTR) :: farg5 
+
+farg1 = data1%swigdata
+farg2 = datasize1
+farg3 = data2%swigdata
+farg4 = datasize2
+farg5 = c_funloc(cmp)
+fresult = swigc_includes__SWIG_7(farg1, farg2, farg3, farg4, farg5)
+call SWIGTM_fout_bool(fresult, swig_result)
+end function
+
 subroutine swigf_shuffle__SWIG_1(g, data)
 use, intrinsic :: ISO_C_BINDING
 class(Engine), intent(in) :: g
@@ -1290,6 +1544,18 @@ type(SwigArrayWrapper) :: farg2
 farg1 = g%swigdata
 call SWIGTM_fin_double_Sb__SB_(data, farg2)
 call swigc_shuffle__SWIG_3(farg1, farg2)
+end subroutine
+
+subroutine swigf_shuffle__SWIG_4(g, data)
+use, intrinsic :: ISO_C_BINDING
+class(Engine), intent(in) :: g
+type(C_PTR), dimension(:), target :: data
+type(SwigClassWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg2 
+
+farg1 = g%swigdata
+call SWIGTM_fin_void_Sm__Sb__SB_(data, farg2)
+call swigc_shuffle__SWIG_4(farg1, farg2)
 end subroutine
 
 
