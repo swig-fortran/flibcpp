@@ -5,13 +5,12 @@
 !-----------------------------------------------------------------------------!
 
 program vecstr_example
-  use, intrinsic :: ISO_FORTRAN_ENV
   use, intrinsic :: ISO_C_BINDING
   use flc
   use flc_string, only : String
   use flc_vector, only : VectorString
+  use example_utils, only : read_strings, STDOUT
   implicit none
-  integer, parameter :: STDOUT = OUTPUT_UNIT
   integer :: i
   type(VectorString) :: vec
   type(String) :: back, front
@@ -68,44 +67,6 @@ program vecstr_example
 
   ! Free allocated vector memory
   call vec%release()
-contains
-
-! Loop until the user inputs a positive integer. Catch error conditions. 
-subroutine read_strings(vec)
-  use flc
-  use flc_string, only : stoi
-  use ISO_FORTRAN_ENV
-  implicit none
-  type(VectorString), intent(out) :: vec
-  integer, parameter :: STDOUT = OUTPUT_UNIT, STDIN = INPUT_UNIT
-  character(len=80) :: readstr
-  integer :: io_ierr
-  type(String) :: str
-
-  ! Allocate the vector
-  vec = VectorString()
-
-  do
-    ! Request and read a string
-    write(STDOUT, "(a, i3, a)") "Enter string #", vec%size() + 1, &
-        " or Ctrl-D/empty string to complete"
-    read(STDIN, "(a)", iostat=io_ierr) readstr
-    if (io_ierr == IOSTAT_END) then
-      ! Break out of loop on ^D (EOF)
-      exit
-    end if
-
-    ! Add string to the end of the vector
-    call vec%push_back(trim(readstr))
-    ! Get a String object reference to the back to check if it's empty
-    str = vec%back_ref()
-    if (str%empty()) then
-      ! Remove the empty string
-      call vec%pop_back()
-      exit
-    end if
-  end do
-end subroutine
 end program
 
 !-----------------------------------------------------------------------------!
