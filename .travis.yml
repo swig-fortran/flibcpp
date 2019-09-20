@@ -1,7 +1,7 @@
 language: cpp
 dist: bionic
 compiler: gcc
-sudo: false
+sudo: required # apt-get done in before_install.sh
 
 # Only build master or PRs merging into master
 branches:
@@ -16,33 +16,16 @@ matrix:
         addons:
           apt:
             packages:
-            - gfortran
             - python3-sphinx
             - valgrind
       - os: linux
         env: FLIBCPP_DEV=OFF GENERATOR=make
              FLIBCPP_FORTRAN_STD=f2003
-             CC=gcc-8 CXX=g++-8 FC=gfortran-8 
-        addons:
-          apt:
-            packages:
-            - gcc-8
-            - g++-8
-            - gfortran-8
+             GCC_VERSION=8
       - os: linux
         env: FLIBCPP_DEV=OFF GENERATOR=make
              FLIBCPP_FORTRAN_STD=f2008
-             CC=gcc-9 CXX=g++-9 FC=gfortran-9 
-        sudo: required
-        addons:
-          apt:
-            sources:
-            - ubuntu-toolchain-r-test
-            packages:
-            - gcc-9
-            - g++-9
-            - gfortran-9
-
+             GCC_VERSION=9
 # Build phases
 before_install:
   - source ./scripts/travis/before_install.sh
