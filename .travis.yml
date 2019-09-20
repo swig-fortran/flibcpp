@@ -22,18 +22,25 @@ matrix:
       - os: linux
         env: FLIBCPP_DEV=OFF GENERATOR=make
              FLIBCPP_FORTRAN_STD=f2003
+             CC=gcc-8 CXX=g++-8 FC=gfortran-8 
         addons:
           apt:
             packages:
             - gcc-8
+            - g++-8
             - gfortran-8
       - os: linux
         env: FLIBCPP_DEV=OFF GENERATOR=make
              FLIBCPP_FORTRAN_STD=f2008
+             CC=gcc-9 CXX=g++-9 FC=gfortran-9 
+        sudo: required
         addons:
           apt:
+            sources:
+            - ubuntu-toolchain-r-test
             packages:
             - gcc-9
+            - g++-9
             - gfortran-9
 
 # Build phases
