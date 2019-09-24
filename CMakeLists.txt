@@ -35,7 +35,7 @@ if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
   if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     set(_FLIBCPP_STD_FLAGS "-std=f20${FLIBCPP_FORTRAN_STD}")
   elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-    set(_FLIBCPP_STD_FLAGS "-stand ${FLIBCPP_FORTRAN_STD}")
+    set(_FLIBCPP_STD_FLAGS "-std${FLIBCPP_FORTRAN_STD}")
   else()
     message(WARNING "Fortran standard flags are not known for "
       "compilier '${CMAKE_Fortran_COMPILER_ID}': ignoring"
