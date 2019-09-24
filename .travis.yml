@@ -19,11 +19,11 @@ matrix:
           - valgrind
     - os: linux
       env: FLIBCPP_DEV=OFF GENERATOR=make
-           FLIBCPP_FORTRAN_STD=f2003
+           FLIBCPP_FORTRAN_STD=03
            GCC_VERSION=8
     - os: linux
       env: FLIBCPP_DEV=OFF GENERATOR=make
-           FLIBCPP_FORTRAN_STD=f2008
+           FLIBCPP_FORTRAN_STD=08
            GCC_VERSION=9
 # Build phases
 before_install:
