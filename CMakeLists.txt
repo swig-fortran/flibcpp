@@ -28,6 +28,25 @@ option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
 # FLAGS
 #---------------------------------------------------------------------------#
 
+# Fortran standard
+set(FLIBCPP_FORTRAN_STD "03" CACHE STRING
+   "Fortran standard for compiling generated code (options: 03/08/15/18)")
+if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
+  if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    set(_FLIBCPP_STD_FLAGS "-std=f20${FLIBCPP_FORTRAN_STD}")
+  elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    set(_FLIBCPP_STD_FLAGS "-std${FLIBCPP_FORTRAN_STD}")
+  else()
+    message(WARNING "Fortran standard flags are not known for "
+      "compilier '${CMAKE_Fortran_COMPILER_ID}': ignoring"
+      "FLIBCPP_FORTRAN_STD=${FLIBCPP_FORTRAN_STD}. Configure with "
+      "the FFLAGS environment variable or explicitly specify "
+      "CMAKE_Fortran_FLAGS")
+    set(_FLIBCPP_STD_FLAGS "none" CACHE FORCE STRING "")
+  endif()
+endif()
+
+# Build type
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   if (FLIBCPP_DEV)
     set(_CMAKE_BUILD_TYPE "Debug")
@@ -38,12 +57,11 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "${_CMAKE_BUILD_TYPE}" CACHE STRING "Build type" FORCE)
 endif()
 
-set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
-   "Fortran standard for compiling generated code")
-
 #---------------------------------------------------------------------------#
 # MODULES TO LOAD
 #---------------------------------------------------------------------------#
+
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 if (FLIBCPP_USE_SWIG)
   find_package(SWIG)
@@ -51,7 +69,6 @@ endif()
 
 if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
   # SWIG is requested and available; make sure it's the Fortran fork.
-  list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
   include(CheckSWIGFortran)
   if (CMAKE_VERSION VERSION_LESS 3.99)
     # TODO: This is until Fortran support gets added to the upstream cmake script
@@ -99,7 +116,6 @@ else()
   endif()
 endif()
 
-
 set(FLIBCPP_VERSION_CPP "${CMAKE_CURRENT_BINARY_DIR}/flibcpp_version.cpp")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/flibcpp_version.cpp.in"
   "${FLIBCPP_VERSION_CPP}" @ONLY)
@@ -120,7 +136,7 @@ set(FLIBCPP_NAMESPACE Flibcpp::)
 # List of libraries exported by cmake/FlibcppConfig.cmake.in
 set(FLIBCPP_LIBRARIES)
 
-function(swig_fortran_add_module name)
+function(flibcpp_add_module name)
   set(src_file "${FLIBCPP_INTERFACE_DIR}/${name}.i")
   # We're using C++
   set_property(SOURCE "${src_file}" PROPERTY CPLUSPLUS ON)
@@ -165,11 +181,9 @@ function(swig_fortran_add_module name)
     PRIVATE
       cxx_std_11
   )
-
-  if (FLIBCPP_FORTRAN_STD AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-    # Compile Fortran code with given standard
+  if (_FLIBCPP_STD_FLAGS)
     target_compile_options(${name}
-      PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:-std=${FLIBCPP_FORTRAN_STD}>
+      PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:${_FLIBCPP_STD_FLAGS}>
     )
   endif()
 
@@ -194,7 +208,7 @@ function(swig_fortran_add_module name)
 endfunction()
 
 # Install primary flc module, compiling version info as well
-swig_fortran_add_module(flc "${FLIBCPP_VERSION_CPP}")
+flibcpp_add_module(flc "${FLIBCPP_VERSION_CPP}")
 
 # Also install 'import_flc' if using SWIG
 if (FLIBCPP_USE_SWIG)
@@ -204,16 +218,16 @@ if (FLIBCPP_USE_SWIG)
   )
 endif()
 
-swig_fortran_add_module(flc_algorithm)
+flibcpp_add_module(flc_algorithm)
 target_link_libraries(flc_algorithm flc_random flc)
 
-swig_fortran_add_module(flc_random)
+flibcpp_add_module(flc_random)
 target_link_libraries(flc_random flc)
 
-swig_fortran_add_module(flc_string)
+flibcpp_add_module(flc_string)
 target_link_libraries(flc_string flc)
 
-swig_fortran_add_module(flc_vector)
+flibcpp_add_module(flc_vector)
 target_link_libraries(flc_vector flc flc_string)
 
 #---------------------------------------------------------------------------#

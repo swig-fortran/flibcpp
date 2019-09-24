@@ -99,10 +99,8 @@ typedef int index_int;
 // Make function pointers available as generic types
 %typemap(fin) bool (*)(SWIGTYPE, SWIGTYPE)
   "$1 = c_funloc($input)"
-%typemap(findecl, match="fin") bool (*)(SWIGTYPE, SWIGTYPE) ""
 %typemap(fout) bool (*)(CTYPE, CTYPE)
   "call c_f_procpointer($1, $result)"
-%typemap(foutdecl, match="fout") bool (*)(SWIGTYPE, SWIGTYPE) ""
 
 %flc_cmp_funptr(int32_t,   integer(C_INT32_T))
 %flc_cmp_funptr(int64_t,   integer(C_INT64_T))
