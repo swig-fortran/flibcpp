@@ -28,6 +28,25 @@ option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
 # FLAGS
 #---------------------------------------------------------------------------#
 
+# Fortran standard
+set(FLIBCPP_FORTRAN_STD "03" CACHE STRING
+   "Fortran standard for compiling generated code (options: 03/08/15/18)")
+if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
+  if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    set(_FLIBCPP_STD_FLAGS "-std=f20${FLIBCPP_FORTRAN_STD}")
+  elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    set(_FLIBCPP_STD_FLAGS "-stand ${FLIBCPP_FORTRAN_STD}")
+  else()
+    message(WARNING "Fortran standard flags are not known for "
+      "compilier '${CMAKE_Fortran_COMPILER_ID}': ignoring"
+      "FLIBCPP_FORTRAN_STD=${FLIBCPP_FORTRAN_STD}. Configure with "
+      "the FFLAGS environment variable or explicitly specify "
+      "CMAKE_Fortran_FLAGS")
+    set(_FLIBCPP_STD_FLAGS "none" CACHE FORCE STRING "")
+  endif()
+endif()
+
+# Build type
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   if (FLIBCPP_DEV)
     set(_CMAKE_BUILD_TYPE "Debug")
@@ -37,9 +56,6 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "No build type selected, default to ${_CMAKE_BUILD_TYPE}")
   set(CMAKE_BUILD_TYPE "${_CMAKE_BUILD_TYPE}" CACHE STRING "Build type" FORCE)
 endif()
-
-set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
-   "Fortran standard for compiling generated code")
 
 #---------------------------------------------------------------------------#
 # MODULES TO LOAD
@@ -99,7 +115,6 @@ else()
     set(FLIBCPP_VERSION_STRING "${Flibcpp_VERSION}")
   endif()
 endif()
-
 
 set(FLIBCPP_VERSION_CPP "${CMAKE_CURRENT_BINARY_DIR}/flibcpp_version.cpp")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/flibcpp_version.cpp.in"
@@ -166,11 +181,9 @@ function(flibcpp_add_module name)
     PRIVATE
       cxx_std_11
   )
-
-  if (FLIBCPP_FORTRAN_STD AND CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-    # Compile Fortran code with given standard
+  if (_FLIBCPP_STD_FLAGS)
     target_compile_options(${name}
-      PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:-std=${FLIBCPP_FORTRAN_STD}>
+      PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:${_FLIBCPP_STD_FLAGS}>
     )
   endif()
 
