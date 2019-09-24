@@ -121,7 +121,7 @@ set(FLIBCPP_NAMESPACE Flibcpp::)
 # List of libraries exported by cmake/FlibcppConfig.cmake.in
 set(FLIBCPP_LIBRARIES)
 
-function(swig_fortran_add_module name)
+function(flibcpp_add_module name)
   set(src_file "${FLIBCPP_INTERFACE_DIR}/${name}.i")
   # We're using C++
   set_property(SOURCE "${src_file}" PROPERTY CPLUSPLUS ON)
@@ -195,7 +195,7 @@ function(swig_fortran_add_module name)
 endfunction()
 
 # Install primary flc module, compiling version info as well
-swig_fortran_add_module(flc "${FLIBCPP_VERSION_CPP}")
+flibcpp_add_module(flc "${FLIBCPP_VERSION_CPP}")
 
 # Also install 'import_flc' if using SWIG
 if (FLIBCPP_USE_SWIG)
@@ -205,16 +205,16 @@ if (FLIBCPP_USE_SWIG)
   )
 endif()
 
-swig_fortran_add_module(flc_algorithm)
+flibcpp_add_module(flc_algorithm)
 target_link_libraries(flc_algorithm flc_random flc)
 
-swig_fortran_add_module(flc_random)
+flibcpp_add_module(flc_random)
 target_link_libraries(flc_random flc)
 
-swig_fortran_add_module(flc_string)
+flibcpp_add_module(flc_string)
 target_link_libraries(flc_string flc)
 
-swig_fortran_add_module(flc_vector)
+flibcpp_add_module(flc_vector)
 target_link_libraries(flc_vector flc flc_string)
 
 #---------------------------------------------------------------------------#
