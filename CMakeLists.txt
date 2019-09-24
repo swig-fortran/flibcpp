@@ -45,13 +45,14 @@ set(FLIBCPP_FORTRAN_STD "f2003" CACHE STRING
 # MODULES TO LOAD
 #---------------------------------------------------------------------------#
 
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
 if (FLIBCPP_USE_SWIG)
   find_package(SWIG)
 endif()
 
 if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
   # SWIG is requested and available; make sure it's the Fortran fork.
-  list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
   include(CheckSWIGFortran)
   if (CMAKE_VERSION VERSION_LESS 3.99)
     # TODO: This is until Fortran support gets added to the upstream cmake script
