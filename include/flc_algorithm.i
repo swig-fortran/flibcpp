@@ -15,6 +15,9 @@
 #include <numeric>
 %}
 
+/* -------------------------------------------------------------------------
+ * Macros
+ * ------------------------------------------------------------------------- */
 %define %flc_cmp_algorithm(RETURN_TYPE, FUNCNAME, ARGS, CALL)
 
 %inline {
@@ -39,29 +42,17 @@ static RETURN_TYPE FUNCNAME##_cmp(ARGS, bool (*cmp)(T, T)) {
 
 %enddef
 
-// >>> Create a native function pointer interface for the given comparator.
+/* ------------------------------------------------------------------------- */
+%define %flc_typemaps(NAME, TYPE...)
 
-%define %flc_cmp_funptr(CTYPE, FTYPE)
+// Apply array conversion typemap
+%apply (const SWIGTYPE *DATA, size_t SIZE) {
+    (TYPE const *DATA1, size_t DATASIZE1),
+    (TYPE const *DATA2, size_t DATASIZE2) };
 
-#define flc_cmp_funptr flc_cmp_funptr_ ## %mangle(CTYPE)
-
-// Define an abstract interface that gets inserted into the module
-%fragment("flc_cmp_funptr"{CTYPE}, "fdecl", noblock=1)
-{ abstract interface
-   function flc_cmp_funptr(left, right) bind(C) &
-       result(fresult)
-     use, intrinsic :: ISO_C_BINDING
-     FTYPE, intent(in), value :: left, right
-     logical(C_BOOL) :: fresult
-   end function
- end interface}
-
-%apply bool (*)(SWIGTYPE, SWIGTYPE) { bool (*)(CTYPE, CTYPE) };
-%typemap(ftype, in={procedure(flc_cmp_funptr)},
-         fragment="flc_cmp_funptr"{CTYPE}, noblock=1) bool (*)(CTYPE, CTYPE)
-  {procedure(flc_cmp_funptr), pointer}
-
-#undef SWIG_cmp_funptr
+// Explicitly declare function interface for callbacks
+%fortrancallback("%s") flc_cmp_##NAME;
+extern "C" bool flc_cmp_##NAME(TYPE left, TYPE right);
 
 %enddef
 
@@ -85,28 +76,12 @@ typedef int index_int;
 // Apply array-to-C translation for numeric values
 %apply (SWIGTYPE *DATA, size_t SIZE) { (index_int *IDX, size_t IDXSIZE) };
 
-%apply (const SWIGTYPE *DATA, size_t SIZE) {
-       (int32_t  const *DATA1, size_t DATASIZE1),
-       (int64_t  const *DATA1, size_t DATASIZE1),
-       (double   const *DATA1, size_t DATASIZE1),
-       (void*    const *DATA1, size_t DATASIZE1),
-       (int32_t  const *DATA2, size_t DATASIZE2),
-       (int64_t  const *DATA2, size_t DATASIZE2),
-       (double   const *DATA2, size_t DATASIZE2),
-       (void*    const *DATA2, size_t DATASIZE2)};
-
-
-// Make function pointers available as generic types
-%typemap(fin) bool (*)(SWIGTYPE, SWIGTYPE)
-  "$1 = c_funloc($input)"
-%typemap(fout) bool (*)(CTYPE, CTYPE)
-  "call c_f_procpointer($1, $result)"
-
-%flc_cmp_funptr(int32_t,   integer(C_INT32_T))
-%flc_cmp_funptr(int64_t,   integer(C_INT64_T))
-%flc_cmp_funptr(double,    real(C_DOUBLE))
-%flc_cmp_funptr(index_int, integer(INDEX_INT))
-%flc_cmp_funptr(void*,     type(C_PTR))
+// Apply array and callback typemaps
+%flc_typemaps(int4 , int32_t   )
+%flc_typemaps(int8 , int64_t   )
+%flc_typemaps(real8, double    )
+%flc_typemaps(index, index_int )
+%flc_typemaps(ptr  , void*     )
 
 /* -------------------------------------------------------------------------
  * Sorting routines
