@@ -177,6 +177,10 @@ function(flibcpp_add_module name)
     )
   endif()
 
+  # Allow the library to be referred to by its namespaced version, for use by
+  # downstream projects that *directly* compile flibcpp
+  add_library(${FLIBCPP_NAMESPACE}${name} ALIAS ${name})
+
   # Compile C++ code with C++11
   target_compile_features(${name}
     PRIVATE
