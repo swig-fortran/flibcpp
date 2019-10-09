@@ -640,16 +640,17 @@ subroutine SWIGTM_fin_int32_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT32_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT32_T), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_sort__SWIG_1(data)
 use, intrinsic :: ISO_C_BINDING
@@ -664,16 +665,17 @@ subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT64_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT64_T), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_sort__SWIG_2(data)
 use, intrinsic :: ISO_C_BINDING
@@ -688,16 +690,17 @@ subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   real(C_DOUBLE), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   real(C_DOUBLE), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_sort__SWIG_3(data)
 use, intrinsic :: ISO_C_BINDING
@@ -748,16 +751,17 @@ subroutine SWIGTM_fin_void_Sm__Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   type(C_PTR), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   type(C_PTR), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_sort__SWIG_7(data, cmp)
 use, intrinsic :: ISO_C_BINDING
@@ -891,16 +895,17 @@ subroutine SWIGTM_fin_int_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_argsort__SWIG_1(data, idx)
 use, intrinsic :: ISO_C_BINDING

@@ -405,7 +405,7 @@ subroutine SWIGTM_fin_char_Sm_(finp, iminp, temp)
   i = len(finp) + 1
   temp(i) = C_NULL_CHAR ! C finp compatibility
   iminp%data = c_loc(temp)
-  iminp%size = len(finp)
+  iminp%size = len(finp, kind=C_SIZE_T)
 end subroutine
 
 function swigf_new_string__SWIG_2(s) &

@@ -237,16 +237,17 @@ subroutine SWIGTM_fin_int32_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT32_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT32_T), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_uniform_int_distribution__SWIG_0(left, right, g, data)
 use, intrinsic :: ISO_C_BINDING
@@ -270,16 +271,17 @@ subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT64_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT64_T), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine swigf_uniform_int_distribution__SWIG_1(left, right, g, data)
 use, intrinsic :: ISO_C_BINDING
@@ -303,16 +305,17 @@ subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   real(C_DOUBLE), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   real(C_DOUBLE), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 subroutine uniform_real_distribution(left, right, g, data)
 use, intrinsic :: ISO_C_BINDING
