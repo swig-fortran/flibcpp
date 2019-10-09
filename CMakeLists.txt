@@ -137,14 +137,15 @@ set(FLIBCPP_NAMESPACE Flibcpp::)
 set(FLIBCPP_LIBRARIES)
 
 function(flibcpp_add_module name)
-  set(src_file "${FLIBCPP_INTERFACE_DIR}/${name}.i")
-  # We're using C++
-  set_property(SOURCE "${src_file}" PROPERTY CPLUSPLUS ON)
-  # We need to include the source directory
-  set_property(SOURCE "${src_file}" PROPERTY USE_TARGET_INCLUDE_DIRECTORIES ON)
-
   if (FLIBCPP_USE_SWIG)
     # SWIG is available; actually generate the library dynamically.
+
+    set(src_file "${FLIBCPP_INTERFACE_DIR}/${name}.i")
+    # We're using C++
+    set_property(SOURCE "${src_file}" PROPERTY CPLUSPLUS ON)
+    # We need to include the source directory
+    set_property(SOURCE "${src_file}" PROPERTY USE_TARGET_INCLUDE_DIRECTORIES ON)
+
     # Create the library
     swig_add_library(${name}
       LANGUAGE Fortran
