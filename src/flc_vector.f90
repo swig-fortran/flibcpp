@@ -1471,16 +1471,17 @@ subroutine SWIGTM_fin_int32_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT32_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT32_T), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 function swigf_new_VectorInt4__SWIG_4(data) &
 result(self)
@@ -1863,16 +1864,17 @@ subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   integer(C_INT64_T), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   integer(C_INT64_T), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 function swigf_new_VectorInt8__SWIG_4(data) &
 result(self)
@@ -2255,16 +2257,17 @@ subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
   use, intrinsic :: ISO_C_BINDING
   real(C_DOUBLE), dimension(:), intent(in), target :: finp
   type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
   real(C_DOUBLE), pointer :: imtemp
 
-  if (size(finp) > 0) then
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
     imtemp => finp(1)
     iminp%data = c_loc(imtemp)
-    iminp%size = size(finp)
   else
     iminp%data = c_null_ptr
-    iminp%size = 0
   end if
+  iminp%size = sz
 end subroutine
 function swigf_new_VectorReal8__SWIG_4(data) &
 result(self)
@@ -2393,7 +2396,7 @@ subroutine SWIGTM_fin_char_Sm_(finp, iminp, temp)
   i = len(finp) + 1
   temp(i) = C_NULL_CHAR ! C finp compatibility
   iminp%data = c_loc(temp)
-  iminp%size = len(finp)
+  iminp%size = len(finp, kind=C_SIZE_T)
 end subroutine
 
 function swigf_new_VectorString__SWIG_3(count, v) &
