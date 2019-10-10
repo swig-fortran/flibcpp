@@ -76,7 +76,7 @@ normal_distribution
 
 Fill the given array with Gaussian-distributed numbers generated using the
 given random number engine about the given mean value with the given standard
-deviation, which defaults to 1.
+deviation.
 
 uniform_int_distribution
 ------------------------

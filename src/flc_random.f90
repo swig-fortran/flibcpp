@@ -57,14 +57,11 @@ module flc_random
   integer(C_SIZE_T), public :: size = 0
  end type
  public :: uniform_real_distribution
+ public :: normal_distribution
  interface uniform_int_distribution
-  module procedure swigf_uniform_int_distribution__SWIG_0, swigf_uniform_int_distribution__SWIG_1
+  module procedure swigf_uniform_int_distribution__SWIG_1, swigf_uniform_int_distribution__SWIG_2
  end interface
  public :: uniform_int_distribution
- interface normal_distribution
-  module procedure swigf_normal_distribution__SWIG_0, swigf_normal_distribution__SWIG_1
- end interface
- public :: normal_distribution
 
 ! WRAPPER DECLARATIONS
 interface
@@ -182,8 +179,8 @@ type(SwigClassWrapper), intent(inout) :: farg1
 type(SwigClassWrapper) :: farg2
 end subroutine
 
-subroutine swigc_uniform_int_distribution__SWIG_0(farg1, farg2, farg3, farg4) &
-bind(C, name="_wrap_uniform_int_distribution__SWIG_0")
+subroutine swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4) &
+bind(C, name="_wrap_uniform_int_distribution__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
@@ -193,8 +190,8 @@ type(SwigClassWrapper) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
-subroutine swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4) &
-bind(C, name="_wrap_uniform_int_distribution__SWIG_1")
+subroutine swigc_uniform_int_distribution__SWIG_2(farg1, farg2, farg3, farg4) &
+bind(C, name="_wrap_uniform_int_distribution__SWIG_2")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
@@ -215,18 +212,8 @@ type(SwigClassWrapper) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
-subroutine swigc_normal_distribution__SWIG_0(farg1, farg2, farg3) &
-bind(C, name="_wrap_normal_distribution__SWIG_0")
-use, intrinsic :: ISO_C_BINDING
-import :: swigclasswrapper
-import :: swigarraywrapper
-real(C_DOUBLE), intent(in) :: farg1
-type(SwigClassWrapper) :: farg2
-type(SwigArrayWrapper) :: farg3
-end subroutine
-
-subroutine swigc_normal_distribution__SWIG_1(farg1, farg2, farg3, farg4) &
-bind(C, name="_wrap_normal_distribution__SWIG_1")
+subroutine swigc_normal_distribution(farg1, farg2, farg3, farg4) &
+bind(C, name="_wrap_normal_distribution")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
@@ -431,11 +418,11 @@ subroutine SWIGTM_fin_int32_t_Sb__SB_(finp, iminp)
   end if
   iminp%size = sz
 end subroutine
-subroutine swigf_uniform_int_distribution__SWIG_0(left, right, g, data)
+subroutine swigf_uniform_int_distribution__SWIG_1(left, right, engine, data)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT32_T), intent(in) :: left
 integer(C_INT32_T), intent(in) :: right
-class(MersenneEngine4), intent(in) :: g
+class(MersenneEngine4), intent(in) :: engine
 integer(C_INT32_T), dimension(:), target :: data
 integer(C_INT32_T) :: farg1 
 integer(C_INT32_T) :: farg2 
@@ -444,9 +431,9 @@ type(SwigArrayWrapper) :: farg4
 
 farg1 = left
 farg2 = right
-farg3 = g%swigdata
+farg3 = engine%swigdata
 call SWIGTM_fin_int32_t_Sb__SB_(data, farg4)
-call swigc_uniform_int_distribution__SWIG_0(farg1, farg2, farg3, farg4)
+call swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4)
 end subroutine
 
 subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
@@ -465,11 +452,11 @@ subroutine SWIGTM_fin_int64_t_Sb__SB_(finp, iminp)
   end if
   iminp%size = sz
 end subroutine
-subroutine swigf_uniform_int_distribution__SWIG_1(left, right, g, data)
+subroutine swigf_uniform_int_distribution__SWIG_2(left, right, engine, data)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT64_T), intent(in) :: left
 integer(C_INT64_T), intent(in) :: right
-class(MersenneEngine4), intent(in) :: g
+class(MersenneEngine4), intent(in) :: engine
 integer(C_INT64_T), dimension(:), target :: data
 integer(C_INT64_T) :: farg1 
 integer(C_INT64_T) :: farg2 
@@ -478,9 +465,9 @@ type(SwigArrayWrapper) :: farg4
 
 farg1 = left
 farg2 = right
-farg3 = g%swigdata
+farg3 = engine%swigdata
 call SWIGTM_fin_int64_t_Sb__SB_(data, farg4)
-call swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4)
+call swigc_uniform_int_distribution__SWIG_2(farg1, farg2, farg3, farg4)
 end subroutine
 
 subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
@@ -499,11 +486,11 @@ subroutine SWIGTM_fin_double_Sb__SB_(finp, iminp)
   end if
   iminp%size = sz
 end subroutine
-subroutine uniform_real_distribution(left, right, g, data)
+subroutine uniform_real_distribution(left, right, engine, data)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), intent(in) :: left
 real(C_DOUBLE), intent(in) :: right
-class(MersenneEngine4), intent(in) :: g
+class(MersenneEngine4), intent(in) :: engine
 real(C_DOUBLE), dimension(:), target :: data
 real(C_DOUBLE) :: farg1 
 real(C_DOUBLE) :: farg2 
@@ -512,31 +499,16 @@ type(SwigArrayWrapper) :: farg4
 
 farg1 = left
 farg2 = right
-farg3 = g%swigdata
+farg3 = engine%swigdata
 call SWIGTM_fin_double_Sb__SB_(data, farg4)
 call swigc_uniform_real_distribution(farg1, farg2, farg3, farg4)
 end subroutine
 
-subroutine swigf_normal_distribution__SWIG_0(mean, g, data)
-use, intrinsic :: ISO_C_BINDING
-real(C_DOUBLE), intent(in) :: mean
-class(MersenneEngine4), intent(in) :: g
-real(C_DOUBLE), dimension(:), target :: data
-real(C_DOUBLE) :: farg1 
-type(SwigClassWrapper) :: farg2 
-type(SwigArrayWrapper) :: farg3 
-
-farg1 = mean
-farg2 = g%swigdata
-call SWIGTM_fin_double_Sb__SB_(data, farg3)
-call swigc_normal_distribution__SWIG_0(farg1, farg2, farg3)
-end subroutine
-
-subroutine swigf_normal_distribution__SWIG_1(mean, stddev, g, data)
+subroutine normal_distribution(mean, stddev, engine, data)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE), intent(in) :: mean
 real(C_DOUBLE), intent(in) :: stddev
-class(MersenneEngine4), intent(in) :: g
+class(MersenneEngine4), intent(in) :: engine
 real(C_DOUBLE), dimension(:), target :: data
 real(C_DOUBLE) :: farg1 
 real(C_DOUBLE) :: farg2 
@@ -545,9 +517,9 @@ type(SwigArrayWrapper) :: farg4
 
 farg1 = mean
 farg2 = stddev
-farg3 = g%swigdata
+farg3 = engine%swigdata
 call SWIGTM_fin_double_Sb__SB_(data, farg4)
-call swigc_normal_distribution__SWIG_1(farg1, farg2, farg3, farg4)
+call swigc_normal_distribution(farg1, farg2, farg3, farg4)
 end subroutine
 
 

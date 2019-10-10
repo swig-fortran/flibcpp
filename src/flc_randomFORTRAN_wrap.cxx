@@ -256,6 +256,37 @@ enum AssignmentType {
 #include <random>
 
 
+template<class D, class G, class T>
+static inline void flc_generate(D dist, G& g, T* data, size_t size) {
+  T* const end = data + size;
+  while (data != end) {
+    *data++ = dist(g);
+  }
+}
+
+
+template<class T, class G>
+static void uniform_int_distribution(T left, T right,
+                                     G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::uniform_int_distribution<T>(left, right),
+               engine, DATA, DATASIZE);
+}
+
+template<class T, class G>
+static void uniform_real_distribution(T left, T right,
+                                      G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::uniform_real_distribution<T>(left, right),
+               engine, DATA, DATASIZE);
+}
+
+template<class T, class G>
+static void normal_distribution(T mean, T stddev,
+                                G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::normal_distribution<T>(mean, stddev),
+               engine, DATA, DATASIZE);
+}
+
+
 struct SwigClassWrapper {
     void* cptr;
     int cmemflags;
@@ -387,17 +418,6 @@ SWIGINTERN void SWIG_free_rvalue(SwigClassWrapper other) {
 
 
 
-static void uniform_int_distribution(int32_t left, int32_t right,
-                     std::mt19937& g,
-                     int32_t *DATA, size_t DATASIZE) {
-    std::uniform_int_distribution<int32_t> dist(left, right);
-    int32_t *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
-}
-
-
 #include <stdlib.h>
 #ifdef _MSC_VER
 # ifndef strtoull
@@ -420,50 +440,6 @@ SWIGINTERN SwigArrayWrapper SwigArrayWrapper_uninitialized() {
   result.data = NULL;
   result.size = 0;
   return result;
-}
-
-
-static void uniform_int_distribution(int64_t left, int64_t right,
-                     std::mt19937& g,
-                     int64_t *DATA, size_t DATASIZE) {
-    std::uniform_int_distribution<int64_t> dist(left, right);
-    int64_t *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
-}
-
-
-static void uniform_real_distribution(double left, double right,
-                     std::mt19937& g,
-                     double *DATA, size_t DATASIZE) {
-    std::uniform_real_distribution<double> dist(left, right);
-    double *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
-}
-
-
-static void normal_distribution(double mean,
-                     std::mt19937& g,
-                     double *DATA, size_t DATASIZE) {
-    std::normal_distribution<double> dist(mean);
-    double *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
-}
-
-
-static void normal_distribution(double mean, double stddev,
-                     std::mt19937& g,
-                     double *DATA, size_t DATASIZE) {
-    std::normal_distribution<double> dist(mean, stddev);
-    double *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
 }
 
 extern "C" {
@@ -623,7 +599,7 @@ SWIGEXPORT void _wrap_MersenneEngine8_op_assign__(SwigClassWrapper *farg1, SwigC
 }
 
 
-SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_0(int32_t const *farg1, int32_t const *farg2, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
+SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_1(int32_t const *farg1, int32_t const *farg2, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
   int32_t arg1 ;
   int32_t arg2 ;
   std::mt19937 *arg3 = 0 ;
@@ -632,16 +608,16 @@ SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_0(int32_t const *farg1, int
   
   arg1 = (int32_t)(*farg1);
   arg2 = (int32_t)(*farg2);
-  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "uniform_int_distribution(int32_t,int32_t,std::mt19937 &,int32_t *,size_t)", return );
+  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "uniform_int_distribution< int32_t,std::mt19937 >(int32_t,int32_t,std::mt19937 &,int32_t *,size_t)", return );
   arg3 = (std::mt19937 *)farg3->cptr;
   arg4 = (int32_t *)farg4->data;
   arg5 = farg4->size;
-  uniform_int_distribution(arg1,arg2,*arg3,arg4,arg5);
+  uniform_int_distribution< int32_t,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
   SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
-SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_1(int64_t const *farg1, int64_t const *farg2, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
+SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_2(int64_t const *farg1, int64_t const *farg2, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
   int64_t arg1 ;
   int64_t arg2 ;
   std::mt19937 *arg3 = 0 ;
@@ -650,11 +626,11 @@ SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_1(int64_t const *farg1, int
   
   arg1 = (int64_t)(*farg1);
   arg2 = (int64_t)(*farg2);
-  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "uniform_int_distribution(int64_t,int64_t,std::mt19937 &,int64_t *,size_t)", return );
+  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "uniform_int_distribution< int64_t,std::mt19937 >(int64_t,int64_t,std::mt19937 &,int64_t *,size_t)", return );
   arg3 = (std::mt19937 *)farg3->cptr;
   arg4 = (int64_t *)farg4->data;
   arg5 = farg4->size;
-  uniform_int_distribution(arg1,arg2,*arg3,arg4,arg5);
+  uniform_int_distribution< int64_t,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
   SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
@@ -668,32 +644,16 @@ SWIGEXPORT void _wrap_uniform_real_distribution(double const *farg1, double cons
   
   arg1 = (double)(*farg1);
   arg2 = (double)(*farg2);
-  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "uniform_real_distribution(double,double,std::mt19937 &,double *,size_t)", return );
+  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "uniform_real_distribution< double,std::mt19937 >(double,double,std::mt19937 &,double *,size_t)", return );
   arg3 = (std::mt19937 *)farg3->cptr;
   arg4 = (double *)farg4->data;
   arg5 = farg4->size;
-  uniform_real_distribution(arg1,arg2,*arg3,arg4,arg5);
+  uniform_real_distribution< double,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
   SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
-SWIGEXPORT void _wrap_normal_distribution__SWIG_0(double const *farg1, SwigClassWrapper *farg2, SwigArrayWrapper *farg3) {
-  double arg1 ;
-  std::mt19937 *arg2 = 0 ;
-  double *arg3 = (double *) 0 ;
-  size_t arg4 ;
-  
-  arg1 = (double)(*farg1);
-  SWIG_check_nonnull(*farg2, "std::mt19937 &", "MersenneEngine4", "normal_distribution(double,std::mt19937 &,double *,size_t)", return );
-  arg2 = (std::mt19937 *)farg2->cptr;
-  arg3 = (double *)farg3->data;
-  arg4 = farg3->size;
-  normal_distribution(arg1,*arg2,arg3,arg4);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg2);
-}
-
-
-SWIGEXPORT void _wrap_normal_distribution__SWIG_1(double const *farg1, double const *farg2, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
+SWIGEXPORT void _wrap_normal_distribution(double const *farg1, double const *farg2, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
   double arg1 ;
   double arg2 ;
   std::mt19937 *arg3 = 0 ;
@@ -702,11 +662,11 @@ SWIGEXPORT void _wrap_normal_distribution__SWIG_1(double const *farg1, double co
   
   arg1 = (double)(*farg1);
   arg2 = (double)(*farg2);
-  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "normal_distribution(double,double,std::mt19937 &,double *,size_t)", return );
+  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "normal_distribution< double,std::mt19937 >(double,double,std::mt19937 &,double *,size_t)", return );
   arg3 = (std::mt19937 *)farg3->cptr;
   arg4 = (double *)farg4->data;
   arg5 = farg4->size;
-  normal_distribution(arg1,arg2,*arg3,arg4,arg5);
+  normal_distribution< double,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
   SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 

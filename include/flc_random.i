@@ -43,45 +43,53 @@ class GENERATOR
  * RNG distribution routines
  * ------------------------------------------------------------------------- */
 
-%define %flc_random_dist1(NAME, TYPE, GENERATOR, ARG1)
-%inline {
-static void NAME##_distribution(TYPE ARG1,
-                     std::GENERATOR& g,
-                     TYPE *DATA, size_t DATASIZE) {
-    std::NAME##_distribution<TYPE> dist(ARG1);
-    TYPE *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
+%{
+template<class D, class G, class T>
+static inline void flc_generate(D dist, G& g, T* data, size_t size) {
+  T* const end = data + size;
+  while (data != end) {
+    *data++ = dist(g);
+  }
 }
-}
-%enddef
+%}
 
-%define %flc_random_dist2(NAME, TYPE, GENERATOR, ARG1, ARG2)
-%inline {
-static void NAME##_distribution(TYPE ARG1, TYPE ARG2,
-                     std::GENERATOR& g,
-                     TYPE *DATA, size_t DATASIZE) {
-    std::NAME##_distribution<TYPE> dist(ARG1, ARG2);
-    TYPE *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
-}
-}
-%enddef
+%apply (const SWIGTYPE *DATA, size_t SIZE) {
+       (SWIGTYPE const *WEIGHTS, size_t WEIGHTSIZE) };
 
-#define FLC_DEFAULT_ENGINE mt19937
+%inline %{
+template<class T, class G>
+static void uniform_int_distribution(T left, T right,
+                                     G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::uniform_int_distribution<T>(left, right),
+               engine, DATA, DATASIZE);
+}
+
+template<class T, class G>
+static void uniform_real_distribution(T left, T right,
+                                      G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::uniform_real_distribution<T>(left, right),
+               engine, DATA, DATASIZE);
+}
+
+template<class T, class G>
+static void normal_distribution(T mean, T stddev,
+                                G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::normal_distribution<T>(mean, stddev),
+               engine, DATA, DATASIZE);
+}
+%}
+
+%define %flc_distribution(NAME, STDENGINE, TYPE)
+%template(NAME##_distribution) NAME##_distribution< TYPE, std::STDENGINE >;
+%enddef
 
 // Engines
 %flc_random_engine(MersenneEngine4, mt19937,    int32_t)
 %flc_random_engine(MersenneEngine8, mt19937_64, int64_t)
 
-// Uniform distributions
-%flc_random_dist2(uniform_int, int32_t, FLC_DEFAULT_ENGINE, left, right)
-%flc_random_dist2(uniform_int, int64_t, FLC_DEFAULT_ENGINE, left, right)
-%flc_random_dist2(uniform_real, double, FLC_DEFAULT_ENGINE, left, right)
+#define FLC_DEFAULT_ENGINE mt19937
+%flc_distribution(uniform_int,  FLC_DEFAULT_ENGINE, int32_t)
+%flc_distribution(uniform_int,  FLC_DEFAULT_ENGINE, int64_t)
+%flc_distribution(uniform_real, FLC_DEFAULT_ENGINE, double)
 
-// Gaussian distribution
-%flc_random_dist1(normal, double, FLC_DEFAULT_ENGINE, mean)
-%flc_random_dist2(normal, double, FLC_DEFAULT_ENGINE, mean, stddev)
+%flc_distribution(normal, FLC_DEFAULT_ENGINE, double)

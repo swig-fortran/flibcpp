@@ -51,11 +51,15 @@ subroutine test_uniform_int_distribution()
   integer(C_INT), dimension(:), allocatable :: arr
   type(Engine) :: rng
 
-  allocate(arr(20))
+  allocate(arr(128))
   rng = Engine(1234_c_int32_t) ! Initialize with seed
 
   call uniform_int_distribution(5, 15, rng, arr)
-  write(*,*) "Result:", arr
+  ASSERT(minval(arr) >= 5)
+  ASSERT(maxval(arr) <= 15)
+
+  write(*,*) sum(arr) - (10 * size(arr))
+
   call rng%release()
 end subroutine
 
@@ -64,13 +68,19 @@ subroutine test_uniform_real_distribution()
   use, intrinsic :: ISO_C_BINDING
   use flc_random, only : Engine => MersenneEngine4, uniform_real_distribution
   implicit none
-  real(C_DOUBLE), dimension(10) :: arr
+  real(C_DOUBLE), dimension(256) :: arr
+  real(C_DOUBLE) :: avg
   type(Engine) :: rng
 
   rng = Engine() ! Initialize with default seed
 
   call uniform_real_distribution(5.d0, 15.d0, rng, arr)
-  write(*,*) "Result:", arr
+  ASSERT(minval(arr) >= 5.d0)
+  ASSERT(maxval(arr) <= 15.d0)
+
+  avg = sum(arr) / real(size(arr), kind=8)
+  write(*,*) "Average of sampled real values:", avg
+  ASSERT(avg >= 9.5 .and. avg <= 10.5)
   call rng%release()
 end subroutine
 
@@ -87,10 +97,8 @@ subroutine test_normal_distribution()
 
   ! Mean=10, sigma=5
   call normal_distribution(10.0d0, 5.0d0, rng, arr)
-  write(*,*) "Result:", arr
-  ! Mean=1, sigma=1
-  call normal_distribution(1.0d0, rng, arr)
-  write(*,*) "Result:", arr
+  write(*,*) "Samples from normal distribution:", arr
+
   call rng%release()
 end subroutine
 
