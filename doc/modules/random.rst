@@ -69,27 +69,46 @@ Distributions
 =============
 
 Distributions produce numerical values from the random bitstream provided by
-an RNG engine.
+an RNG engine. For efficiency, each distribution subroutine accepts an *array*
+of values that are filled with samples of the distribution.
 
 normal_distribution
 -------------------
 
-Fill the given array with Gaussian-distributed numbers generated using the
-given random number engine about the given mean value with the given standard
-deviation.
+Each element of the sampled array is distributed according to a Gaussian
+function with the given mean and standard deviation.
 
 uniform_int_distribution
 ------------------------
 
-Fill the given array with uniformly distributed integers generated using the
-given random number engine, between the two bounds (inclusive on both sides).
+Each element is uniformly sampled between the two provided bounds, inclusive on
+both sides.
 
 uniform_real_distribution
 -------------------------
 
-Fill the given array with uniformly distributed real numbers generated using the
-given random number engine, between the two bounds (inclusive on left side only).
+Each element is a sample of a uniform distribution between the two bounds,
+inclusive on left side only.
 
+discrete_distribution
+---------------------
+
+The discrete distribution is constructed with an array of :math:`N` weights:
+the probability that an index in the range :math:`[1, N]` will be selected.
+::
+
+   integer(C_INT), dimension(4), parameter :: weights = [1, 1, 2, 4]
+   integer(C_INT), dimension(1024) :: sampled
+   call discrete_distribution(weights, Engine(), sampled)
+
+In the above example, ``1`` and ``2`` will be present in the ``sampled`` array
+about the same number of times since those indices have equal weight; ``3``
+will be present about twice as often as ``1`` and ``4`` will be present about
+four times as often.
+
+.. note:: The C++ distribution returns values in :math:`[0, N)`, so in
+   accordance with Flibcpp's :ref:`indexing convention <conventions_indexing>`
+   the result is transformed when provided to Fortran users.
 
 .. ############################################################################
 .. end of doc/modules/random.rst

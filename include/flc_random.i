@@ -54,7 +54,8 @@ static inline void flc_generate(D dist, G& g, T* data, size_t size) {
 %}
 
 %apply (const SWIGTYPE *DATA, size_t SIZE) {
-       (SWIGTYPE const *WEIGHTS, size_t WEIGHTSIZE) };
+       (const int32_t *WEIGHTS, size_t WEIGHTSIZE),
+       (const int64_t *WEIGHTS, size_t WEIGHTSIZE) };
 
 %inline %{
 template<class T, class G>
@@ -77,6 +78,16 @@ static void normal_distribution(T mean, T stddev,
   flc_generate(std::normal_distribution<T>(mean, stddev),
                engine, DATA, DATASIZE);
 }
+
+template<class T, class G>
+static void discrete_distribution(const T* WEIGHTS, size_t WEIGHTSIZE,
+                                  G& engine, T* DATA, size_t DATASIZE) {
+  std::discrete_distribution<T> dist(WEIGHTS, WEIGHTS + WEIGHTSIZE);
+  T* const end = DATA + DATASIZE;
+  while (DATA != end) {
+    *DATA++ = dist(engine) + 1; // Note: transform to Fortran 1-offset
+  }
+}
 %}
 
 %define %flc_distribution(NAME, STDENGINE, TYPE)
@@ -93,3 +104,7 @@ static void normal_distribution(T mean, T stddev,
 %flc_distribution(uniform_real, FLC_DEFAULT_ENGINE, double)
 
 %flc_distribution(normal, FLC_DEFAULT_ENGINE, double)
+
+// Discrete sampling distribution
+%flc_distribution(discrete, FLC_DEFAULT_ENGINE, int32_t)
+%flc_distribution(discrete, FLC_DEFAULT_ENGINE, int64_t)

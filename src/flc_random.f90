@@ -62,6 +62,10 @@ module flc_random
   module procedure swigf_uniform_int_distribution__SWIG_1, swigf_uniform_int_distribution__SWIG_2
  end interface
  public :: uniform_int_distribution
+ interface discrete_distribution
+  module procedure swigf_discrete_distribution__SWIG_1, swigf_discrete_distribution__SWIG_2
+ end interface
+ public :: discrete_distribution
 
 ! WRAPPER DECLARATIONS
 interface
@@ -219,6 +223,26 @@ import :: swigclasswrapper
 import :: swigarraywrapper
 real(C_DOUBLE), intent(in) :: farg1
 real(C_DOUBLE), intent(in) :: farg2
+type(SwigClassWrapper) :: farg3
+type(SwigArrayWrapper) :: farg4
+end subroutine
+
+subroutine swigc_discrete_distribution__SWIG_1(farg1, farg3, farg4) &
+bind(C, name="_wrap_discrete_distribution__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+import :: swigclasswrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigClassWrapper) :: farg3
+type(SwigArrayWrapper) :: farg4
+end subroutine
+
+subroutine swigc_discrete_distribution__SWIG_2(farg1, farg3, farg4) &
+bind(C, name="_wrap_discrete_distribution__SWIG_2")
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+import :: swigclasswrapper
+type(SwigArrayWrapper) :: farg1
 type(SwigClassWrapper) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
@@ -520,6 +544,36 @@ farg2 = stddev
 farg3 = engine%swigdata
 call SWIGTM_fin_double_Sb__SB_(data, farg4)
 call swigc_normal_distribution(farg1, farg2, farg3, farg4)
+end subroutine
+
+subroutine swigf_discrete_distribution__SWIG_1(weights, engine, data)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT32_T), dimension(:), intent(in), target :: weights
+class(MersenneEngine4), intent(in) :: engine
+integer(C_INT32_T), dimension(:), target :: data
+type(SwigArrayWrapper) :: farg1 
+type(SwigClassWrapper) :: farg3 
+type(SwigArrayWrapper) :: farg4 
+
+call SWIGTM_fin_int32_t_Sb__SB_(weights, farg1)
+farg3 = engine%swigdata
+call SWIGTM_fin_int32_t_Sb__SB_(data, farg4)
+call swigc_discrete_distribution__SWIG_1(farg1, farg3, farg4)
+end subroutine
+
+subroutine swigf_discrete_distribution__SWIG_2(weights, engine, data)
+use, intrinsic :: ISO_C_BINDING
+integer(C_INT64_T), dimension(:), intent(in), target :: weights
+class(MersenneEngine4), intent(in) :: engine
+integer(C_INT64_T), dimension(:), target :: data
+type(SwigArrayWrapper) :: farg1 
+type(SwigClassWrapper) :: farg3 
+type(SwigArrayWrapper) :: farg4 
+
+call SWIGTM_fin_int64_t_Sb__SB_(weights, farg1)
+farg3 = engine%swigdata
+call SWIGTM_fin_int64_t_Sb__SB_(data, farg4)
+call swigc_discrete_distribution__SWIG_2(farg1, farg3, farg4)
 end subroutine
 
 

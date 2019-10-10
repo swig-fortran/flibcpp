@@ -13,6 +13,7 @@ program test_random
   call test_uniform_int_distribution()
   call test_uniform_real_distribution()
   call test_normal_distribution()
+  call test_discrete_distribution()
 contains
 
 !-----------------------------------------------------------------------------!
@@ -57,8 +58,7 @@ subroutine test_uniform_int_distribution()
   call uniform_int_distribution(5, 15, rng, arr)
   ASSERT(minval(arr) >= 5)
   ASSERT(maxval(arr) <= 15)
-
-  write(*,*) sum(arr) - (10 * size(arr))
+  ASSERT(abs(sum(arr) - (10 * size(arr))) < size(arr) / 10)
 
   call rng%release()
 end subroutine
@@ -79,8 +79,8 @@ subroutine test_uniform_real_distribution()
   ASSERT(maxval(arr) <= 15.d0)
 
   avg = sum(arr) / real(size(arr), kind=8)
-  write(*,*) "Average of sampled real values:", avg
   ASSERT(avg >= 9.5 .and. avg <= 10.5)
+
   call rng%release()
 end subroutine
 
@@ -90,16 +90,41 @@ subroutine test_normal_distribution()
   use flc_random, only : Engine => MersenneEngine4, normal_distribution
   implicit none
   real(C_DOUBLE), dimension(:), allocatable :: arr
+  real(C_DOUBLE) :: avg
   type(Engine) :: rng
 
-  allocate(arr(10))
+  allocate(arr(1024))
   rng = Engine() ! Initialize with default seed
 
-  ! Mean=10, sigma=5
-  call normal_distribution(10.0d0, 5.0d0, rng, arr)
-  write(*,*) "Samples from normal distribution:", arr
+  ! Mean=10, sigma=2
+  call normal_distribution(10.0d0, 2.0d0, rng, arr)
+
+  avg = sum(arr) / real(size(arr), kind=8)
+  ASSERT(avg >= 9.9 .and. avg <= 10.1)
 
   call rng%release()
+end subroutine
+
+!-----------------------------------------------------------------------------!
+subroutine test_discrete_distribution()
+  use, intrinsic :: ISO_C_BINDING
+  use flc_random, only : Engine => MersenneEngine4, discrete_distribution
+  implicit none
+  integer(C_INT), dimension(4), parameter :: weights = [1, 1, 2, 4]
+  integer(C_INT), dimension(1024) :: sampled
+  integer(C_INT), dimension(4) :: tallied = 0
+  integer(C_INT), dimension(4), parameter :: gold_result = [130, 127, 267, 500]
+  integer :: i
+
+  ! Sample 1024 random ints
+  call discrete_distribution(weights, Engine(), sampled)
+  ASSERT(minval(sampled) == 1)
+  ASSERT(maxval(sampled) == size(weights))
+  do i = 1, size(sampled)
+    tallied(sampled(i)) = tallied(sampled(i)) + 1
+  enddo
+
+  ASSERT(all(tallied == gold_result))
 end subroutine
 
 !-----------------------------------------------------------------------------!
