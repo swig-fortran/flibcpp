@@ -9,53 +9,46 @@
 %include "import_flc.i"
 %flc_add_header
 
-/* -------------------------------------------------------------------------
- * Generator class definition
- * ------------------------------------------------------------------------- */
-
 %{
 #include <random>
 %}
 
-// TODO: define a CMake-configurable option for selecting the 32-bit twister
-#if 0
-#define SWIG_MERSENNE_TWISTER mt19937
-#define SWIG_MERSENNE_RESULT_TYPE int32_t
-#else
-#define SWIG_MERSENNE_TWISTER mt19937_64
-#define SWIG_MERSENNE_RESULT_TYPE int64_t
-#endif
+/* -------------------------------------------------------------------------
+ * Macros
+ * ------------------------------------------------------------------------- */
 
-%rename(Engine) std::SWIG_MERSENNE_TWISTER;
-%fortran_autofree_rvalue(std::SWIG_MERSENNE_TWISTER);
-
+%define %flc_random_engine(NAME, GENERATOR, RESULT_TYPE)
+%fortran_autofree_rvalue(std::GENERATOR);
 namespace std {
-class SWIG_MERSENNE_TWISTER
+
+%rename(NAME) GENERATOR;
+%rename("next") GENERATOR::operator();
+
+class GENERATOR
 {
   public:
-    typedef SWIG_MERSENNE_RESULT_TYPE result_type;
+    typedef RESULT_TYPE result_type;
 
-    SWIG_MERSENNE_TWISTER();
-    explicit SWIG_MERSENNE_TWISTER(result_type seed_value);
+    GENERATOR();
+    explicit GENERATOR(result_type seed_value);
     void seed(result_type seed_value);
     void discard(unsigned long long count);
+    result_type operator()();
 };
+
 } // namespace std
+%enddef
 
 /* -------------------------------------------------------------------------
  * RNG distribution routines
- *
- * The generated subroutines will be called from Fortran like:
- *
- *     call uniform_real_distribution(gen, -10, 10, fill_array)
  * ------------------------------------------------------------------------- */
 
-%define %flc_random_distribution1(DISTNAME, TYPE, ARG1)
+%define %flc_random_dist1(NAME, TYPE, GENERATOR, ARG1)
 %inline {
-static void DISTNAME(TYPE ARG1,
-                     std::SWIG_MERSENNE_TWISTER& g,
+static void NAME##_distribution(TYPE ARG1,
+                     std::GENERATOR& g,
                      TYPE *DATA, size_t DATASIZE) {
-    std::DISTNAME<TYPE> dist(ARG1);
+    std::NAME##_distribution<TYPE> dist(ARG1);
     TYPE *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
@@ -63,12 +56,13 @@ static void DISTNAME(TYPE ARG1,
 }
 }
 %enddef
-%define %flc_random_distribution2(DISTNAME, TYPE, ARG1, ARG2)
+
+%define %flc_random_dist2(NAME, TYPE, GENERATOR, ARG1, ARG2)
 %inline {
-static void DISTNAME(TYPE ARG1, TYPE ARG2,
-                     std::SWIG_MERSENNE_TWISTER& g,
+static void NAME##_distribution(TYPE ARG1, TYPE ARG2,
+                     std::GENERATOR& g,
                      TYPE *DATA, size_t DATASIZE) {
-    std::DISTNAME<TYPE> dist(ARG1, ARG2);
+    std::NAME##_distribution<TYPE> dist(ARG1, ARG2);
     TYPE *end = DATA + DATASIZE;
     while (DATA != end) {
         *DATA++ = dist(g);
@@ -76,12 +70,18 @@ static void DISTNAME(TYPE ARG1, TYPE ARG2,
 }
 }
 %enddef
+
+#define FLC_DEFAULT_ENGINE mt19937
+
+// Engines
+%flc_random_engine(MersenneEngine4, mt19937,    int32_t)
+%flc_random_engine(MersenneEngine8, mt19937_64, int64_t)
 
 // Uniform distributions
-%flc_random_distribution2(uniform_int_distribution, int32_t, left, right)
-%flc_random_distribution2(uniform_int_distribution, int64_t, left, right)
-%flc_random_distribution2(uniform_real_distribution, double, left, right)
+%flc_random_dist2(uniform_int, int32_t, FLC_DEFAULT_ENGINE, left, right)
+%flc_random_dist2(uniform_int, int64_t, FLC_DEFAULT_ENGINE, left, right)
+%flc_random_dist2(uniform_real, double, FLC_DEFAULT_ENGINE, left, right)
 
 // Gaussian distribution
-%flc_random_distribution1(normal_distribution, double, mean)
-%flc_random_distribution2(normal_distribution, double, mean, stddev)
+%flc_random_dist1(normal, double, FLC_DEFAULT_ENGINE, mean)
+%flc_random_dist2(normal, double, FLC_DEFAULT_ENGINE, mean, stddev)

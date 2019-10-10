@@ -5,23 +5,54 @@
 ! Distributed under an MIT open source license: see LICENSE for details.
 !-----------------------------------------------------------------------------!
 
+#include "fassert.h"
+
 program test_random
   implicit none
+  call test_engines()
   call test_uniform_int_distribution()
   call test_uniform_real_distribution()
   call test_normal_distribution()
 contains
 
 !-----------------------------------------------------------------------------!
+subroutine test_engines()
+  use, intrinsic :: ISO_C_BINDING
+  use flc_random, only : MersenneEngine4, MersenneEngine8
+  implicit none
+  type(MersenneEngine4) :: eng4
+  type(MersenneEngine8) :: eng8
+  integer(4), dimension(2) :: i4
+  integer(8), dimension(2) :: i8
+  integer(4), dimension(2), parameter :: expected_i4 = [ &
+      822569775, 2137449171]
+  integer(8), dimension(2), parameter :: expected_i8 = [ &
+      -973404863619218144_8 , 963351229459618018_8]
+
+  eng4 = MersenneEngine4(1234_c_int32_t)
+  i4(1) = eng4%next()
+  i4(2) = eng4%next()
+  ASSERT(all(expected_i4 == i4))
+
+  eng8 = MersenneEngine8(1234_c_int64_t)
+  i8(1) = eng8%next()
+  i8(2) = eng8%next()
+  ASSERT(all(expected_i8 == i8))
+
+  call eng4%release()
+  call eng8%release()
+end subroutine
+
+!-----------------------------------------------------------------------------!
 subroutine test_uniform_int_distribution()
   use, intrinsic :: ISO_C_BINDING
-  use flc_random, only : Engine, uniform_int_distribution
+  use flc_random, only : Engine => MersenneEngine4, uniform_int_distribution
   implicit none
   integer(C_INT), dimension(:), allocatable :: arr
   type(Engine) :: rng
 
   allocate(arr(20))
-  rng = Engine(1234_c_int64_t) ! Initialize with seed
+  rng = Engine(1234_c_int32_t) ! Initialize with seed
 
   call uniform_int_distribution(5, 15, rng, arr)
   write(*,*) "Result:", arr
@@ -31,7 +62,7 @@ end subroutine
 !-----------------------------------------------------------------------------!
 subroutine test_uniform_real_distribution()
   use, intrinsic :: ISO_C_BINDING
-  use flc_random, only : Engine, uniform_real_distribution
+  use flc_random, only : Engine => MersenneEngine4, uniform_real_distribution
   implicit none
   real(C_DOUBLE), dimension(10) :: arr
   type(Engine) :: rng
@@ -46,7 +77,7 @@ end subroutine
 !-----------------------------------------------------------------------------!
 subroutine test_normal_distribution()
   use, intrinsic :: ISO_C_BINDING
-  use flc_random, only : Engine, normal_distribution
+  use flc_random, only : Engine => MersenneEngine4, normal_distribution
   implicit none
   real(C_DOUBLE), dimension(:), allocatable :: arr
   type(Engine) :: rng

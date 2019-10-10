@@ -212,7 +212,7 @@ static bool includes_impl(const T *data1, size_t size1,
 
 %inline {
 template<class T>
-static void shuffle(std::SWIG_MERSENNE_TWISTER& g, T *DATA, size_t DATASIZE) {
+static void shuffle(std::FLC_DEFAULT_ENGINE& g, T *DATA, size_t DATASIZE) {
     std::shuffle(DATA, DATA + DATASIZE, g);
 }
 }

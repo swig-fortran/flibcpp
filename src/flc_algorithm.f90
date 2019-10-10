@@ -1508,7 +1508,7 @@ end function
 
 subroutine swigf_shuffle__SWIG_1(g, data)
 use, intrinsic :: ISO_C_BINDING
-class(Engine), intent(in) :: g
+class(MersenneEngine4), intent(in) :: g
 integer(C_INT32_T), dimension(:), target :: data
 type(SwigClassWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg2 
@@ -1520,7 +1520,7 @@ end subroutine
 
 subroutine swigf_shuffle__SWIG_2(g, data)
 use, intrinsic :: ISO_C_BINDING
-class(Engine), intent(in) :: g
+class(MersenneEngine4), intent(in) :: g
 integer(C_INT64_T), dimension(:), target :: data
 type(SwigClassWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg2 
@@ -1532,7 +1532,7 @@ end subroutine
 
 subroutine swigf_shuffle__SWIG_3(g, data)
 use, intrinsic :: ISO_C_BINDING
-class(Engine), intent(in) :: g
+class(MersenneEngine4), intent(in) :: g
 real(C_DOUBLE), dimension(:), target :: data
 type(SwigClassWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg2 
@@ -1544,7 +1544,7 @@ end subroutine
 
 subroutine swigf_shuffle__SWIG_4(g, data)
 use, intrinsic :: ISO_C_BINDING
-class(Engine), intent(in) :: g
+class(MersenneEngine4), intent(in) :: g
 type(C_PTR), dimension(:), target :: data
 type(SwigClassWrapper) :: farg1 
 type(SwigArrayWrapper) :: farg2 
