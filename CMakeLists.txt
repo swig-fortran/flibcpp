@@ -6,7 +6,7 @@
 #---------------------------------------------------------------------------#
 
 cmake_minimum_required(VERSION 3.8)
-project(Flibcpp VERSION 0.2.1 LANGUAGES CXX Fortran)
+project(Flibcpp VERSION 0.3.0 LANGUAGES CXX Fortran)
 
 #---------------------------------------------------------------------------#
 # OPTIONS

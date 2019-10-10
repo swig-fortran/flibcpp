@@ -163,7 +163,7 @@ end subroutine
 !-----------------------------------------------------------------------------!
 subroutine test_shuffle()
   use flc_algorithm, only : shuffle
-  use flc_random, only : Engine
+  use flc_random, only : Engine => MersenneEngine4
   use, intrinsic :: ISO_C_BINDING
   implicit none
   integer :: i
@@ -178,7 +178,7 @@ subroutine test_shuffle()
   call rng%release()
 
   ! Shuffle using temporary RNG using seed 12345
-  call shuffle(Engine(12345_c_int64_t), iarr)
+  call shuffle(Engine(12345_c_int32_t), iarr)
   write(*,"(A,(8I4))") "Shuffled:", iarr
 end subroutine
 

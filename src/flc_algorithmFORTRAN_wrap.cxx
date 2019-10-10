@@ -230,6 +230,7 @@ enum AssignmentType {
 };
 }
 
+#define SWIGPOLICY_std_mt19937 swig::ASSIGNMENT_DEFAULT
 #define SWIGPOLICY_std_mt19937_64 swig::ASSIGNMENT_DEFAULT
 
 #include <stdexcept>
@@ -453,7 +454,7 @@ static bool includes_cmp(const T *DATA1,size_t DATASIZE1,const T *DATA2,size_t D
 
 
 template<class T>
-static void shuffle(std::mt19937_64& g, T *DATA, size_t DATASIZE) {
+static void shuffle(std::mt19937& g, T *DATA, size_t DATASIZE) {
     std::shuffle(DATA, DATA + DATASIZE, g);
 }
 
@@ -1360,58 +1361,58 @@ SWIGEXPORT int _wrap_includes__SWIG_7(SwigArrayWrapper *farg1, SwigArrayWrapper 
 
 
 SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
-  std::mt19937_64 *arg1 = 0 ;
+  std::mt19937 *arg1 = 0 ;
   int32_t *arg2 = (int32_t *) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< int32_t >(std::mt19937_64 &,int32_t *,size_t)", return );
-  arg1 = (std::mt19937_64 *)farg1->cptr;
+  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< int32_t >(std::mt19937 &,int32_t *,size_t)", return );
+  arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (int32_t *)farg2->data;
   arg3 = farg2->size;
   shuffle< int32_t >(*arg1,arg2,arg3);
-  SWIG_free_rvalue< std::mt19937_64, SWIGPOLICY_std_mt19937_64 >(*farg1);
+  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg1);
 }
 
 
 SWIGEXPORT void _wrap_shuffle__SWIG_2(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
-  std::mt19937_64 *arg1 = 0 ;
+  std::mt19937 *arg1 = 0 ;
   int64_t *arg2 = (int64_t *) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< int64_t >(std::mt19937_64 &,int64_t *,size_t)", return );
-  arg1 = (std::mt19937_64 *)farg1->cptr;
+  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< int64_t >(std::mt19937 &,int64_t *,size_t)", return );
+  arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (int64_t *)farg2->data;
   arg3 = farg2->size;
   shuffle< int64_t >(*arg1,arg2,arg3);
-  SWIG_free_rvalue< std::mt19937_64, SWIGPOLICY_std_mt19937_64 >(*farg1);
+  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg1);
 }
 
 
 SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
-  std::mt19937_64 *arg1 = 0 ;
+  std::mt19937 *arg1 = 0 ;
   double *arg2 = (double *) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< double >(std::mt19937_64 &,double *,size_t)", return );
-  arg1 = (std::mt19937_64 *)farg1->cptr;
+  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< double >(std::mt19937 &,double *,size_t)", return );
+  arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (double *)farg2->data;
   arg3 = farg2->size;
   shuffle< double >(*arg1,arg2,arg3);
-  SWIG_free_rvalue< std::mt19937_64, SWIGPOLICY_std_mt19937_64 >(*farg1);
+  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg1);
 }
 
 
 SWIGEXPORT void _wrap_shuffle__SWIG_4(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
-  std::mt19937_64 *arg1 = 0 ;
+  std::mt19937 *arg1 = 0 ;
   void **arg2 = (void **) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937_64 &", "Engine", "shuffle< void * >(std::mt19937_64 &,void **,size_t)", return );
-  arg1 = (std::mt19937_64 *)farg1->cptr;
+  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< void * >(std::mt19937 &,void **,size_t)", return );
+  arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (void **)farg2->data;
   arg3 = farg2->size;
   shuffle< void * >(*arg1,arg2,arg3);
-  SWIG_free_rvalue< std::mt19937_64, SWIGPOLICY_std_mt19937_64 >(*farg1);
+  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg1);
 }
 
 

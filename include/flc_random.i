@@ -9,79 +9,102 @@
 %include "import_flc.i"
 %flc_add_header
 
-/* -------------------------------------------------------------------------
- * Generator class definition
- * ------------------------------------------------------------------------- */
-
 %{
 #include <random>
 %}
 
-// TODO: define a CMake-configurable option for selecting the 32-bit twister
-#if 0
-#define SWIG_MERSENNE_TWISTER mt19937
-#define SWIG_MERSENNE_RESULT_TYPE int32_t
-#else
-#define SWIG_MERSENNE_TWISTER mt19937_64
-#define SWIG_MERSENNE_RESULT_TYPE int64_t
-#endif
+/* -------------------------------------------------------------------------
+ * Macros
+ * ------------------------------------------------------------------------- */
 
-%rename(Engine) std::SWIG_MERSENNE_TWISTER;
-%fortran_autofree_rvalue(std::SWIG_MERSENNE_TWISTER);
-
+%define %flc_random_engine(NAME, GENERATOR, RESULT_TYPE)
+%fortran_autofree_rvalue(std::GENERATOR);
 namespace std {
-class SWIG_MERSENNE_TWISTER
+
+%rename(NAME) GENERATOR;
+%rename("next") GENERATOR::operator();
+
+class GENERATOR
 {
   public:
-    typedef SWIG_MERSENNE_RESULT_TYPE result_type;
+    typedef RESULT_TYPE result_type;
 
-    SWIG_MERSENNE_TWISTER();
-    explicit SWIG_MERSENNE_TWISTER(result_type seed_value);
+    GENERATOR();
+    explicit GENERATOR(result_type seed_value);
     void seed(result_type seed_value);
     void discard(unsigned long long count);
+    result_type operator()();
 };
+
 } // namespace std
+%enddef
 
 /* -------------------------------------------------------------------------
  * RNG distribution routines
- *
- * The generated subroutines will be called from Fortran like:
- *
- *     call uniform_real_distribution(gen, -10, 10, fill_array)
  * ------------------------------------------------------------------------- */
 
-%define %flc_random_distribution1(DISTNAME, TYPE, ARG1)
-%inline {
-static void DISTNAME(TYPE ARG1,
-                     std::SWIG_MERSENNE_TWISTER& g,
-                     TYPE *DATA, size_t DATASIZE) {
-    std::DISTNAME<TYPE> dist(ARG1);
-    TYPE *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
+%{
+template<class D, class G, class T>
+static inline void flc_generate(D dist, G& g, T* data, size_t size) {
+  T* const end = data + size;
+  while (data != end) {
+    *data++ = dist(g);
+  }
 }
+%}
+
+%apply (const SWIGTYPE *DATA, size_t SIZE) {
+       (const int32_t *WEIGHTS, size_t WEIGHTSIZE),
+       (const int64_t *WEIGHTS, size_t WEIGHTSIZE) };
+
+%inline %{
+template<class T, class G>
+static void uniform_int_distribution(T left, T right,
+                                     G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::uniform_int_distribution<T>(left, right),
+               engine, DATA, DATASIZE);
 }
-%enddef
-%define %flc_random_distribution2(DISTNAME, TYPE, ARG1, ARG2)
-%inline {
-static void DISTNAME(TYPE ARG1, TYPE ARG2,
-                     std::SWIG_MERSENNE_TWISTER& g,
-                     TYPE *DATA, size_t DATASIZE) {
-    std::DISTNAME<TYPE> dist(ARG1, ARG2);
-    TYPE *end = DATA + DATASIZE;
-    while (DATA != end) {
-        *DATA++ = dist(g);
-    }
+
+template<class T, class G>
+static void uniform_real_distribution(T left, T right,
+                                      G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::uniform_real_distribution<T>(left, right),
+               engine, DATA, DATASIZE);
 }
+
+template<class T, class G>
+static void normal_distribution(T mean, T stddev,
+                                G& engine, T* DATA, size_t DATASIZE) {
+  flc_generate(std::normal_distribution<T>(mean, stddev),
+               engine, DATA, DATASIZE);
 }
+
+template<class T, class G>
+static void discrete_distribution(const T* WEIGHTS, size_t WEIGHTSIZE,
+                                  G& engine, T* DATA, size_t DATASIZE) {
+  std::discrete_distribution<T> dist(WEIGHTS, WEIGHTS + WEIGHTSIZE);
+  T* const end = DATA + DATASIZE;
+  while (DATA != end) {
+    *DATA++ = dist(engine) + 1; // Note: transform to Fortran 1-offset
+  }
+}
+%}
+
+%define %flc_distribution(NAME, STDENGINE, TYPE)
+%template(NAME##_distribution) NAME##_distribution< TYPE, std::STDENGINE >;
 %enddef
 
-// Uniform distributions
-%flc_random_distribution2(uniform_int_distribution, int32_t, left, right)
-%flc_random_distribution2(uniform_int_distribution, int64_t, left, right)
-%flc_random_distribution2(uniform_real_distribution, double, left, right)
+// Engines
+%flc_random_engine(MersenneEngine4, mt19937,    int32_t)
+%flc_random_engine(MersenneEngine8, mt19937_64, int64_t)
 
-// Gaussian distribution
-%flc_random_distribution1(normal_distribution, double, mean)
-%flc_random_distribution2(normal_distribution, double, mean, stddev)
+#define FLC_DEFAULT_ENGINE mt19937
+%flc_distribution(uniform_int,  FLC_DEFAULT_ENGINE, int32_t)
+%flc_distribution(uniform_int,  FLC_DEFAULT_ENGINE, int64_t)
+%flc_distribution(uniform_real, FLC_DEFAULT_ENGINE, double)
+
+%flc_distribution(normal, FLC_DEFAULT_ENGINE, double)
+
+// Discrete sampling distribution
+%flc_distribution(discrete, FLC_DEFAULT_ENGINE, int32_t)
+%flc_distribution(discrete, FLC_DEFAULT_ENGINE, int64_t)

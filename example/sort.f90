@@ -8,7 +8,7 @@ program sort_example
   use, intrinsic :: ISO_C_BINDING
   use flc
   use flc_algorithm, only : sort, shuffle
-  use flc_random, only : Engine, normal_distribution
+  use flc_random, only : Engine => MersenneEngine4, normal_distribution
   use example_utils, only : write_version, read_positive_int, STDOUT
   implicit none
   integer :: arr_size
