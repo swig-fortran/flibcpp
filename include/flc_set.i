@@ -11,9 +11,33 @@
 
 %include <std_set.i>
 
+// Support for set operations
+%{
+#include <algorithm>
+#include <iterator>
+%}
+
 /* -------------------------------------------------------------------------
  * Macro definitions
  * ------------------------------------------------------------------------- */
+
+%define %flc_set_algorithm(FUNCNAME)
+%inline {
+template<class Set_t>
+static Set_t FUNCNAME(const Set_t& left, const Set_t& right)
+{
+    Set_t result;
+    std::FUNCNAME(left.begin(), left.end(),
+                  right.begin(), right.end(),
+                  std::inserter(result, result.end()));
+    return result;
+}
+}
+
+%template(FUNCNAME) FUNCNAME<std::set<int> >;
+%template(FUNCNAME) FUNCNAME<std::set<std::string> >;
+
+%enddef
 
 %define %flc_extend_set_pod(CTYPE)
   %apply (const SWIGTYPE *DATA, ::size_t SIZE)
@@ -83,4 +107,25 @@ namespace std {
 %include <std_string.i>
 %import "flc_string.i"
 %template(SetString) std::set<std::string>;
+
+/* -------------------------------------------------------------------------
+ * Algorithms
+ * ------------------------------------------------------------------------- */
+
+%flc_set_algorithm(set_difference)
+%flc_set_algorithm(set_intersection)
+%flc_set_algorithm(set_symmetric_difference)
+%flc_set_algorithm(set_union)
+
+%inline %{
+template<class Set_t>
+static bool includes(const Set_t& left, const Set_t& right)
+{
+    return std::includes(left.begin(), left.end(),
+                         right.begin(), right.end());
+}
+%}
+
+%template(includes) includes<std::set<int> >;
+%template(includes) includes<std::set<std::string> >;
 

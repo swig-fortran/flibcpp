@@ -65,6 +65,26 @@ module flc_set
  interface SetString
   module procedure swigf_create_SetString
  end interface
+ interface includes
+  module procedure swigf_includes__SWIG_1, swigf_includes__SWIG_2
+ end interface
+ public :: includes
+ interface set_difference
+  module procedure swigf_set_difference__SWIG_1, swigf_set_difference__SWIG_2
+ end interface
+ public :: set_difference
+ interface set_symmetric_difference
+  module procedure swigf_set_symmetric_difference__SWIG_1, swigf_set_symmetric_difference__SWIG_2
+ end interface
+ public :: set_symmetric_difference
+ interface set_union
+  module procedure swigf_set_union__SWIG_1, swigf_set_union__SWIG_2
+ end interface
+ public :: set_union
+ interface set_intersection
+  module procedure swigf_set_intersection__SWIG_1, swigf_set_intersection__SWIG_2
+ end interface
+ public :: set_intersection
 
 ! WRAPPER DECLARATIONS
 interface
@@ -249,6 +269,106 @@ import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
 type(SwigClassWrapper) :: farg2
 end subroutine
+
+function swigc_set_difference__SWIG_1(farg1, farg2) &
+bind(C, name="_wrap_set_difference__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_difference__SWIG_2(farg1, farg2) &
+bind(C, name="_wrap_set_difference__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_intersection__SWIG_1(farg1, farg2) &
+bind(C, name="_wrap_set_intersection__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_intersection__SWIG_2(farg1, farg2) &
+bind(C, name="_wrap_set_intersection__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_symmetric_difference__SWIG_1(farg1, farg2) &
+bind(C, name="_wrap_set_symmetric_difference__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_symmetric_difference__SWIG_2(farg1, farg2) &
+bind(C, name="_wrap_set_symmetric_difference__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_union__SWIG_1(farg1, farg2) &
+bind(C, name="_wrap_set_union__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_set_union__SWIG_2(farg1, farg2) &
+bind(C, name="_wrap_set_union__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_includes__SWIG_1(farg1, farg2) &
+bind(C, name="_wrap_includes__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+integer(C_INT) :: fresult
+end function
+
+function swigc_includes__SWIG_2(farg1, farg2) &
+bind(C, name="_wrap_includes__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+integer(C_INT) :: fresult
+end function
 
 end interface
 
@@ -577,6 +697,166 @@ farg2 = other%swigdata
 call swigc_SetString_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
+
+function swigf_set_difference__SWIG_1(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetInt) :: swig_result
+class(SetInt), intent(in) :: left
+class(SetInt), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_difference__SWIG_1(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_difference__SWIG_2(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetString) :: swig_result
+class(SetString), intent(in) :: left
+class(SetString), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_difference__SWIG_2(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_intersection__SWIG_1(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetInt) :: swig_result
+class(SetInt), intent(in) :: left
+class(SetInt), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_intersection__SWIG_1(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_intersection__SWIG_2(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetString) :: swig_result
+class(SetString), intent(in) :: left
+class(SetString), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_intersection__SWIG_2(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_symmetric_difference__SWIG_1(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetInt) :: swig_result
+class(SetInt), intent(in) :: left
+class(SetInt), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_symmetric_difference__SWIG_1(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_symmetric_difference__SWIG_2(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetString) :: swig_result
+class(SetString), intent(in) :: left
+class(SetString), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_symmetric_difference__SWIG_2(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_union__SWIG_1(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetInt) :: swig_result
+class(SetInt), intent(in) :: left
+class(SetInt), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_union__SWIG_1(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_set_union__SWIG_2(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(SetString) :: swig_result
+class(SetString), intent(in) :: left
+class(SetString), intent(in) :: right
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_set_union__SWIG_2(farg1, farg2)
+swig_result%swigdata = fresult
+end function
+
+function swigf_includes__SWIG_1(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+class(SetInt), intent(in) :: left
+class(SetInt), intent(in) :: right
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_includes__SWIG_1(farg1, farg2)
+call SWIGTM_fout_bool(fresult, swig_result)
+end function
+
+function swigf_includes__SWIG_2(left, right) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+class(SetString), intent(in) :: left
+class(SetString), intent(in) :: right
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = left%swigdata
+farg2 = right%swigdata
+fresult = swigc_includes__SWIG_2(farg1, farg2)
+call SWIGTM_fout_bool(fresult, swig_result)
+end function
 
 
 end module

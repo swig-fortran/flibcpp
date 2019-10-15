@@ -12,7 +12,7 @@ Sets are sorted containers of unique elements. The ``flc_set`` module
 defines sets of ``integer`` and of ``type(String)``.
 
 Common functionality
-====================
+===================
 
 All set types support the following basic operations.
 
@@ -49,9 +49,10 @@ Here's an example of creating, modifying, and destroying a set::
    call s%release() ! Free memory
 
 Set operations
---------------
+==============
 
-Union, intersection, etc. are not yet implemented.
+Operations that take two sets are implemented as free functions.
+
 
 Numeric sets
 ===============
