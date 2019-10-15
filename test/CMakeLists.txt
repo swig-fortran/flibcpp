@@ -16,6 +16,8 @@ swig_fortran_add_test(test_algorithm
   flc_algorithm)
 swig_fortran_add_test(test_random
   flc_random)
+swig_fortran_add_test(test_set
+  flc_set)
 swig_fortran_add_test(test_string
   flc_string)
 swig_fortran_add_test(test_vector

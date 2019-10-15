@@ -229,6 +229,9 @@ target_link_libraries(flc_algorithm flc_random flc)
 flibcpp_add_module(flc_random)
 target_link_libraries(flc_random flc)
 
+flibcpp_add_module(flc_set)
+target_link_libraries(flc_set flc flc_string)
+
 flibcpp_add_module(flc_string)
 target_link_libraries(flc_string flc)
 
