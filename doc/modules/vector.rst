@@ -20,15 +20,14 @@ All vector types support the following basic operations.
 Construction and destruction
 ----------------------------
 
-Vectors are constructed using three interface functions:
+Vectors are constructed using four interface functions:
 
   - The function without arguments creates an empty vector;
   - A single integer argument assigns that many elements with default values;
     and
   - An integer argument followed by an element with the vector's element type
     will copy that value to all elements of the vector.
-
-(To do: copy construction)
+  - A vector object will create a copy of that vector.
 
 Here are three examples of initialization::
 
@@ -153,7 +152,7 @@ However, as with native pointers described above, these references are
 ``%release()`` bound method.
 
 An additional ``set_ref`` function allows vector elements to be assigned from
-vector classes.
+``String`` types.
 
 .. ############################################################################
 .. end of doc/modules/vector.rst

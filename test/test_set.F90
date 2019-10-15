@@ -38,6 +38,10 @@ subroutine test_int()
   ASSERT(num_erased == 1)
   call s%erase(4)
 
+  ! Insert an array of data
+  call s%insert([1, 1, 2, 3, 5, 8, 13, 21])
+  ASSERT(s%size() == 7)
+
   call s%release()
 end subroutine
 
