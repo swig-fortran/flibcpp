@@ -18,7 +18,7 @@ subroutine test_int()
   use, intrinsic :: ISO_C_BINDING
   use flc_set, only : Set => SetInt
   implicit none
-  type(Set) :: s
+  type(Set) :: s, other, op_result
   integer :: num_erased
 
   s = Set()
@@ -39,10 +39,28 @@ subroutine test_int()
   call s%erase(4)
 
   ! Insert an array of data
-  call s%insert([1, 1, 2, 3, 5, 8, 13, 21])
-  ASSERT(s%size() == 7)
+  call s%insert([1, 1, 2, 3, 5, 8, 13])
+  ASSERT(s%size() == 6)
+
+  other = Set([6, 1, 3, 4, 7]) ! input can be out of order
+
+  op_result = s%difference(other)
+  ASSERT(op_result%size() == 4) ! 2, 5, 7, 13, 
+  op_result = s%intersection(other)
+  ASSERT(op_result%size() == 2) ! 1, 3
+  op_result = s%symmetric_difference(other)
+  ASSERT(op_result%size() == 7) ! 2, 4, 5, 6, 7, 8, 13
+  op_result = s%union(other)
+  ASSERT(op_result%size() == 9)
+
+  ASSERT(.not. s%includes(other))
+  call other%clear()
+  call other%insert([1, 2, 3])
+  ASSERT(s%includes(other))
 
   call s%release()
+  call other%release()
+  call op_result%release()
 end subroutine
 
 !-----------------------------------------------------------------------------!
