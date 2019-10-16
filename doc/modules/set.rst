@@ -11,7 +11,7 @@ Set
 Sets are sorted containers of unique elements. The ``flc_set`` module
 defines sets of ``integer`` and of ``type(String)``.
 
-Common functionality
+Basic functionality
 ===================
 
 All set types support the following basic operations.
@@ -49,17 +49,42 @@ Here's an example of creating, modifying, and destroying a set::
    call s%release() ! Free memory
 
 Set operations
-==============
+--------------
 
-Operations that take two sets are implemented as free functions.
+The Fortran ``Set`` classes have been extended to include several useful set
+algorithms. (In C++, these are implemented using the ``<algorithm>`` header and
+therefore should resemble the functions in
+:ref:`the flc_algorithm module <modules_algorithm_set_operations>`.
 
+All set operations take a single argument, another ``Set`` object, and do not
+modify either the original or the argument. All but the ``includes`` return
+newly allocated ``Set`` instances and do not modify the original sets.
+
+``difference``: :math:`A \setminus B`
+   Returns a new set with all elements from the original that are *not* present
+   in the other set.
+
+``intersection``: :math:`A \cap B`
+  Return all elements that are in both sets.
+
+``symmetric_difference``: :math:`(A \setminus B) \cup (B \setminus A)`
+  Return all elements that are in one set or the other but not both.
+
+``union``: :math:`A \cup B`
+  Return all elements that are in either set.
+
+``includes``: :math:`A \supseteq B`
+  Return whether all elements of the other set are in the original set.
 
 Numeric sets
 ===============
 
 Unlike :ref:`vectors<modules_Vector>`, the ``flc_set`` module includes
 a single "native integer" numeric instantiations. The value type is
-``integer(C_INT)`` and is 64 bits on most modern systems.
+``integer(C_INT)`` and is 64 bits on most modern systems. Since the C++
+implementation of numerical sets is not very efficient, the assumption is that
+the ``set`` will be used in a non-numerically-intensive capacity where the
+default integer is the most appropriate option.
 
 Construct from an array
 -----------------------

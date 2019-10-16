@@ -21,22 +21,28 @@
  * Macro definitions
  * ------------------------------------------------------------------------- */
 
-%define %flc_set_algorithm(FUNCNAME)
-%inline {
-template<class Set_t>
-static Set_t FUNCNAME(const Set_t& left, const Set_t& right)
-{
-    Set_t result;
-    std::FUNCNAME(left.begin(), left.end(),
-                  right.begin(), right.end(),
-                  std::inserter(result, result.end()));
-    return result;
-}
-}
+%define %flc_define_set_algorithm(FUNCNAME)
+  %insert("header") {
+  template<class Set_t>
+  static Set_t flc_##FUNCNAME(const Set_t& left, const Set_t& right)
+  {
+      Set_t result;
+      std::FUNCNAME(left.begin(), left.end(),
+                    right.begin(), right.end(),
+                    std::inserter(result, result.end()));
+      return result;
+  }
+  } // end %insert
+%enddef
 
-%template(FUNCNAME) FUNCNAME<std::set<int> >;
-%template(FUNCNAME) FUNCNAME<std::set<std::string> >;
-
+%define %flc_extend_set_algorithm(FUNCNAME, RETVAL, TYPE)
+  // The rename with the stringifying macro is necessary because 'union' is a
+  // keyword.
+  %rename(#FUNCNAME) std::set<TYPE>::set_##FUNCNAME;
+  %extend std::set<TYPE> {
+   RETVAL set_##FUNCNAME(const std::set<TYPE>& other)
+   { return flc_set_##FUNCNAME(*$self, other); }
+  } // end %extend
 %enddef
 
 %define %flc_extend_set_pod(CTYPE)
@@ -52,7 +58,6 @@ static Set_t FUNCNAME(const Set_t& left, const Set_t& right)
   void insert(const CTYPE* DATA, size_type SIZE) {
     $self->insert(DATA, DATA + SIZE);
   }
-
 %enddef
 
 /* ------------------------------------------------------------------------- */
@@ -84,9 +89,36 @@ namespace std {
 %enddef
 
 /* -------------------------------------------------------------------------
+ * Algorithms
+ * ------------------------------------------------------------------------- */
+
+%flc_define_set_algorithm(set_difference)
+%flc_define_set_algorithm(set_intersection)
+%flc_define_set_algorithm(set_symmetric_difference)
+%flc_define_set_algorithm(set_union)
+
+%insert("header") %{
+template<class Set_t>
+static bool flc_set_includes(const Set_t& left, const Set_t& right)
+{
+    return std::includes(left.begin(), left.end(),
+                         right.begin(), right.end());
+}
+%}
+
+%define %flc_extend_algorithms(TYPE)
+  %flc_extend_set_algorithm(difference, std::set<TYPE >, TYPE)
+  %flc_extend_set_algorithm(intersection, std::set<TYPE >, TYPE)
+  %flc_extend_set_algorithm(symmetric_difference, std::set<TYPE >, TYPE)
+  %flc_extend_set_algorithm(union, std::set<TYPE >, TYPE)
+  %flc_extend_set_algorithm(includes, bool, TYPE)
+%enddef
+
+/* -------------------------------------------------------------------------
  * Numeric sets
  * ------------------------------------------------------------------------- */
 
+%flc_extend_algorithms(int)
 %specialize_std_set_pod(int)
 
 %template(SetInt) std::set<int>;
@@ -106,26 +138,5 @@ namespace std {
 
 %include <std_string.i>
 %import "flc_string.i"
+%flc_extend_algorithms(std::string)
 %template(SetString) std::set<std::string>;
-
-/* -------------------------------------------------------------------------
- * Algorithms
- * ------------------------------------------------------------------------- */
-
-%flc_set_algorithm(set_difference)
-%flc_set_algorithm(set_intersection)
-%flc_set_algorithm(set_symmetric_difference)
-%flc_set_algorithm(set_union)
-
-%inline %{
-template<class Set_t>
-static bool includes(const Set_t& left, const Set_t& right)
-{
-    return std::includes(left.begin(), left.end(),
-                         right.begin(), right.end());
-}
-%}
-
-%template(includes) includes<std::set<int> >;
-%template(includes) includes<std::set<std::string> >;
-
