@@ -1,5 +1,5 @@
 .. ############################################################################
-.. File  : doc/interface.rst
+.. File  : doc/appendices/interface.rst
 .. ############################################################################
 
 .. highlight:: swig
@@ -15,39 +15,39 @@ flc
 
 The primary file defines typemaps.
 
-.. literalinclude:: ../include/flc.i
+.. literalinclude:: ../../include/flc.i
    :linenos:
 
 flc_algorithm
 =============
 
-.. literalinclude:: ../include/flc_algorithm.i
+.. literalinclude:: ../../include/flc_algorithm.i
    :linenos:
 
 flc_chrono
 =============
 
-.. literalinclude:: ../include/flc_chrono.i
+.. literalinclude:: ../../include/flc_chrono.i
    :linenos:
 
 flc_random
 =============
 
-.. literalinclude:: ../include/flc_random.i
+.. literalinclude:: ../../include/flc_random.i
    :linenos:
 
 flc_string
 =============
 
-.. literalinclude:: ../include/flc_string.i
+.. literalinclude:: ../../include/flc_string.i
    :linenos:
 
 flc_vector
 =============
 
-.. literalinclude:: ../include/flc_vector.i
+.. literalinclude:: ../../include/flc_vector.i
    :linenos:
 
 .. ############################################################################
-.. end of doc/interface.rst
+.. end of doc/appendices/interface.rst
 .. ############################################################################
