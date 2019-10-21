@@ -51,6 +51,6 @@ which wrap the C++ library.
    :maxdepth: 2
    :caption: Appendices
 
-   interface.rst
-   license.rst
+   appendices/interface.rst
+   appendices/license.rst
 
