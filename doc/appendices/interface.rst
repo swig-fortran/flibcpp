@@ -36,6 +36,12 @@ flc_random
 .. literalinclude:: ../../include/flc_random.i
    :linenos:
 
+flc_set
+=============
+
+.. literalinclude:: ../../include/flc_set.i
+   :linenos:
+
 flc_string
 =============
 
