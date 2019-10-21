@@ -31,6 +31,10 @@ FlibcppVersion
 
 #]=======================================================================]
 
+if (CMAKE_SCRIPT_MODE_FILE)
+  cmake_minimum_required(VERSION 3.8)
+endif()
+
 function(flibcpp_find_version PROJNAME GIT_VERSION_FILE)
   # Get a possible Git version generated using git-archive (see the
   # .gitattributes file)
@@ -42,7 +46,7 @@ function(flibcpp_find_version PROJNAME GIT_VERSION_FILE)
     set(_CACHED_VERSION "${${_CACHE_VAR}}")
     if (NOT _CACHED_VERSION)
       # Building from a git checkout rather than a distribution
-      find_package(Git REQUIRED)
+      find_package(Git QUIET REQUIRED)
       execute_process(
         COMMAND "${GIT_EXECUTABLE}" "describe" "--tags" "--match" "v*"
         WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
@@ -101,7 +105,7 @@ function(flibcpp_find_version PROJNAME GIT_VERSION_FILE)
   endif()
 
   if (NOT _VERSION_STRING)
-    message(WARNING "Could not determine version number ${PROJNAME}: "
+    message(WARNING "Could not determine version number for ${PROJNAME}: "
       "perhaps a non-release archive?")
     set(_VERSION_STRING "0.0.0")
   endif()
@@ -115,6 +119,17 @@ function(flibcpp_find_version PROJNAME GIT_VERSION_FILE)
   set(${PROJNAME}_VERSION "${_VERSION_STRING}" PARENT_SCOPE)
   set(${PROJNAME}_VERSION_STRING "${_FULL_VERSION_STRING}" PARENT_SCOPE)
 endfunction()
+
+if (CMAKE_SCRIPT_MODE_FILE)
+  # This script is being run from the command line. Useful for debugging.
+  if (NOT DEFINED GIT_VERSION_FILE)
+    message(FATAL_ERROR "Run this script with "
+      "cmake -D GIT_VERSION_FILE=git-version.txt -P FlibcppVersion.cmake")
+  endif()
+  flibcpp_find_version(local ${GIT_VERSION_FILE})
+  message(STATUS "${LOCAL_VERSION}")
+  message(STATUS "${LOCAL_VERSION_STRING}")
+endif()
 
 ##---------------------------------------------------------------------------##
 ## end of flibcpp/cmake/FlibcppVersion.cmake
