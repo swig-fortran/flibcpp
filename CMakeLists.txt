@@ -6,7 +6,9 @@
 #---------------------------------------------------------------------------#
 
 cmake_minimum_required(VERSION 3.8)
-project(Flibcpp VERSION 0.3.0 LANGUAGES CXX Fortran)
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/FlibcppVersion.cmake")
+flibcpp_find_version(Flibcpp "${CMAKE_CURRENT_LIST_DIR}/cmake/git-version.txt")
+project(Flibcpp VERSION "${Flibcpp_VERSION}" LANGUAGES CXX Fortran)
 
 #---------------------------------------------------------------------------#
 # OPTIONS
@@ -84,41 +86,6 @@ endif()
 
 # Enable testing based on BUILD_TESTING flag
 include(CTest)
-
-#---------------------------------------------------------------------------#
-# VERSIONING
-#---------------------------------------------------------------------------#
-
-# Get a possible Git version generated using git-archive (see the .gitattributes
-# file)
-file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-version.txt"
-     FLIBCPP_VERSION_STRING)
-
-if (NOT FLIBCPP_VERSION_STRING MATCHES "\\$Format:")
-  # First line are decorators, second is hash
-  list(GET FLIBCPP_VERSION_STRING 0 _tag)
-  string(REGEX REPLACE "tag: *" "" _tag "${_tag}")
-  list(GET FLIBCPP_VERSION_STRING 1 _hash)
-  string(REGEX REPLACE " +" "" _hash "${_hash}")
-  set(FLIBCPP_VERSION_STRING "${_tag}-g${_hash}")
-else()
-  find_package(Git)
-  if (Git_FOUND)
-    execute_process(
-      COMMAND "${GIT_EXECUTABLE}" "describe"
-      ERROR_QUIET
-      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-      OUTPUT_VARIABLE FLIBCPP_VERSION_STRING
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      )
-  else()
-    set(FLIBCPP_VERSION_STRING "${Flibcpp_VERSION}")
-  endif()
-endif()
-
-set(FLIBCPP_VERSION_CPP "${CMAKE_CURRENT_BINARY_DIR}/flibcpp_version.cpp")
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/flibcpp_version.cpp.in"
-  "${FLIBCPP_VERSION_CPP}" @ONLY)
 
 #---------------------------------------------------------------------------#
 # LIBRARY
@@ -212,7 +179,10 @@ function(flibcpp_add_module name)
   )
 endfunction()
 
-# Install primary flc module, compiling version info as well
+# Configure version information and generate primary flibcpp module
+set(FLIBCPP_VERSION_CPP "${CMAKE_CURRENT_BINARY_DIR}/flibcpp_version.cpp")
+configure_file("${CMAKE_CURRENT_LIST_DIR}/cmake/flibcpp_version.cpp.in"
+  "${FLIBCPP_VERSION_CPP}" @ONLY)
 flibcpp_add_module(flc "${FLIBCPP_VERSION_CPP}")
 
 # Also install 'import_flc' if using SWIG
