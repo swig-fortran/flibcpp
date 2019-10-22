@@ -16,7 +16,7 @@ if (NOT SWIG_CHECKED_FORTRAN)
   if (NOT SWIG_help_output MATCHES "Fortran")
     message(FATAL_ERROR "This version of SWIG does not support Fortran "
       "wrapping. Please install the version from "
-      "https://github.com/sethrj/swig")
+      "https://github.com/swig-fortran/swig")
   endif()
   set(SWIG_CHECKED_FORTRAN TRUE CACHE INTERNAL "")
 endif()

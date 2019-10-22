@@ -48,7 +48,7 @@ if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
       "FLIBCPP_FORTRAN_STD=${FLIBCPP_FORTRAN_STD}. Configure with "
       "the FFLAGS environment variable or explicitly specify "
       "CMAKE_Fortran_FLAGS")
-    set(_FLIBCPP_STD_FLAGS "none" CACHE FORCE STRING "")
+    set(FLIBCPP_FORTRAN_STD "none" CACHE FORCE STRING "")
   endif()
 endif()
 
@@ -84,6 +84,8 @@ if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
     cmake_policy(SET CMP0086 "NEW")
     include(UseSWIG)
   endif()
+  set(FLIBCPP_SWIG_EXECUTABLE "${SWIG_EXECUTABLE}")
+  set(FLIBCPP_SWIG_DIR        "${SWIG_DIR}")
 else()
   set(FLIBCPP_USE_SWIG FALSE)
 endif()
@@ -102,7 +104,7 @@ set(FLIBCPP_INTERFACE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(FLIBCPP_GENERATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(FLIBCPP_INSTALL_CONFIGDIR "${CMAKE_INSTALL_LIBDIR}/cmake/Flibcpp")
 set(FLIBCPP_INSTALL_MODULEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
-set(FLIBCPP_NAMESPACE Flibcpp::)
+set(FLIBCPP_NAMESPACE "Flibcpp::")
 
 # List of libraries exported by cmake/FlibcppConfig.cmake.in
 set(FLIBCPP_LIBRARIES)
@@ -158,6 +160,7 @@ function(flibcpp_add_module name)
       cxx_std_11
   )
   if (_FLIBCPP_STD_FLAGS)
+    # Compile Fortran code with a particular standard
     target_compile_options(${name}
       PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:${_FLIBCPP_STD_FLAGS}>
     )
