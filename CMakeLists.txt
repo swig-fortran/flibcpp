@@ -48,7 +48,7 @@ if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
       "FLIBCPP_FORTRAN_STD=${FLIBCPP_FORTRAN_STD}. Configure with "
       "the FFLAGS environment variable or explicitly specify "
       "CMAKE_Fortran_FLAGS")
-    set(_FLIBCPP_STD_FLAGS "none" CACHE FORCE STRING "")
+    set(FLIBCPP_FORTRAN_STD "none" CACHE FORCE STRING "")
   endif()
 endif()
 
