@@ -9,9 +9,13 @@ endif()
 
 set(Flibcpp_LIBRARIES @FLIBCPP_LIBRARIES@)
 
-set(Flibcpp_BUILD_SHARED_LIBS @BUILD_SHARED_LIBS@)
+set(FLIBCPP_BUILD_SHARED_LIBS @BUILD_SHARED_LIBS@)
+set(FLIBCPP_USE_SWIG          @FLIBCPP_USE_SWIG@)
+set(FLIBCPP_FORTRAN_STD       @FLIBCPP_FORTRAN_STD@)
+set(FLIBCPP_SWIG_EXECUTABLE   @FLIBCPP_SWIG_EXECUTABLE@)
+set(FLIBCPP_SWIG_DIR          @FLIBCPP_SWIG_DIR@)
 
-if (NOT "@Flibcpp_BUILD_SHARED_LIBS@")
+if (NOT FLIBCPP_BUILD_SHARED_LIBS)
   # Downstream libraries must find and link to the C++ runtimes themselves since
   # they can't use the shared library dependencies
   enable_language(CXX)
