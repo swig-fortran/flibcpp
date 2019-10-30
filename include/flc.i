@@ -53,12 +53,7 @@
  * Data types and instantiation
  * ------------------------------------------------------------------------- */
 
-%{
-#include <cstdint>
-using std::int32_t;
-using std::int64_t;
-using std::size_t;
-%}
+// Note: stdint.i inserts #include <stdint.h>
 %include <stdint.i>
 
 %define %flc_template_numeric(SRC, DST)

@@ -14,5 +14,10 @@
 // Set up macros, etc.
 %import "flc.i"
 
+// Set up integer types
+%{
+#include <stdint.h>
+%}
+
 // Support external exceptions
 %include <extern_exception.i>

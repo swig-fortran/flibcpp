@@ -323,12 +323,6 @@ SWIGEXPORT void SWIG_store_exception(const char *decl,
 #include <stdexcept>
 
 
-#include <cstdint>
-using std::int32_t;
-using std::int64_t;
-using std::size_t;
-
-
 #include <stdint.h>
 
 
