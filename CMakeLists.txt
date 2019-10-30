@@ -17,18 +17,25 @@ project(Flibcpp VERSION "${Flibcpp_VERSION}" LANGUAGES CXX Fortran)
 #---------------------------------------------------------------------------#
 # OPTIONS
 #---------------------------------------------------------------------------#
-
-if (FLIBCPP_DEV OR FLIBCPP_BUILD_EXAMPLES OR FLIBCPP_BUILD_TESTS)
-  set(_DEFAULT_BUILD_TESTING ON)
-endif()
-
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 option(FLIBCPP_DEV "Default to using development-centered options" OFF)
 option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
-option(FLIBCPP_BUILD_EXAMPLES "Build examples" ON)
-option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${BUILD_TESTING})
 option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
+
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  set(_DEFAULT_BUILD_EXAMPLES ON)
+endif()
+option(FLIBCPP_BUILD_EXAMPLES "Build examples" ${_DEFAULT_BUILD_EXAMPLES})
+
+if (FLIBCPP_DEV)
+  set(_DEFAULT_BUILD_TESTS ON)
+endif()
+option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${_DEFAULT_BUILD_TESTS})
+
+if (FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
+  set(_DEFAULT_BUILD_TESTING ON)
+endif()
+option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 
 #---------------------------------------------------------------------------#
 # FLAGS
