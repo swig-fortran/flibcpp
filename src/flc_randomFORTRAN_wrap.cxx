@@ -257,6 +257,11 @@ enum AssignmentType {
 
 
 #include <random>
+#if defined(_MSC_VER) && _MSC_VER < 1900
+// Visual studio 2012's standard library lacks iterator constructors for
+// std::discrete_distribution
+#define FLC_MISSING_DISCRETE_ITER
+#endif
 
 
 template<class D, class G, class T>
@@ -290,9 +295,14 @@ static void normal_distribution(T mean, T stddev,
 }
 
 template<class T, class G>
-static void discrete_distribution(const T* WEIGHTS, size_t WEIGHTSIZE,
+static void discrete_distribution(const double* WEIGHTS, size_t WEIGHTSIZE,
                                   G& engine, T* DATA, size_t DATASIZE) {
+#ifndef FLC_MISSING_DISCRETE_ITER
   std::discrete_distribution<T> dist(WEIGHTS, WEIGHTS + WEIGHTSIZE);
+#else
+  std::discrete_distribution<T> dist(
+      std::initializer_list<double>(WEIGHTS, WEIGHTS + WEIGHTSIZE));
+#endif
   T* const end = DATA + DATASIZE;
   while (DATA != end) {
     *DATA++ = dist(engine) + 1; // Note: transform to Fortran 1-offset
@@ -685,37 +695,37 @@ SWIGEXPORT void _wrap_normal_distribution(double const *farg1, double const *far
 
 
 SWIGEXPORT void _wrap_discrete_distribution__SWIG_1(SwigArrayWrapper *farg1, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
-  int32_t *arg1 = (int32_t *) 0 ;
+  double *arg1 = (double *) 0 ;
   size_t arg2 ;
   std::mt19937 *arg3 = 0 ;
   int32_t *arg4 = (int32_t *) 0 ;
   size_t arg5 ;
   
-  arg1 = (int32_t *)farg1->data;
+  arg1 = (double *)farg1->data;
   arg2 = farg1->size;
-  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "discrete_distribution< int32_t,std::mt19937 >(int32_t const *,size_t,std::mt19937 &,int32_t *,size_t)", return );
+  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "discrete_distribution< int32_t,std::mt19937 >(double const *,size_t,std::mt19937 &,int32_t *,size_t)", return );
   arg3 = (std::mt19937 *)farg3->cptr;
   arg4 = (int32_t *)farg4->data;
   arg5 = farg4->size;
-  discrete_distribution< int32_t,std::mt19937 >((int32_t const *)arg1,arg2,*arg3,arg4,arg5);
+  discrete_distribution< int32_t,std::mt19937 >((double const *)arg1,arg2,*arg3,arg4,arg5);
   SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
 SWIGEXPORT void _wrap_discrete_distribution__SWIG_2(SwigArrayWrapper *farg1, SwigClassWrapper *farg3, SwigArrayWrapper *farg4) {
-  int64_t *arg1 = (int64_t *) 0 ;
+  double *arg1 = (double *) 0 ;
   size_t arg2 ;
   std::mt19937 *arg3 = 0 ;
   int64_t *arg4 = (int64_t *) 0 ;
   size_t arg5 ;
   
-  arg1 = (int64_t *)farg1->data;
+  arg1 = (double *)farg1->data;
   arg2 = farg1->size;
-  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "discrete_distribution< int64_t,std::mt19937 >(int64_t const *,size_t,std::mt19937 &,int64_t *,size_t)", return );
+  SWIG_check_nonnull(*farg3, "std::mt19937 &", "MersenneEngine4", "discrete_distribution< int64_t,std::mt19937 >(double const *,size_t,std::mt19937 &,int64_t *,size_t)", return );
   arg3 = (std::mt19937 *)farg3->cptr;
   arg4 = (int64_t *)farg4->data;
   arg5 = farg4->size;
-  discrete_distribution< int64_t,std::mt19937 >((int64_t const *)arg1,arg2,*arg3,arg4,arg5);
+  discrete_distribution< int64_t,std::mt19937 >((double const *)arg1,arg2,*arg3,arg4,arg5);
   SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
