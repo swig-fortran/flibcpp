@@ -259,6 +259,9 @@ enum AssignmentType {
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),reinterpret_cast< void** >(a)) 
 
 
+#include <stdint.h>
+
+
 #include <string>
 
 
