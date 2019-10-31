@@ -110,7 +110,8 @@ subroutine test_discrete_distribution()
   use, intrinsic :: ISO_C_BINDING
   use flc_random, only : Engine => MersenneEngine4, discrete_distribution
   implicit none
-  integer(C_INT), dimension(4), parameter :: weights = [1, 1, 2, 4]
+  real(C_DOUBLE), dimension(4), parameter :: weights &
+      = [.125d0, .125d0, .25d0, .5d0]
   integer(C_INT), dimension(1024) :: sampled
   integer(C_INT), dimension(4) :: tallied = 0
   integer(C_INT), dimension(4), parameter :: gold_result = [130, 127, 267, 500]

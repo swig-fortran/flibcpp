@@ -97,14 +97,14 @@ The discrete distribution is constructed with an array of :math:`N` weights:
 the probability that an index in the range :math:`[1, N]` will be selected.
 ::
 
-   integer(C_INT), dimension(4), parameter :: weights = [1, 1, 2, 4]
+   real(C_DOUBLE), dimension(4), parameter :: weights &
+      = [.125d0, .125d0, .25d0, .5d0]
    integer(C_INT), dimension(1024) :: sampled
    call discrete_distribution(weights, Engine(), sampled)
 
-In the above example, ``1`` and ``2`` will be present in the ``sampled`` array
-about the same number of times since those indices have equal weight; ``3``
-will be present about twice as often as ``1`` and ``4`` will be present about
-four times as often.
+In the above example, ``1`` and ``2`` will are expected to each occupy an
+eighth of the ``sampled`` array, approximately a quarter of the ``sampled``
+array's values will be ``3``, and about a half will be ``4``.
 
 .. note:: The C++ distribution returns values in :math:`[0, N)`, so in
    accordance with Flibcpp's :ref:`indexing convention <conventions_indexing>`

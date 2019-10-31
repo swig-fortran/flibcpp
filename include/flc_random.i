@@ -11,6 +11,11 @@
 
 %{
 #include <random>
+#if defined(_MSC_VER) && _MSC_VER < 1900
+// Visual studio 2012's standard library lacks iterator constructors for
+// std::discrete_distribution
+#define FLC_MISSING_DISCRETE_ITER
+#endif
 %}
 
 /* -------------------------------------------------------------------------
@@ -54,8 +59,7 @@ static inline void flc_generate(D dist, G& g, T* data, size_t size) {
 %}
 
 %apply (const SWIGTYPE *DATA, size_t SIZE) {
-       (const int32_t *WEIGHTS, size_t WEIGHTSIZE),
-       (const int64_t *WEIGHTS, size_t WEIGHTSIZE) };
+       (const double *WEIGHTS, size_t WEIGHTSIZE) };
 
 %inline %{
 template<class T, class G>
@@ -80,9 +84,14 @@ static void normal_distribution(T mean, T stddev,
 }
 
 template<class T, class G>
-static void discrete_distribution(const T* WEIGHTS, size_t WEIGHTSIZE,
+static void discrete_distribution(const double* WEIGHTS, size_t WEIGHTSIZE,
                                   G& engine, T* DATA, size_t DATASIZE) {
+#ifndef FLC_MISSING_DISCRETE_ITER
   std::discrete_distribution<T> dist(WEIGHTS, WEIGHTS + WEIGHTSIZE);
+#else
+  std::discrete_distribution<T> dist(
+      std::initializer_list<double>(WEIGHTS, WEIGHTS + WEIGHTSIZE));
+#endif
   T* const end = DATA + DATASIZE;
   while (DATA != end) {
     *DATA++ = dist(engine) + 1; // Note: transform to Fortran 1-offset
