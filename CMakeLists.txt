@@ -166,6 +166,9 @@ function(flibcpp_add_module name)
     PRIVATE
       cxx_std_11
   )
+  # Compile with e.g. std=c++11 instead of =gnu++11
+  set_property(TARGET ${name} CXX_EXTENSIONS OFF)
+
   if (_FLIBCPP_STD_FLAGS)
     # Compile Fortran code with a particular standard
     target_compile_options(${name}
