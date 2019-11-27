@@ -43,7 +43,7 @@ option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 
 # Fortran standard
 set(FLIBCPP_FORTRAN_STD "03" CACHE STRING
-   "Fortran standard for compiling generated code (options: 03/08/15/18)")
+   "Fortran standard for compiling generated code (options: 03/08/15/18/none)")
 if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
   if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     set(_FLIBCPP_STD_FLAGS "-std=f20${FLIBCPP_FORTRAN_STD}")
@@ -166,6 +166,9 @@ function(flibcpp_add_module name)
     PRIVATE
       cxx_std_11
   )
+  # Compile with e.g. std=c++11 instead of =gnu++11
+  set_property(TARGET ${name} PROPERTY CXX_EXTENSIONS OFF)
+
   if (_FLIBCPP_STD_FLAGS)
     # Compile Fortran code with a particular standard
     target_compile_options(${name}
