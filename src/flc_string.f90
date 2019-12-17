@@ -438,8 +438,8 @@ end function
 
 subroutine SWIGTM_fout_bool(imout, fout)
   use, intrinsic :: ISO_C_BINDING
-  integer(kind=C_INT), intent(IN) :: imout
-  logical, intent(OUT) :: fout
+  integer(kind=C_INT), intent(in) :: imout
+  logical, intent(out) :: fout
   ! TODO: fout = (imout /= 0) ???
   if (imout /= 0) then
     fout = .true.
@@ -686,7 +686,7 @@ subroutine SWIGTM_fout_char_Sm_(imout, fout)
   character(kind=C_CHAR), dimension(:), pointer :: chars
   integer(kind=C_SIZE_T) :: i
   call c_f_pointer(imout%data, chars, [imout%size])
-  allocate(character(kind=C_CHAR, len=imout%size) :: fout)
+  allocate(character(len=imout%size) :: fout)
   do i=1, imout%size
     fout(i:i) = char(ichar(chars(i)))
   end do
