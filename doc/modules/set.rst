@@ -31,16 +31,17 @@ an element to and removing an element from the set. A ``clear`` subroutine
 removes all elements from the set.
 
 The ``size`` method returns the number of elements, and ``count`` will return
-the number of elements of a given value
+the number of elements of a given value.
 
 Here's an example of creating, modifying, and destroying a set::
 
-   use flc_set, only : Set => SetInt4
+   use flc_set, only : Set => SetInt
    type(Set) :: s
+   logical :: inserted
    s = Set()
    call s%insert(2)
-   call s%insert(3) ! Set has 2 elements
-   call s%insert(3) ! Duplicate element, ignored
+   call s%insert(3, inserted) ! Set has 2 elements, inserted => true
+   call s%insert(3, inserted) ! Duplicate element, ignored; inserted => false
    call s%erase(2) ! Remove 2 from the set
    call s%erase(1) ! Nonexistent set element, ignored
    write(0,*) "Number of 3s in the set:" s%count(3)
@@ -75,6 +76,11 @@ newly allocated ``Set`` instances and do not modify the original sets.
 
 ``includes``: :math:`A \supseteq B`
   Return whether all elements of the other set are in the original set.
+
+Iteration
+---------
+
+Iterating over a set to determine its contents is not yet supported.
 
 Numeric sets
 ===============

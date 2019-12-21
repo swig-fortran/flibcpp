@@ -979,6 +979,11 @@ type(SwigClassWrapper) :: farg1
 integer(C_INT) :: fresult
 end function
 
+ subroutine SWIG_free(cptr) &
+  bind(C, name="free")
+ use, intrinsic :: ISO_C_BINDING
+ type(C_PTR), value :: cptr
+end subroutine
 function swigc_VectorString_front(farg1) &
 bind(C, name="_wrap_VectorString_front") &
 result(fresult)
@@ -2480,6 +2485,7 @@ type(SwigClassWrapper) :: farg1
 farg1 = self%swigdata
 fresult = swigc_VectorString_front(farg1)
 call SWIGTM_fout_char_Sm_(fresult, swig_result)
+call SWIG_free(fresult%data)
 end function
 
 function swigf_VectorString_back(self) &
@@ -2493,6 +2499,7 @@ type(SwigClassWrapper) :: farg1
 farg1 = self%swigdata
 fresult = swigc_VectorString_back(farg1)
 call SWIGTM_fout_char_Sm_(fresult, swig_result)
+call SWIG_free(fresult%data)
 end function
 
 subroutine swigf_VectorString_reserve(self, count)
@@ -2596,6 +2603,7 @@ farg1 = self%swigdata
 farg2 = int(index, C_INT)
 fresult = swigc_VectorString_get(farg1, farg2)
 call SWIGTM_fout_char_Sm_(fresult, swig_result)
+call SWIG_free(fresult%data)
 end function
 
 subroutine swigf_VectorString_insert(self, index, v)

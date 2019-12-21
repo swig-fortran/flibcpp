@@ -131,13 +131,15 @@ integer(C_INT), intent(in) :: farg2
 integer(C_LONG) :: fresult
 end function
 
-subroutine swigc_SetInt_insert__SWIG_0(farg1, farg2) &
-bind(C, name="_wrap_SetInt_insert__SWIG_0")
+function swigc_SetInt_insert__SWIG_0(farg1, farg2) &
+bind(C, name="_wrap_SetInt_insert__SWIG_0") &
+result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper) :: farg1
 integer(C_INT), intent(in) :: farg2
-end subroutine
+integer(C_INT) :: fresult
+end function
 
 function swigc_new_SetInt__SWIG_1(farg1) &
 bind(C, name="_wrap_new_SetInt__SWIG_1") &
@@ -278,14 +280,16 @@ type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
 
-subroutine swigc_SetString_insert(farg1, farg2) &
-bind(C, name="_wrap_SetString_insert")
+function swigc_SetString_insert(farg1, farg2) &
+bind(C, name="_wrap_SetString_insert") &
+result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
 type(SwigClassWrapper) :: farg1
 type(SwigArrayWrapper) :: farg2
-end subroutine
+integer(C_INT) :: fresult
+end function
 
 subroutine swigc_SetString_insert_ref(farg1, farg2) &
 bind(C, name="_wrap_SetString_insert_ref")
@@ -378,8 +382,8 @@ end function
 
 subroutine SWIGTM_fout_bool(imout, fout)
   use, intrinsic :: ISO_C_BINDING
-  integer(kind=C_INT), intent(IN) :: imout
-  logical, intent(OUT) :: fout
+  integer(kind=C_INT), intent(in) :: imout
+  logical, intent(out) :: fout
   ! TODO: fout = (imout /= 0) ???
   if (imout /= 0) then
     fout = .true.
@@ -457,16 +461,22 @@ fresult = swigc_SetInt_count(farg1, farg2)
 swig_result = int(fresult)
 end function
 
-subroutine swigf_SetInt_insert__SWIG_0(self, x)
+subroutine swigf_SetInt_insert__SWIG_0(self, x, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(SetInt), intent(in) :: self
 integer(C_INT), intent(in) :: x
+logical, intent(out), optional :: swig_result
+integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
 integer(C_INT) :: farg2 
 
 farg1 = self%swigdata
 farg2 = x
-call swigc_SetInt_insert__SWIG_0(farg1, farg2)
+fresult = swigc_SetInt_insert__SWIG_0(farg1, farg2)
+if (present(swig_result)) then
+call SWIGTM_fout_bool(fresult, swig_result)
+endif
+
 end subroutine
 
 subroutine SWIGTM_fin_int_Sb__SB_(finp, iminp)
@@ -716,28 +726,34 @@ fresult = swigc_SetString_count(farg1, farg2)
 swig_result = int(fresult)
 end function
 
-subroutine swigf_SetString_insert(self, x)
+subroutine swigf_SetString_insert(self, x, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(SetString), intent(in) :: self
 character(len=*), target :: x
+logical, intent(out), optional :: swig_result
+integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
 type(SwigArrayWrapper) :: farg2 
 
 farg1 = self%swigdata
 call SWIGTM_fin_char_Sm_(x, farg2, farg2_temp)
-call swigc_SetString_insert(farg1, farg2)
+fresult = swigc_SetString_insert(farg1, farg2)
+if (present(swig_result)) then
+call SWIGTM_fout_bool(fresult, swig_result)
+endif
+
 end subroutine
 
-subroutine swigf_SetString_insert_ref(self, str)
+subroutine swigf_SetString_insert_ref(self, str_class)
 use, intrinsic :: ISO_C_BINDING
 class(SetString), intent(in) :: self
-class(string), intent(in) :: str
+class(string), intent(in) :: str_class
 type(SwigClassWrapper) :: farg1 
 type(SwigClassWrapper) :: farg2 
 
 farg1 = self%swigdata
-farg2 = str%swigdata
+farg2 = str_class%swigdata
 call swigc_SetString_insert_ref(farg1, farg2)
 end subroutine
 

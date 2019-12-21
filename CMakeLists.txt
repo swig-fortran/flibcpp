@@ -213,6 +213,9 @@ endif()
 flibcpp_add_module(flc_algorithm)
 target_link_libraries(flc_algorithm flc_random flc)
 
+flibcpp_add_module(flc_map)
+target_link_libraries(flc_map flc flc_string)
+
 flibcpp_add_module(flc_random)
 target_link_libraries(flc_random flc)
 

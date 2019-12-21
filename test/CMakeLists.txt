@@ -14,6 +14,8 @@ endmacro()
 
 swig_fortran_add_test(test_algorithm
   flc_algorithm)
+swig_fortran_add_test(test_map
+  flc_map)
 swig_fortran_add_test(test_random
   flc_random)
 swig_fortran_add_test(test_set

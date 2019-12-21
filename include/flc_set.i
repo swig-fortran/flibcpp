@@ -45,7 +45,8 @@
   } // end %extend
 %enddef
 
-%define %flc_extend_set_pod(CTYPE)
+%define %flc_std_set_extend_pod(CTYPE)
+%extend {
   %apply (const SWIGTYPE *DATA, ::size_t SIZE)
     { (const CTYPE* DATA, size_type SIZE) };
 
@@ -58,6 +59,7 @@
   void insert(const CTYPE* DATA, size_type SIZE) {
     $self->insert(DATA, DATA + SIZE);
   }
+}
 %enddef
 
 /* ------------------------------------------------------------------------- */
@@ -65,9 +67,7 @@
  *
  * Inject member functions and typemaps for POD classes.
  *
- * These provide an efficient constructor from a Fortan array view. It also
- * offers a "view" functionality for getting an array pointer to the
- * set-owned data.
+ * These provide an efficient constructor from a Fortan array view.
  *
  * This definition is considered part of the \em public API so that downstream
  * apps that generate FLC-based bindings can instantiate their own POD sets.
@@ -79,11 +79,8 @@
 
 namespace std {
   template<> class set<T> {
-
-    SWIG_STD_SET_COMMON(set, T, std::less<T>, std::allocator<T>)
-    %extend {
-      %flc_extend_set_pod(T)
-    }
+    %swig_std_set(T, std::less<T>, std::allocator<T>)
+    %flc_std_set_extend_pod(T)
   };
 }
 %enddef
@@ -131,8 +128,10 @@ static bool flc_set_includes(const Set_t& left, const Set_t& right)
 
 // Allow direct insertion of a wrapped std::string
 %extend std::set<std::string> {
-  void insert_ref(std::string& str) {
-    $self->insert(str);
+  %apply SWIGTYPE& { const std::string& STR_CLASS };
+
+  void insert_ref(const std::string& STR_CLASS) {
+    $self->insert(STR_CLASS);
   }
 }
 
