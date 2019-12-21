@@ -20,6 +20,7 @@ subroutine test_int()
   implicit none
   type(Set) :: s, other, op_result
   integer :: num_erased
+  logical :: inserted = .false.
 
   s = Set()
   ASSERT(s%size() == 0)
@@ -29,9 +30,11 @@ subroutine test_int()
   ASSERT(s%size() == 1)
 
   ! Set elements are unique
-  call s%insert(10)
-  call s%insert(10)
+  call s%insert(10, inserted)
+  ASSERT(inserted .eqv. .true.)
+  call s%insert(10, inserted)
   ASSERT(s%size() == 2)
+  ASSERT(inserted .eqv. .false.)
 
   ! 'erase' takes OPTIONAL argument 
   call s%erase(10, num_erased)

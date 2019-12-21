@@ -589,6 +589,9 @@ SWIGINTERN std::vector< double > &std_vector_Sl_double_Sg__view(std::vector< dou
 
 #include <string>
 
+
+#include <string.h>
+
 SWIGINTERN void std_vector_Sl_std_string_Sg__set(std::vector< std::string > *self,std::vector< std::string >::size_type index,std::string const &v){
         SWIG_check_range(index, self->size(),
                          "std::vector<""std::string" ">::set",
@@ -1824,8 +1827,13 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorString_front(SwigClassWrapper *farg1) {
   SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::front() const", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::string *) &((std::vector< std::string > const *)arg1)->front();
-  fresult.data = (result->empty() ? NULL : &(*result->begin()));
   fresult.size = result->size();
+  if (fresult.size > 0) {
+    fresult.data = malloc(fresult.size);
+    memcpy(fresult.data, result->c_str(), fresult.size);
+  } else {
+    fresult.data = NULL;
+  }
   return fresult;
 }
 
@@ -1838,8 +1846,13 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorString_back(SwigClassWrapper *farg1) {
   SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::back() const", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::string *) &((std::vector< std::string > const *)arg1)->back();
-  fresult.data = (result->empty() ? NULL : &(*result->begin()));
   fresult.size = result->size();
+  if (fresult.size > 0) {
+    fresult.data = malloc(fresult.size);
+    memcpy(fresult.data, result->c_str(), fresult.size);
+  } else {
+    fresult.data = NULL;
+  }
   return fresult;
 }
 
@@ -1937,8 +1950,13 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorString_get(SwigClassWrapper *farg1, long
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (std::string *) &std_vector_Sl_std_string_Sg__get(arg1,arg2);
-  fresult.data = (result->empty() ? NULL : &(*result->begin()));
   fresult.size = result->size();
+  if (fresult.size > 0) {
+    fresult.data = malloc(fresult.size);
+    memcpy(fresult.data, result->c_str(), fresult.size);
+  } else {
+    fresult.data = NULL;
+  }
   return fresult;
 }
 

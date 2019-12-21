@@ -778,8 +778,8 @@ end subroutine
 
 subroutine SWIGTM_fout_bool(imout, fout)
   use, intrinsic :: ISO_C_BINDING
-  integer(kind=C_INT), intent(IN) :: imout
-  logical, intent(OUT) :: fout
+  integer(kind=C_INT), intent(in) :: imout
+  logical, intent(out) :: fout
   ! TODO: fout = (imout /= 0) ???
   if (imout /= 0) then
     fout = .true.

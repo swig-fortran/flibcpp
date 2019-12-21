@@ -37,10 +37,11 @@ Here's an example of creating, modifying, and destroying a set::
 
    use flc_set, only : Set => SetInt4
    type(Set) :: s
+   logical :: inserted
    s = Set()
    call s%insert(2)
-   call s%insert(3) ! Set has 2 elements
-   call s%insert(3) ! Duplicate element, ignored
+   call s%insert(3, inserted) ! Set has 2 elements, inserted => true
+   call s%insert(3, inserted) ! Duplicate element, ignored; inserted => false
    call s%erase(2) ! Remove 2 from the set
    call s%erase(1) ! Nonexistent set element, ignored
    write(0,*) "Number of 3s in the set:" s%count(3)
