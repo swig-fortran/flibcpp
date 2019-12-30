@@ -2691,18 +2691,18 @@ fresult = swigc_VectorString_get_ref(farg1, farg2)
 swig_result%swigdata = fresult
 end function
 
-subroutine swigf_VectorString_set_ref(self, index, str)
+subroutine swigf_VectorString_set_ref(self, index, value)
 use, intrinsic :: ISO_C_BINDING
 class(VectorString), intent(in) :: self
 integer, intent(in) :: index
-class(string), intent(in) :: str
+class(string), intent(in) :: value
 type(SwigClassWrapper) :: farg1 
 integer(C_LONG) :: farg2 
 type(SwigClassWrapper) :: farg3 
 
 farg1 = self%swigdata
 farg2 = int(index, C_INT)
-farg3 = str%swigdata
+farg3 = value%swigdata
 call swigc_VectorString_set_ref(farg1, farg2, farg3)
 end subroutine
 

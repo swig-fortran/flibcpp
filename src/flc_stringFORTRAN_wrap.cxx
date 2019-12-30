@@ -318,6 +318,9 @@ SWIGINTERN std::string::value_type std_string_get(std::string *self,std::string:
 SWIGINTERN std::string &std_string_view(std::string *self){ return *self; }
 SWIGINTERN std::string const &std_string_str(std::string *self){ return *self; }
 
+#include <string.h>
+
+
 namespace swig {
 
 template<class T, AssignmentType A>
@@ -721,8 +724,13 @@ SWIGEXPORT SwigArrayWrapper _wrap_string_str(SwigClassWrapper *farg1) {
   SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::str()", return SwigArrayWrapper_uninitialized());
   arg1 = (std::string *)farg1->cptr;
   result = (std::string *) &std_string_str(arg1);
-  fresult.data = (result->empty() ? NULL : &(*result->begin()));
   fresult.size = result->size();
+  if (fresult.size > 0) {
+    fresult.data = malloc(fresult.size);
+    memcpy(fresult.data, result->c_str(), fresult.size);
+  } else {
+    fresult.data = NULL;
+  }
   return fresult;
 }
 

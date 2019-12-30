@@ -636,7 +636,6 @@ SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_1(int32_t const *farg1, int
   arg4 = (int32_t *)farg4->data;
   arg5 = farg4->size;
   uniform_int_distribution< int32_t,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
@@ -654,7 +653,6 @@ SWIGEXPORT void _wrap_uniform_int_distribution__SWIG_2(int64_t const *farg1, int
   arg4 = (int64_t *)farg4->data;
   arg5 = farg4->size;
   uniform_int_distribution< int64_t,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
@@ -672,7 +670,6 @@ SWIGEXPORT void _wrap_uniform_real_distribution(double const *farg1, double cons
   arg4 = (double *)farg4->data;
   arg5 = farg4->size;
   uniform_real_distribution< double,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
@@ -690,7 +687,6 @@ SWIGEXPORT void _wrap_normal_distribution(double const *farg1, double const *far
   arg4 = (double *)farg4->data;
   arg5 = farg4->size;
   normal_distribution< double,std::mt19937 >(arg1,arg2,*arg3,arg4,arg5);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
@@ -708,7 +704,6 @@ SWIGEXPORT void _wrap_discrete_distribution__SWIG_1(SwigArrayWrapper *farg1, Swi
   arg4 = (int32_t *)farg4->data;
   arg5 = farg4->size;
   discrete_distribution< int32_t,std::mt19937 >((double const *)arg1,arg2,*arg3,arg4,arg5);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 
@@ -726,7 +721,6 @@ SWIGEXPORT void _wrap_discrete_distribution__SWIG_2(SwigArrayWrapper *farg1, Swi
   arg4 = (int64_t *)farg4->data;
   arg5 = farg4->size;
   discrete_distribution< int64_t,std::mt19937 >((double const *)arg1,arg2,*arg3,arg4,arg5);
-  SWIG_free_rvalue< std::mt19937, SWIGPOLICY_std_mt19937 >(*farg3);
 }
 
 

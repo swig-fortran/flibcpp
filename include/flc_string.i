@@ -31,9 +31,6 @@
  * String class definition
  * ------------------------------------------------------------------------- */
 
-// Automatically free temporary strings as appropriate
-%fortran_autofree_rvalue(std::string);
-
 namespace std {
 class string {
   public:
