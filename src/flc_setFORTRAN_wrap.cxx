@@ -364,6 +364,11 @@ SWIGINTERN std::set< int > *new_std_set_Sl_int_Sg___SWIG_1(int const *DATA,std::
 SWIGINTERN void std_set_Sl_int_Sg__insert__SWIG_1(std::set< int > *self,int const *DATA,std::set< int >::size_type SIZE){
     self->insert(DATA, DATA + SIZE);
   }
+SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_difference(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_difference(*self, other); }
+SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_intersection(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_intersection(*self, other); }
+SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_symmetric_difference(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_symmetric_difference(*self, other); }
+SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_union(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_union(*self, other); }
+SWIGINTERN bool std_set_Sl_int_Sg__set_includes(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_includes(*self, other); }
 
 namespace swig {
 
@@ -481,11 +486,6 @@ SWIGINTERN void SWIG_free_rvalue(SwigClassWrapper other) {
 }
 
 
-SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_difference(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_difference(*self, other); }
-SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_intersection(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_intersection(*self, other); }
-SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_symmetric_difference(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_symmetric_difference(*self, other); }
-SWIGINTERN std::set< int,std::less< int >,std::allocator< int > > std_set_Sl_int_Sg__set_union(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_union(*self, other); }
-SWIGINTERN bool std_set_Sl_int_Sg__set_includes(std::set< int > *self,std::set< int,std::less< int >,std::allocator< int > > const &other){ return flc_set_includes(*self, other); }
 
 #include <string>
 
@@ -640,7 +640,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_difference(SwigClassWrapper *farg1, Swi
   result = std_set_Sl_int_Sg__set_difference(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< int,std::less< int >,std::allocator< int > >, SWIGPOLICY_std_set_Sl_int_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -658,7 +657,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_intersection(SwigClassWrapper *farg1, S
   result = std_set_Sl_int_Sg__set_intersection(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< int,std::less< int >,std::allocator< int > >, SWIGPOLICY_std_set_Sl_int_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -676,7 +674,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_symmetric_difference(SwigClassWrapper *
   result = std_set_Sl_int_Sg__set_symmetric_difference(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< int,std::less< int >,std::allocator< int > >, SWIGPOLICY_std_set_Sl_int_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -694,7 +691,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_union(SwigClassWrapper *farg1, SwigClas
   result = std_set_Sl_int_Sg__set_union(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< int,std::less< int >,std::allocator< int > >, SWIGPOLICY_std_set_Sl_int_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -711,7 +707,6 @@ SWIGEXPORT int _wrap_SetInt_includes(SwigClassWrapper *farg1, SwigClassWrapper *
   arg2 = (std::set< int,std::less< int >,std::allocator< int > > *)farg2->cptr;
   result = (bool)std_set_Sl_int_Sg__set_includes(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult = (result ? 1 : 0);
-  SWIG_free_rvalue< std::set< int,std::less< int >,std::allocator< int > >, SWIGPOLICY_std_set_Sl_int_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -857,7 +852,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_difference(SwigClassWrapper *farg1, 
   result = std_set_Sl_std_string_Sg__set_difference(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< std::string,std::less< std::string >,std::allocator< std::string > >, SWIGPOLICY_std_set_Sl_std_string_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -875,7 +869,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_intersection(SwigClassWrapper *farg1
   result = std_set_Sl_std_string_Sg__set_intersection(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< std::string,std::less< std::string >,std::allocator< std::string > >, SWIGPOLICY_std_set_Sl_std_string_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -893,7 +886,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_symmetric_difference(SwigClassWrappe
   result = std_set_Sl_std_string_Sg__set_symmetric_difference(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< std::string,std::less< std::string >,std::allocator< std::string > >, SWIGPOLICY_std_set_Sl_std_string_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -911,7 +903,6 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_union(SwigClassWrapper *farg1, SwigC
   result = std_set_Sl_std_string_Sg__set_union(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
   fresult.cmemflags = SWIG_MEM_RVALUE | SWIG_MEM_OWN;
-  SWIG_free_rvalue< std::set< std::string,std::less< std::string >,std::allocator< std::string > >, SWIGPOLICY_std_set_Sl_std_string_Sg_ >(*farg2);
   return fresult;
 }
 
@@ -928,7 +919,6 @@ SWIGEXPORT int _wrap_SetString_includes(SwigClassWrapper *farg1, SwigClassWrappe
   arg2 = (std::set< std::string,std::less< std::string >,std::allocator< std::string > > *)farg2->cptr;
   result = (bool)std_set_Sl_std_string_Sg__set_includes(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult = (result ? 1 : 0);
-  SWIG_free_rvalue< std::set< std::string,std::less< std::string >,std::allocator< std::string > >, SWIGPOLICY_std_set_Sl_std_string_Sg_ >(*farg2);
   return fresult;
 }
 

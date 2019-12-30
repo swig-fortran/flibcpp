@@ -58,9 +58,6 @@
  */
 %define %flc_template_std_vector_pod(NAME, T)
 
-// Automatically free temporary vectors as appropriate
-%fortran_autofree_rvalue(std::vector<T>);
-
 namespace std {
   template<> class vector<T> {
 
@@ -79,24 +76,28 @@ namespace std {
  * Numeric vectors
  * ------------------------------------------------------------------------- */
 
-%flc_template_std_vector_pod(VectorInt4, int32_t)
-%flc_template_std_vector_pod(VectorInt8,   int64_t)
-%flc_template_std_vector_pod(VectorReal8,  double)
+%flc_template_std_vector_pod(VectorInt4,  int32_t)
+%flc_template_std_vector_pod(VectorInt8,  int64_t)
+%flc_template_std_vector_pod(VectorReal8, double)
 
 /* -------------------------------------------------------------------------
  * String vectors
  * ------------------------------------------------------------------------- */
 
-%fortran_autofree_rvalue(std::vector<std::string>);
+%include <std_string.i>
+%import "flc_string.i"
+
+%apply SWIGTYPE& { const std::string& value };
+
 %extend std::vector<std::string> {
-  void set_ref(size_type index, std::string& str) {
+  void set_ref(size_type index, const std::string& value) {
     SWIG_check_range(index, $self->size(),
                      "std::vector<std::string>::set_ref",
                      return);
-    (*$self)[index] = str;
+    (*$self)[index] = value;
   }
 }
 
-%include <std_string.i>
-%import "flc_string.i"
 %template(VectorString) std::vector<std::string>;
+
+%clear const std::string& value;

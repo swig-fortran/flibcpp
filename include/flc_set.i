@@ -74,9 +74,6 @@
  */
 %define %specialize_std_set_pod(T)
 
-// Automatically free temporary sets as appropriate
-%fortran_autofree_rvalue(std::set<T>);
-
 namespace std {
   template<> class set<T> {
     %swig_std_set(T, std::less<T>, std::allocator<T>)
@@ -123,8 +120,6 @@ static bool flc_set_includes(const Set_t& left, const Set_t& right)
 /* -------------------------------------------------------------------------
  * String sets
  * ------------------------------------------------------------------------- */
-
-%fortran_autofree_rvalue(std::set<std::string>);
 
 // Allow direct insertion of a wrapped std::string
 %extend std::set<std::string> {

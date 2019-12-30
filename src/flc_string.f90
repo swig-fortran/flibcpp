@@ -259,6 +259,11 @@ type(SwigClassWrapper) :: farg1
 type(SwigArrayWrapper) :: fresult
 end function
 
+ subroutine SWIG_free(cptr) &
+  bind(C, name="free")
+ use, intrinsic :: ISO_C_BINDING
+ type(C_PTR), value :: cptr
+end subroutine
 function swigc_string_str(farg1) &
 bind(C, name="_wrap_string_str") &
 result(fresult)
@@ -703,6 +708,7 @@ type(SwigClassWrapper) :: farg1
 farg1 = self%swigdata
 fresult = swigc_string_str(farg1)
 call SWIGTM_fout_char_Sm_(fresult, swig_result)
+call SWIG_free(fresult%data)
 end function
 
 subroutine swigf_release_string(self)

@@ -23,7 +23,6 @@
  * ------------------------------------------------------------------------- */
 
 %define %flc_random_engine(NAME, GENERATOR, RESULT_TYPE)
-%fortran_autofree_rvalue(std::GENERATOR);
 namespace std {
 
 %rename(NAME) GENERATOR;

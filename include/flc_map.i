@@ -21,9 +21,6 @@
  * String maps
  * ------------------------------------------------------------------------- */
 
-%fortran_autofree_rvalue(std::map<std::string, int>);
-%fortran_autofree_rvalue(std::map<std::string, std::string>);
-
 %include <std_string.i>
 %import "flc_string.i"
 %template(MapStringInt) std::map<std::string, int>;
