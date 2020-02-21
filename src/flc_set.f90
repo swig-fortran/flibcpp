@@ -43,15 +43,11 @@ module flc_set
   procedure :: symmetric_difference => swigf_SetInt_symmetric_difference
   procedure :: union => swigf_SetInt_union
   procedure :: includes => swigf_SetInt_includes
-  procedure :: release => swigf_release_SetInt
+  procedure :: release => swigf_SetInt_release
   procedure, private :: swigf_SetInt_op_assign__
   generic :: assignment(=) => swigf_SetInt_op_assign__
   generic :: insert => swigf_SetInt_insert__SWIG_0, swigf_SetInt_insert__SWIG_1
  end type SetInt
- interface SetInt
-  module procedure swigf_new_SetInt__SWIG_0
-  module procedure swigf_new_SetInt__SWIG_1
- end interface
  ! class std::set< std::string >
  type, public :: SetString
   type(SwigClassWrapper), public :: swigdata
@@ -68,12 +64,15 @@ module flc_set
   procedure :: symmetric_difference => swigf_SetString_symmetric_difference
   procedure :: union => swigf_SetString_union
   procedure :: includes => swigf_SetString_includes
-  procedure :: release => swigf_release_SetString
+  procedure :: release => swigf_SetString_release
   procedure, private :: swigf_SetString_op_assign__
   generic :: assignment(=) => swigf_SetString_op_assign__
  end type SetString
+ interface SetInt
+  module procedure swigf_new_SetInt__SWIG_0, swigf_new_SetInt__SWIG_1
+ end interface
  interface SetString
-  module procedure swigf_create_SetString
+  module procedure swigf_new_SetString
  end interface
 
 ! WRAPPER DECLARATIONS
@@ -91,7 +90,7 @@ bind(C, name="_wrap_SetInt_empty") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT) :: fresult
 end function
 
@@ -100,7 +99,7 @@ bind(C, name="_wrap_SetInt_size") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG) :: fresult
 end function
 
@@ -108,7 +107,7 @@ subroutine swigc_SetInt_clear(farg1) &
 bind(C, name="_wrap_SetInt_clear")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 function swigc_SetInt_erase(farg1, farg2) &
@@ -116,7 +115,7 @@ bind(C, name="_wrap_SetInt_erase") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -126,7 +125,7 @@ bind(C, name="_wrap_SetInt_count") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -136,7 +135,7 @@ bind(C, name="_wrap_SetInt_insert__SWIG_0") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_INT) :: fresult
 end function
@@ -156,7 +155,7 @@ bind(C, name="_wrap_SetInt_insert__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 
@@ -165,8 +164,8 @@ bind(C, name="_wrap_SetInt_difference") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -175,8 +174,8 @@ bind(C, name="_wrap_SetInt_intersection") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -185,8 +184,8 @@ bind(C, name="_wrap_SetInt_symmetric_difference") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -195,8 +194,8 @@ bind(C, name="_wrap_SetInt_union") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -205,8 +204,8 @@ bind(C, name="_wrap_SetInt_includes") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 integer(C_INT) :: fresult
 end function
 
@@ -222,7 +221,7 @@ bind(C, name="_wrap_SetInt_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 function swigc_new_SetString() &
@@ -238,7 +237,7 @@ bind(C, name="_wrap_SetString_empty") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT) :: fresult
 end function
 
@@ -247,7 +246,7 @@ bind(C, name="_wrap_SetString_size") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG) :: fresult
 end function
 
@@ -255,7 +254,7 @@ subroutine swigc_SetString_clear(farg1) &
 bind(C, name="_wrap_SetString_clear")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 function swigc_SetString_erase(farg1, farg2) &
@@ -264,7 +263,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -275,7 +274,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -286,7 +285,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_INT) :: fresult
 end function
@@ -295,8 +294,8 @@ subroutine swigc_SetString_insert_ref(farg1, farg2) &
 bind(C, name="_wrap_SetString_insert_ref")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 function swigc_SetString_difference(farg1, farg2) &
@@ -304,8 +303,8 @@ bind(C, name="_wrap_SetString_difference") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -314,8 +313,8 @@ bind(C, name="_wrap_SetString_intersection") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -324,8 +323,8 @@ bind(C, name="_wrap_SetString_symmetric_difference") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -334,8 +333,8 @@ bind(C, name="_wrap_SetString_union") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 type(SwigClassWrapper) :: fresult
 end function
 
@@ -344,8 +343,8 @@ bind(C, name="_wrap_SetString_includes") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 integer(C_INT) :: fresult
 end function
 
@@ -361,7 +360,7 @@ bind(C, name="_wrap_SetString_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 end interface
@@ -600,7 +599,7 @@ fresult = swigc_SetInt_includes(farg1, farg2)
 call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
-subroutine swigf_release_SetInt(self)
+subroutine swigf_SetInt_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(SetInt), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 
@@ -627,7 +626,7 @@ call swigc_SetInt_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 
-function swigf_create_SetString() &
+function swigf_new_SetString() &
 result(self)
 use, intrinsic :: ISO_C_BINDING
 type(SetString) :: self
@@ -837,7 +836,7 @@ fresult = swigc_SetString_includes(farg1, farg2)
 call SWIGTM_fout_bool(fresult, swig_result)
 end function
 
-subroutine swigf_release_SetString(self)
+subroutine swigf_SetString_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(SetString), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 

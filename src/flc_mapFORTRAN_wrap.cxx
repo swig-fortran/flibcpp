@@ -15,6 +15,12 @@
  */
 
 
+
+#ifndef SWIGFORTRAN
+#define SWIGFORTRAN
+#endif
+
+
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
@@ -214,8 +220,8 @@ enum SwigMemFlags {
 };
 
 
-#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if (!(SWIG_CLASS_WRAPPER).cptr) { \
+#define SWIG_check_nonnull(PTR, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if (!(PTR)) { \
     SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -469,7 +475,7 @@ SWIGEXPORT int _wrap_MapIntInt_empty(SwigClassWrapper *farg1) {
   std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > const *", "MapIntInt", "std::map< int,int >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > const *", "MapIntInt", "std::map< int,int >::empty() const", return 0);
   arg1 = (std::map< int,int > *)farg1->cptr;
   result = (bool)((std::map< int,int > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -482,7 +488,7 @@ SWIGEXPORT long _wrap_MapIntInt_size(SwigClassWrapper *farg1) {
   std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
   std::map< int,int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > const *", "MapIntInt", "std::map< int,int >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > const *", "MapIntInt", "std::map< int,int >::size() const", return 0);
   arg1 = (std::map< int,int > *)farg1->cptr;
   result = (std::map< int,int >::size_type)((std::map< int,int > const *)arg1)->size();
   fresult = (std::map< int,int >::size_type)(result);
@@ -493,7 +499,7 @@ SWIGEXPORT long _wrap_MapIntInt_size(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_MapIntInt_clear(SwigClassWrapper *farg1) {
   std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::clear()", return );
   arg1 = (std::map< int,int > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -506,7 +512,7 @@ SWIGEXPORT long _wrap_MapIntInt_erase(SwigClassWrapper *farg1, int const *farg2)
   std::map< int,int >::key_type temp2 ;
   std::map< int,int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::erase(std::map< int,int >::key_type const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::erase(std::map< int,int >::key_type const &)", return 0);
   arg1 = (std::map< int,int > *)farg1->cptr;
   temp2 = (std::map< int,int >::key_type)(*farg2);
   arg2 = &temp2;
@@ -523,7 +529,7 @@ SWIGEXPORT long _wrap_MapIntInt_count(SwigClassWrapper *farg1, int const *farg2)
   std::map< int,int >::key_type temp2 ;
   std::map< int,int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > const *", "MapIntInt", "std::map< int,int >::count(std::map< int,int >::key_type const &) const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > const *", "MapIntInt", "std::map< int,int >::count(std::map< int,int >::key_type const &) const", return 0);
   arg1 = (std::map< int,int > *)farg1->cptr;
   temp2 = (std::map< int,int >::key_type)(*farg2);
   arg2 = &temp2;
@@ -542,7 +548,7 @@ SWIGEXPORT int _wrap_MapIntInt_insert(SwigClassWrapper *farg1, int const *farg2,
   int temp3 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::insert(int const &,int const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::insert(int const &,int const &)", return 0);
   arg1 = (std::map< int,int > *)farg1->cptr;
   temp2 = (int)(*farg2);
   arg2 = &temp2;
@@ -561,7 +567,7 @@ SWIGEXPORT int _wrap_MapIntInt_get(SwigClassWrapper *farg1, int const *farg2) {
   int temp2 ;
   int *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::get(int const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::get(int const &)", return 0);
   arg1 = (std::map< int,int > *)farg1->cptr;
   temp2 = (int)(*farg2);
   arg2 = &temp2;
@@ -578,7 +584,7 @@ SWIGEXPORT void _wrap_MapIntInt_set(SwigClassWrapper *farg1, int const *farg2, i
   int temp2 ;
   int temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::set(int const &,int const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::map< int,int > *", "MapIntInt", "std::map< int,int >::set(int const &,int const &)", return );
   arg1 = (std::map< int,int > *)farg1->cptr;
   temp2 = (int)(*farg2);
   arg2 = &temp2;
@@ -623,7 +629,7 @@ SWIGEXPORT int _wrap_MapStringInt_empty(SwigClassWrapper *farg1) {
   std::map< std::string,int > *arg1 = (std::map< std::string,int > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > const *", "MapStringInt", "std::map< std::string,int >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > const *", "MapStringInt", "std::map< std::string,int >::empty() const", return 0);
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   result = (bool)((std::map< std::string,int > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -636,7 +642,7 @@ SWIGEXPORT long _wrap_MapStringInt_size(SwigClassWrapper *farg1) {
   std::map< std::string,int > *arg1 = (std::map< std::string,int > *) 0 ;
   std::map< std::string,int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > const *", "MapStringInt", "std::map< std::string,int >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > const *", "MapStringInt", "std::map< std::string,int >::size() const", return 0);
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   result = (std::map< std::string,int >::size_type)((std::map< std::string,int > const *)arg1)->size();
   fresult = (std::map< std::string,int >::size_type)(result);
@@ -647,7 +653,7 @@ SWIGEXPORT long _wrap_MapStringInt_size(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_MapStringInt_clear(SwigClassWrapper *farg1) {
   std::map< std::string,int > *arg1 = (std::map< std::string,int > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::clear()", return );
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -660,7 +666,7 @@ SWIGEXPORT long _wrap_MapStringInt_erase(SwigClassWrapper *farg1, SwigArrayWrapp
   std::string tempstr2 ;
   std::map< std::string,int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::erase(std::map< std::string,int >::key_type const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::erase(std::map< std::string,int >::key_type const &)", return 0);
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -677,7 +683,7 @@ SWIGEXPORT long _wrap_MapStringInt_count(SwigClassWrapper *farg1, SwigArrayWrapp
   std::string tempstr2 ;
   std::map< std::string,int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > const *", "MapStringInt", "std::map< std::string,int >::count(std::map< std::string,int >::key_type const &) const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > const *", "MapStringInt", "std::map< std::string,int >::count(std::map< std::string,int >::key_type const &) const", return 0);
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -696,7 +702,7 @@ SWIGEXPORT int _wrap_MapStringInt_insert(SwigClassWrapper *farg1, SwigArrayWrapp
   int temp3 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::insert(std::string const &,int const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::insert(std::string const &,int const &)", return 0);
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -715,7 +721,7 @@ SWIGEXPORT int _wrap_MapStringInt_get(SwigClassWrapper *farg1, SwigArrayWrapper 
   std::string tempstr2 ;
   int *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::get(std::string const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::get(std::string const &)", return 0);
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -732,7 +738,7 @@ SWIGEXPORT void _wrap_MapStringInt_set(SwigClassWrapper *farg1, SwigArrayWrapper
   std::string tempstr2 ;
   int temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::set(std::string const &,int const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,int > *", "MapStringInt", "std::map< std::string,int >::set(std::string const &,int const &)", return );
   arg1 = (std::map< std::string,int > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -777,7 +783,7 @@ SWIGEXPORT int _wrap_MapStringString_empty(SwigClassWrapper *farg1) {
   std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > const *", "MapStringString", "std::map< std::string,std::string >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > const *", "MapStringString", "std::map< std::string,std::string >::empty() const", return 0);
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   result = (bool)((std::map< std::string,std::string > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -790,7 +796,7 @@ SWIGEXPORT long _wrap_MapStringString_size(SwigClassWrapper *farg1) {
   std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
   std::map< std::string,std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > const *", "MapStringString", "std::map< std::string,std::string >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > const *", "MapStringString", "std::map< std::string,std::string >::size() const", return 0);
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   result = (std::map< std::string,std::string >::size_type)((std::map< std::string,std::string > const *)arg1)->size();
   fresult = (std::map< std::string,std::string >::size_type)(result);
@@ -801,7 +807,7 @@ SWIGEXPORT long _wrap_MapStringString_size(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_MapStringString_clear(SwigClassWrapper *farg1) {
   std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::clear()", return );
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -814,7 +820,7 @@ SWIGEXPORT long _wrap_MapStringString_erase(SwigClassWrapper *farg1, SwigArrayWr
   std::string tempstr2 ;
   std::map< std::string,std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::erase(std::map< std::string,std::string >::key_type const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::erase(std::map< std::string,std::string >::key_type const &)", return 0);
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -831,7 +837,7 @@ SWIGEXPORT long _wrap_MapStringString_count(SwigClassWrapper *farg1, SwigArrayWr
   std::string tempstr2 ;
   std::map< std::string,std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > const *", "MapStringString", "std::map< std::string,std::string >::count(std::map< std::string,std::string >::key_type const &) const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > const *", "MapStringString", "std::map< std::string,std::string >::count(std::map< std::string,std::string >::key_type const &) const", return 0);
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -850,7 +856,7 @@ SWIGEXPORT int _wrap_MapStringString_insert(SwigClassWrapper *farg1, SwigArrayWr
   std::string tempstr3 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::insert(std::string const &,std::string const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::insert(std::string const &,std::string const &)", return 0);
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -869,7 +875,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_MapStringString_get(SwigClassWrapper *farg1, S
   std::string tempstr2 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::get(std::string const &)", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::get(std::string const &)", return SwigArrayWrapper_uninitialized());
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -892,7 +898,7 @@ SWIGEXPORT void _wrap_MapStringString_set(SwigClassWrapper *farg1, SwigArrayWrap
   std::string tempstr2 ;
   std::string tempstr3 ;
   
-  SWIG_check_nonnull(*farg1, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::set(std::string const &,std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::map< std::string,std::string > *", "MapStringString", "std::map< std::string,std::string >::set(std::string const &,std::string const &)", return );
   arg1 = (std::map< std::string,std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;

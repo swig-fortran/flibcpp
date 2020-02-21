@@ -15,6 +15,12 @@
  */
 
 
+
+#ifndef SWIGFORTRAN
+#define SWIGFORTRAN
+#endif
+
+
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
@@ -214,8 +220,8 @@ enum SwigMemFlags {
 };
 
 
-#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if (!(SWIG_CLASS_WRAPPER).cptr) { \
+#define SWIG_check_nonnull(PTR, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if (!(PTR)) { \
     SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -496,7 +502,7 @@ SWIGEXPORT long _wrap_string_size(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   std::string::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::string const *", "string", "std::string::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string const *", "string", "std::string::size() const", return 0);
   arg1 = (std::string *)farg1->cptr;
   result = (std::string::size_type)((std::string const *)arg1)->size();
   fresult = (std::string::size_type)(result);
@@ -509,7 +515,7 @@ SWIGEXPORT int _wrap_string_empty(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::string const *", "string", "std::string::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string const *", "string", "std::string::empty() const", return 0);
   arg1 = (std::string *)farg1->cptr;
   result = (bool)((std::string const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -522,7 +528,7 @@ SWIGEXPORT char _wrap_string_front(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   char *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::string const *", "string", "std::string::front() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string const *", "string", "std::string::front() const", return 0);
   arg1 = (std::string *)farg1->cptr;
   result = (char *) &((std::string const *)arg1)->front();
   fresult = *result;
@@ -535,7 +541,7 @@ SWIGEXPORT char _wrap_string_back(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   char *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::string const *", "string", "std::string::back() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string const *", "string", "std::string::back() const", return 0);
   arg1 = (std::string *)farg1->cptr;
   result = (char *) &((std::string const *)arg1)->back();
   fresult = *result;
@@ -547,7 +553,7 @@ SWIGEXPORT void _wrap_string_resize__SWIG_0(SwigClassWrapper *farg1, long const 
   std::string *arg1 = (std::string *) 0 ;
   std::string::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::resize(std::string::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::resize(std::string::size_type)", return );
   arg1 = (std::string *)farg1->cptr;
   arg2 = (std::string::size_type)(*farg2);
   (arg1)->resize(arg2);
@@ -559,7 +565,7 @@ SWIGEXPORT void _wrap_string_resize__SWIG_1(SwigClassWrapper *farg1, long const 
   std::string::size_type arg2 ;
   std::string::value_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::resize(std::string::size_type,std::string::value_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::resize(std::string::size_type,std::string::value_type)", return );
   arg1 = (std::string *)farg1->cptr;
   arg2 = (std::string::size_type)(*farg2);
   arg3 = (std::string::value_type)(*farg3);
@@ -572,7 +578,7 @@ SWIGEXPORT void _wrap_string_assign(SwigClassWrapper *farg1, SwigArrayWrapper *f
   std::string *arg2 = 0 ;
   std::string tempstr2 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::assign(std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::assign(std::string const &)", return );
   arg1 = (std::string *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -584,7 +590,7 @@ SWIGEXPORT void _wrap_string_push_back(SwigClassWrapper *farg1, char const *farg
   std::string *arg1 = (std::string *) 0 ;
   std::string::value_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::push_back(std::string::value_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::push_back(std::string::value_type)", return );
   arg1 = (std::string *)farg1->cptr;
   arg2 = (std::string::value_type)(*farg2);
   (arg1)->push_back(arg2);
@@ -594,7 +600,7 @@ SWIGEXPORT void _wrap_string_push_back(SwigClassWrapper *farg1, char const *farg
 SWIGEXPORT void _wrap_string_pop_back(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::pop_back()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::pop_back()", return );
   arg1 = (std::string *)farg1->cptr;
   (arg1)->pop_back();
 }
@@ -603,7 +609,7 @@ SWIGEXPORT void _wrap_string_pop_back(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_string_clear(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::clear()", return );
   arg1 = (std::string *)farg1->cptr;
   (arg1)->clear();
 }
@@ -617,7 +623,7 @@ SWIGEXPORT long _wrap_string_find__SWIG_0(SwigClassWrapper *farg1, SwigArrayWrap
   std::string tempstr2 ;
   std::string::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::find(std::string const &,std::string::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::find(std::string const &,std::string::size_type)", return 0);
   arg1 = (std::string *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -635,7 +641,7 @@ SWIGEXPORT long _wrap_string_find__SWIG_1(SwigClassWrapper *farg1, SwigArrayWrap
   std::string tempstr2 ;
   std::string::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::find(std::string const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::find(std::string const &)", return 0);
   arg1 = (std::string *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -650,7 +656,7 @@ SWIGEXPORT void _wrap_string_append(SwigClassWrapper *farg1, SwigArrayWrapper *f
   std::string *arg2 = 0 ;
   std::string tempstr2 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::append(std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::append(std::string const &)", return );
   arg1 = (std::string *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -664,9 +670,9 @@ SWIGEXPORT int _wrap_string_compare(SwigClassWrapper *farg1, SwigClassWrapper *f
   std::string *arg2 = 0 ;
   int result;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::compare(std::string const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::compare(std::string const &)", return 0);
   arg1 = (std::string *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::string const &", "string", "std::string::compare(std::string const &)", return 0);
+  SWIG_check_nonnull(farg2->cptr, "std::string const &", "string", "std::string::compare(std::string const &)", return 0);
   arg2 = (std::string *)farg2->cptr;
   result = (int)(arg1)->compare((std::string const &)*arg2);
   fresult = (int)(result);
@@ -679,7 +685,7 @@ SWIGEXPORT void _wrap_string_set(SwigClassWrapper *farg1, long const *farg2, cha
   std::string::size_type arg2 ;
   std::string::value_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::set(std::string::size_type,std::string::value_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::set(std::string::size_type,std::string::value_type)", return );
   arg1 = (std::string *)farg1->cptr;
   arg2 = *farg2 - 1;
   arg3 = (std::string::value_type)(*farg3);
@@ -693,7 +699,7 @@ SWIGEXPORT char _wrap_string_get(SwigClassWrapper *farg1, long const *farg2) {
   std::string::size_type arg2 ;
   std::string::value_type result;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::get(std::string::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::get(std::string::size_type)", return 0);
   arg1 = (std::string *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (std::string::value_type)std_string_get(arg1,arg2);
@@ -707,7 +713,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_string_view(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::view()", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::view()", return SwigArrayWrapper_uninitialized());
   arg1 = (std::string *)farg1->cptr;
   result = (std::string *) &std_string_view(arg1);
   fresult.data = (result->empty() ? NULL : const_cast<char*>(result->data()));
@@ -721,7 +727,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_string_str(SwigClassWrapper *farg1) {
   std::string *arg1 = (std::string *) 0 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::string *", "string", "std::string::str()", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::string *", "string", "std::string::str()", return SwigArrayWrapper_uninitialized());
   arg1 = (std::string *)farg1->cptr;
   result = (std::string *) &std_string_str(arg1);
   fresult.size = result->size();
