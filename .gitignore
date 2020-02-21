@@ -1,5 +1,7 @@
 /build/
 /build-*/
+/install/
+/install-*/
 # Prerequisites
 *.d
 
