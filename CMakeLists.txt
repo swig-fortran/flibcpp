@@ -77,10 +77,8 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 if (FLIBCPP_USE_SWIG)
-  find_package(SWIG)
-endif()
+  find_package(SWIG REQUIRED)
 
-if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
   # SWIG is requested and available; make sure it's the Fortran fork.
   include(CheckSWIGFortran)
   if (CMAKE_VERSION VERSION_LESS 3.99)
@@ -91,10 +89,6 @@ if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
     cmake_policy(SET CMP0086 "NEW")
     include(UseSWIG)
   endif()
-  set(FLIBCPP_SWIG_EXECUTABLE "${SWIG_EXECUTABLE}")
-  set(FLIBCPP_SWIG_DIR        "${SWIG_DIR}")
-else()
-  set(FLIBCPP_USE_SWIG FALSE)
 endif()
 
 # Enable testing based on BUILD_TESTING flag
