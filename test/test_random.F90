@@ -115,10 +115,14 @@ subroutine test_discrete_distribution()
   integer(C_INT), dimension(1024) :: sampled
   integer(C_INT), dimension(4) :: tallied = 0
   integer(C_INT), dimension(4), parameter :: gold_result = [130, 127, 267, 500]
+  type(Engine) :: rng
   integer :: i
 
   ! Sample 1024 random ints
-  call discrete_distribution(weights, Engine(), sampled)
+  rng = Engine()
+  call discrete_distribution(weights, rng, sampled)
+  call rng%release()
+
   ASSERT(minval(sampled) == 1)
   ASSERT(maxval(sampled) == size(weights))
   do i = 1, size(sampled)

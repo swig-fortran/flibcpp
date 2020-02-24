@@ -178,7 +178,9 @@ subroutine test_shuffle()
   call rng%release()
 
   ! Shuffle using temporary RNG using seed 12345
-  call shuffle(Engine(12345_c_int32_t), iarr)
+  rng = Engine(12345_c_int32_t)
+  call shuffle(rng, iarr)
+  call rng%release
   write(*,"(A,(8I4))") "Shuffled:", iarr
 end subroutine
 
