@@ -47,16 +47,18 @@ mkdir -p ${BUILD_ROOT}
 
 # Define a command (using built-in travis functions) to launch one of our
 # scripts
-function run_script {
-  set +x
-  set -e
+run_script() {
+  set +exv
   fold_start $1 "$2"
   local scriptloc="${SOURCE_ROOT}/scripts/travis/$1.sh"
-  echo "Running ${scriptloc}"
+  echo -e "\e[0;32mRunning ${scriptloc}\e[0m"
   ${scriptloc}
-  local result=$?
+  local _RESULT=$?
   fold_end $1
-  return $?
+  if [ ${_RESULT} -ne 0 ]; then
+    echo -e "\e[1;31m${scriptloc} exited with ${_RESULT}\e[0m"
+  fi
+  return ${_RESULT}
 }
 
 ###############################################################################
@@ -65,11 +67,11 @@ function run_script {
 # from https://github.com/travis-ci/travis-rubies/blob/build/build.sh
 ###############################################################################
 
-function fold_start() {
+fold_start() {
   echo -e "travis_fold:start:$1\033[33;1m$2\033[0m"
 }
 
-function fold_end() {
+fold_end() {
   echo -e "\ntravis_fold:end:$1\r"
 }
 
