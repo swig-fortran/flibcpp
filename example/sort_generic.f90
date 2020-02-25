@@ -21,40 +21,19 @@ module sort_generic_extras
 
 contains
 
-elemental function fortranstring_less(self, other) &
+! Lexicographically compare strings of equal length.
+elemental function chars_less(left, right, length) &
     result(fresult)
-  type(FortranString), intent(in) :: self
-  type(FortranString), intent(in) :: other
+  character(len=*), intent(in) :: left
+  character(len=*), intent(in) :: right
+  integer, intent(in) :: length
   logical :: fresult
   integer :: i, lchar, rchar
 
-  if (.not. allocated(self%chars) .and. .not. allocated(other%chars)) then
-    ! Both deallocated, therefore equal
-    fresult = .false.
-    return
-  elseif (.not. allocated(self%chars)) then
-    ! self deallocated, therefore less
-    fresult = .true.
-    return
-  elseif (.not. allocated(other%chars)) then
-    ! other deallocated, therefore greater
-    fresult = .false.
-    return
-  endif
-
-  ! If LHS is shorter, it is "less than" the RHS.
-  if (len(self%chars) < len(other%chars)) then
-    fresult = .true.
-    return
-  elseif (len(self%chars) > len(other%chars)) then
-    fresult = .false.
-    return
-  endif
-
   ! If any character code is less than the RHS, it is less than.
-  do i = 1, len(self%chars)
-    lchar = ichar(self%chars(i:i))
-    rchar = ichar(other%chars(i:i))
+  do i = 1, length
+    lchar = ichar(left(i:i))
+    rchar = ichar(right(i:i))
     if (lchar < rchar) then
       fresult = .true.
       return
@@ -64,11 +43,35 @@ elemental function fortranstring_less(self, other) &
     endif
   end do
 
-  ! Everything is equal: therefore not strictly "less than"
   fresult = .false.
 end function
 
+elemental function fortranstring_less(self, other) &
+    result(fresult)
+  type(FortranString), intent(in) :: self
+  type(FortranString), intent(in) :: other
+  logical :: fresult
+
+  if (.not. allocated(other%chars)) then
+    ! RHS is null and LHS is not
+    fresult = .true.
+  elseif (.not. allocated(self%chars)) then
+    ! LHS is null => "greater than" (if LHS is string) or equal (if both null)
+    fresult = .false.
+  elseif (len(self%chars) < len(other%chars)) then
+    ! Since LHS is shorter, it is "less than" the RHS.
+    fresult = .true.
+  elseif (len(self%chars) > len(other%chars)) then
+    ! If RHS is shorter
+    fresult = .false.
+  else
+    ! Compare strings of equal length
+    fresult = chars_less(self%chars, other%chars, len(self%chars))
+  endif
+end function
+
 ! C++-accessible comparison function for two pointers-to-strings
+! (null strings always compare "greater than" to move to end of a list)
 function compare_strings(lcptr, rcptr) bind(C) &
     result(fresult)
   use, intrinsic :: ISO_C_BINDING
@@ -78,20 +81,20 @@ function compare_strings(lcptr, rcptr) bind(C) &
   type(FortranString), pointer :: lptr
   type(FortranString), pointer :: rptr
 
-  if (c_associated(lcptr) .and. c_associated(rcptr)) then
+  if (.not. c_associated(rcptr)) then
+    ! RHS is null and LHS is not
+    fresult = .true.
+  elseif (.not. c_associated(lcptr)) then
+    ! LHS is null => "greater than" (if LHS is string) or equal (if both null)
+    fresult = .false.
+  else
     ! Both associated: convert from C to Fortran pointers
     call c_f_pointer(cptr=lcptr, fptr=lptr)
     call c_f_pointer(cptr=rcptr, fptr=rptr)
 
     ! Compare the strings
     fresult = (lptr < rptr)
-  elseif (.not. c_associated(lcptr)) then
-    ! LHS is null => "less than"
-    fresult = .true.
-  elseif (.not. c_associated(rcptr)) then
-    fresult = .false.
   endif
-
 end function
 end module
 
@@ -139,11 +142,11 @@ program sort_generic_example
   ! Print the results
   write(STDOUT, *) "Sorted:"
   do i = 1, arr_size
-    if (allocated(fs_array(i)%chars)) then
-      write(STDOUT, "(i3, ': ', a)") i, fs_array(i)%chars
-    else
-      write(STDOUT, "(i3, ': ', a)") i, "<UNALLOCATED>"
+    if (.not. allocated(fs_array(i)%chars)) then
+      write(STDOUT, "(i3, '-', i3, a)") i, arr_size, " are unallocated"
+      exit
     endif
+    write(STDOUT, "(i3, ': ', a)") i, fs_array(i)%chars
   enddo
 
 end program

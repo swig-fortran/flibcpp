@@ -75,26 +75,30 @@ endif()
 #---------------------------------------------------------------------------#
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-
-if (FLIBCPP_USE_SWIG)
-  find_package(SWIG)
+if (CMAKE_VERSION VERSION_LESS 3.18)
+  list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/backport-cmake-318")
 endif()
 
-if (FLIBCPP_USE_SWIG AND SWIG_FOUND)
-  # SWIG is requested and available; make sure it's the Fortran fork.
-  include(CheckSWIGFortran)
-  if (CMAKE_VERSION VERSION_LESS 3.99)
-    # TODO: This is until Fortran support gets added to the upstream cmake script
-    include(UseSWIGFortran)
-  else()
-    cmake_policy(SET CMP0078 "NEW")
-    cmake_policy(SET CMP0086 "NEW")
-    include(UseSWIG)
+if (FLIBCPP_USE_SWIG)
+  find_package(SWIG COMPONENTS fortran REQUIRED)
+
+  if (CMAKE_VERSION VERSION_LESS 3.12)
+    message(FATAL_ERROR "CMake 3.12 or higher is required to regenerate the "
+      "Fortran bindings using SWIG. Set FLIBCPP_USE_SWIG to OFF "
+      "and reconfigure.")
   endif()
-  set(FLIBCPP_SWIG_EXECUTABLE "${SWIG_EXECUTABLE}")
-  set(FLIBCPP_SWIG_DIR        "${SWIG_DIR}")
-else()
-  set(FLIBCPP_USE_SWIG FALSE)
+
+  if (CMAKE_VERSION GREATER_EQUAL 3.13)
+    cmake_policy(SET CMP0078 "NEW")
+  else()
+    set(FLIBCPP_CMP0078 "NEW")
+  endif()
+  if (CMAKE_VERSION GREATER_EQUAL 3.14)
+    cmake_policy(SET CMP0086 "NEW")
+  else()
+    set(FLIBCPP_CMP0086 "NEW")
+  endif()
+  include(UseSWIG)
 endif()
 
 # Enable testing based on BUILD_TESTING flag

@@ -234,7 +234,24 @@ as well as ``SWIG``:
     set(SWIG_SOURCE_FILE_EXTENSIONS ".i" ".swg")
 #]=======================================================================]
 
+if (CMAKE_VERSION GREATER_EQUAL 3.13)
+  cmake_policy(GET CMP0078 target_name_policy)
+endif()
+if (CMAKE_VERSION GREATER_EQUAL 3.14)
+  cmake_policy(GET CMP0086 module_name_policy)
+endif()
+
 cmake_policy (VERSION 3.12)
+if (target_name_policy)
+  # respect user choice regarding CMP0078 policy
+  cmake_policy(SET CMP0078 ${target_name_policy})
+endif()
+if (module_name_policy)
+  # respect user choice regarding CMP0086 policy
+  cmake_policy(SET CMP0086 ${module_name_policy})
+endif()
+unset(target_name_policy)
+unset(module_name_policy)
 
 set(SWIG_CXX_EXTENSION "cxx")
 set(SWIG_EXTRA_LIBRARIES "")
@@ -242,7 +259,6 @@ set(SWIG_EXTRA_LIBRARIES "")
 set(SWIG_PYTHON_EXTRA_FILE_EXTENSIONS ".py")
 set(SWIG_JAVA_EXTRA_FILE_EXTENSIONS ".java" "JNI.java")
 set(SWIG_CSHARP_EXTRA_FILE_EXTENSIONS ".cs" "PINVOKE.cs")
-set(SWIG_FORTRAN_EXTRA_FILE_EXTENSIONS ".f90")
 
 set(SWIG_MANAGE_SUPPORT_FILES_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/UseSWIG/ManageSupportFiles.cmake")
 
@@ -322,14 +338,29 @@ function(SWIG_GET_EXTRA_OUTPUT_FILES language outfiles generatedpath infile)
     set(extra_file "${generatedpath}/${module_basename}${it}")
     if (extra_file MATCHES "\\.cs$" AND CMAKE_CSharp_COMPILER_LOADED)
       set_source_files_properties(${extra_file} PROPERTIES LANGUAGE "CSharp")
-    elseif (extra_file MATCHES "\\.f90$" AND CMAKE_Fortran_COMPILER_LOADED)
-      set_source_files_properties(${extra_file} PROPERTIES LANGUAGE "Fortran")
     else()
       # Treat extra outputs as plain files regardless of language.
       set_source_files_properties(${extra_file} PROPERTIES LANGUAGE "")
     endif()
     list(APPEND files "${extra_file}")
   endforeach()
+
+  if (language STREQUAL "FORTRAN" AND CMAKE_Fortran_COMPILER_LOADED)
+    # Process possible user-supplied extension in flags (obtained via parent
+    # scope variable) to determine the source file name.
+    list(FIND SWIG_COMPILATION_FLAGS "-fext" fext_idx)
+    if (fext_idx EQUAL -1)
+      # Default Fortran generated extension
+      set(fext "f90")
+    else()
+      # Get extension from user-provided flag
+      math(EXPR fext_idx "${fext_idx} + 1")
+      list(GET SWIG_COMPILATION_FLAGS "${fext_idx}" fext)
+    endif()
+    set(extra_file "${generatedpath}/${module_basename}.${fext}")
+    set_source_files_properties("${extra_file}" PROPERTIES LANGUAGE "Fortran")
+    list(APPEND files "${extra_file}")
+  endif()
 
   set (${outfiles} ${files} PARENT_SCOPE)
 endfunction()
@@ -405,6 +436,7 @@ function(SWIG_ADD_SOURCE_TO_MODULE name outfiles infile)
   get_filename_component(swig_source_file_fullname "${infile}" ABSOLUTE)
 
   if (NOT SWIG_MODULE_${name}_NOPROXY)
+    set(SWIG_COMPILATION_FLAGS ${swig_source_file_flags})
     SWIG_GET_EXTRA_OUTPUT_FILES(${SWIG_MODULE_${name}_LANGUAGE}
       swig_extra_generated_files
       "${outdir}"
@@ -438,11 +470,23 @@ function(SWIG_ADD_SOURCE_TO_MODULE name outfiles infile)
     list (APPEND swig_special_flags "-c++")
   endif()
 
-  set(module_name_policy "NEW")
+
+  if (CMAKE_VERSION GREATER_EQUAL 3.14)
+    cmake_policy(GET CMP0086 module_name_policy)
+  elseif(FLIBCPP_CMP0086)
+    set(module_name_policy ${FLIBCPP_CMP0086})
+  else()
+    set(module_name_policy OLD)
+  endif()
   if (module_name_policy STREQUAL "NEW")
     get_source_file_property(module_name "${infile}" SWIG_MODULE_NAME)
     if (module_name)
       list (APPEND swig_special_flags "-module" "${module_name}")
+    endif()
+  else()
+    if (NOT module_name_policy)
+      cmake_policy(GET_WARNING CMP0086 _cmp0086_warning)
+      message(AUTHOR_WARNING "${_cmp0086_warning}\n")
     endif()
   endif()
 
@@ -451,7 +495,14 @@ function(SWIG_ADD_SOURCE_TO_MODULE name outfiles infile)
     if(NOT ("-dllimport" IN_LIST swig_source_file_flags OR "-dllimport" IN_LIST SWIG_MODULE_${name}_EXTRA_FLAGS))
       # This makes sure that the name used in the generated DllImport
       # matches the library name created by CMake
-      list (APPEND SWIG_MODULE_${name}_EXTRA_FLAGS "-dllimport" "${name}")
+      list (APPEND SWIG_MODULE_${name}_EXTRA_FLAGS "-dllimport" "$<TARGET_FILE_PREFIX:${target_name}>$<TARGET_FILE_BASE_NAME:${target_name}>")
+    endif()
+  endif()
+  if (SWIG_MODULE_${name}_LANGUAGE STREQUAL "PYTHON" AND NOT SWIG_MODULE_${name}_NOPROXY)
+    if(NOT ("-interface" IN_LIST swig_source_file_flags OR "-interface" IN_LIST SWIG_MODULE_${name}_EXTRA_FLAGS))
+      # This makes sure that the name used in the proxy code
+      # matches the library name created by CMake
+      list (APPEND SWIG_MODULE_${name}_EXTRA_FLAGS "-interface" "$<TARGET_FILE_PREFIX:${target_name}>$<TARGET_FILE_BASE_NAME:${target_name}>")
     endif()
   endif()
   list (APPEND swig_extra_flags ${SWIG_MODULE_${name}_EXTRA_FLAGS})
@@ -576,11 +627,18 @@ function(SWIG_ADD_LIBRARY name)
     unset(_SAM_TYPE)
   endif()
 
-  set(target_name_policy "NEW")
+  if (CMAKE_VERSION GREATER_EQUAL 3.13)
+    cmake_policy(GET CMP0078 target_name_policy)
+  elseif(FLIBCPP_CMP0078)
+    set(target_name_policy ${FLIBCPP_CMP0078})
+  else()
+    set(target_name_policy OLD)
+  endif()
   if (target_name_policy STREQUAL "NEW")
     set (UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
   else()
     if (NOT target_name_policy)
+      cmake_policy(GET_WARNING CMP0078 _cmp0078_warning)
       message(AUTHOR_WARNING "${_cmp0078_warning}\n")
     endif()
     if (NOT DEFINED UseSWIG_TARGET_NAME_PREFERENCE)
@@ -685,9 +743,9 @@ function(SWIG_ADD_LIBRARY name)
     endif()
   endforeach()
   set_property (DIRECTORY APPEND PROPERTY
-    ADDITIONAL_MAKE_CLEAN_FILES ${swig_generated_sources} ${swig_generated_timestamps})
+    ADDITIONAL_CLEAN_FILES ${swig_generated_sources} ${swig_generated_timestamps})
   if (UseSWIG_MODULE_VERSION VERSION_GREATER 1)
-    set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES "${outputdir}")
+    set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_CLEAN_FILES "${outputdir}")
   endif()
 
   add_library(${target_name}
@@ -706,8 +764,6 @@ function(SWIG_ADD_LIBRARY name)
   if (swig_lowercase_language STREQUAL "octave")
     set_target_properties(${target_name} PROPERTIES PREFIX "")
     set_target_properties(${target_name} PROPERTIES SUFFIX ".oct")
-  elseif (swig_lowercase_language STREQUAL "fortran")
-    # XXX
   elseif (swig_lowercase_language STREQUAL "go")
     set_target_properties(${target_name} PROPERTIES PREFIX "")
   elseif (swig_lowercase_language STREQUAL "java")
@@ -766,6 +822,8 @@ function(SWIG_ADD_LIBRARY name)
     if (APPLE)
       set_target_properties (${target_name} PROPERTIES SUFFIX ".dylib")
     endif ()
+  elseif (swig_lowercase_language STREQUAL "fortran")
+    # Do *not* override the target's library prefix
   else()
     # assume empty prefix because we expect the module to be dynamically loaded
     set_target_properties (${target_name} PROPERTIES PREFIX "")

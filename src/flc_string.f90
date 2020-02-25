@@ -48,17 +48,12 @@ module flc_string
   procedure :: get => swigf_string_get
   procedure :: view => swigf_string_view
   procedure :: str => swigf_string_str
-  procedure :: release => swigf_release_string
+  procedure :: release => swigf_string_release
   procedure, private :: swigf_string_op_assign__
   generic :: assignment(=) => swigf_string_op_assign__
   generic :: resize => swigf_string_resize__SWIG_0, swigf_string_resize__SWIG_1
   generic :: find => swigf_string_find__SWIG_0, swigf_string_find__SWIG_1
  end type string
- interface string
-  module procedure swigf_new_string__SWIG_0
-  module procedure swigf_new_string__SWIG_1
-  module procedure swigf_new_string__SWIG_2
- end interface
  public :: stof
  public :: stod
  interface stoi
@@ -73,6 +68,9 @@ module flc_string
   module procedure swigf_stol__SWIG_0, swigf_stol__SWIG_1
  end interface
  public :: stol
+ interface string
+  module procedure swigf_new_string__SWIG_0, swigf_new_string__SWIG_1, swigf_new_string__SWIG_2
+ end interface
 
 ! WRAPPER DECLARATIONS
 interface
@@ -109,7 +107,7 @@ bind(C, name="_wrap_string_size") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG) :: fresult
 end function
 
@@ -118,7 +116,7 @@ bind(C, name="_wrap_string_empty") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT) :: fresult
 end function
 
@@ -127,7 +125,7 @@ bind(C, name="_wrap_string_front") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 character(C_CHAR) :: fresult
 end function
 
@@ -136,7 +134,7 @@ bind(C, name="_wrap_string_back") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 character(C_CHAR) :: fresult
 end function
 
@@ -144,7 +142,7 @@ subroutine swigc_string_resize__SWIG_0(farg1, farg2) &
 bind(C, name="_wrap_string_resize__SWIG_0")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG), intent(in) :: farg2
 end subroutine
 
@@ -152,7 +150,7 @@ subroutine swigc_string_resize__SWIG_1(farg1, farg2, farg3) &
 bind(C, name="_wrap_string_resize__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG), intent(in) :: farg2
 character(C_CHAR), intent(in) :: farg3
 end subroutine
@@ -162,7 +160,7 @@ bind(C, name="_wrap_string_assign")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 
@@ -170,7 +168,7 @@ subroutine swigc_string_push_back(farg1, farg2) &
 bind(C, name="_wrap_string_push_back")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 character(C_CHAR), intent(in) :: farg2
 end subroutine
 
@@ -178,14 +176,14 @@ subroutine swigc_string_pop_back(farg1) &
 bind(C, name="_wrap_string_pop_back")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 subroutine swigc_string_clear(farg1) &
 bind(C, name="_wrap_string_clear")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 function swigc_string_find__SWIG_0(farg1, farg2, farg3) &
@@ -194,7 +192,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG), intent(in) :: farg3
 integer(C_LONG) :: fresult
@@ -206,7 +204,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -216,7 +214,7 @@ bind(C, name="_wrap_string_append")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 
@@ -225,8 +223,8 @@ bind(C, name="_wrap_string_compare") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
 integer(C_INT) :: fresult
 end function
 
@@ -234,7 +232,7 @@ subroutine swigc_string_set(farg1, farg2, farg3) &
 bind(C, name="_wrap_string_set")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG), intent(in) :: farg2
 character(C_CHAR), intent(in) :: farg3
 end subroutine
@@ -244,7 +242,7 @@ bind(C, name="_wrap_string_get") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG), intent(in) :: farg2
 character(C_CHAR) :: fresult
 end function
@@ -255,7 +253,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: fresult
 end function
 
@@ -270,7 +268,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: fresult
 end function
 
@@ -286,7 +284,7 @@ bind(C, name="_wrap_string_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 function swigc_stoi__SWIG_0(farg1, farg3) &
@@ -711,7 +709,7 @@ call SWIGTM_fout_char_Sm_(fresult, swig_result)
 call SWIG_free(fresult%data)
 end function
 
-subroutine swigf_release_string(self)
+subroutine swigf_string_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(string), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 

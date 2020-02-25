@@ -15,6 +15,12 @@
  */
 
 
+
+#ifndef SWIGFORTRAN
+#define SWIGFORTRAN
+#endif
+
+
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
@@ -214,8 +220,8 @@ enum SwigMemFlags {
 };
 
 
-#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if (!(SWIG_CLASS_WRAPPER).cptr) { \
+#define SWIG_check_nonnull(PTR, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if (!(PTR)) { \
     SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -660,7 +666,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorInt4__SWIG_1(SwigClassWrapper *farg1
   std::vector< int32_t > *arg1 = 0 ;
   std::vector< int32_t > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > const &", "VectorInt4", "std::vector< int32_t >::vector(std::vector< int32_t > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > const &", "VectorInt4", "std::vector< int32_t >::vector(std::vector< int32_t > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (std::vector< int32_t > *)new std::vector< int32_t >((std::vector< int32_t > const &)*arg1);
   fresult.cptr = (void*)result;
@@ -704,7 +710,7 @@ SWIGEXPORT long _wrap_VectorInt4_size(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   std::vector< int32_t >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::size() const", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (std::vector< int32_t >::size_type)((std::vector< int32_t > const *)arg1)->size();
   fresult = (std::vector< int32_t >::size_type)(result);
@@ -717,7 +723,7 @@ SWIGEXPORT long _wrap_VectorInt4_capacity(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   std::vector< int32_t >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::capacity() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::capacity() const", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (std::vector< int32_t >::size_type)((std::vector< int32_t > const *)arg1)->capacity();
   fresult = (std::vector< int32_t >::size_type)(result);
@@ -730,7 +736,7 @@ SWIGEXPORT int _wrap_VectorInt4_empty(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::empty() const", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (bool)((std::vector< int32_t > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -743,7 +749,7 @@ SWIGEXPORT int32_t _wrap_VectorInt4_front(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   int32_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::front() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::front() const", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (int32_t *) &((std::vector< int32_t > const *)arg1)->front();
   fresult = *result;
@@ -756,7 +762,7 @@ SWIGEXPORT int32_t _wrap_VectorInt4_back(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   int32_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::back() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > const *", "VectorInt4", "std::vector< int32_t >::back() const", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (int32_t *) &((std::vector< int32_t > const *)arg1)->back();
   fresult = *result;
@@ -768,7 +774,7 @@ SWIGEXPORT void _wrap_VectorInt4_reserve(SwigClassWrapper *farg1, long const *fa
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   std::vector< int32_t >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::reserve(std::vector< int32_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::reserve(std::vector< int32_t >::size_type)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = (std::vector< int32_t >::size_type)(*farg2);
   (arg1)->reserve(arg2);
@@ -779,7 +785,7 @@ SWIGEXPORT void _wrap_VectorInt4_resize__SWIG_0(SwigClassWrapper *farg1, long co
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   std::vector< int32_t >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::resize(std::vector< int32_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::resize(std::vector< int32_t >::size_type)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = (std::vector< int32_t >::size_type)(*farg2);
   (arg1)->resize(arg2);
@@ -792,7 +798,7 @@ SWIGEXPORT void _wrap_VectorInt4_resize__SWIG_1(SwigClassWrapper *farg1, long co
   int32_t *arg3 = 0 ;
   int32_t temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::resize(std::vector< int32_t >::size_type,int32_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::resize(std::vector< int32_t >::size_type,int32_t const &)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = (std::vector< int32_t >::size_type)(*farg2);
   temp3 = (int32_t)(*farg3);
@@ -806,7 +812,7 @@ SWIGEXPORT void _wrap_VectorInt4_push_back(SwigClassWrapper *farg1, int32_t cons
   int32_t *arg2 = 0 ;
   int32_t temp2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::push_back(int32_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::push_back(int32_t const &)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   temp2 = (int32_t)(*farg2);
   arg2 = &temp2;
@@ -817,7 +823,7 @@ SWIGEXPORT void _wrap_VectorInt4_push_back(SwigClassWrapper *farg1, int32_t cons
 SWIGEXPORT void _wrap_VectorInt4_pop_back(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::pop_back()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::pop_back()", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   (arg1)->pop_back();
 }
@@ -826,7 +832,7 @@ SWIGEXPORT void _wrap_VectorInt4_pop_back(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_VectorInt4_clear(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::clear()", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -838,7 +844,7 @@ SWIGEXPORT void _wrap_VectorInt4_set(SwigClassWrapper *farg1, long const *farg2,
   int32_t *arg3 = 0 ;
   int32_t temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::set(std::vector< int32_t >::size_type,int32_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::set(std::vector< int32_t >::size_type,int32_t const &)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   temp3 = (int32_t)(*farg3);
@@ -853,7 +859,7 @@ SWIGEXPORT int32_t _wrap_VectorInt4_get(SwigClassWrapper *farg1, long const *far
   std::vector< int32_t >::size_type arg2 ;
   int32_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::get(std::vector< int32_t >::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::get(std::vector< int32_t >::size_type)", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (int32_t *) &std_vector_Sl_int32_t_Sg__get(arg1,arg2);
@@ -868,7 +874,7 @@ SWIGEXPORT void _wrap_VectorInt4_insert(SwigClassWrapper *farg1, long const *far
   int32_t *arg3 = 0 ;
   int32_t temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::insert(std::vector< int32_t >::size_type,int32_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::insert(std::vector< int32_t >::size_type,int32_t const &)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   temp3 = (int32_t)(*farg3);
@@ -881,7 +887,7 @@ SWIGEXPORT void _wrap_VectorInt4_erase__SWIG_0(SwigClassWrapper *farg1, long con
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   std::vector< int32_t >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::erase(std::vector< int32_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::erase(std::vector< int32_t >::size_type)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   std_vector_Sl_int32_t_Sg__erase__SWIG_0(arg1,arg2);
@@ -893,7 +899,7 @@ SWIGEXPORT void _wrap_VectorInt4_erase__SWIG_1(SwigClassWrapper *farg1, long con
   std::vector< int32_t >::size_type arg2 ;
   std::vector< int32_t >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::erase(std::vector< int32_t >::size_type,std::vector< int32_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::erase(std::vector< int32_t >::size_type,std::vector< int32_t >::size_type)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   arg3 = *farg3 - 1;
@@ -906,7 +912,7 @@ SWIGEXPORT int32_t * _wrap_VectorInt4_front_ref(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   int32_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::front_ref()", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::front_ref()", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (int32_t *) &std_vector_Sl_int32_t_Sg__front_ref(arg1);
   fresult = result;
@@ -919,7 +925,7 @@ SWIGEXPORT int32_t * _wrap_VectorInt4_back_ref(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   int32_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::back_ref()", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::back_ref()", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (int32_t *) &std_vector_Sl_int32_t_Sg__back_ref(arg1);
   fresult = result;
@@ -933,7 +939,7 @@ SWIGEXPORT int32_t * _wrap_VectorInt4_get_ref(SwigClassWrapper *farg1, long cons
   std::vector< int32_t >::size_type arg2 ;
   int32_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::get_ref(std::vector< int32_t >::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::get_ref(std::vector< int32_t >::size_type)", return 0);
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (int32_t *) &std_vector_Sl_int32_t_Sg__get_ref(arg1,arg2);
@@ -962,7 +968,7 @@ SWIGEXPORT void _wrap_VectorInt4_assign(SwigClassWrapper *farg1, SwigArrayWrappe
   int32_t *arg2 = (int32_t *) 0 ;
   std::vector< int32_t >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::assign(int32_t const *,std::vector< int32_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::assign(int32_t const *,std::vector< int32_t >::size_type)", return );
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   arg2 = (int32_t *)farg2->data;
   arg3 = farg2->size;
@@ -975,7 +981,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorInt4_view(SwigClassWrapper *farg1) {
   std::vector< int32_t > *arg1 = (std::vector< int32_t > *) 0 ;
   std::vector< int32_t > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::view()", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int32_t > *", "VectorInt4", "std::vector< int32_t >::view()", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< int32_t > *)farg1->cptr;
   result = (std::vector< int32_t > *) &std_vector_Sl_int32_t_Sg__view(arg1);
   fresult.data = (result->empty() ? NULL : &(*result->begin()));
@@ -1019,7 +1025,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorInt8__SWIG_1(SwigClassWrapper *farg1
   std::vector< int64_t > *arg1 = 0 ;
   std::vector< int64_t > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > const &", "VectorInt8", "std::vector< int64_t >::vector(std::vector< int64_t > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > const &", "VectorInt8", "std::vector< int64_t >::vector(std::vector< int64_t > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (std::vector< int64_t > *)new std::vector< int64_t >((std::vector< int64_t > const &)*arg1);
   fresult.cptr = (void*)result;
@@ -1063,7 +1069,7 @@ SWIGEXPORT long _wrap_VectorInt8_size(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   std::vector< int64_t >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::size() const", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (std::vector< int64_t >::size_type)((std::vector< int64_t > const *)arg1)->size();
   fresult = (std::vector< int64_t >::size_type)(result);
@@ -1076,7 +1082,7 @@ SWIGEXPORT long _wrap_VectorInt8_capacity(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   std::vector< int64_t >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::capacity() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::capacity() const", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (std::vector< int64_t >::size_type)((std::vector< int64_t > const *)arg1)->capacity();
   fresult = (std::vector< int64_t >::size_type)(result);
@@ -1089,7 +1095,7 @@ SWIGEXPORT int _wrap_VectorInt8_empty(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::empty() const", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (bool)((std::vector< int64_t > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -1102,7 +1108,7 @@ SWIGEXPORT int64_t _wrap_VectorInt8_front(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int64_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::front() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::front() const", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (int64_t *) &((std::vector< int64_t > const *)arg1)->front();
   fresult = *result;
@@ -1115,7 +1121,7 @@ SWIGEXPORT int64_t _wrap_VectorInt8_back(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int64_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::back() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > const *", "VectorInt8", "std::vector< int64_t >::back() const", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (int64_t *) &((std::vector< int64_t > const *)arg1)->back();
   fresult = *result;
@@ -1127,7 +1133,7 @@ SWIGEXPORT void _wrap_VectorInt8_reserve(SwigClassWrapper *farg1, long const *fa
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   std::vector< int64_t >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::reserve(std::vector< int64_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::reserve(std::vector< int64_t >::size_type)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = (std::vector< int64_t >::size_type)(*farg2);
   (arg1)->reserve(arg2);
@@ -1138,7 +1144,7 @@ SWIGEXPORT void _wrap_VectorInt8_resize__SWIG_0(SwigClassWrapper *farg1, long co
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   std::vector< int64_t >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::resize(std::vector< int64_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::resize(std::vector< int64_t >::size_type)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = (std::vector< int64_t >::size_type)(*farg2);
   (arg1)->resize(arg2);
@@ -1151,7 +1157,7 @@ SWIGEXPORT void _wrap_VectorInt8_resize__SWIG_1(SwigClassWrapper *farg1, long co
   int64_t *arg3 = 0 ;
   int64_t temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::resize(std::vector< int64_t >::size_type,int64_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::resize(std::vector< int64_t >::size_type,int64_t const &)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = (std::vector< int64_t >::size_type)(*farg2);
   temp3 = (int64_t)(*farg3);
@@ -1165,7 +1171,7 @@ SWIGEXPORT void _wrap_VectorInt8_push_back(SwigClassWrapper *farg1, int64_t cons
   int64_t *arg2 = 0 ;
   int64_t temp2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::push_back(int64_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::push_back(int64_t const &)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   temp2 = (int64_t)(*farg2);
   arg2 = &temp2;
@@ -1176,7 +1182,7 @@ SWIGEXPORT void _wrap_VectorInt8_push_back(SwigClassWrapper *farg1, int64_t cons
 SWIGEXPORT void _wrap_VectorInt8_pop_back(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::pop_back()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::pop_back()", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   (arg1)->pop_back();
 }
@@ -1185,7 +1191,7 @@ SWIGEXPORT void _wrap_VectorInt8_pop_back(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_VectorInt8_clear(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::clear()", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -1197,7 +1203,7 @@ SWIGEXPORT void _wrap_VectorInt8_set(SwigClassWrapper *farg1, long const *farg2,
   int64_t *arg3 = 0 ;
   int64_t temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::set(std::vector< int64_t >::size_type,int64_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::set(std::vector< int64_t >::size_type,int64_t const &)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   temp3 = (int64_t)(*farg3);
@@ -1212,7 +1218,7 @@ SWIGEXPORT int64_t _wrap_VectorInt8_get(SwigClassWrapper *farg1, long const *far
   std::vector< int64_t >::size_type arg2 ;
   int64_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::get(std::vector< int64_t >::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::get(std::vector< int64_t >::size_type)", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (int64_t *) &std_vector_Sl_int64_t_Sg__get(arg1,arg2);
@@ -1227,7 +1233,7 @@ SWIGEXPORT void _wrap_VectorInt8_insert(SwigClassWrapper *farg1, long const *far
   int64_t *arg3 = 0 ;
   int64_t temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::insert(std::vector< int64_t >::size_type,int64_t const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::insert(std::vector< int64_t >::size_type,int64_t const &)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   temp3 = (int64_t)(*farg3);
@@ -1240,7 +1246,7 @@ SWIGEXPORT void _wrap_VectorInt8_erase__SWIG_0(SwigClassWrapper *farg1, long con
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   std::vector< int64_t >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::erase(std::vector< int64_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::erase(std::vector< int64_t >::size_type)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   std_vector_Sl_int64_t_Sg__erase__SWIG_0(arg1,arg2);
@@ -1252,7 +1258,7 @@ SWIGEXPORT void _wrap_VectorInt8_erase__SWIG_1(SwigClassWrapper *farg1, long con
   std::vector< int64_t >::size_type arg2 ;
   std::vector< int64_t >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::erase(std::vector< int64_t >::size_type,std::vector< int64_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::erase(std::vector< int64_t >::size_type,std::vector< int64_t >::size_type)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   arg3 = *farg3 - 1;
@@ -1265,7 +1271,7 @@ SWIGEXPORT int64_t * _wrap_VectorInt8_front_ref(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int64_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::front_ref()", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::front_ref()", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (int64_t *) &std_vector_Sl_int64_t_Sg__front_ref(arg1);
   fresult = result;
@@ -1278,7 +1284,7 @@ SWIGEXPORT int64_t * _wrap_VectorInt8_back_ref(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int64_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::back_ref()", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::back_ref()", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (int64_t *) &std_vector_Sl_int64_t_Sg__back_ref(arg1);
   fresult = result;
@@ -1292,7 +1298,7 @@ SWIGEXPORT int64_t * _wrap_VectorInt8_get_ref(SwigClassWrapper *farg1, long cons
   std::vector< int64_t >::size_type arg2 ;
   int64_t *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::get_ref(std::vector< int64_t >::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::get_ref(std::vector< int64_t >::size_type)", return 0);
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (int64_t *) &std_vector_Sl_int64_t_Sg__get_ref(arg1,arg2);
@@ -1321,7 +1327,7 @@ SWIGEXPORT void _wrap_VectorInt8_assign(SwigClassWrapper *farg1, SwigArrayWrappe
   int64_t *arg2 = (int64_t *) 0 ;
   std::vector< int64_t >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::assign(int64_t const *,std::vector< int64_t >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::assign(int64_t const *,std::vector< int64_t >::size_type)", return );
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   arg2 = (int64_t *)farg2->data;
   arg3 = farg2->size;
@@ -1334,7 +1340,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorInt8_view(SwigClassWrapper *farg1) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   std::vector< int64_t > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::view()", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< int64_t > *", "VectorInt8", "std::vector< int64_t >::view()", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< int64_t > *)farg1->cptr;
   result = (std::vector< int64_t > *) &std_vector_Sl_int64_t_Sg__view(arg1);
   fresult.data = (result->empty() ? NULL : &(*result->begin()));
@@ -1378,7 +1384,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorReal8__SWIG_1(SwigClassWrapper *farg
   std::vector< double > *arg1 = 0 ;
   std::vector< double > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > const &", "VectorReal8", "std::vector< double >::vector(std::vector< double > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > const &", "VectorReal8", "std::vector< double >::vector(std::vector< double > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (std::vector< double > *)new std::vector< double >((std::vector< double > const &)*arg1);
   fresult.cptr = (void*)result;
@@ -1422,7 +1428,7 @@ SWIGEXPORT long _wrap_VectorReal8_size(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   std::vector< double >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > const *", "VectorReal8", "std::vector< double >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > const *", "VectorReal8", "std::vector< double >::size() const", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (std::vector< double >::size_type)((std::vector< double > const *)arg1)->size();
   fresult = (std::vector< double >::size_type)(result);
@@ -1435,7 +1441,7 @@ SWIGEXPORT long _wrap_VectorReal8_capacity(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   std::vector< double >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > const *", "VectorReal8", "std::vector< double >::capacity() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > const *", "VectorReal8", "std::vector< double >::capacity() const", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (std::vector< double >::size_type)((std::vector< double > const *)arg1)->capacity();
   fresult = (std::vector< double >::size_type)(result);
@@ -1448,7 +1454,7 @@ SWIGEXPORT int _wrap_VectorReal8_empty(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > const *", "VectorReal8", "std::vector< double >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > const *", "VectorReal8", "std::vector< double >::empty() const", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (bool)((std::vector< double > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -1461,7 +1467,7 @@ SWIGEXPORT double _wrap_VectorReal8_front(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   double *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > const *", "VectorReal8", "std::vector< double >::front() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > const *", "VectorReal8", "std::vector< double >::front() const", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (double *) &((std::vector< double > const *)arg1)->front();
   fresult = *result;
@@ -1474,7 +1480,7 @@ SWIGEXPORT double _wrap_VectorReal8_back(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   double *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > const *", "VectorReal8", "std::vector< double >::back() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > const *", "VectorReal8", "std::vector< double >::back() const", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (double *) &((std::vector< double > const *)arg1)->back();
   fresult = *result;
@@ -1486,7 +1492,7 @@ SWIGEXPORT void _wrap_VectorReal8_reserve(SwigClassWrapper *farg1, long const *f
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   std::vector< double >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::reserve(std::vector< double >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::reserve(std::vector< double >::size_type)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = (std::vector< double >::size_type)(*farg2);
   (arg1)->reserve(arg2);
@@ -1497,7 +1503,7 @@ SWIGEXPORT void _wrap_VectorReal8_resize__SWIG_0(SwigClassWrapper *farg1, long c
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   std::vector< double >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::resize(std::vector< double >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::resize(std::vector< double >::size_type)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = (std::vector< double >::size_type)(*farg2);
   (arg1)->resize(arg2);
@@ -1510,7 +1516,7 @@ SWIGEXPORT void _wrap_VectorReal8_resize__SWIG_1(SwigClassWrapper *farg1, long c
   double *arg3 = 0 ;
   double temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::resize(std::vector< double >::size_type,double const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::resize(std::vector< double >::size_type,double const &)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = (std::vector< double >::size_type)(*farg2);
   temp3 = (double)(*farg3);
@@ -1524,7 +1530,7 @@ SWIGEXPORT void _wrap_VectorReal8_push_back(SwigClassWrapper *farg1, double cons
   double *arg2 = 0 ;
   double temp2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::push_back(double const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::push_back(double const &)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   temp2 = (double)(*farg2);
   arg2 = &temp2;
@@ -1535,7 +1541,7 @@ SWIGEXPORT void _wrap_VectorReal8_push_back(SwigClassWrapper *farg1, double cons
 SWIGEXPORT void _wrap_VectorReal8_pop_back(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::pop_back()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::pop_back()", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   (arg1)->pop_back();
 }
@@ -1544,7 +1550,7 @@ SWIGEXPORT void _wrap_VectorReal8_pop_back(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_VectorReal8_clear(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::clear()", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -1556,7 +1562,7 @@ SWIGEXPORT void _wrap_VectorReal8_set(SwigClassWrapper *farg1, long const *farg2
   double *arg3 = 0 ;
   double temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::set(std::vector< double >::size_type,double const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::set(std::vector< double >::size_type,double const &)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = *farg2 - 1;
   temp3 = (double)(*farg3);
@@ -1571,7 +1577,7 @@ SWIGEXPORT double _wrap_VectorReal8_get(SwigClassWrapper *farg1, long const *far
   std::vector< double >::size_type arg2 ;
   double *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::get(std::vector< double >::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::get(std::vector< double >::size_type)", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (double *) &std_vector_Sl_double_Sg__get(arg1,arg2);
@@ -1586,7 +1592,7 @@ SWIGEXPORT void _wrap_VectorReal8_insert(SwigClassWrapper *farg1, long const *fa
   double *arg3 = 0 ;
   double temp3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::insert(std::vector< double >::size_type,double const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::insert(std::vector< double >::size_type,double const &)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = *farg2 - 1;
   temp3 = (double)(*farg3);
@@ -1599,7 +1605,7 @@ SWIGEXPORT void _wrap_VectorReal8_erase__SWIG_0(SwigClassWrapper *farg1, long co
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   std::vector< double >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::erase(std::vector< double >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::erase(std::vector< double >::size_type)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = *farg2 - 1;
   std_vector_Sl_double_Sg__erase__SWIG_0(arg1,arg2);
@@ -1611,7 +1617,7 @@ SWIGEXPORT void _wrap_VectorReal8_erase__SWIG_1(SwigClassWrapper *farg1, long co
   std::vector< double >::size_type arg2 ;
   std::vector< double >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::erase(std::vector< double >::size_type,std::vector< double >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::erase(std::vector< double >::size_type,std::vector< double >::size_type)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = *farg2 - 1;
   arg3 = *farg3 - 1;
@@ -1624,7 +1630,7 @@ SWIGEXPORT double * _wrap_VectorReal8_front_ref(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   double *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::front_ref()", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::front_ref()", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (double *) &std_vector_Sl_double_Sg__front_ref(arg1);
   fresult = result;
@@ -1637,7 +1643,7 @@ SWIGEXPORT double * _wrap_VectorReal8_back_ref(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   double *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::back_ref()", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::back_ref()", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (double *) &std_vector_Sl_double_Sg__back_ref(arg1);
   fresult = result;
@@ -1651,7 +1657,7 @@ SWIGEXPORT double * _wrap_VectorReal8_get_ref(SwigClassWrapper *farg1, long cons
   std::vector< double >::size_type arg2 ;
   double *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::get_ref(std::vector< double >::size_type)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::get_ref(std::vector< double >::size_type)", return 0);
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (double *) &std_vector_Sl_double_Sg__get_ref(arg1,arg2);
@@ -1680,7 +1686,7 @@ SWIGEXPORT void _wrap_VectorReal8_assign(SwigClassWrapper *farg1, SwigArrayWrapp
   double *arg2 = (double *) 0 ;
   std::vector< double >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::assign(double const *,std::vector< double >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::assign(double const *,std::vector< double >::size_type)", return );
   arg1 = (std::vector< double > *)farg1->cptr;
   arg2 = (double *)farg2->data;
   arg3 = farg2->size;
@@ -1693,7 +1699,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorReal8_view(SwigClassWrapper *farg1) {
   std::vector< double > *arg1 = (std::vector< double > *) 0 ;
   std::vector< double > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< double > *", "VectorReal8", "std::vector< double >::view()", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< double > *", "VectorReal8", "std::vector< double >::view()", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< double > *)farg1->cptr;
   result = (std::vector< double > *) &std_vector_Sl_double_Sg__view(arg1);
   fresult.data = (result->empty() ? NULL : &(*result->begin()));
@@ -1737,7 +1743,7 @@ SWIGEXPORT SwigClassWrapper _wrap_new_VectorString__SWIG_1(SwigClassWrapper *far
   std::vector< std::string > *arg1 = 0 ;
   std::vector< std::string > *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > const &", "VectorString", "std::vector< std::string >::vector(std::vector< std::string > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > const &", "VectorString", "std::vector< std::string >::vector(std::vector< std::string > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::vector< std::string > *)new std::vector< std::string >((std::vector< std::string > const &)*arg1);
   fresult.cptr = (void*)result;
@@ -1781,7 +1787,7 @@ SWIGEXPORT long _wrap_VectorString_size(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::vector< std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::size() const", return 0);
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::vector< std::string >::size_type)((std::vector< std::string > const *)arg1)->size();
   fresult = (std::vector< std::string >::size_type)(result);
@@ -1794,7 +1800,7 @@ SWIGEXPORT long _wrap_VectorString_capacity(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::vector< std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::capacity() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::capacity() const", return 0);
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::vector< std::string >::size_type)((std::vector< std::string > const *)arg1)->capacity();
   fresult = (std::vector< std::string >::size_type)(result);
@@ -1807,7 +1813,7 @@ SWIGEXPORT int _wrap_VectorString_empty(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::empty() const", return 0);
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (bool)((std::vector< std::string > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -1820,7 +1826,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorString_front(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::front() const", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::front() const", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::string *) &((std::vector< std::string > const *)arg1)->front();
   fresult.size = result->size();
@@ -1839,7 +1845,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorString_back(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::back() const", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > const *", "VectorString", "std::vector< std::string >::back() const", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::string *) &((std::vector< std::string > const *)arg1)->back();
   fresult.size = result->size();
@@ -1857,7 +1863,7 @@ SWIGEXPORT void _wrap_VectorString_reserve(SwigClassWrapper *farg1, long const *
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::vector< std::string >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::reserve(std::vector< std::string >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::reserve(std::vector< std::string >::size_type)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = (std::vector< std::string >::size_type)(*farg2);
   (arg1)->reserve(arg2);
@@ -1868,7 +1874,7 @@ SWIGEXPORT void _wrap_VectorString_resize__SWIG_0(SwigClassWrapper *farg1, long 
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::vector< std::string >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::resize(std::vector< std::string >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::resize(std::vector< std::string >::size_type)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = (std::vector< std::string >::size_type)(*farg2);
   (arg1)->resize(arg2);
@@ -1881,7 +1887,7 @@ SWIGEXPORT void _wrap_VectorString_resize__SWIG_1(SwigClassWrapper *farg1, long 
   std::string *arg3 = 0 ;
   std::string tempstr3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::resize(std::vector< std::string >::size_type,std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::resize(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = (std::vector< std::string >::size_type)(*farg2);
   tempstr3 = std::string(static_cast<char *>(farg3->data), farg3->size);
@@ -1895,7 +1901,7 @@ SWIGEXPORT void _wrap_VectorString_push_back(SwigClassWrapper *farg1, SwigArrayW
   std::string *arg2 = 0 ;
   std::string tempstr2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::push_back(std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::push_back(std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -1906,7 +1912,7 @@ SWIGEXPORT void _wrap_VectorString_push_back(SwigClassWrapper *farg1, SwigArrayW
 SWIGEXPORT void _wrap_VectorString_pop_back(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::pop_back()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::pop_back()", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   (arg1)->pop_back();
 }
@@ -1915,7 +1921,7 @@ SWIGEXPORT void _wrap_VectorString_pop_back(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_VectorString_clear(SwigClassWrapper *farg1) {
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::clear()", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -1927,7 +1933,7 @@ SWIGEXPORT void _wrap_VectorString_set(SwigClassWrapper *farg1, long const *farg
   std::string *arg3 = 0 ;
   std::string tempstr3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::set(std::vector< std::string >::size_type,std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::set(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   tempstr3 = std::string(static_cast<char *>(farg3->data), farg3->size);
@@ -1942,7 +1948,7 @@ SWIGEXPORT SwigArrayWrapper _wrap_VectorString_get(SwigClassWrapper *farg1, long
   std::vector< std::string >::size_type arg2 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::get(std::vector< std::string >::size_type)", return SwigArrayWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::get(std::vector< std::string >::size_type)", return SwigArrayWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (std::string *) &std_vector_Sl_std_string_Sg__get(arg1,arg2);
@@ -1963,7 +1969,7 @@ SWIGEXPORT void _wrap_VectorString_insert(SwigClassWrapper *farg1, long const *f
   std::string *arg3 = 0 ;
   std::string tempstr3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::insert(std::vector< std::string >::size_type,std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::insert(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   tempstr3 = std::string(static_cast<char *>(farg3->data), farg3->size);
@@ -1976,7 +1982,7 @@ SWIGEXPORT void _wrap_VectorString_erase__SWIG_0(SwigClassWrapper *farg1, long c
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::vector< std::string >::size_type arg2 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::erase(std::vector< std::string >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::erase(std::vector< std::string >::size_type)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   std_vector_Sl_std_string_Sg__erase__SWIG_0(arg1,arg2);
@@ -1988,7 +1994,7 @@ SWIGEXPORT void _wrap_VectorString_erase__SWIG_1(SwigClassWrapper *farg1, long c
   std::vector< std::string >::size_type arg2 ;
   std::vector< std::string >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::erase(std::vector< std::string >::size_type,std::vector< std::string >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::erase(std::vector< std::string >::size_type,std::vector< std::string >::size_type)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   arg3 = *farg3 - 1;
@@ -2001,7 +2007,7 @@ SWIGEXPORT SwigClassWrapper _wrap_VectorString_front_ref(SwigClassWrapper *farg1
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::front_ref()", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::front_ref()", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::string *) &std_vector_Sl_std_string_Sg__front_ref(arg1);
   fresult.cptr = (void*)result;
@@ -2015,7 +2021,7 @@ SWIGEXPORT SwigClassWrapper _wrap_VectorString_back_ref(SwigClassWrapper *farg1)
   std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::back_ref()", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::back_ref()", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   result = (std::string *) &std_vector_Sl_std_string_Sg__back_ref(arg1);
   fresult.cptr = (void*)result;
@@ -2030,7 +2036,7 @@ SWIGEXPORT SwigClassWrapper _wrap_VectorString_get_ref(SwigClassWrapper *farg1, 
   std::vector< std::string >::size_type arg2 ;
   std::string *result = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::get_ref(std::vector< std::string >::size_type)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::get_ref(std::vector< std::string >::size_type)", return SwigClassWrapper_uninitialized());
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
   result = (std::string *) &std_vector_Sl_std_string_Sg__get_ref(arg1,arg2);
@@ -2045,10 +2051,10 @@ SWIGEXPORT void _wrap_VectorString_set_ref(SwigClassWrapper *farg1, long const *
   std::vector< std::string >::size_type arg2 ;
   std::string *arg3 = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::set_ref(std::vector< std::string >::size_type,std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::string > *", "VectorString", "std::vector< std::string >::set_ref(std::vector< std::string >::size_type,std::string const &)", return );
   arg1 = (std::vector< std::string > *)farg1->cptr;
   arg2 = *farg2 - 1;
-  SWIG_check_nonnull(*farg3, "std::string const &", "string", "std::vector< std::string >::set_ref(std::vector< std::string >::size_type,std::string const &)", return );
+  SWIG_check_nonnull(farg3->cptr, "std::string const &", "string", "std::vector< std::string >::set_ref(std::vector< std::string >::size_type,std::string const &)", return );
   arg3 = (std::string *)farg3->cptr;
   std_vector_Sl_std_string_Sg__set_ref(arg1,arg2,(std::string const &)*arg3);
 }

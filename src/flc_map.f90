@@ -35,13 +35,10 @@ module flc_map
   procedure :: insert => swigf_MapIntInt_insert
   procedure :: get => swigf_MapIntInt_get
   procedure :: set => swigf_MapIntInt_set
-  procedure :: release => swigf_release_MapIntInt
+  procedure :: release => swigf_MapIntInt_release
   procedure, private :: swigf_MapIntInt_op_assign__
   generic :: assignment(=) => swigf_MapIntInt_op_assign__
  end type MapIntInt
- interface MapIntInt
-  module procedure swigf_create_MapIntInt
- end interface
  type, bind(C) :: SwigArrayWrapper
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
@@ -58,13 +55,10 @@ module flc_map
   procedure :: insert => swigf_MapStringInt_insert
   procedure :: get => swigf_MapStringInt_get
   procedure :: set => swigf_MapStringInt_set
-  procedure :: release => swigf_release_MapStringInt
+  procedure :: release => swigf_MapStringInt_release
   procedure, private :: swigf_MapStringInt_op_assign__
   generic :: assignment(=) => swigf_MapStringInt_op_assign__
  end type MapStringInt
- interface MapStringInt
-  module procedure swigf_create_MapStringInt
- end interface
  ! class std::map< std::string,std::string >
  type, public :: MapStringString
   type(SwigClassWrapper), public :: swigdata
@@ -77,12 +71,18 @@ module flc_map
   procedure :: insert => swigf_MapStringString_insert
   procedure :: get => swigf_MapStringString_get
   procedure :: set => swigf_MapStringString_set
-  procedure :: release => swigf_release_MapStringString
+  procedure :: release => swigf_MapStringString_release
   procedure, private :: swigf_MapStringString_op_assign__
   generic :: assignment(=) => swigf_MapStringString_op_assign__
  end type MapStringString
+ interface MapIntInt
+  module procedure swigf_new_MapIntInt
+ end interface
+ interface MapStringInt
+  module procedure swigf_new_MapStringInt
+ end interface
  interface MapStringString
-  module procedure swigf_create_MapStringString
+  module procedure swigf_new_MapStringString
  end interface
 
 ! WRAPPER DECLARATIONS
@@ -100,7 +100,7 @@ bind(C, name="_wrap_MapIntInt_empty") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT) :: fresult
 end function
 
@@ -109,7 +109,7 @@ bind(C, name="_wrap_MapIntInt_size") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG) :: fresult
 end function
 
@@ -117,7 +117,7 @@ subroutine swigc_MapIntInt_clear(farg1) &
 bind(C, name="_wrap_MapIntInt_clear")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 function swigc_MapIntInt_erase(farg1, farg2) &
@@ -125,7 +125,7 @@ bind(C, name="_wrap_MapIntInt_erase") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -135,7 +135,7 @@ bind(C, name="_wrap_MapIntInt_count") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -145,7 +145,7 @@ bind(C, name="_wrap_MapIntInt_insert") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_INT), intent(in) :: farg3
 integer(C_INT) :: fresult
@@ -156,7 +156,7 @@ bind(C, name="_wrap_MapIntInt_get") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_INT) :: fresult
 end function
@@ -165,7 +165,7 @@ subroutine swigc_MapIntInt_set(farg1, farg2, farg3) &
 bind(C, name="_wrap_MapIntInt_set")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT), intent(in) :: farg2
 integer(C_INT), intent(in) :: farg3
 end subroutine
@@ -182,7 +182,7 @@ bind(C, name="_wrap_MapIntInt_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 function swigc_new_MapStringInt() &
@@ -198,7 +198,7 @@ bind(C, name="_wrap_MapStringInt_empty") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT) :: fresult
 end function
 
@@ -207,7 +207,7 @@ bind(C, name="_wrap_MapStringInt_size") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG) :: fresult
 end function
 
@@ -215,7 +215,7 @@ subroutine swigc_MapStringInt_clear(farg1) &
 bind(C, name="_wrap_MapStringInt_clear")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 function swigc_MapStringInt_erase(farg1, farg2) &
@@ -224,7 +224,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -235,7 +235,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -246,7 +246,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_INT), intent(in) :: farg3
 integer(C_INT) :: fresult
@@ -258,7 +258,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_INT) :: fresult
 end function
@@ -268,7 +268,7 @@ bind(C, name="_wrap_MapStringInt_set")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_INT), intent(in) :: farg3
 end subroutine
@@ -285,7 +285,7 @@ bind(C, name="_wrap_MapStringInt_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 function swigc_new_MapStringString() &
@@ -301,7 +301,7 @@ bind(C, name="_wrap_MapStringString_empty") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT) :: fresult
 end function
 
@@ -310,7 +310,7 @@ bind(C, name="_wrap_MapStringString_size") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG) :: fresult
 end function
 
@@ -318,7 +318,7 @@ subroutine swigc_MapStringString_clear(farg1) &
 bind(C, name="_wrap_MapStringString_clear")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 end subroutine
 
 function swigc_MapStringString_erase(farg1, farg2) &
@@ -327,7 +327,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -338,7 +338,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 integer(C_LONG) :: fresult
 end function
@@ -349,7 +349,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 type(SwigArrayWrapper) :: farg3
 integer(C_INT) :: fresult
@@ -366,7 +366,7 @@ result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 type(SwigArrayWrapper) :: fresult
 end function
@@ -376,7 +376,7 @@ bind(C, name="_wrap_MapStringString_set")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 type(SwigArrayWrapper) :: farg3
 end subroutine
@@ -393,7 +393,7 @@ bind(C, name="_wrap_MapStringString_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 end interface
@@ -401,7 +401,7 @@ end interface
 
 contains
  ! MODULE SUBPROGRAMS
-function swigf_create_MapIntInt() &
+function swigf_new_MapIntInt() &
 result(self)
 use, intrinsic :: ISO_C_BINDING
 type(MapIntInt) :: self
@@ -545,7 +545,7 @@ farg3 = v
 call swigc_MapIntInt_set(farg1, farg2, farg3)
 end subroutine
 
-subroutine swigf_release_MapIntInt(self)
+subroutine swigf_MapIntInt_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(MapIntInt), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 
@@ -572,7 +572,7 @@ call swigc_MapIntInt_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 
-function swigf_create_MapStringInt() &
+function swigf_new_MapStringInt() &
 result(self)
 use, intrinsic :: ISO_C_BINDING
 type(MapStringInt) :: self
@@ -726,7 +726,7 @@ farg3 = v
 call swigc_MapStringInt_set(farg1, farg2, farg3)
 end subroutine
 
-subroutine swigf_release_MapStringInt(self)
+subroutine swigf_MapStringInt_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringInt), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 
@@ -753,7 +753,7 @@ call swigc_MapStringInt_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 
-function swigf_create_MapStringString() &
+function swigf_new_MapStringString() &
 result(self)
 use, intrinsic :: ISO_C_BINDING
 type(MapStringString) :: self
@@ -906,7 +906,7 @@ call SWIGTM_fin_char_Sm_(v, farg3, farg3_temp)
 call swigc_MapStringString_set(farg1, farg2, farg3)
 end subroutine
 
-subroutine swigf_release_MapStringString(self)
+subroutine swigf_MapStringString_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringString), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 

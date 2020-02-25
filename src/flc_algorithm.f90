@@ -600,7 +600,7 @@ bind(C, name="_wrap_shuffle__SWIG_1")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 
@@ -609,7 +609,7 @@ bind(C, name="_wrap_shuffle__SWIG_2")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 
@@ -618,7 +618,7 @@ bind(C, name="_wrap_shuffle__SWIG_3")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 
@@ -627,7 +627,7 @@ bind(C, name="_wrap_shuffle__SWIG_4")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 import :: swigarraywrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 type(SwigArrayWrapper) :: farg2
 end subroutine
 

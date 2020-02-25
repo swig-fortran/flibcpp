@@ -29,14 +29,10 @@ module flc_random
   procedure :: seed => swigf_MersenneEngine4_seed
   procedure :: discard => swigf_MersenneEngine4_discard
   procedure :: next => swigf_MersenneEngine4_next
-  procedure :: release => swigf_release_MersenneEngine4
+  procedure :: release => swigf_MersenneEngine4_release
   procedure, private :: swigf_MersenneEngine4_op_assign__
   generic :: assignment(=) => swigf_MersenneEngine4_op_assign__
  end type MersenneEngine4
- interface MersenneEngine4
-  module procedure swigf_new_MersenneEngine4__SWIG_0
-  module procedure swigf_new_MersenneEngine4__SWIG_1
- end interface
  ! class std::mt19937_64
  type, public :: MersenneEngine8
   type(SwigClassWrapper), public :: swigdata
@@ -44,20 +40,19 @@ module flc_random
   procedure :: seed => swigf_MersenneEngine8_seed
   procedure :: discard => swigf_MersenneEngine8_discard
   procedure :: next => swigf_MersenneEngine8_next
-  procedure :: release => swigf_release_MersenneEngine8
+  procedure :: release => swigf_MersenneEngine8_release
   procedure, private :: swigf_MersenneEngine8_op_assign__
   generic :: assignment(=) => swigf_MersenneEngine8_op_assign__
  end type MersenneEngine8
- interface MersenneEngine8
-  module procedure swigf_new_MersenneEngine8__SWIG_0
-  module procedure swigf_new_MersenneEngine8__SWIG_1
- end interface
  type, bind(C) :: SwigArrayWrapper
   type(C_PTR), public :: data = C_NULL_PTR
   integer(C_SIZE_T), public :: size = 0
  end type
  public :: uniform_real_distribution
  public :: normal_distribution
+ interface MersenneEngine8
+  module procedure swigf_new_MersenneEngine8__SWIG_0, swigf_new_MersenneEngine8__SWIG_1
+ end interface
  interface uniform_int_distribution
   module procedure swigf_uniform_int_distribution__SWIG_1, swigf_uniform_int_distribution__SWIG_2
  end interface
@@ -66,6 +61,9 @@ module flc_random
   module procedure swigf_discrete_distribution__SWIG_1, swigf_discrete_distribution__SWIG_2
  end interface
  public :: discrete_distribution
+ interface MersenneEngine4
+  module procedure swigf_new_MersenneEngine4__SWIG_0, swigf_new_MersenneEngine4__SWIG_1
+ end interface
 
 ! WRAPPER DECLARATIONS
 interface
@@ -90,7 +88,7 @@ subroutine swigc_MersenneEngine4_seed(farg1, farg2) &
 bind(C, name="_wrap_MersenneEngine4_seed")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT32_T), intent(in) :: farg2
 end subroutine
 
@@ -98,7 +96,7 @@ subroutine swigc_MersenneEngine4_discard(farg1, farg2) &
 bind(C, name="_wrap_MersenneEngine4_discard")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG_LONG), intent(in) :: farg2
 end subroutine
 
@@ -107,7 +105,7 @@ bind(C, name="_wrap_MersenneEngine4_next") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT32_T) :: fresult
 end function
 
@@ -123,7 +121,7 @@ bind(C, name="_wrap_MersenneEngine4_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 function swigc_new_MersenneEngine8__SWIG_0() &
@@ -147,7 +145,7 @@ subroutine swigc_MersenneEngine8_seed(farg1, farg2) &
 bind(C, name="_wrap_MersenneEngine8_seed")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT64_T), intent(in) :: farg2
 end subroutine
 
@@ -155,7 +153,7 @@ subroutine swigc_MersenneEngine8_discard(farg1, farg2) &
 bind(C, name="_wrap_MersenneEngine8_discard")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_LONG_LONG), intent(in) :: farg2
 end subroutine
 
@@ -164,7 +162,7 @@ bind(C, name="_wrap_MersenneEngine8_next") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
-type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper), intent(in) :: farg1
 integer(C_INT64_T) :: fresult
 end function
 
@@ -180,7 +178,7 @@ bind(C, name="_wrap_MersenneEngine8_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
-type(SwigClassWrapper) :: farg2
+type(SwigClassWrapper), intent(in) :: farg2
 end subroutine
 
 subroutine swigc_uniform_int_distribution__SWIG_1(farg1, farg2, farg3, farg4) &
@@ -190,7 +188,7 @@ import :: swigclasswrapper
 import :: swigarraywrapper
 integer(C_INT32_T), intent(in) :: farg1
 integer(C_INT32_T), intent(in) :: farg2
-type(SwigClassWrapper) :: farg3
+type(SwigClassWrapper), intent(in) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
@@ -201,7 +199,7 @@ import :: swigclasswrapper
 import :: swigarraywrapper
 integer(C_INT64_T), intent(in) :: farg1
 integer(C_INT64_T), intent(in) :: farg2
-type(SwigClassWrapper) :: farg3
+type(SwigClassWrapper), intent(in) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
@@ -212,7 +210,7 @@ import :: swigclasswrapper
 import :: swigarraywrapper
 real(C_DOUBLE), intent(in) :: farg1
 real(C_DOUBLE), intent(in) :: farg2
-type(SwigClassWrapper) :: farg3
+type(SwigClassWrapper), intent(in) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
@@ -223,7 +221,7 @@ import :: swigclasswrapper
 import :: swigarraywrapper
 real(C_DOUBLE), intent(in) :: farg1
 real(C_DOUBLE), intent(in) :: farg2
-type(SwigClassWrapper) :: farg3
+type(SwigClassWrapper), intent(in) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
@@ -233,7 +231,7 @@ use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 import :: swigclasswrapper
 type(SwigArrayWrapper) :: farg1
-type(SwigClassWrapper) :: farg3
+type(SwigClassWrapper), intent(in) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
@@ -243,7 +241,7 @@ use, intrinsic :: ISO_C_BINDING
 import :: swigarraywrapper
 import :: swigclasswrapper
 type(SwigArrayWrapper) :: farg1
-type(SwigClassWrapper) :: farg3
+type(SwigClassWrapper), intent(in) :: farg3
 type(SwigArrayWrapper) :: farg4
 end subroutine
 
@@ -312,7 +310,7 @@ fresult = swigc_MersenneEngine4_next(farg1)
 swig_result = fresult
 end function
 
-subroutine swigf_release_MersenneEngine4(self)
+subroutine swigf_MersenneEngine4_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(MersenneEngine4), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 
@@ -399,7 +397,7 @@ fresult = swigc_MersenneEngine8_next(farg1)
 swig_result = fresult
 end function
 
-subroutine swigf_release_MersenneEngine8(self)
+subroutine swigf_MersenneEngine8_release(self)
 use, intrinsic :: ISO_C_BINDING
 class(MersenneEngine8), intent(inout) :: self
 type(SwigClassWrapper) :: farg1 

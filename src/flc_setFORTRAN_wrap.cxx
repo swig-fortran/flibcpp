@@ -15,6 +15,12 @@
  */
 
 
+
+#ifndef SWIGFORTRAN
+#define SWIGFORTRAN
+#endif
+
+
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
@@ -214,8 +220,8 @@ enum SwigMemFlags {
 };
 
 
-#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if (!(SWIG_CLASS_WRAPPER).cptr) { \
+#define SWIG_check_nonnull(PTR, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if (!(PTR)) { \
     SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -518,7 +524,7 @@ SWIGEXPORT int _wrap_SetInt_empty(SwigClassWrapper *farg1) {
   std::set< int > *arg1 = (std::set< int > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > const *", "SetInt", "std::set< int >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > const *", "SetInt", "std::set< int >::empty() const", return 0);
   arg1 = (std::set< int > *)farg1->cptr;
   result = (bool)((std::set< int > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -531,7 +537,7 @@ SWIGEXPORT long _wrap_SetInt_size(SwigClassWrapper *farg1) {
   std::set< int > *arg1 = (std::set< int > *) 0 ;
   std::set< int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > const *", "SetInt", "std::set< int >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > const *", "SetInt", "std::set< int >::size() const", return 0);
   arg1 = (std::set< int > *)farg1->cptr;
   result = (std::set< int >::size_type)((std::set< int > const *)arg1)->size();
   fresult = (std::set< int >::size_type)(result);
@@ -542,7 +548,7 @@ SWIGEXPORT long _wrap_SetInt_size(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_SetInt_clear(SwigClassWrapper *farg1) {
   std::set< int > *arg1 = (std::set< int > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::clear()", return );
   arg1 = (std::set< int > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -555,7 +561,7 @@ SWIGEXPORT long _wrap_SetInt_erase(SwigClassWrapper *farg1, int const *farg2) {
   std::set< int >::key_type temp2 ;
   std::set< int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::erase(std::set< int >::key_type const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::erase(std::set< int >::key_type const &)", return 0);
   arg1 = (std::set< int > *)farg1->cptr;
   temp2 = (std::set< int >::key_type)(*farg2);
   arg2 = &temp2;
@@ -572,7 +578,7 @@ SWIGEXPORT long _wrap_SetInt_count(SwigClassWrapper *farg1, int const *farg2) {
   std::set< int >::key_type temp2 ;
   std::set< int >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > const *", "SetInt", "std::set< int >::count(std::set< int >::key_type const &) const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > const *", "SetInt", "std::set< int >::count(std::set< int >::key_type const &) const", return 0);
   arg1 = (std::set< int > *)farg1->cptr;
   temp2 = (std::set< int >::key_type)(*farg2);
   arg2 = &temp2;
@@ -589,7 +595,7 @@ SWIGEXPORT int _wrap_SetInt_insert__SWIG_0(SwigClassWrapper *farg1, int const *f
   int temp2 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::insert(std::set< int >::const_reference)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::insert(std::set< int >::const_reference)", return 0);
   arg1 = (std::set< int > *)farg1->cptr;
   temp2 = (int)(*farg2);
   arg2 = &temp2;
@@ -619,7 +625,7 @@ SWIGEXPORT void _wrap_SetInt_insert__SWIG_1(SwigClassWrapper *farg1, SwigArrayWr
   int *arg2 = (int *) 0 ;
   std::set< int >::size_type arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::insert(int const *,std::set< int >::size_type)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::insert(int const *,std::set< int >::size_type)", return );
   arg1 = (std::set< int > *)farg1->cptr;
   arg2 = (int *)farg2->data;
   arg3 = farg2->size;
@@ -633,9 +639,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_difference(SwigClassWrapper *farg1, Swi
   std::set< int,std::less< int >,std::allocator< int > > *arg2 = 0 ;
   std::set< int,std::less< int >,std::allocator< int > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::set_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::set_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< int > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< int,std::less< int >,std::allocator< int > > *)farg2->cptr;
   result = std_set_Sl_int_Sg__set_difference(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
@@ -650,9 +656,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_intersection(SwigClassWrapper *farg1, S
   std::set< int,std::less< int >,std::allocator< int > > *arg2 = 0 ;
   std::set< int,std::less< int >,std::allocator< int > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::set_intersection(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::set_intersection(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< int > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_intersection(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_intersection(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< int,std::less< int >,std::allocator< int > > *)farg2->cptr;
   result = std_set_Sl_int_Sg__set_intersection(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
@@ -667,9 +673,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_symmetric_difference(SwigClassWrapper *
   std::set< int,std::less< int >,std::allocator< int > > *arg2 = 0 ;
   std::set< int,std::less< int >,std::allocator< int > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::set_symmetric_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::set_symmetric_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< int > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_symmetric_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_symmetric_difference(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< int,std::less< int >,std::allocator< int > > *)farg2->cptr;
   result = std_set_Sl_int_Sg__set_symmetric_difference(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
@@ -684,9 +690,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetInt_union(SwigClassWrapper *farg1, SwigClas
   std::set< int,std::less< int >,std::allocator< int > > *arg2 = 0 ;
   std::set< int,std::less< int >,std::allocator< int > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::set_union(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::set_union(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< int > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_union(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_union(std::set< int,std::less< int >,std::allocator< int > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< int,std::less< int >,std::allocator< int > > *)farg2->cptr;
   result = std_set_Sl_int_Sg__set_union(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult.cptr = new (std::set< int,std::less< int >,std::allocator< int > >)(result);
@@ -701,9 +707,9 @@ SWIGEXPORT int _wrap_SetInt_includes(SwigClassWrapper *farg1, SwigClassWrapper *
   std::set< int,std::less< int >,std::allocator< int > > *arg2 = 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::set< int > *", "SetInt", "std::set< int >::set_includes(std::set< int,std::less< int >,std::allocator< int > > const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< int > *", "SetInt", "std::set< int >::set_includes(std::set< int,std::less< int >,std::allocator< int > > const &)", return 0);
   arg1 = (std::set< int > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_includes(std::set< int,std::less< int >,std::allocator< int > > const &)", return 0);
+  SWIG_check_nonnull(farg2->cptr, "std::set< int,std::less< int >,std::allocator< int > > const &", "SetInt", "std::set< int >::set_includes(std::set< int,std::less< int >,std::allocator< int > > const &)", return 0);
   arg2 = (std::set< int,std::less< int >,std::allocator< int > > *)farg2->cptr;
   result = (bool)std_set_Sl_int_Sg__set_includes(arg1,(std::set< int,std::less< int >,std::allocator< int > > const &)*arg2);
   fresult = (result ? 1 : 0);
@@ -746,7 +752,7 @@ SWIGEXPORT int _wrap_SetString_empty(SwigClassWrapper *farg1) {
   std::set< std::string > *arg1 = (std::set< std::string > *) 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > const *", "SetString", "std::set< std::string >::empty() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > const *", "SetString", "std::set< std::string >::empty() const", return 0);
   arg1 = (std::set< std::string > *)farg1->cptr;
   result = (bool)((std::set< std::string > const *)arg1)->empty();
   fresult = (result ? 1 : 0);
@@ -759,7 +765,7 @@ SWIGEXPORT long _wrap_SetString_size(SwigClassWrapper *farg1) {
   std::set< std::string > *arg1 = (std::set< std::string > *) 0 ;
   std::set< std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > const *", "SetString", "std::set< std::string >::size() const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > const *", "SetString", "std::set< std::string >::size() const", return 0);
   arg1 = (std::set< std::string > *)farg1->cptr;
   result = (std::set< std::string >::size_type)((std::set< std::string > const *)arg1)->size();
   fresult = (std::set< std::string >::size_type)(result);
@@ -770,7 +776,7 @@ SWIGEXPORT long _wrap_SetString_size(SwigClassWrapper *farg1) {
 SWIGEXPORT void _wrap_SetString_clear(SwigClassWrapper *farg1) {
   std::set< std::string > *arg1 = (std::set< std::string > *) 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::clear()", return );
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::clear()", return );
   arg1 = (std::set< std::string > *)farg1->cptr;
   (arg1)->clear();
 }
@@ -783,7 +789,7 @@ SWIGEXPORT long _wrap_SetString_erase(SwigClassWrapper *farg1, SwigArrayWrapper 
   std::string tempstr2 ;
   std::set< std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::erase(std::set< std::string >::key_type const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::erase(std::set< std::string >::key_type const &)", return 0);
   arg1 = (std::set< std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -800,7 +806,7 @@ SWIGEXPORT long _wrap_SetString_count(SwigClassWrapper *farg1, SwigArrayWrapper 
   std::string tempstr2 ;
   std::set< std::string >::size_type result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > const *", "SetString", "std::set< std::string >::count(std::set< std::string >::key_type const &) const", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > const *", "SetString", "std::set< std::string >::count(std::set< std::string >::key_type const &) const", return 0);
   arg1 = (std::set< std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -817,7 +823,7 @@ SWIGEXPORT int _wrap_SetString_insert(SwigClassWrapper *farg1, SwigArrayWrapper 
   std::string tempstr2 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::insert(std::set< std::string >::const_reference)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::insert(std::set< std::string >::const_reference)", return 0);
   arg1 = (std::set< std::string > *)farg1->cptr;
   tempstr2 = std::string(static_cast<char *>(farg2->data), farg2->size);
   arg2 = &tempstr2;
@@ -831,9 +837,9 @@ SWIGEXPORT void _wrap_SetString_insert_ref(SwigClassWrapper *farg1, SwigClassWra
   std::set< std::string > *arg1 = (std::set< std::string > *) 0 ;
   std::string *arg2 = 0 ;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::insert_ref(std::string const &)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::insert_ref(std::string const &)", return );
   arg1 = (std::set< std::string > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::string const &", "string", "std::set< std::string >::insert_ref(std::string const &)", return );
+  SWIG_check_nonnull(farg2->cptr, "std::string const &", "string", "std::set< std::string >::insert_ref(std::string const &)", return );
   arg2 = (std::string *)farg2->cptr;
   std_set_Sl_std_string_Sg__insert_ref(arg1,(std::string const &)*arg2);
 }
@@ -845,9 +851,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_difference(SwigClassWrapper *farg1, 
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > *arg2 = 0 ;
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::set_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::set_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< std::string > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< std::string,std::less< std::string >,std::allocator< std::string > > *)farg2->cptr;
   result = std_set_Sl_std_string_Sg__set_difference(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
@@ -862,9 +868,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_intersection(SwigClassWrapper *farg1
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > *arg2 = 0 ;
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::set_intersection(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::set_intersection(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< std::string > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_intersection(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_intersection(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< std::string,std::less< std::string >,std::allocator< std::string > > *)farg2->cptr;
   result = std_set_Sl_std_string_Sg__set_intersection(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
@@ -879,9 +885,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_symmetric_difference(SwigClassWrappe
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > *arg2 = 0 ;
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::set_symmetric_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::set_symmetric_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< std::string > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_symmetric_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_symmetric_difference(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< std::string,std::less< std::string >,std::allocator< std::string > > *)farg2->cptr;
   result = std_set_Sl_std_string_Sg__set_symmetric_difference(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
@@ -896,9 +902,9 @@ SWIGEXPORT SwigClassWrapper _wrap_SetString_union(SwigClassWrapper *farg1, SwigC
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > *arg2 = 0 ;
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::set_union(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::set_union(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg1 = (std::set< std::string > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_union(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
+  SWIG_check_nonnull(farg2->cptr, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_union(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return SwigClassWrapper_uninitialized());
   arg2 = (std::set< std::string,std::less< std::string >,std::allocator< std::string > > *)farg2->cptr;
   result = std_set_Sl_std_string_Sg__set_union(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult.cptr = new (std::set< std::string,std::less< std::string >,std::allocator< std::string > >)(result);
@@ -913,9 +919,9 @@ SWIGEXPORT int _wrap_SetString_includes(SwigClassWrapper *farg1, SwigClassWrappe
   std::set< std::string,std::less< std::string >,std::allocator< std::string > > *arg2 = 0 ;
   bool result;
   
-  SWIG_check_nonnull(*farg1, "std::set< std::string > *", "SetString", "std::set< std::string >::set_includes(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return 0);
+  SWIG_check_nonnull(farg1->cptr, "std::set< std::string > *", "SetString", "std::set< std::string >::set_includes(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return 0);
   arg1 = (std::set< std::string > *)farg1->cptr;
-  SWIG_check_nonnull(*farg2, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_includes(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return 0);
+  SWIG_check_nonnull(farg2->cptr, "std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &", "SetString", "std::set< std::string >::set_includes(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)", return 0);
   arg2 = (std::set< std::string,std::less< std::string >,std::allocator< std::string > > *)farg2->cptr;
   result = (bool)std_set_Sl_std_string_Sg__set_includes(arg1,(std::set< std::string,std::less< std::string >,std::allocator< std::string > > const &)*arg2);
   fresult = (result ? 1 : 0);

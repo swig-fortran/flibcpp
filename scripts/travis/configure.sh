@@ -13,7 +13,7 @@ else
 fi
 
 CXX_FLAGS="-Wall -Wextra -Werror"
-Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals -Wno-maybe-uninitialized"
+Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals -Wno-maybe-uninitialized -Werror"
 
 set -x
 cd ${BUILD_ROOT} && cmake -G "${CMAKE_GENERATOR}" \
@@ -24,6 +24,7 @@ cd ${BUILD_ROOT} && cmake -G "${CMAKE_GENERATOR}" \
   -D CMAKE_CXX_FLAGS="${CXX_FLAGS}" \
   -D CMAKE_Fortran_FLAGS="${Fortran_FLAGS}" \
   -D CMAKE_INSTALL_PREFIX="${INSTALL_ROOT}" \
+  -D MEMORYCHECK_COMMAND_OPTIONS="--error-exitcode=1 --leak-check=full" \
   ${SOURCE_ROOT}
 
 ###############################################################################

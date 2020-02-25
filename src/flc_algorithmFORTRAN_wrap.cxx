@@ -15,6 +15,12 @@
  */
 
 
+
+#ifndef SWIGFORTRAN
+#define SWIGFORTRAN
+#endif
+
+
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
@@ -214,8 +220,8 @@ enum SwigMemFlags {
 };
 
 
-#define SWIG_check_nonnull(SWIG_CLASS_WRAPPER, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
-  if (!(SWIG_CLASS_WRAPPER).cptr) { \
+#define SWIG_check_nonnull(PTR, TYPENAME, FNAME, FUNCNAME, RETURNNULL) \
+  if (!(PTR)) { \
     SWIG_exception_impl(FUNCNAME, SWIG_NullReferenceError, \
                         "Cannot pass null " TYPENAME " (class " FNAME ") " \
                         "as a reference", RETURNNULL); \
@@ -1242,7 +1248,7 @@ SWIGEXPORT void _wrap_shuffle__SWIG_1(SwigClassWrapper *farg1, SwigArrayWrapper 
   int32_t *arg2 = (int32_t *) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< int32_t >(std::mt19937 &,int32_t *,size_t)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::mt19937 &", "MersenneEngine4", "shuffle< int32_t >(std::mt19937 &,int32_t *,size_t)", return );
   arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (int32_t *)farg2->data;
   arg3 = farg2->size;
@@ -1255,7 +1261,7 @@ SWIGEXPORT void _wrap_shuffle__SWIG_2(SwigClassWrapper *farg1, SwigArrayWrapper 
   int64_t *arg2 = (int64_t *) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< int64_t >(std::mt19937 &,int64_t *,size_t)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::mt19937 &", "MersenneEngine4", "shuffle< int64_t >(std::mt19937 &,int64_t *,size_t)", return );
   arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (int64_t *)farg2->data;
   arg3 = farg2->size;
@@ -1268,7 +1274,7 @@ SWIGEXPORT void _wrap_shuffle__SWIG_3(SwigClassWrapper *farg1, SwigArrayWrapper 
   double *arg2 = (double *) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< double >(std::mt19937 &,double *,size_t)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::mt19937 &", "MersenneEngine4", "shuffle< double >(std::mt19937 &,double *,size_t)", return );
   arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (double *)farg2->data;
   arg3 = farg2->size;
@@ -1281,7 +1287,7 @@ SWIGEXPORT void _wrap_shuffle__SWIG_4(SwigClassWrapper *farg1, SwigArrayWrapper 
   void **arg2 = (void **) 0 ;
   size_t arg3 ;
   
-  SWIG_check_nonnull(*farg1, "std::mt19937 &", "MersenneEngine4", "shuffle< void * >(std::mt19937 &,void **,size_t)", return );
+  SWIG_check_nonnull(farg1->cptr, "std::mt19937 &", "MersenneEngine4", "shuffle< void * >(std::mt19937 &,void **,size_t)", return );
   arg1 = (std::mt19937 *)farg1->cptr;
   arg2 = (void **)farg2->data;
   arg3 = farg2->size;

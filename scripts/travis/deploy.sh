@@ -13,15 +13,22 @@ set -x
 cd ${BUILD_ROOT} && ${GENERATOR} install
 
 # Test existence of install files
+test_f() {
+  if ! [ -f "$1" ]; then
+    echo -e "\e[0;31mMissing file $1\e[0m"
+    ls -al "$(dirname "$1")"
+    return 1
+  fi
+}
 
 if [ "${FLIBCPP_DEV}" = "ON" ]; then
-  test -f ${INSTALL_ROOT}/share/doc/Flibcpp/index.html
-  test -f ${INSTALL_ROOT}/include/flc.i
+  test_f ${INSTALL_ROOT}/share/doc/Flibcpp/index.html
+  test_f ${INSTALL_ROOT}/include/flc.i
 fi
 
-test -f ${INSTALL_ROOT}/include/flc.mod
-test -f ${INSTALL_ROOT}/lib/libflc${SO_EXT}
-test -f ${INSTALL_ROOT}/lib/cmake/Flibcpp/FlibcppConfig.cmake
+test_f ${INSTALL_ROOT}/include/flc.mod
+test_f ${INSTALL_ROOT}/lib/libflc${SO_EXT}
+test_f ${INSTALL_ROOT}/lib/cmake/Flibcpp/FlibcppConfig.cmake
 
 ###############################################################################
 # end of scripts/travis/deploy.sh
