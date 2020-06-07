@@ -3,7 +3,7 @@ include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${Flibcpp_CMAKE_DIR})
 
-if (NOT TARGET @FLIBCPP_NAMESPACE@flc)
+if(NOT TARGET @FLIBCPP_NAMESPACE@flc)
   include("${Flibcpp_CMAKE_DIR}/FlibcppTargets.cmake")
 endif()
 
@@ -15,7 +15,7 @@ set(FLIBCPP_FORTRAN_STD       @FLIBCPP_FORTRAN_STD@)
 set(FLIBCPP_SWIG_EXECUTABLE   @FLIBCPP_SWIG_EXECUTABLE@)
 set(FLIBCPP_SWIG_DIR          @FLIBCPP_SWIG_DIR@)
 
-if (NOT FLIBCPP_BUILD_SHARED_LIBS)
+if(NOT FLIBCPP_BUILD_SHARED_LIBS)
   # Downstream libraries must find and link to the C++ runtimes themselves since
   # they can't use the shared library dependencies
   enable_language(CXX)

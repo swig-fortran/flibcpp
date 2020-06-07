@@ -22,17 +22,17 @@ option(FLIBCPP_DEV "Default to using development-centered options" OFF)
 option(FLIBCPP_BUILD_DOCS "Build documentation with Sphinx" ${FLIBCPP_DEV})
 option(FLIBCPP_USE_SWIG "Regenerate source files using SWIG" ${FLIBCPP_DEV})
 
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   set(_DEFAULT_BUILD_EXAMPLES ON)
 endif()
 option(FLIBCPP_BUILD_EXAMPLES "Build examples" ${_DEFAULT_BUILD_EXAMPLES})
 
-if (FLIBCPP_DEV)
+if(FLIBCPP_DEV)
   set(_DEFAULT_BUILD_TESTS ON)
 endif()
 option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${_DEFAULT_BUILD_TESTS})
 
-if (FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
+if(FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
   set(_DEFAULT_BUILD_TESTING ON)
 endif()
 option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
@@ -44,10 +44,10 @@ option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 # Fortran standard
 set(FLIBCPP_FORTRAN_STD "03" CACHE STRING
    "Fortran standard for compiling generated code (options: 03/08/15/18/none)")
-if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
-  if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+if(FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
+  if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     set(_FLIBCPP_STD_FLAGS "-std=f20${FLIBCPP_FORTRAN_STD}")
-  elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+  elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
     set(_FLIBCPP_STD_FLAGS "-std${FLIBCPP_FORTRAN_STD}")
   else()
     message(WARNING "Fortran standard flags are not known for "
@@ -60,8 +60,8 @@ if (FLIBCPP_FORTRAN_STD AND NOT FLIBCPP_FORTRAN_STD STREQUAL "none")
 endif()
 
 # Build type
-if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  if (FLIBCPP_DEV)
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  if(FLIBCPP_DEV)
     set(_CMAKE_BUILD_TYPE "Debug")
   else ()
     set(_CMAKE_BUILD_TYPE "RelWithDebInfo")
@@ -75,25 +75,25 @@ endif()
 #---------------------------------------------------------------------------#
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-if (CMAKE_VERSION VERSION_LESS 3.18)
+if(CMAKE_VERSION VERSION_LESS 3.18)
   list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/backport-cmake-318")
 endif()
 
-if (FLIBCPP_USE_SWIG)
+if(FLIBCPP_USE_SWIG)
   find_package(SWIG COMPONENTS fortran REQUIRED)
 
-  if (CMAKE_VERSION VERSION_LESS 3.12)
+  if(CMAKE_VERSION VERSION_LESS 3.12)
     message(FATAL_ERROR "CMake 3.12 or higher is required to regenerate the "
       "Fortran bindings using SWIG. Set FLIBCPP_USE_SWIG to OFF "
       "and reconfigure.")
   endif()
 
-  if (CMAKE_VERSION GREATER_EQUAL 3.13)
+  if(CMAKE_VERSION GREATER_EQUAL 3.13)
     cmake_policy(SET CMP0078 "NEW")
   else()
     set(FLIBCPP_CMP0078 "NEW")
   endif()
-  if (CMAKE_VERSION GREATER_EQUAL 3.14)
+  if(CMAKE_VERSION GREATER_EQUAL 3.14)
     cmake_policy(SET CMP0086 "NEW")
   else()
     set(FLIBCPP_CMP0086 "NEW")
@@ -121,7 +121,7 @@ set(FLIBCPP_NAMESPACE "Flibcpp::")
 set(FLIBCPP_LIBRARIES)
 
 function(flibcpp_add_module name)
-  if (FLIBCPP_USE_SWIG)
+  if(FLIBCPP_USE_SWIG)
     # SWIG is available; actually generate the library dynamically.
 
     set(src_file "${FLIBCPP_INTERFACE_DIR}/${name}.i")
@@ -173,7 +173,7 @@ function(flibcpp_add_module name)
   # Compile with e.g. std=c++11 instead of =gnu++11
   set_property(TARGET ${name} PROPERTY CXX_EXTENSIONS OFF)
 
-  if (_FLIBCPP_STD_FLAGS)
+  if(_FLIBCPP_STD_FLAGS)
     # Compile Fortran code with a particular standard
     target_compile_options(${name}
       PUBLIC $<$<COMPILE_LANGUAGE:Fortran>:${_FLIBCPP_STD_FLAGS}>
@@ -207,7 +207,7 @@ configure_file("${CMAKE_CURRENT_LIST_DIR}/cmake/flibcpp_version.cpp.in"
 flibcpp_add_module(flc "${FLIBCPP_VERSION_CPP}")
 
 # Also install 'import_flc' if using SWIG
-if (FLIBCPP_USE_SWIG)
+if(FLIBCPP_USE_SWIG)
   install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/include/import_flc.i"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
@@ -273,15 +273,15 @@ install(FILES
 # TESTING AND DOCS
 #---------------------------------------------------------------------------#
 
-if (FLIBCPP_BUILD_TESTS)
+if(FLIBCPP_BUILD_TESTS)
   add_subdirectory(test)
 endif()
 
-if (FLIBCPP_BUILD_EXAMPLES)
+if(FLIBCPP_BUILD_EXAMPLES)
   add_subdirectory(example)
 endif()
 
-if (FLIBCPP_BUILD_DOCS)
+if(FLIBCPP_BUILD_DOCS)
   add_subdirectory(doc)
 endif()
 
