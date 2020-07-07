@@ -14,7 +14,7 @@ FlibcppVersion
 
 
   ``<projname>``
-  Name of the project.
+    Name of the project.
 
   This command sets the following variables in the parent package::
 
@@ -55,7 +55,7 @@ function(flibcpp_find_version PROJNAME GIT_VERSION_FILE)
         RESULT_VARIABLE _GIT_RESULT
         OUTPUT_STRIP_TRAILING_WHITESPACE
       )
-      if(NOT _GIT_RESULT EQUAL "0")
+      if(_GIT_RESULT)
         message(WARNING "Failed to get ${PROJNAME} version from git: "
           "${_GIT_ERR}")
       elseif(NOT _VERSION_STRING)

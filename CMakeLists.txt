@@ -79,7 +79,9 @@ if(CMAKE_VERSION VERSION_LESS 3.18)
 endif()
 
 if(FLIBCPP_USE_SWIG)
-  find_package(SWIG COMPONENTS fortran REQUIRED)
+  if(NOT SWIG_fortran_FOUND)
+    find_package(SWIG COMPONENTS fortran REQUIRED)
+  endif()
 
   if(CMAKE_VERSION VERSION_LESS 3.12)
     message(FATAL_ERROR "CMake 3.12 or higher is required to regenerate the "
