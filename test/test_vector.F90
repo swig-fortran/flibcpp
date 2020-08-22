@@ -1,7 +1,7 @@
 !-----------------------------------------------------------------------------!
 ! \file   test/test_vector.F90
 !
-! Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
+! Copyright (c) 2019-2020 Oak Ridge National Laboratory, UT-Battelle, LLC.
 ! Distributed under an MIT open source license: see LICENSE for details.
 !-----------------------------------------------------------------------------!
 
@@ -10,6 +10,7 @@
 program test_vector
   implicit none
   call test_int4()
+  call test_complex8()
   call test_string()
 contains
 
@@ -80,6 +81,54 @@ subroutine test_int4()
   ASSERT(v%get(1) == 1)
   ASSERT(v%back() == 13)
   call v%release()
+end subroutine
+
+!-----------------------------------------------------------------------------!
+pure elemental function is_close(a, b) result(fresult)
+  use, intrinsic :: ISO_C_BINDING
+  implicit none
+  complex(C_DOUBLE_COMPLEX), intent(in) :: a
+  complex(C_DOUBLE_COMPLEX), intent(in) :: b
+  logical :: fresult
+  fresult = abs(a - b) < 1.0d-12
+end function
+
+subroutine test_complex8()
+  use, intrinsic :: ISO_C_BINDING
+  use flc, only : ierr, get_serr
+  use flc_vector, only : Vector => VectorComplex8
+  implicit none
+  complex(8), dimension(3), parameter :: carr &
+      = [ complex(8) :: (1, -2), (2, 1), (1.5d0, 0) ]
+  complex(8), dimension(:), pointer :: view => NULL()
+  complex(8), pointer :: element_ptr => NULL()
+  type(Vector) :: v
+
+  v = Vector(carr)
+  ASSERT(v%size() == 3)
+  ASSERT(is_close(v%get(1), cmplx(1, -2, C_DOUBLE_COMPLEX)))
+  ASSERT(is_close(v%get(3), cmplx(1.5d0, 0, C_DOUBLE_COMPLEX)))
+
+  call v%erase(2)
+  ASSERT(ierr == 0)
+  view => v%view()
+  ASSERT(size(view) == 2)
+  ASSERT(is_close(view(2), cmplx(1.5d0, 0, C_DOUBLE_COMPLEX)))
+
+  call v%push_back((10d0, -5d0))
+  ASSERT(v%size() == 3)
+  ASSERT(is_close(v%get(3), cmplx(10, -5, C_DOUBLE_COMPLEX)))
+  ASSERT(is_close(v%back(), cmplx(10, -5, C_DOUBLE_COMPLEX)))
+
+  ! Assign by reference
+  element_ptr => v%get_ref(2)
+  write(*,*) "value:", v%get(2)
+  ASSERT(is_close(element_ptr, (1.5d0, 0d0)))
+  element_ptr = (3, 4)
+  ASSERT(is_close(v%get(2), (3d0, 4d0)))
+
+  call v%release()
+
 end subroutine
 
 !-----------------------------------------------------------------------------!
