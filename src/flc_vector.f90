@@ -1230,12 +1230,7 @@ subroutine SWIGTM_fout_bool(imout, fout)
   use, intrinsic :: ISO_C_BINDING
   integer(kind=C_INT), intent(in) :: imout
   logical, intent(out) :: fout
-  ! TODO: fout = (imout /= 0) ???
-  if (imout /= 0) then
-    fout = .true.
-  else
-    fout = .false.
-  end if
+  fout = (imout /= 0)
 end subroutine
 
 function swigf_VectorInt4_empty(self) &
