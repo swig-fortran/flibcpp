@@ -120,6 +120,37 @@ module flc_vector
   generic :: resize => swigf_VectorReal8_resize__SWIG_0, swigf_VectorReal8_resize__SWIG_1
   generic :: erase => swigf_VectorReal8_erase__SWIG_0, swigf_VectorReal8_erase__SWIG_1
  end type VectorReal8
+ ! class std::vector< std::complex< double > >
+ type, public :: VectorComplex8
+  type(SwigClassWrapper), public :: swigdata
+ contains
+  procedure :: size => swigf_VectorComplex8_size
+  procedure :: capacity => swigf_VectorComplex8_capacity
+  procedure :: empty => swigf_VectorComplex8_empty
+  procedure :: front => swigf_VectorComplex8_front
+  procedure :: back => swigf_VectorComplex8_back
+  procedure :: reserve => swigf_VectorComplex8_reserve
+  procedure, private :: swigf_VectorComplex8_resize__SWIG_0
+  procedure, private :: swigf_VectorComplex8_resize__SWIG_1
+  procedure :: push_back => swigf_VectorComplex8_push_back
+  procedure :: pop_back => swigf_VectorComplex8_pop_back
+  procedure :: clear => swigf_VectorComplex8_clear
+  procedure :: set => swigf_VectorComplex8_set
+  procedure :: get => swigf_VectorComplex8_get
+  procedure :: insert => swigf_VectorComplex8_insert
+  procedure, private :: swigf_VectorComplex8_erase__SWIG_0
+  procedure, private :: swigf_VectorComplex8_erase__SWIG_1
+  procedure :: front_ref => swigf_VectorComplex8_front_ref
+  procedure :: back_ref => swigf_VectorComplex8_back_ref
+  procedure :: get_ref => swigf_VectorComplex8_get_ref
+  procedure :: assign => swigf_VectorComplex8_assign
+  procedure :: view => swigf_VectorComplex8_view
+  procedure :: release => swigf_VectorComplex8_release
+  procedure, private :: swigf_VectorComplex8_op_assign__
+  generic :: assignment(=) => swigf_VectorComplex8_op_assign__
+  generic :: resize => swigf_VectorComplex8_resize__SWIG_0, swigf_VectorComplex8_resize__SWIG_1
+  generic :: erase => swigf_VectorComplex8_erase__SWIG_0, swigf_VectorComplex8_erase__SWIG_1
+ end type VectorComplex8
  ! class std::vector< std::string >
  type, public :: VectorString
   type(SwigClassWrapper), public :: swigdata
@@ -153,6 +184,10 @@ module flc_vector
  interface VectorInt4
   module procedure swigf_new_VectorInt4__SWIG_0, swigf_new_VectorInt4__SWIG_1, swigf_new_VectorInt4__SWIG_2, &
     swigf_new_VectorInt4__SWIG_3, swigf_new_VectorInt4__SWIG_4
+ end interface
+ interface VectorComplex8
+  module procedure swigf_new_VectorComplex8__SWIG_0, swigf_new_VectorComplex8__SWIG_1, swigf_new_VectorComplex8__SWIG_2, &
+    swigf_new_VectorComplex8__SWIG_3, swigf_new_VectorComplex8__SWIG_4
  end interface
  interface VectorString
   module procedure swigf_new_VectorString__SWIG_0, swigf_new_VectorString__SWIG_1, swigf_new_VectorString__SWIG_2, &
@@ -898,6 +933,251 @@ end subroutine
 
 subroutine swigc_VectorReal8_op_assign__(farg1, farg2) &
 bind(C, name="_wrap_VectorReal8_op_assign__")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(inout) :: farg1
+type(SwigClassWrapper), intent(in) :: farg2
+end subroutine
+
+function swigc_new_VectorComplex8__SWIG_0() &
+bind(C, name="_wrap_new_VectorComplex8__SWIG_0") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_new_VectorComplex8__SWIG_1(farg1) &
+bind(C, name="_wrap_new_VectorComplex8__SWIG_1") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_new_VectorComplex8__SWIG_2(farg1) &
+bind(C, name="_wrap_new_VectorComplex8__SWIG_2") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+integer(C_LONG), intent(in) :: farg1
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_new_VectorComplex8__SWIG_3(farg1, farg2) &
+bind(C, name="_wrap_new_VectorComplex8__SWIG_3") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+integer(C_LONG), intent(in) :: farg1
+complex(C_DOUBLE_COMPLEX), intent(in) :: farg2
+type(SwigClassWrapper) :: fresult
+end function
+
+function swigc_VectorComplex8_size(farg1) &
+bind(C, name="_wrap_VectorComplex8_size") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG) :: fresult
+end function
+
+function swigc_VectorComplex8_capacity(farg1) &
+bind(C, name="_wrap_VectorComplex8_capacity") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG) :: fresult
+end function
+
+function swigc_VectorComplex8_empty(farg1) &
+bind(C, name="_wrap_VectorComplex8_empty") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_INT) :: fresult
+end function
+
+function swigc_VectorComplex8_front(farg1) &
+bind(C, name="_wrap_VectorComplex8_front") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+complex(C_DOUBLE_COMPLEX) :: fresult
+end function
+
+function swigc_VectorComplex8_back(farg1) &
+bind(C, name="_wrap_VectorComplex8_back") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+complex(C_DOUBLE_COMPLEX) :: fresult
+end function
+
+subroutine swigc_VectorComplex8_reserve(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_reserve")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+end subroutine
+
+subroutine swigc_VectorComplex8_resize__SWIG_0(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_resize__SWIG_0")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+end subroutine
+
+subroutine swigc_VectorComplex8_resize__SWIG_1(farg1, farg2, farg3) &
+bind(C, name="_wrap_VectorComplex8_resize__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+complex(C_DOUBLE_COMPLEX), intent(in) :: farg3
+end subroutine
+
+subroutine swigc_VectorComplex8_push_back(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_push_back")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+complex(C_DOUBLE_COMPLEX), intent(in) :: farg2
+end subroutine
+
+subroutine swigc_VectorComplex8_pop_back(farg1) &
+bind(C, name="_wrap_VectorComplex8_pop_back")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+end subroutine
+
+subroutine swigc_VectorComplex8_clear(farg1) &
+bind(C, name="_wrap_VectorComplex8_clear")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+end subroutine
+
+subroutine swigc_VectorComplex8_set(farg1, farg2, farg3) &
+bind(C, name="_wrap_VectorComplex8_set")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+complex(C_DOUBLE_COMPLEX), intent(in) :: farg3
+end subroutine
+
+function swigc_VectorComplex8_get(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_get") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+complex(C_DOUBLE_COMPLEX) :: fresult
+end function
+
+subroutine swigc_VectorComplex8_insert(farg1, farg2, farg3) &
+bind(C, name="_wrap_VectorComplex8_insert")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+complex(C_DOUBLE_COMPLEX), intent(in) :: farg3
+end subroutine
+
+subroutine swigc_VectorComplex8_erase__SWIG_0(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_erase__SWIG_0")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+end subroutine
+
+subroutine swigc_VectorComplex8_erase__SWIG_1(farg1, farg2, farg3) &
+bind(C, name="_wrap_VectorComplex8_erase__SWIG_1")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+integer(C_LONG), intent(in) :: farg3
+end subroutine
+
+function swigc_VectorComplex8_front_ref(farg1) &
+bind(C, name="_wrap_VectorComplex8_front_ref") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+type(C_PTR) :: fresult
+end function
+
+function swigc_VectorComplex8_back_ref(farg1) &
+bind(C, name="_wrap_VectorComplex8_back_ref") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+type(C_PTR) :: fresult
+end function
+
+function swigc_VectorComplex8_get_ref(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_get_ref") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+integer(C_LONG), intent(in) :: farg2
+type(C_PTR) :: fresult
+end function
+
+function swigc_new_VectorComplex8__SWIG_4(farg1) &
+bind(C, name="_wrap_new_VectorComplex8__SWIG_4") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigArrayWrapper) :: farg1
+type(SwigClassWrapper) :: fresult
+end function
+
+subroutine swigc_VectorComplex8_assign(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_assign")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+import :: swigarraywrapper
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigArrayWrapper) :: farg2
+end subroutine
+
+function swigc_VectorComplex8_view(farg1) &
+bind(C, name="_wrap_VectorComplex8_view") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigarraywrapper
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(in) :: farg1
+type(SwigArrayWrapper) :: fresult
+end function
+
+subroutine swigc_delete_VectorComplex8(farg1) &
+bind(C, name="_wrap_delete_VectorComplex8")
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper), intent(inout) :: farg1
+end subroutine
+
+subroutine swigc_VectorComplex8_op_assign__(farg1, farg2) &
+bind(C, name="_wrap_VectorComplex8_op_assign__")
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper), intent(inout) :: farg1
@@ -2331,6 +2611,399 @@ type(SwigClassWrapper) :: farg2
 farg1 = self%swigdata
 farg2 = other%swigdata
 call swigc_VectorReal8_op_assign__(farg1, farg2)
+self%swigdata = farg1
+end subroutine
+
+function swigf_new_VectorComplex8__SWIG_0() &
+result(self)
+use, intrinsic :: ISO_C_BINDING
+type(VectorComplex8) :: self
+type(SwigClassWrapper) :: fresult 
+
+fresult = swigc_new_VectorComplex8__SWIG_0()
+self%swigdata = fresult
+end function
+
+function swigf_new_VectorComplex8__SWIG_1(other) &
+result(self)
+use, intrinsic :: ISO_C_BINDING
+type(VectorComplex8) :: self
+class(VectorComplex8), intent(in) :: other
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = other%swigdata
+fresult = swigc_new_VectorComplex8__SWIG_1(farg1)
+self%swigdata = fresult
+end function
+
+function swigf_new_VectorComplex8__SWIG_2(count) &
+result(self)
+use, intrinsic :: ISO_C_BINDING
+type(VectorComplex8) :: self
+integer, intent(in) :: count
+type(SwigClassWrapper) :: fresult 
+integer(C_LONG) :: farg1 
+
+farg1 = int(count, C_INT)
+fresult = swigc_new_VectorComplex8__SWIG_2(farg1)
+self%swigdata = fresult
+end function
+
+function swigf_new_VectorComplex8__SWIG_3(count, v) &
+result(self)
+use, intrinsic :: ISO_C_BINDING
+type(VectorComplex8) :: self
+integer, intent(in) :: count
+complex(C_DOUBLE_COMPLEX), intent(in) :: v
+type(SwigClassWrapper) :: fresult 
+integer(C_LONG) :: farg1 
+complex(C_DOUBLE_COMPLEX) :: farg2 
+
+farg1 = int(count, C_INT)
+farg2 = v
+fresult = swigc_new_VectorComplex8__SWIG_3(farg1, farg2)
+self%swigdata = fresult
+end function
+
+function swigf_VectorComplex8_size(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer :: swig_result
+class(VectorComplex8), intent(in) :: self
+integer(C_LONG) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_size(farg1)
+swig_result = int(fresult)
+end function
+
+function swigf_VectorComplex8_capacity(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer :: swig_result
+class(VectorComplex8), intent(in) :: self
+integer(C_LONG) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_capacity(farg1)
+swig_result = int(fresult)
+end function
+
+function swigf_VectorComplex8_empty(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+logical :: swig_result
+class(VectorComplex8), intent(in) :: self
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_empty(farg1)
+call SWIGTM_fout_bool(fresult, swig_result)
+end function
+
+function swigf_VectorComplex8_front(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX) :: swig_result
+class(VectorComplex8), intent(in) :: self
+complex(C_DOUBLE_COMPLEX) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_front(farg1)
+swig_result = fresult
+end function
+
+function swigf_VectorComplex8_back(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX) :: swig_result
+class(VectorComplex8), intent(in) :: self
+complex(C_DOUBLE_COMPLEX) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_back(farg1)
+swig_result = fresult
+end function
+
+subroutine swigf_VectorComplex8_reserve(self, count)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: count
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+
+farg1 = self%swigdata
+farg2 = int(count, C_INT)
+call swigc_VectorComplex8_reserve(farg1, farg2)
+end subroutine
+
+subroutine swigf_VectorComplex8_resize__SWIG_0(self, count)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: count
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+
+farg1 = self%swigdata
+farg2 = int(count, C_INT)
+call swigc_VectorComplex8_resize__SWIG_0(farg1, farg2)
+end subroutine
+
+subroutine swigf_VectorComplex8_resize__SWIG_1(self, count, v)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: count
+complex(C_DOUBLE_COMPLEX), intent(in) :: v
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+complex(C_DOUBLE_COMPLEX) :: farg3 
+
+farg1 = self%swigdata
+farg2 = int(count, C_INT)
+farg3 = v
+call swigc_VectorComplex8_resize__SWIG_1(farg1, farg2, farg3)
+end subroutine
+
+subroutine swigf_VectorComplex8_push_back(self, v)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+complex(C_DOUBLE_COMPLEX), intent(in) :: v
+type(SwigClassWrapper) :: farg1 
+complex(C_DOUBLE_COMPLEX) :: farg2 
+
+farg1 = self%swigdata
+farg2 = v
+call swigc_VectorComplex8_push_back(farg1, farg2)
+end subroutine
+
+subroutine swigf_VectorComplex8_pop_back(self)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+call swigc_VectorComplex8_pop_back(farg1)
+end subroutine
+
+subroutine swigf_VectorComplex8_clear(self)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+call swigc_VectorComplex8_clear(farg1)
+end subroutine
+
+subroutine swigf_VectorComplex8_set(self, index, v)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: index
+complex(C_DOUBLE_COMPLEX), intent(in) :: v
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+complex(C_DOUBLE_COMPLEX) :: farg3 
+
+farg1 = self%swigdata
+farg2 = int(index, C_INT)
+farg3 = v
+call swigc_VectorComplex8_set(farg1, farg2, farg3)
+end subroutine
+
+function swigf_VectorComplex8_get(self, index) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX) :: swig_result
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: index
+complex(C_DOUBLE_COMPLEX) :: fresult 
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+
+farg1 = self%swigdata
+farg2 = int(index, C_INT)
+fresult = swigc_VectorComplex8_get(farg1, farg2)
+swig_result = fresult
+end function
+
+subroutine swigf_VectorComplex8_insert(self, index, v)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: index
+complex(C_DOUBLE_COMPLEX), intent(in) :: v
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+complex(C_DOUBLE_COMPLEX) :: farg3 
+
+farg1 = self%swigdata
+farg2 = int(index, C_INT)
+farg3 = v
+call swigc_VectorComplex8_insert(farg1, farg2, farg3)
+end subroutine
+
+subroutine swigf_VectorComplex8_erase__SWIG_0(self, index)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: index
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+
+farg1 = self%swigdata
+farg2 = int(index, C_INT)
+call swigc_VectorComplex8_erase__SWIG_0(farg1, farg2)
+end subroutine
+
+subroutine swigf_VectorComplex8_erase__SWIG_1(self, start_index, stop_index)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: start_index
+integer, intent(in) :: stop_index
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+integer(C_LONG) :: farg3 
+
+farg1 = self%swigdata
+farg2 = int(start_index, C_INT)
+farg3 = int(stop_index, C_INT)
+call swigc_VectorComplex8_erase__SWIG_1(farg1, farg2, farg3)
+end subroutine
+
+function swigf_VectorComplex8_front_ref(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX), pointer :: swig_result
+class(VectorComplex8), intent(in) :: self
+type(C_PTR) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_front_ref(farg1)
+call c_f_pointer(fresult, swig_result)
+end function
+
+function swigf_VectorComplex8_back_ref(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX), pointer :: swig_result
+class(VectorComplex8), intent(in) :: self
+type(C_PTR) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_back_ref(farg1)
+call c_f_pointer(fresult, swig_result)
+end function
+
+function swigf_VectorComplex8_get_ref(self, index) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX), pointer :: swig_result
+class(VectorComplex8), intent(in) :: self
+integer, intent(in) :: index
+type(C_PTR) :: fresult 
+type(SwigClassWrapper) :: farg1 
+integer(C_LONG) :: farg2 
+
+farg1 = self%swigdata
+farg2 = int(index, C_INT)
+fresult = swigc_VectorComplex8_get_ref(farg1, farg2)
+call c_f_pointer(fresult, swig_result)
+end function
+
+subroutine SWIGTM_fin_SwigComplex_double_Sb__SB_(finp, iminp)
+  use, intrinsic :: ISO_C_BINDING
+  complex(C_DOUBLE_COMPLEX), dimension(:), intent(in), target :: finp
+  type(SwigArrayWrapper), intent(out) :: iminp
+  integer(C_SIZE_T) :: sz
+  complex(C_DOUBLE_COMPLEX), pointer :: imtemp
+
+  sz = size(finp, kind=C_SIZE_T)
+  if (sz > 0_c_size_t) then
+    imtemp => finp(1)
+    iminp%data = c_loc(imtemp)
+  else
+    iminp%data = c_null_ptr
+  end if
+  iminp%size = sz
+end subroutine
+function swigf_new_VectorComplex8__SWIG_4(data) &
+result(self)
+use, intrinsic :: ISO_C_BINDING
+type(VectorComplex8) :: self
+complex(C_DOUBLE_COMPLEX), dimension(:), intent(in), target :: data
+type(SwigClassWrapper) :: fresult 
+type(SwigArrayWrapper) :: farg1 
+
+call SWIGTM_fin_SwigComplex_double_Sb__SB_(data, farg1)
+fresult = swigc_new_VectorComplex8__SWIG_4(farg1)
+self%swigdata = fresult
+end function
+
+subroutine swigf_VectorComplex8_assign(self, data)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(in) :: self
+complex(C_DOUBLE_COMPLEX), dimension(:), intent(in), target :: data
+type(SwigClassWrapper) :: farg1 
+type(SwigArrayWrapper) :: farg2 
+
+farg1 = self%swigdata
+call SWIGTM_fin_SwigComplex_double_Sb__SB_(data, farg2)
+call swigc_VectorComplex8_assign(farg1, farg2)
+end subroutine
+
+subroutine SWIGTM_fout_SwigComplex_double_Sb__SB_(imout, fout)
+  use, intrinsic :: ISO_C_BINDING
+  type(SwigArrayWrapper), intent(in) :: imout
+  complex(C_DOUBLE_COMPLEX), dimension(:), pointer, intent(out) :: fout
+
+  if (imout%size > 0) then
+    call c_f_pointer(imout%data, fout, [imout%size])
+  else
+    fout => NULL()
+  endif
+end subroutine
+function swigf_VectorComplex8_view(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+complex(C_DOUBLE_COMPLEX), dimension(:), pointer :: swig_result
+class(VectorComplex8), intent(in) :: self
+type(SwigArrayWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_VectorComplex8_view(farg1)
+call SWIGTM_fout_SwigComplex_double_Sb__SB_(fresult, swig_result)
+end function
+
+subroutine swigf_VectorComplex8_release(self)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(inout) :: self
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+if (btest(farg1%cmemflags, swig_cmem_own_bit)) then
+call swigc_delete_VectorComplex8(farg1)
+endif
+farg1%cptr = C_NULL_PTR
+farg1%cmemflags = 0
+self%swigdata = farg1
+end subroutine
+
+subroutine swigf_VectorComplex8_op_assign__(self, other)
+use, intrinsic :: ISO_C_BINDING
+class(VectorComplex8), intent(inout) :: self
+type(VectorComplex8), intent(in) :: other
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = self%swigdata
+farg2 = other%swigdata
+call swigc_VectorComplex8_op_assign__(farg1, farg2)
 self%swigdata = farg1
 end subroutine
 

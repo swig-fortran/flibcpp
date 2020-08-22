@@ -246,6 +246,7 @@ enum AssignmentType {
 #define SWIGPOLICY_std_vector_Sl_int32_t_Sg_ swig::ASSIGNMENT_DEFAULT
 #define SWIGPOLICY_std_vector_Sl_int64_t_Sg_ swig::ASSIGNMENT_DEFAULT
 #define SWIGPOLICY_std_vector_Sl_double_Sg_ swig::ASSIGNMENT_DEFAULT
+#define SWIGPOLICY_std_vector_Sl_std_complex_Sl_double_Sg__Sg_ swig::ASSIGNMENT_DEFAULT
 #define SWIGPOLICY_std_string swig::ASSIGNMENT_DEFAULT
 #define SWIGPOLICY_std_vector_Sl_std_string_Sg_ swig::ASSIGNMENT_DEFAULT
 
@@ -270,6 +271,9 @@ enum AssignmentType {
 
 
 #include <stdint.h>
+
+
+#include <complex>
 
 
 #include <vector>
@@ -590,6 +594,75 @@ SWIGINTERN void std_vector_Sl_double_Sg__assign(std::vector< double > *self,doub
     self->assign(DATA, DATA + SIZE);
   }
 SWIGINTERN std::vector< double > &std_vector_Sl_double_Sg__view(std::vector< double > *self){
+    return *self;
+  }
+
+extern "C" {
+typedef struct {
+  double real;
+  double imag;
+} SwigComplex_double;
+}
+
+SwigComplex_double SWIG_create_complex_double(double real, double imag) {
+  SwigComplex_double result;
+  result.real = real;
+  result.imag = imag;
+  return result;
+}
+
+SWIGINTERN void std_vector_Sl_std_complex_Sl_double_Sg__Sg__set(std::vector< std::complex< double > > *self,std::vector< std::complex< double > >::size_type index,std::complex< double > const &v){
+        SWIG_check_range(index, self->size(),
+                         "std::vector<""std::complex<double>" ">::set",
+                         return);
+        (*self)[index] = v;
+      }
+SWIGINTERN std::complex< double > const &std_vector_Sl_std_complex_Sl_double_Sg__Sg__get(std::vector< std::complex< double > > *self,std::vector< std::complex< double > >::size_type index){
+        SWIG_check_range(index, self->size(),
+                         "std::vector<""std::complex<double>" ">::get",
+                         return self->front());
+        return (*self)[index];
+      }
+SWIGINTERN void std_vector_Sl_std_complex_Sl_double_Sg__Sg__insert(std::vector< std::complex< double > > *self,std::vector< std::complex< double > >::size_type index,std::complex< double > const &v){
+        SWIG_check_range(index, self->size() + 1,
+                         "std::vector<""std::complex<double>" ">::insert",
+                         return);
+        self->insert(self->begin() + index, v);
+      }
+SWIGINTERN void std_vector_Sl_std_complex_Sl_double_Sg__Sg__erase__SWIG_0(std::vector< std::complex< double > > *self,std::vector< std::complex< double > >::size_type index){
+        SWIG_check_range(index, self->size(),
+                         "std::vector<""std::complex<double>" ">::remove",
+                         return);
+        self->erase(self->begin() + index);
+      }
+SWIGINTERN void std_vector_Sl_std_complex_Sl_double_Sg__Sg__erase__SWIG_1(std::vector< std::complex< double > > *self,std::vector< std::complex< double > >::size_type start_index,std::vector< std::complex< double > >::size_type stop_index){
+        SWIG_check_range(start_index, stop_index + 1,
+                         "std::vector<""std::complex<double>" ">::remove_range",
+                         return);
+        SWIG_check_range(stop_index, self->size() + 1,
+                         "std::vector<""std::complex<double>" ">::remove_range",
+                         return);
+        self->erase(self->begin() + start_index, self->begin() + stop_index);
+      }
+SWIGINTERN std::complex< double > &std_vector_Sl_std_complex_Sl_double_Sg__Sg__front_ref(std::vector< std::complex< double > > *self){
+      return (*self).front();
+    }
+SWIGINTERN std::complex< double > &std_vector_Sl_std_complex_Sl_double_Sg__Sg__back_ref(std::vector< std::complex< double > > *self){
+      return (*self).back();
+    }
+SWIGINTERN std::complex< double > &std_vector_Sl_std_complex_Sl_double_Sg__Sg__get_ref(std::vector< std::complex< double > > *self,std::vector< std::complex< double > >::size_type index){
+      SWIG_check_range(index, self->size(),
+                       "std::vector<""std::complex<double>" ">::get_ref",
+                       return self->front());
+      return (*self)[index];
+    }
+SWIGINTERN std::vector< std::complex< double > > *new_std_vector_Sl_std_complex_Sl_double_Sg__Sg___SWIG_4(std::complex< double > const *DATA,std::vector< std::complex< double > >::size_type SIZE){
+    return new std::vector<std::complex<double>>(DATA, DATA + SIZE);
+  }
+SWIGINTERN void std_vector_Sl_std_complex_Sl_double_Sg__Sg__assign(std::vector< std::complex< double > > *self,std::complex< double > const *DATA,std::vector< std::complex< double > >::size_type SIZE){
+    self->assign(DATA, DATA + SIZE);
+  }
+SWIGINTERN std::vector< std::complex< double > > &std_vector_Sl_std_complex_Sl_double_Sg__Sg__view(std::vector< std::complex< double > > *self){
     return *self;
   }
 
@@ -1723,6 +1796,365 @@ SWIGEXPORT void _wrap_VectorReal8_op_assign__(SwigClassWrapper *farg1, SwigClass
   (void)sizeof(arg1);
   (void)sizeof(arg2);
   SWIG_assign<std::vector< double >, SWIGPOLICY_std_vector_Sl_double_Sg_>(farg1, *farg2);
+  
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_new_VectorComplex8__SWIG_0() {
+  SwigClassWrapper fresult ;
+  std::vector< std::complex< double > > *result = 0 ;
+  
+  result = (std::vector< std::complex< double > > *)new std::vector< std::complex< double > >();
+  fresult.cptr = (void*)result;
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_new_VectorComplex8__SWIG_1(SwigClassWrapper *farg1) {
+  SwigClassWrapper fresult ;
+  std::vector< std::complex< double > > *arg1 = 0 ;
+  std::vector< std::complex< double > > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > const &", "VectorComplex8", "std::vector< std::complex< double > >::vector(std::vector< std::complex< double > > const &)", return SwigClassWrapper_uninitialized());
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::vector< std::complex< double > > *)new std::vector< std::complex< double > >((std::vector< std::complex< double > > const &)*arg1);
+  fresult.cptr = (void*)result;
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_new_VectorComplex8__SWIG_2(long const *farg1) {
+  SwigClassWrapper fresult ;
+  std::vector< std::complex< double > >::size_type arg1 ;
+  std::vector< std::complex< double > > *result = 0 ;
+  
+  arg1 = (std::vector< std::complex< double > >::size_type)(*farg1);
+  result = (std::vector< std::complex< double > > *)new std::vector< std::complex< double > >(arg1);
+  fresult.cptr = (void*)result;
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_new_VectorComplex8__SWIG_3(long const *farg1, SwigComplex_double *farg2) {
+  SwigClassWrapper fresult ;
+  std::vector< std::complex< double > >::size_type arg1 ;
+  std::complex< double > *arg2 = 0 ;
+  std::complex< double > temp2 ;
+  std::vector< std::complex< double > > *result = 0 ;
+  
+  arg1 = (std::vector< std::complex< double > >::size_type)(*farg1);
+  temp2 = std::complex<double>(farg2->real, farg2->imag);
+  arg2 = &temp2;
+  result = (std::vector< std::complex< double > > *)new std::vector< std::complex< double > >(arg1,(std::complex< double > const &)*arg2);
+  fresult.cptr = (void*)result;
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT long _wrap_VectorComplex8_size(SwigClassWrapper *farg1) {
+  long fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type result;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > const *", "VectorComplex8", "std::vector< std::complex< double > >::size() const", return 0);
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::vector< std::complex< double > >::size_type)((std::vector< std::complex< double > > const *)arg1)->size();
+  fresult = (std::vector< std::complex< double > >::size_type)(result);
+  return fresult;
+}
+
+
+SWIGEXPORT long _wrap_VectorComplex8_capacity(SwigClassWrapper *farg1) {
+  long fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type result;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > const *", "VectorComplex8", "std::vector< std::complex< double > >::capacity() const", return 0);
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::vector< std::complex< double > >::size_type)((std::vector< std::complex< double > > const *)arg1)->capacity();
+  fresult = (std::vector< std::complex< double > >::size_type)(result);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_VectorComplex8_empty(SwigClassWrapper *farg1) {
+  int fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  bool result;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > const *", "VectorComplex8", "std::vector< std::complex< double > >::empty() const", return 0);
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (bool)((std::vector< std::complex< double > > const *)arg1)->empty();
+  fresult = (result ? 1 : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigComplex_double _wrap_VectorComplex8_front(SwigClassWrapper *farg1) {
+  SwigComplex_double fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::complex< double > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > const *", "VectorComplex8", "std::vector< std::complex< double > >::front() const", return SWIG_create_complex_double(0, 0));
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::complex< double > *) &((std::vector< std::complex< double > > const *)arg1)->front();
+  fresult = SWIG_create_complex_double(result->real(), result->imag());
+  return fresult;
+}
+
+
+SWIGEXPORT SwigComplex_double _wrap_VectorComplex8_back(SwigClassWrapper *farg1) {
+  SwigComplex_double fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::complex< double > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > const *", "VectorComplex8", "std::vector< std::complex< double > >::back() const", return SWIG_create_complex_double(0, 0));
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::complex< double > *) &((std::vector< std::complex< double > > const *)arg1)->back();
+  fresult = SWIG_create_complex_double(result->real(), result->imag());
+  return fresult;
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_reserve(SwigClassWrapper *farg1, long const *farg2) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::reserve(std::vector< std::complex< double > >::size_type)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = (std::vector< std::complex< double > >::size_type)(*farg2);
+  (arg1)->reserve(arg2);
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_resize__SWIG_0(SwigClassWrapper *farg1, long const *farg2) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::resize(std::vector< std::complex< double > >::size_type)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = (std::vector< std::complex< double > >::size_type)(*farg2);
+  (arg1)->resize(arg2);
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_resize__SWIG_1(SwigClassWrapper *farg1, long const *farg2, SwigComplex_double *farg3) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::complex< double > *arg3 = 0 ;
+  std::complex< double > temp3 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::resize(std::vector< std::complex< double > >::size_type,std::complex< double > const &)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = (std::vector< std::complex< double > >::size_type)(*farg2);
+  temp3 = std::complex<double>(farg3->real, farg3->imag);
+  arg3 = &temp3;
+  (arg1)->resize(arg2,(std::complex< double > const &)*arg3);
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_push_back(SwigClassWrapper *farg1, SwigComplex_double *farg2) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::complex< double > *arg2 = 0 ;
+  std::complex< double > temp2 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::push_back(std::complex< double > const &)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  temp2 = std::complex<double>(farg2->real, farg2->imag);
+  arg2 = &temp2;
+  (arg1)->push_back((std::complex< double > const &)*arg2);
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_pop_back(SwigClassWrapper *farg1) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::pop_back()", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  (arg1)->pop_back();
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_clear(SwigClassWrapper *farg1) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::clear()", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_set(SwigClassWrapper *farg1, long const *farg2, SwigComplex_double *farg3) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::complex< double > *arg3 = 0 ;
+  std::complex< double > temp3 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::set(std::vector< std::complex< double > >::size_type,std::complex< double > const &)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = *farg2 - 1;
+  temp3 = std::complex<double>(farg3->real, farg3->imag);
+  arg3 = &temp3;
+  std_vector_Sl_std_complex_Sl_double_Sg__Sg__set(arg1,arg2,(std::complex< double > const &)*arg3);
+}
+
+
+SWIGEXPORT SwigComplex_double _wrap_VectorComplex8_get(SwigClassWrapper *farg1, long const *farg2) {
+  SwigComplex_double fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::complex< double > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::get(std::vector< std::complex< double > >::size_type)", return SWIG_create_complex_double(0, 0));
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = *farg2 - 1;
+  result = (std::complex< double > *) &std_vector_Sl_std_complex_Sl_double_Sg__Sg__get(arg1,arg2);
+  fresult = SWIG_create_complex_double(result->real(), result->imag());
+  return fresult;
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_insert(SwigClassWrapper *farg1, long const *farg2, SwigComplex_double *farg3) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::complex< double > *arg3 = 0 ;
+  std::complex< double > temp3 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::insert(std::vector< std::complex< double > >::size_type,std::complex< double > const &)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = *farg2 - 1;
+  temp3 = std::complex<double>(farg3->real, farg3->imag);
+  arg3 = &temp3;
+  std_vector_Sl_std_complex_Sl_double_Sg__Sg__insert(arg1,arg2,(std::complex< double > const &)*arg3);
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_erase__SWIG_0(SwigClassWrapper *farg1, long const *farg2) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::erase(std::vector< std::complex< double > >::size_type)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = *farg2 - 1;
+  std_vector_Sl_std_complex_Sl_double_Sg__Sg__erase__SWIG_0(arg1,arg2);
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_erase__SWIG_1(SwigClassWrapper *farg1, long const *farg2, long const *farg3) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::vector< std::complex< double > >::size_type arg3 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::erase(std::vector< std::complex< double > >::size_type,std::vector< std::complex< double > >::size_type)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = *farg2 - 1;
+  arg3 = *farg3 - 1;
+  std_vector_Sl_std_complex_Sl_double_Sg__Sg__erase__SWIG_1(arg1,arg2,arg3);
+}
+
+
+SWIGEXPORT SwigComplex_double * _wrap_VectorComplex8_front_ref(SwigClassWrapper *farg1) {
+  SwigComplex_double * fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::complex< double > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::front_ref()", return 0);
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::complex< double > *) &std_vector_Sl_std_complex_Sl_double_Sg__Sg__front_ref(arg1);
+  fresult = (SwigComplex_double*)(result);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigComplex_double * _wrap_VectorComplex8_back_ref(SwigClassWrapper *farg1) {
+  SwigComplex_double * fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::complex< double > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::back_ref()", return 0);
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::complex< double > *) &std_vector_Sl_std_complex_Sl_double_Sg__Sg__back_ref(arg1);
+  fresult = (SwigComplex_double*)(result);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigComplex_double * _wrap_VectorComplex8_get_ref(SwigClassWrapper *farg1, long const *farg2) {
+  SwigComplex_double * fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::complex< double > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::get_ref(std::vector< std::complex< double > >::size_type)", return 0);
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = *farg2 - 1;
+  result = (std::complex< double > *) &std_vector_Sl_std_complex_Sl_double_Sg__Sg__get_ref(arg1,arg2);
+  fresult = (SwigComplex_double*)(result);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_new_VectorComplex8__SWIG_4(SwigArrayWrapper *farg1) {
+  SwigClassWrapper fresult ;
+  std::complex< double > *arg1 = (std::complex< double > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg2 ;
+  std::vector< std::complex< double > > *result = 0 ;
+  
+  arg1 = (std::complex< double > *)farg1->data;
+  arg2 = farg1->size;
+  result = (std::vector< std::complex< double > > *)new_std_vector_Sl_std_complex_Sl_double_Sg__Sg___SWIG_4((std::complex< double > const *)arg1,arg2);
+  fresult.cptr = (void*)result;
+  fresult.cmemflags = SWIG_MEM_RVALUE | (1 ? SWIG_MEM_OWN : 0);
+  return fresult;
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_assign(SwigClassWrapper *farg1, SwigArrayWrapper *farg2) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::complex< double > *arg2 = (std::complex< double > *) 0 ;
+  std::vector< std::complex< double > >::size_type arg3 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::assign(std::complex< double > const *,std::vector< std::complex< double > >::size_type)", return );
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  arg2 = (std::complex< double > *)farg2->data;
+  arg3 = farg2->size;
+  std_vector_Sl_std_complex_Sl_double_Sg__Sg__assign(arg1,(std::complex< double > const *)arg2,arg3);
+}
+
+
+SWIGEXPORT SwigArrayWrapper _wrap_VectorComplex8_view(SwigClassWrapper *farg1) {
+  SwigArrayWrapper fresult ;
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > > *result = 0 ;
+  
+  SWIG_check_nonnull(farg1->cptr, "std::vector< std::complex< double > > *", "VectorComplex8", "std::vector< std::complex< double > >::view()", return SwigArrayWrapper_uninitialized());
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  result = (std::vector< std::complex< double > > *) &std_vector_Sl_std_complex_Sl_double_Sg__Sg__view(arg1);
+  fresult.data = (result->empty() ? NULL : &(*result->begin()));
+  fresult.size = result->size();
+  return fresult;
+}
+
+
+SWIGEXPORT void _wrap_delete_VectorComplex8(SwigClassWrapper *farg1) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  
+  arg1 = (std::vector< std::complex< double > > *)farg1->cptr;
+  delete arg1;
+}
+
+
+SWIGEXPORT void _wrap_VectorComplex8_op_assign__(SwigClassWrapper *farg1, SwigClassWrapper *farg2) {
+  std::vector< std::complex< double > > *arg1 = (std::vector< std::complex< double > > *) 0 ;
+  std::vector< std::complex< double > > *arg2 = 0 ;
+  
+  (void)sizeof(arg1);
+  (void)sizeof(arg2);
+  SWIG_assign<std::vector< std::complex< double > >, SWIGPOLICY_std_vector_Sl_std_complex_Sl_double_Sg__Sg_>(farg1, *farg2);
   
 }
 

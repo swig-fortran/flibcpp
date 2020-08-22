@@ -9,8 +9,8 @@ Vector
 ******
 
 Vectors are resizeable arrays of elements. The ``flc_vector`` module
-instantiates vectors of ``integer(4)``,  ``integer(8)``,  ``real(8)``, and
-``type(String)``.
+instantiates vectors of ``integer(4)``,  ``integer(8)``,  ``real(8)``,
+``complex(8)``, and ``type(String)``.
 
 Common functionality
 ====================
@@ -94,11 +94,13 @@ Numeric vectors
 ===============
 
 As with the algorithms and other methods, the ``flc_vector`` module includes
-three numeric instantiations. They each have distinct derived types:
+three scalar numeric instantiations, but it also includes an instantiation for
+complex numbers. Each instantiation has a distinct derived type:
 
  - ``VectorInt4``: each element is ``integer(4)``
  - ``VectorInt8``: each element is ``integer(8)``
  - ``VectorReal8``: each element is ``real(8)``
+ - ``VectorComplex8``: each element is ``complex(8)``
 
 Construct from an array
 -----------------------

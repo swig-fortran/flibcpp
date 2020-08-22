@@ -1,7 +1,7 @@
 /*!
  * \file flc_vector.i
  *
- * Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
+ * Copyright (c) 2019-2020 Oak Ridge National Laboratory, UT-Battelle, LLC.
  * Distributed under an MIT open source license: see LICENSE for details.
  */
 
@@ -9,13 +9,14 @@
 %include "import_flc.i"
 %flc_add_header
 
+%include <complex.i>
 %include <std_vector.i>
 
 /* -------------------------------------------------------------------------
  * Macro definitions
  * ------------------------------------------------------------------------- */
 
-%define %flc_std_vector_extend_pod(CTYPE)
+%define %flc_std_vector_extend_pod(CTYPE, IMTYPE)
 %extend {
   %apply (const SWIGTYPE *DATA, ::size_t SIZE)
     { (const CTYPE* DATA, size_type SIZE) };
@@ -31,7 +32,7 @@
   }
 
   // Get a mutable view to ourself
-  %fortran_array_pointer(CTYPE, vector<CTYPE>& view);
+  %fortran_array_pointer(IMTYPE, vector<CTYPE>& view);
 
   %typemap(out, noblock=1) vector<CTYPE>& view {
     $result.data = ($1->empty() ? NULL : &(*$1->begin()));
@@ -63,12 +64,37 @@ namespace std {
 
     %swig_std_vector(T, const T&)
     %swig_std_vector_extend_ref(T)
-    %flc_std_vector_extend_pod(T)
+    %flc_std_vector_extend_pod(T, T)
   };
 }
 
 // Instantiate the template
 %template(NAME) std::vector<T>;
+
+%enddef
+
+
+/* ------------------------------------------------------------------------- */
+/*! \def %flc_template_std_vector_complex
+ *
+ * Inject member functions and typemaps for std::complex instantiations.
+ *
+ * This definition is considered part of the \em public API so that downstream
+ * apps that generate FLC-based bindings can instantiate their own POD vectors.
+ */
+%define %flc_template_std_vector_complex(NAME, T)
+
+namespace std {
+  template<> class vector<std::complex<T> > {
+
+    %swig_std_vector(std::complex<T>, const std::complex<T>&)
+    %swig_std_vector_extend_ref(std::complex<T>)
+    %flc_std_vector_extend_pod(std::complex<T>, SwigComplex_ ## T)
+  };
+}
+
+// Instantiate the template
+%template(NAME) std::vector<std::complex<T> >;
 
 %enddef
 
@@ -79,6 +105,8 @@ namespace std {
 %flc_template_std_vector_pod(VectorInt4,  int32_t)
 %flc_template_std_vector_pod(VectorInt8,  int64_t)
 %flc_template_std_vector_pod(VectorReal8, double)
+
+%flc_template_std_vector_complex(VectorComplex8, double)
 
 /* -------------------------------------------------------------------------
  * String vectors
