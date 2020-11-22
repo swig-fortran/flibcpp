@@ -12,6 +12,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/cmake/FlibcppVersion.cmake")
 flibcpp_find_version(Flibcpp "${CMAKE_CURRENT_LIST_DIR}/cmake/git-version.txt")
 
 project(Flibcpp VERSION "${Flibcpp_VERSION}" LANGUAGES CXX Fortran)
+cmake_policy(VERSION 3.8...3.19)
 
 #---------------------------------------------------------------------------#
 # OPTIONS
@@ -34,7 +35,6 @@ option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${_DEFAULT_BUILD_TESTS})
 if(FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
   set(_DEFAULT_BUILD_TESTING ON)
 endif()
-option(BUILD_TESTING "Enable CTest" ${_DEFAULT_BUILD_TESTING})
 
 #---------------------------------------------------------------------------#
 # FLAGS
@@ -102,8 +102,10 @@ if(FLIBCPP_USE_SWIG)
   include(UseSWIG)
 endif()
 
-# Enable testing based on BUILD_TESTING flag
-include(CTest)
+# Load CTest if applicable
+if(FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
+  include(CTest)
+endif()
 
 #---------------------------------------------------------------------------#
 # LIBRARY

@@ -126,7 +126,7 @@ if(CMAKE_SCRIPT_MODE_FILE)
     message(FATAL_ERROR "Run this script with "
       "cmake -D GIT_VERSION_FILE=git-version.txt -P FlibcppVersion.cmake")
   endif()
-  flibcpp_find_version(local ${GIT_VERSION_FILE})
+  flibcpp_find_version(LOCAL ${GIT_VERSION_FILE})
   message(STATUS "${LOCAL_VERSION}")
   message(STATUS "${LOCAL_VERSION_STRING}")
 endif()

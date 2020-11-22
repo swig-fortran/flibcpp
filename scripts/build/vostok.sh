@@ -9,14 +9,16 @@ cd ${BUILD}
 CMAKE=cmake
 ${CMAKE} --version
 
+# NOTE: gcc 10.2 incorrectly warns about logical conversions, see
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96319
+module load swig/4.0.2-fortran gcc/10
+
 ${CMAKE} \
   -G Ninja \
   -D FLIBCPP_DEV=ON \
-  -D SWIG_EXECUTABLE="/rnsdhpc/code/_build/swig-debug/swig"  \
-  -D SWIG_DIR="/rnsdhpc/code/swig/Lib" \
   -D BUILD_SHARED_LIBS=ON \
-  -D CMAKE_Fortran_FLAGS="-Wall -Wextra -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals" \
-  -D CMAKE_CXX_FLAGS="-Wall -Wextra -pedantic" \
+  -D CMAKE_Fortran_FLAGS="-Wall -Wextra -pedantic -Wimplicit-procedure -Wimplicit-interface -Wno-compare-reals" \
+  -D CMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror" \
   -D CMAKE_INSTALL_PREFIX="${PREFIX}" \
   ${SOURCE}
 ninja -v
