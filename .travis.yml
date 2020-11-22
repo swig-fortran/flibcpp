@@ -1,6 +1,6 @@
 dist: bionic
-sudo: required # apt-get done in before_install.sh
-language: minimal
+language: shell
+os: linux
 
 # Only build master or PRs merging into master
 branches:
@@ -8,21 +8,18 @@ branches:
   - master
 
 # List of configurations to check
-matrix:
+jobs:
   include:
-    - os: linux
-      env: FLIBCPP_DEV=ON GENERATOR=ninja
+    - env: FLIBCPP_DEV=ON GENERATOR=ninja
       addons:
         apt:
           packages:
           - python3-sphinx
           - valgrind
-    - os: linux
-      env: FLIBCPP_DEV=OFF GENERATOR=make
+    - env: FLIBCPP_DEV=OFF GENERATOR=make
            FLIBCPP_FORTRAN_STD=03
            GCC_VERSION=8
-    - os: linux
-      env: FLIBCPP_DEV=OFF GENERATOR=make
+    - env: FLIBCPP_DEV=OFF GENERATOR=make
            FLIBCPP_FORTRAN_STD=08
            GCC_VERSION=9
 # Build phases
