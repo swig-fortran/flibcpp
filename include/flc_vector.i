@@ -89,7 +89,7 @@ namespace std {
 
     %swig_std_vector(std::complex<T>, const std::complex<T>&)
     %swig_std_vector_extend_ref(std::complex<T>)
-    %flc_std_vector_extend_pod(std::complex<T>, SwigComplex_ ## T)
+    %flc_std_vector_extend_pod(std::complex<T>, SwigComplex_##T)
   };
 }
 

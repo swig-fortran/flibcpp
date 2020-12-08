@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Flibcpp'
-copyright = '2019, Oak Ridge National Laboratory, UT-Battelle, LLC'
+copyright = '2020, Oak Ridge National Laboratory, UT-Battelle, LLC'
 author = 'Seth R Johnson'
 
 # The short X.Y version
@@ -104,7 +104,7 @@ html_static_path = []
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Flibcppdoc'
+htmlhelp_basename = 'Flibcpp'
 
 
 # -- Options for LaTeX output ------------------------------------------------

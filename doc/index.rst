@@ -2,10 +2,6 @@
 .. File  : doc/index.rst
 .. ############################################################################
 
-.. raw:: latex
-
-   \frontmatter
-
 =======
 Flibcpp
 =======
@@ -16,7 +12,6 @@ Flibcpp
 
 .. raw:: latex
 
-   \mainmatter
    \begin{abstract}
 
 This project uses SWIG-Fortran to expose useful functionality from the C++
