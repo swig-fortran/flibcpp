@@ -66,7 +66,6 @@ class string {
   public:
     // >>> MEMBER FUNCTIONS
 
-    // TODO: add more constructors
     string();
     string(size_type count, value_type ch);
     string(const std::string& s);
@@ -92,7 +91,6 @@ class string {
     int compare(const string& OTHER);
 
     // >>> EXTENSIONS
-    // (TODO: add the same erase/insert extensions as std::vector)
 
     %extend {
       %fragment("SWIG_check_range");
