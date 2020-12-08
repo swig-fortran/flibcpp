@@ -13,7 +13,7 @@ program vecstr_example
   implicit none
   integer :: i
   type(VectorString) :: vec
-  type(String) :: back, front
+  type(String) :: back, front, temp
   character(C_CHAR), dimension(:), pointer :: chars
 
   ! Print version information
@@ -36,24 +36,24 @@ program vecstr_example
   ! Get the final string for modification
   back = vec%back_ref()
   chars => back%view()
+  temp = String(back%str())
   ! Change all characters to exclamation points
   chars(:) = '!'
   write(STDOUT, *) "The last string is very excited: " // vec%get(vec%size())
 
-
-  ! *Copy* back string to front, and add a question mark
+  ! Modify a reference to the front value
   front = vec%front_ref()
-  ! XXX: this creates an *alias* rather than assigning values. Revisit
-  ! ownership semantics??
-  ! front = back
-  call vec%set_ref(1, back)
   call front%push_back("?")
+
+  ! Insert the original 'back' after the first string (make it element #2)
+  call vec%insert(2, temp%str())
+  ! Inserting the vector invalidates the 'chars' view and back reference.
+  chars => NULL()
+  back = vec%back_ref()
+  write(STDOUT, *) "Inserted the original last string: " // vec%get(2)
   
   ! Modify back to be something else. 
   call back%assign("the end")
-
-  ! Modifying 'back' invalidates the 'chars' view. Clear it to be safe.
-  chars => NULL()
 
   write(STDOUT, *) "Modified 'front' string is " // vec%get(1)
   write(STDOUT, *) "Modified 'back' string is " // vec%get(vec%size())

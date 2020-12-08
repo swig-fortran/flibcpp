@@ -19,10 +19,9 @@ Flibcpp
    \mainmatter
    \begin{abstract}
 
-This project uses SWIG-Fortran to expose useful functionality from the C++
-standard library to Fortran 2003 application developers. It generates
-self-contained Fortran modules with native proxy classes and functions
-which wrap the C++ library.
+Flibcpp uses SWIG-Fortran to generate native Fortran-2003 interfaces to
+efficient and robust algorithms and data containers implemented in the C++
+standard library.
 
 .. raw:: latex
 
@@ -37,7 +36,6 @@ which wrap the C++ library.
    conventions.rst
    modules.rst
    examples.rst
-   conclusion.rst
 
 .. ***************************************************************************
 .. APPENDICES
