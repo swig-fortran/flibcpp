@@ -1,7 +1,7 @@
 /*!
  * \file flc.i
  *
- * Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
+ * Copyright (c) 2019-2020 Oak Ridge National Laboratory, UT-Battelle, LLC.
  * Distributed under an MIT open source license: see LICENSE for details.
  */
 
@@ -18,13 +18,13 @@
 %define %flc_add_header
 %insert("fbegin") %{
 ! Flibcpp project, https://github.com/swig-fortran/flibcpp
-! Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
+! Copyright (c) 2019-2020 Oak Ridge National Laboratory, UT-Battelle, LLC.
 ! Distributed under an MIT open source license: see LICENSE for details.
 %}
 %insert("begin") %{
 /*
  * Flibcpp project, https://github.com/swig-fortran/flibcpp
- * Copyright (c) 2019 Oak Ridge National Laboratory, UT-Battelle, LLC.
+ * Copyright (c) 2019-2020 Oak Ridge National Laboratory, UT-Battelle, LLC.
  * Distributed under an MIT open source license: see LICENSE for details.
  */
 %}
