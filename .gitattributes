@@ -1,2 +1,1 @@
 /.* export-ignore
-/cmake/git-version.txt export-subst

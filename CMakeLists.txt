@@ -8,8 +8,8 @@
 cmake_minimum_required(VERSION 3.8)
 
 # Determine version number from git metadata
-include("${CMAKE_CURRENT_LIST_DIR}/cmake/FlibcppVersion.cmake")
-flibcpp_find_version(Flibcpp "${CMAKE_CURRENT_LIST_DIR}/cmake/git-version.txt")
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/CgvFindVersion.cmake")
+cgv_find_version(Flibcpp)
 
 project(Flibcpp VERSION "${Flibcpp_VERSION}" LANGUAGES CXX Fortran)
 cmake_policy(VERSION 3.8...3.19)
