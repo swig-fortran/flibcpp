@@ -49,11 +49,15 @@ support those for now.
 
 ## License
 
-The entirety of this repository and its generated code are released under an
-MIT license. See the LICENSE file.
+The source code for FlibCpp, including auto-generated code, is released under
+an MIT license. See the LICENSE file.
 
 It must be linked against an existing C++ standard library implementation (e.g.
 [libc++](https://libcxx.llvm.org) or [libstdc++](https://gcc.gnu.org/wiki/Libstdc++)), so those are not covered by this license.
 
 SWIG is not required to use this project. SWIG-generated code does _not_
 inherit SWIG's GPL license.
+
+The [CgvFindVersion.cmake helper
+script](https://github.com/sethrj/cmake-git-version) used for determining the
+release info is released independently under an Apache-2.0 license.

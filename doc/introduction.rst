@@ -71,7 +71,7 @@ should automatically find the necessary CMake configure file.
 An `example Fortran application`_ that depends only on Flibcpp is
 available on Github.
 
-.. _example Fortran application: https://github.com/swig-fortran/flibcpp-example-app).
+.. _example Fortran application: https://github.com/swig-fortran/flibcpp-example-app
 
 ----
 
