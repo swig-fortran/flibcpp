@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File  : doc/_sphinx/latex/ornltm-style.sty
+% Author: Seth R Johnson
+% Date  : Sat Oct 13 13:04:10 2018
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{ornltm-style}[2018/10/13 package ORNL Technical Memorandum style]
+
+\ProcessOptions\relax
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GEOMETRY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{geometry}
+\geometry{margin=1in,footskip=.75in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FONTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ams math must be loaded before txfonts
+\RequirePackage{amsmath}
+
+% Use Times for math font and text font.
+\RequirePackage[T1]{fontenc}
+\RequirePackage{txfonts}
+
+% Bold math must be loaded after Times font
+\RequirePackage{bm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% COLORS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{color} % colored fonts and boxes
+
+% Add pretty link colors if hyperref is loaded
+\@ifpackageloaded{hyperref}{\hypersetup{
+	colorlinks,
+  linkcolor=[rgb]{0.01,0.05,0.1},
+	citecolor=[rgb]{0.780,0.647,0.258},
+	urlcolor=[rgb]{0.325,0.494,0.658}
+}}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LINE SPACING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Do not indent paragraphs
+% Note: do NOT use the parskip package: it breaks tocloft; the parfill option
+% also breaks \hfill!
+
+\setlength\parskip{0.5\baselineskip \@plus 0.25\baselineskip \@minus 0.25\baselineskip}
+\setlength\parindent\z@
+\setlength\partopsep\z@
+
+% Update spacing in lists.
+\def\@listI{\leftmargin\leftmargini
+   \topsep\z@ \parsep\parskip \itemsep\z@}
+\let\@listi\@listI
+\@listi
+     
+\def\@listii{\leftmargin\leftmarginii
+   \labelwidth\leftmarginii\advance\labelwidth-\labelsep
+   \topsep\z@ \parsep\parskip \itemsep\z@}
+     
+\def\@listiii{\leftmargin\leftmarginiii
+    \labelwidth\leftmarginiii\advance\labelwidth-\labelsep
+    \topsep\z@ \parsep\parskip \itemsep\z@}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TABLE OF CONTENTS STYLING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{tocloft} % table of contents styling
+      
+\setcounter{tocdepth}{2} % subsections
+
+% Make the contents, figure, and table titles uppercase and centered
+\renewcommand\cfttoctitlefont{\noindent\hspace*{\fill}\bfseries\MakeUppercase}
+\renewcommand\cftloftitlefont{\noindent\hspace*{\fill}\bfseries\MakeUppercase}
+\renewcommand\cftlottitlefont{\noindent\hspace*{\fill}\bfseries\MakeUppercase}
+\renewcommand\cftaftertoctitle{\hspace*{\fill}}
+\renewcommand\cftafterloftitle{\hspace*{\fill}}
+\renewcommand\cftafterlottitle{\hspace*{\fill}}
+% Use plain font style and regular size
+\renewcommand\cftsecfont{}
+% Add a dot after section numbers
+\renewcommand\cftsecaftersnum{.}
+% Squish section lines together
+\setlength\cftbeforesecskip{0pt}
+% Add leaders to all sections and subsections in the TOC.
+\renewcommand\cftsecleader{\cftdotfill{\cftdotsep}}
+
+%%% EXTENSIONS FOR SPHINX MANUAL %%%
+
+\if@cfthaspart
+\setlength\cftbeforepartskip{.25\baselineskip}
+\fi
+
+\if@cfthaschapter
+\setlength\cftbeforechapskip{.5\baselineskip}
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITLE STYLES 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{titlesec} % title modification: use text size
+      
+% Show five levels of depth in title labels
+\setcounter{secnumdepth}{5} 
+            
+% Break at the beginning of sections.
+\titleclass{\section}{top}
+\newcommand{\sectionbreak}{\clearpage}
+
+% You may need to use the \texorpdfstring when using hyperref and
+% unusual titles.
+\titleformat{\section}{\centering\bf}{\thesection.}{1ex}{\MakeUppercase}[]
+\titleformat{\subsection}{\bf}{\thesubsection}{1ex}{\MakeUppercase}[]
+\titleformat{\subsubsection}{\bf}{\thesubsubsection}{1ex}{\MakeUppercase}[]
+\titleformat{\paragraph}{\bf}{\theparagraph}{1ex}{}[]
+\titleformat{\subparagraph}{\bf\itshape}{\relax}{0pt}{}[]
+
+% Update spacing to account for our custom parskip.
+\titlespacing{\section}{\z@}{\parskip}{\z@}
+\titlespacing{\subsection}{\z@}{\parskip}{\z@}
+\titlespacing{\subsubsection}{\z@}{0.5\parskip}{\z@}
+\titlespacing{\paragraph}{\z@}{0.5\parskip}{\z@}
+\titlespacing{\subparagraph}{\z@}{0.5\parskip}{\z@}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX PAGE NUMBERING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define a ``section'' command for the appendix
+\newcommand\@appendixsection[1]{%
+  \cleardoublepage
+  % Call the ``section'' command, which will put the title on its own page
+  \thispagestyle{empty}
+  \@oldappendixsection{#1}
+  % Increment page counter
+  \stepcounter{page}%
+  % Add a blank page after the title
+  \cleardoublepage
+  % Insert the appendix name at the top, with no number
+  {\hfill\bf\appendixname~\thesection.\hspace{.5em}\MakeUppercase{#1}%
+   \hfill\null\par}
+}
+
+\renewcommand\appendixname{APPENDIX}
+
+% Change format for appendices: 'appendix' in title, title takes entire page,
+% is not numbered, followed by a blank unnumbered page.
+\renewcommand\appendix{%
+  \cleardoublepage
+  % Reset page style
+  \pagenumbering{arabic}%
+  \renewcommand\thepage{\thesection--\arabic{page}}%
+  % Reset section numbering
+  \gdef\thesection{\@Alph\c@section}%
+  % Reset section formatting
+  \setcounter{section}{0}%
+  % Change equation numbering
+  \gdef\theequation{\@Alph\c@section.\arabic{equation}}%
+  % Reset page and equation numbers at the beginning of every section
+  \@addtoreset{equation}{section}%
+  \@addtoreset{page}{section}%
+  % Change the title format so that the ``header'' is a standalone title page.
+  % This allows section and page numbering to be correct, and we can use the
+  % macros it defines to insert a ``regular'' appendix label afterward.
+	\titleformat{\section}[block]{\null\vfill\bf\filcenter}%
+    {\appendixname~\thesection.}{0.5em}{\bf\large\MakeUppercase}[\vfill\null]
+  % Save the command we just defined; we'll use it in a command we defined above
+  % outside the ``appendix'' macro.
+  \let\@oldappendixsection\section
+  \let\section\@appendixsection
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% end of ornltm/ornltm/ornltm-style.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

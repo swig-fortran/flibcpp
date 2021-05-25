@@ -107,6 +107,10 @@ if(FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
   include(CTest)
 endif()
 
+if(FLIBCPP_BUILD_DOCS)
+  find_package(Sphinx REQUIRED)
+endif()
+
 #---------------------------------------------------------------------------#
 # LIBRARY
 #---------------------------------------------------------------------------#

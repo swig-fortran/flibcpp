@@ -28,9 +28,11 @@ standard library.
    :caption: Contents
 
    introduction.rst
+   infrastructure.rst
    conventions.rst
    modules.rst
    examples.rst
+   references.rst
 
 .. ***************************************************************************
 .. APPENDICES
