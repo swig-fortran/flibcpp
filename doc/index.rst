@@ -33,6 +33,7 @@ standard library.
    modules.rst
    examples.rst
    references.rst
+   acknowledgments.rst
 
 .. ***************************************************************************
 .. APPENDICES
