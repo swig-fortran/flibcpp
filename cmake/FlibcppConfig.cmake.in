@@ -1,5 +1,4 @@
 get_filename_component(Flibcpp_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${Flibcpp_CMAKE_DIR})
 
@@ -11,9 +10,12 @@ set(Flibcpp_LIBRARIES @FLIBCPP_LIBRARIES@)
 
 set(FLIBCPP_BUILD_SHARED_LIBS @BUILD_SHARED_LIBS@)
 set(FLIBCPP_USE_SWIG          @FLIBCPP_USE_SWIG@)
-set(FLIBCPP_FORTRAN_STD       @FLIBCPP_FORTRAN_STD@)
-set(FLIBCPP_SWIG_EXECUTABLE   @FLIBCPP_SWIG_EXECUTABLE@)
-set(FLIBCPP_SWIG_DIR          @FLIBCPP_SWIG_DIR@)
+set(FLIBCPP_Fortran_STANDARD  @FLIBCPP_Fortran_STANDARD@)
+
+if(FLIBCPP_USE_SWIG)
+  set(FLIBCPP_SWIG_EXECUTABLE   @SWIG_EXECUTABLE@)
+  set(FLIBCPP_SWIG_DIR          @SWIG_DIR@)
+endif()
 
 if(NOT FLIBCPP_BUILD_SHARED_LIBS)
   # Downstream libraries must find and link to the C++ runtimes themselves since
