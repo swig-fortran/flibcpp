@@ -7,20 +7,10 @@
 
 mkdir -p ${INSTALL_ROOT}/bin
 
-if [ "${GENERATOR}" = "ninja" ]; then
-  # Install Ninja
-  cd $(mktemp -d)
-  NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
-  curl -L https://github.com/Kitware/ninja/releases/download/v${NINJA_VERSION}/ninja-${NINJA_VERSION}_x86_64-linux-gnu.tar.gz \
-    | tar -xz --strip 1
-  mv ninja ${INSTALL_ROOT}/bin
-  echo "Installed Ninja version: $(ninja --version | head -1)"
-fi
-
-echo "Fortran compiler: ${FC}"
-if hash "${FC}" 2>/dev/null; then
-  echo "Compiler version: $(${FC} --version | head -1)"
-fi
+echo "CMake version:  $(${CMAKE} --version | head -1)"
+echo "CTest version:  $(ctest --version | head -1)"
+echo "Ninja version: $(ninja --version || echo 'n/a')"
+echo "Fortran compiler version: $(${FC} --version | head -1)"
 
 if [ "${FLIBCPP_DEV}" = "ON" ]; then
   # Install SWIG-fortran
