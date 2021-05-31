@@ -30,6 +30,14 @@ test_f ${INSTALL_ROOT}/include/flc.mod
 test_f ${INSTALL_ROOT}/lib/libflc${SO_EXT}
 test_f ${INSTALL_ROOT}/lib/cmake/Flibcpp/FlibcppConfig.cmake
 
+# Test external installation
+cd ${SOURCE_ROOT}/example
+mkdir build
+cd build
+CMAKE_PREFIX_PATH=${INSTALL_ROOT} ${CMAKE} ..
+make
+../run-examples.sh
+
 ###############################################################################
 # end of scripts/travis/deploy.sh
 ###############################################################################
