@@ -7,7 +7,7 @@
 
 %module "flc"
 
-#if defined(SWIGIMPORTED) && !defined(SWIGIMPORTED)
+#if defined(SWIGIMPORTED) && !defined(FLC_SWIGIMPORTED)
 #error "To import the FLC module correctly, use ``%include \"import_flc.i\"``"
 #endif
 
