@@ -22,6 +22,10 @@ standard library.
 
    \end{abstract}
 
+.. only:: html
+
+   :Release: |version|
+   :Date: |today|
 
 .. toctree::
    :maxdepth: 2

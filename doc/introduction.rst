@@ -12,7 +12,7 @@ by essentially all modern scientific software. Most Fortran software contains
 hand-written code for such algorithms that may be burdensome to maintain and
 inflexible, as well as unperformant and erroneous under certain conditions.
 
-Flibcpp is a library for use by application developers that provides native
+Flibcpp  [#flibcpp_vers]_ is a library for use by application developers that provides native
 Fortran interfaces to existing high-quality algorithms and containers
 implemented in C++ and available on all modern computer systems.
 
@@ -28,6 +28,8 @@ into and distributed with the application.
 The generated modules include functionality for efficient generic sorting and
 searching, set operations, random number generation, value mapping, string
 manipulation, and dynamically resizing vectors.
+
+.. [#flibcpp_vers] This documentation is generated from Flibcpp |release|.
 
 .. ############################################################################
 .. end of doc/introduction.rst
