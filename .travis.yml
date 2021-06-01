@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 language: shell
 os: linux
 
@@ -10,18 +10,21 @@ branches:
 # List of configurations to check
 jobs:
   include:
-    - env: FLIBCPP_DEV=ON GENERATOR=ninja
+    - env: FLIBCPP_DEV=ON GENERATOR=ninja FLIBCPP_FSTD=03
       addons:
         apt:
           packages:
+          - cmake
+          - gfortran
+          - ninja-build
           - python3-sphinx
           - valgrind
-    - env: FLIBCPP_DEV=OFF GENERATOR=make
-           FLIBCPP_FORTRAN_STD=03
-           GCC_VERSION=8
-    - env: FLIBCPP_DEV=OFF GENERATOR=make
-           FLIBCPP_FORTRAN_STD=08
-           GCC_VERSION=9
+    - env: FLIBCPP_DEV=OFF GENERATOR=make FLIBCPP_FSTD=08
+      addons:
+        apt:
+          packages:
+          - cmake
+          - gfortran
 # Build phases
 before_install:
   - source ./scripts/travis/before_install.sh
