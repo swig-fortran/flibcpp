@@ -22,15 +22,22 @@ standard library.
 
    \end{abstract}
 
+.. only:: html
+
+   :Release: |version|
+   :Date: |today|
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents
 
    introduction.rst
+   infrastructure.rst
    conventions.rst
    modules.rst
    examples.rst
+   references.rst
+   acknowledgments.rst
 
 .. ***************************************************************************
 .. APPENDICES

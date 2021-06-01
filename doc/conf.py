@@ -16,6 +16,9 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import glob
+import json
+import os
 
 # -- Project information -----------------------------------------------------
 
@@ -23,10 +26,20 @@ project = 'Flibcpp'
 copyright = '2020, Oak Ridge National Laboratory, UT-Battelle, LLC'
 author = 'Seth R Johnson'
 
-# The short X.Y version
-version = ''
-# The full version, including alpha/beta/rc tags
-release = ''
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+try:
+    build_dir = os.environ['CMAKE_CURRENT_BINARY_DIR']
+    with open(os.path.join(build_dir, 'version.json'), 'r') as f:
+        vers_dat = json.load(f)
+except (KeyError, IOError) as e:
+    print("Failed to load version:", e)
+    version = ''
+    release = ''
+else:
+    version = vers_dat['version']
+    release = vers_dat['release']
 
 
 # -- General configuration ---------------------------------------------------
@@ -42,6 +55,15 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.githubpages',
 ]
+
+try:
+    import pybtex
+except ImportError:
+    print("Can't import pybtex: bibliography will not be generated.")
+    print("Download and install using `pip install sphinxcontrib-bibtex`")
+else:
+    extensions.append("sphinxcontrib.bibtex")
+    bibtex_bibfiles = ['_static/references.bib']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = []
@@ -109,32 +131,67 @@ htmlhelp_basename = 'Flibcpp'
 
 # -- Options for LaTeX output ------------------------------------------------
 
+
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
+# The paper size ('letterpaper' or 'a4paper').
+'papersize': 'letterpaper',
 
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
+# The font size ('10pt', '11pt' or '12pt').
+'pointsize': '11pt',
 
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
+# Additional stuff for the LaTeX preamble.
+'preamble': r"""
+% Reset styles changed by sphinx.sty
+\usepackage{ornltm-style}
+\usepackage{ornltm-extract}
+\usepackage{sphinxcustom}
+\usepackage{microtype}
+\usepackage{pdfpages}
+""",
 
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
+# Table of contents
+'tableofcontents': r"""
+\frontmatter
+% Plain page
+\thispagestyle{plain}%
+\phantomsection\addcontentsline{toc}{section}{Contents}
+\tableofcontents
+% %
+% \cleardoublepage
+% \thispagestyle{plain}%
+% \phantomsection\addcontentsline{toc}{section}{List of Figures}
+% \listoffigures
+% %
+% \cleardoublepage
+% \thispagestyle{plain}%
+% \phantomsection\addcontentsline{toc}{section}{List of Tables}
+% \listoftables
+% \cleardoublepage
+% \pagestyle{normal}
+""",
+# No chapter styles needed
+'fncychap': "",
+# Make references more robust to renumbering
+'hyperref': r"""
+\usepackage[hypertexnames=false]{hyperref}
+\usepackage{hypcap}
+\urlstyle{same}
+""",
+# Replace maketitle with generated title page:
+# see http://texdoc.net/texmf-dist/doc/latex/pdfpages/pdfpages.pdf
+# and documents repo:
+ 'maketitle': r"\includepdf[pages=-]{flibcpp-tm-header.pdf}",
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Flibcpp.tex', 'Flibcpp Documentation',
-     'Seth R Johnson', 'manual'),
+    (master_doc, 'Flibcpp.tex', 'Flibcpp User Manual',
+     author, 'howto'),
 ]
 
+latex_additional_files = glob.glob("_static/*")
 
 # -- Options for manual page output ------------------------------------------
 
