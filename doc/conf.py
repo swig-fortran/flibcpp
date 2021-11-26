@@ -19,11 +19,12 @@
 import glob
 import json
 import os
+import sys
 
 # -- Project information -----------------------------------------------------
 
 project = 'Flibcpp'
-copyright = '2020, Oak Ridge National Laboratory, UT-Battelle, LLC'
+copyright = '2021, Oak Ridge National Laboratory, UT-Battelle, LLC'
 author = 'Seth R Johnson'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -41,6 +42,8 @@ else:
     version = vers_dat['version']
     release = vers_dat['release']
 
+sys.path.insert(0, os.path.join(os.path.abspath('.'), "_python"))
+import monkeysphinx
 
 # -- General configuration ---------------------------------------------------
 
@@ -135,6 +138,8 @@ htmlhelp_basename = 'Flibcpp'
 latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
 'papersize': 'letterpaper',
+
+'extraclassoptions': 'oneside',
 
 # The font size ('10pt', '11pt' or '12pt').
 'pointsize': '11pt',

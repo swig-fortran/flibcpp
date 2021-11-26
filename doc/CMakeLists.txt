@@ -47,7 +47,7 @@ endif()
 set(_ornltm_base "${CMAKE_CURRENT_BINARY_DIR}/latex/ornltm")
 ExternalProject_Add(ornltm
   GIT_REPOSITORY https://code.ornl.gov/s3j/ornltm.git
-  GIT_TAG 2ad59291117b487666d15d10a105de0d680e72a6
+  GIT_TAG 05a4b22f104abd53ac7cae72fe03768710b56b86
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
   INSTALL_COMMAND ""
