@@ -181,6 +181,7 @@ latex_elements = {
 # see http://texdoc.net/texmf-dist/doc/latex/pdfpages/pdfpages.pdf
 # and documents repo:
  'maketitle': r"\includepdf[pages=-]{flibcpp-tm-header.pdf}",
+ 'atendofbody': r"\includepdf[pages=-]{flibcpp-tm-footer.pdf}",
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -191,7 +192,7 @@ latex_documents = [
      author, 'howto'),
 ]
 
-latex_additional_files = glob.glob("_static/*")
+latex_additional_files = glob.glob("_static/*.sty")
 
 # -- Options for manual page output ------------------------------------------
 

@@ -66,6 +66,10 @@ endif()
 
 if(FLIBCPP_BUILD_DOCS)
   find_package(Sphinx REQUIRED)
+  include(ExternalProject) # for pdf header
+  set(FLIBCPP_PYTHONPATH "$ENV{PYTHONPATH}" CACHE STRING
+    "Python path used for generating documentation"
+  )
 endif()
 
 #---------------------------------------------------------------------------#
