@@ -34,10 +34,6 @@ if(FLIBCPP_DEV)
 endif()
 option(FLIBCPP_BUILD_TESTS "Build Flibcpp tests" ${_DEFAULT_BUILD_TESTS})
 
-if(FLIBCPP_BUILD_TESTS OR FLIBCPP_BUILD_EXAMPLES)
-  set(_DEFAULT_BUILD_TESTING ON)
-endif()
-
 #---------------------------------------------------------------------------#
 # FLAGS
 #---------------------------------------------------------------------------#
