@@ -70,7 +70,7 @@ typedef int index_int;
 
 // Give it a particularly named type in the Fortran proxy code.
 %apply int { index_int };
-%typemap(ftype, in={integer(INDEX_INT), intent(in)}) index_int
+%typemap(ftype, in="integer(INDEX_INT), intent(in)") index_int
   %{integer(INDEX_INT)%}
 
 // Apply array-to-C translation for numeric values
