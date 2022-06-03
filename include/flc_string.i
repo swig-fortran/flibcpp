@@ -22,8 +22,8 @@
 
 // Typemap to convert positions from npos -> 0 and 1-offset otherwise. Similar
 // to
-%apply int FORTRAN_INT { std::size_t POSITION };
-%typemap(out, noblock=1) std::size_t POSITION {
+%apply int FORTRAN_INT { size_t POSITION };
+%typemap(out, noblock=1) size_t POSITION {
   $result = ($1 == std::string::npos ? 0 : $1 + 1);
 }
 
@@ -50,7 +50,7 @@ class string {
     %apply int FORTRAN_INT {size_type};
 
     // - Use fortran indexing (and 0 for not found) for search
-    %apply std::size_t POSITION {size_type find};
+    %apply size_t POSITION {size_type find};
 
     // - Allow access as an array view
     %apply SWIGTYPE& { string& view };
@@ -133,6 +133,10 @@ class string {
     SWIG_exception(SWIG_OverflowError, e.what());
   }
 }
+
+%fragment("<cctype>", "header") %{
+#include <cctype>
+%}
 
 %fragment("flc_has_junk", "header",
           fragment="<cctype>", fragment="<algorithm>") %{
