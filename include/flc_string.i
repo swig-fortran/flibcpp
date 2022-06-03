@@ -134,6 +134,10 @@ class string {
   }
 }
 
+%fragment("<cctype>", "header") %{
+#include <cctype>
+%}
+
 %fragment("flc_has_junk", "header",
           fragment="<cctype>", fragment="<algorithm>") %{
   SWIGINTERN bool flc_has_junk(const std::string& s, size_t pos) {
