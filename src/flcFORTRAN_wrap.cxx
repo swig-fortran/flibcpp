@@ -288,7 +288,7 @@ SWIGEXPORT const char* flc_get_serr() {
 
 extern "C" {
 
-
+#include <cctype>
 
 // Call this function before any new action
 SWIGEXPORT void SWIG_check_unhandled_exception_impl(const char* decl) {
