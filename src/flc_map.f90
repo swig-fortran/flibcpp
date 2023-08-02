@@ -633,7 +633,7 @@ end subroutine
 subroutine swigf_MapStringInt_erase(self, x, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringInt), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 integer, intent(out), optional :: swig_result
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
@@ -654,7 +654,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer :: swig_result
 class(MapStringInt), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -669,7 +669,7 @@ end function
 subroutine swigf_MapStringInt_insert(self, k, v, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringInt), intent(in) :: self
-character(len=*), target :: k
+character(len=*), intent(in) :: k
 integer(C_INT), intent(in) :: v
 logical, intent(out), optional :: swig_result
 integer(C_INT) :: fresult 
@@ -693,7 +693,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
 class(MapStringInt), intent(in) :: self
-character(len=*), target :: k
+character(len=*), intent(in) :: k
 integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -708,7 +708,7 @@ end function
 subroutine swigf_MapStringInt_set(self, k, v)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringInt), intent(in) :: self
-character(len=*), target :: k
+character(len=*), intent(in) :: k
 integer(C_INT), intent(in) :: v
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -796,7 +796,7 @@ end subroutine
 subroutine swigf_MapStringString_erase(self, x, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringString), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 integer, intent(out), optional :: swig_result
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
@@ -817,7 +817,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer :: swig_result
 class(MapStringString), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -832,8 +832,8 @@ end function
 subroutine swigf_MapStringString_insert(self, k, v, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringString), intent(in) :: self
-character(len=*), target :: k
-character(len=*), target :: v
+character(len=*), intent(in) :: k
+character(len=*), intent(in) :: v
 logical, intent(out), optional :: swig_result
 integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 
@@ -871,7 +871,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 character(len=:), allocatable :: swig_result
 class(MapStringString), intent(in) :: self
-character(len=*), target :: k
+character(len=*), intent(in) :: k
 type(SwigArrayWrapper) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -887,8 +887,8 @@ end function
 subroutine swigf_MapStringString_set(self, k, v)
 use, intrinsic :: ISO_C_BINDING
 class(MapStringString), intent(in) :: self
-character(len=*), target :: k
-character(len=*), target :: v
+character(len=*), intent(in) :: k
+character(len=*), intent(in) :: v
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
 type(SwigArrayWrapper) :: farg2 

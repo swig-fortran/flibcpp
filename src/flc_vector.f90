@@ -3066,7 +3066,7 @@ result(self)
 use, intrinsic :: ISO_C_BINDING
 type(VectorString) :: self
 integer, intent(in) :: count
-character(len=*), target :: v
+character(len=*), intent(in) :: v
 type(SwigClassWrapper) :: fresult 
 integer(C_SIZE_T) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -3187,7 +3187,7 @@ subroutine swigf_VectorString_resize__SWIG_1(self, count, v)
 use, intrinsic :: ISO_C_BINDING
 class(VectorString), intent(in) :: self
 integer, intent(in) :: count
-character(len=*), target :: v
+character(len=*), intent(in) :: v
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg3_temp 
@@ -3202,7 +3202,7 @@ end subroutine
 subroutine swigf_VectorString_push_back(self, v)
 use, intrinsic :: ISO_C_BINDING
 class(VectorString), intent(in) :: self
-character(len=*), target :: v
+character(len=*), intent(in) :: v
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
 type(SwigArrayWrapper) :: farg2 
@@ -3234,7 +3234,7 @@ subroutine swigf_VectorString_set(self, index, v)
 use, intrinsic :: ISO_C_BINDING
 class(VectorString), intent(in) :: self
 integer, intent(in) :: index
-character(len=*), target :: v
+character(len=*), intent(in) :: v
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg3_temp 
@@ -3267,7 +3267,7 @@ subroutine swigf_VectorString_insert(self, index, v)
 use, intrinsic :: ISO_C_BINDING
 class(VectorString), intent(in) :: self
 integer, intent(in) :: index
-character(len=*), target :: v
+character(len=*), intent(in) :: v
 type(SwigClassWrapper) :: farg1 
 integer(C_SIZE_T) :: farg2 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg3_temp 

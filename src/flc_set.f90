@@ -687,7 +687,7 @@ end subroutine
 subroutine swigf_SetString_erase(self, x, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(SetString), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 integer, intent(out), optional :: swig_result
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
@@ -708,7 +708,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer :: swig_result
 class(SetString), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -723,7 +723,7 @@ end function
 subroutine swigf_SetString_insert(self, x, swig_result)
 use, intrinsic :: ISO_C_BINDING
 class(SetString), intent(in) :: self
-character(len=*), target :: x
+character(len=*), intent(in) :: x
 logical, intent(out), optional :: swig_result
 integer(C_INT) :: fresult 
 type(SwigClassWrapper) :: farg1 

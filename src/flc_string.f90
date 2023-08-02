@@ -415,7 +415,7 @@ function swigf_new_string__SWIG_2(s) &
 result(self)
 use, intrinsic :: ISO_C_BINDING
 type(string) :: self
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 type(SwigClassWrapper) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
@@ -515,7 +515,7 @@ end subroutine
 subroutine swigf_string_assign(self, s)
 use, intrinsic :: ISO_C_BINDING
 class(string), intent(in) :: self
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
 type(SwigArrayWrapper) :: farg2 
@@ -560,7 +560,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer :: swig_result
 class(string), intent(in) :: self
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer, intent(in) :: pos
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
@@ -580,7 +580,7 @@ result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer :: swig_result
 class(string), intent(in) :: self
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_SIZE_T) :: fresult 
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
@@ -595,7 +595,7 @@ end function
 subroutine swigf_string_append(self, s)
 use, intrinsic :: ISO_C_BINDING
 class(string), intent(in) :: self
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 type(SwigClassWrapper) :: farg1 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg2_temp 
 type(SwigArrayWrapper) :: farg2 
@@ -735,7 +735,7 @@ function swigf_stoi__SWIG_0(s, base) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_INT), intent(in) :: base
 integer(C_INT) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
@@ -752,7 +752,7 @@ function swigf_stoi__SWIG_1(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_INT) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_INT) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
@@ -766,7 +766,7 @@ function swigf_stol__SWIG_0(s, base) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_LONG) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_INT), intent(in) :: base
 integer(C_LONG) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
@@ -783,7 +783,7 @@ function swigf_stol__SWIG_1(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_LONG) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_LONG) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
@@ -797,7 +797,7 @@ function swigf_stoll__SWIG_0(s, base) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_LONG_LONG) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_INT), intent(in) :: base
 integer(C_LONG_LONG) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
@@ -814,7 +814,7 @@ function swigf_stoll__SWIG_1(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(C_LONG_LONG) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 integer(C_LONG_LONG) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
@@ -828,7 +828,7 @@ function stof(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 real(C_FLOAT) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 real(C_FLOAT) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
@@ -842,7 +842,7 @@ function stod(s) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 real(C_DOUBLE) :: swig_result
-character(len=*), target :: s
+character(len=*), intent(in) :: s
 real(C_DOUBLE) :: fresult 
 character(kind=C_CHAR), dimension(:), allocatable, target :: farg1_temp 
 type(SwigArrayWrapper) :: farg1 
