@@ -4,14 +4,14 @@
 # SPDX-License-Identifier: MIT
 #---------------------------------------------------------------------------#
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.8...3.31)
 
 # Determine version number from git metadata
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/CgvFindVersion.cmake")
 cgv_find_version(Flibcpp)
 
 project(Flibcpp VERSION "${Flibcpp_VERSION}" LANGUAGES CXX Fortran)
-cmake_policy(VERSION 3.8...3.19)
+cmake_policy(VERSION 3.8...3.31)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(FlibUtils)
